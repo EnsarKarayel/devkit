@@ -9,6 +9,9 @@ Formalint is a fast, privacy-friendly developer toolbox. The first release ships
 - Regex tester with flags, matches, indexes, and capture groups
 - JWT decoder with readable claims and expiration timestamps
 - Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
+- Base64 encoder and decoder for UTF-8 text
+- URL encoder and decoder for query values and percent-encoded text
+- SHA hash generator for text digests
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
