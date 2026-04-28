@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XML Formatter, Validator and XML to JSON Converter | DevKit</title>
+    <meta name="description" content="Format, minify, validate, copy, download and convert XML to JSON in a fast browser-based developer tool.">
+    <meta name="theme-color" content="#0f8b8d">
+    <meta property="og:title" content="DevKit XML Formatter">
+    <meta property="og:description" content="A clean XML formatter, validator and XML to JSON converter for developers.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "DevKit XML Formatter",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body data-tool="xml">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="DevKit home">
+        <img src="assets/img/favicon.svg" alt="" width="34" height="34">
+        <span>DevKit</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a class="active" href="xml-formatter.html">XML</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="tool-hero">
+        <div>
+          <p class="eyebrow">Browser-based developer tools</p>
+          <h1>XML Formatter</h1>
+        </div>
+        <div class="hero-actions" aria-label="Tool shortcuts">
+          <a class="text-link" href="index.html">Open JSON tool</a>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="XML formatter workspace">
+        <div class="panel editor-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Input</h2>
+              <p id="inputMeta" class="meta">0 bytes</p>
+            </div>
+            <button class="ghost-button" type="button" data-action="sample">Sample</button>
+          </div>
+          <label class="sr-only" for="xmlInput">XML input</label>
+          <textarea id="xmlInput" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+          <div class="button-row" aria-label="XML actions">
+            <button type="button" data-action="format"><span aria-hidden="true">&lt;/&gt;</span> Format</button>
+            <button type="button" data-action="minify"><span aria-hidden="true">-</span> Minify</button>
+            <button type="button" data-action="validate"><span aria-hidden="true">OK</span> Validate</button>
+            <button type="button" data-action="to-json"><span aria-hidden="true">{ }</span> To JSON</button>
+            <button class="secondary" type="button" data-action="clear">Clear</button>
+          </div>
+        </div>
+
+        <div class="panel result-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Result</h2>
+              <p id="statusMessage" class="meta">Ready</p>
+            </div>
+          </div>
+
+          <div class="result-view active">
+            <pre class="code-output"><code id="xmlOutput"></code></pre>
+          </div>
+          <div id="metrics" class="metrics" aria-label="XML metrics"></div>
+          <div class="button-row output-actions" aria-label="Output actions">
+            <button type="button" data-action="copy"><span aria-hidden="true">[]</span> Copy</button>
+            <button type="button" data-action="download"><span aria-hidden="true">v</span> Download</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-strip" aria-label="More tools">
+        <a href="index.html">
+          <span>JSON Formatter</span>
+          <small>Tree view and validation</small>
+        </a>
+        <span>
+          <span>Regex Tester</span>
+          <small>Coming next</small>
+        </span>
+        <span>
+          <span>SQL to NoSQL</span>
+          <small>Planned</small>
+        </span>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>DevKit</span>
+      <nav aria-label="Footer navigation">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </footer>
+
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/xml-tool.js"></script>
+  </body>
+</html>
+
