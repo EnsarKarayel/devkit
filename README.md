@@ -6,6 +6,9 @@ Formalint is a fast, privacy-friendly developer toolbox. The first release ships
 
 - JSON format, minify, validate, copy, download, and tree view
 - XML format, minify, validate, copy, download, and JSON conversion
+- Regex tester with flags, matches, indexes, and capture groups
+- JWT decoder with readable claims and expiration timestamps
+- Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
@@ -57,7 +60,6 @@ The UI should stay quiet, fast, and developer-focused: a compact header, direct 
 
 ## Roadmap
 
-- Regex tester
 - Cron expression parser
 - SQL to NoSQL converter
 - Bulk file tools

@@ -3,7 +3,7 @@
 ## Before Domain Launch
 
 - Enable GitHub Pages from the `main` branch.
-- Test `index.html`, `xml-formatter.html`, `privacy.html`, `terms.html`, `robots.txt`, `sitemap.xml`, `ads.txt`, and `.well-known/security.txt`.
+- Test `index.html`, `xml-formatter.html`, `regex-tester.html`, `jwt-decoder.html`, `timestamp-converter.html`, `privacy.html`, `terms.html`, `robots.txt`, `sitemap.xml`, `ads.txt`, and `.well-known/security.txt`.
 - Confirm mobile layout at 390px width and desktop layout at 1440px width.
 - Use `formalint.com` as the primary domain.
 - Redirect `formalint.com.tr`, `formalint.info`, and `formalint.online` to `https://formalint.com/` after the primary domain is live.
