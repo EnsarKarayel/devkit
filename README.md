@@ -12,6 +12,10 @@ Formalint is a fast, privacy-friendly developer toolbox. The first release ships
 - Base64 encoder and decoder for UTF-8 text
 - URL encoder and decoder for query values and percent-encoded text
 - SHA hash generator for text digests
+- Cron expression parser with upcoming run previews
+- UUID v4 generator
+- HEX, RGB, and HSL color converter
+- CSV to JSON converter
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
@@ -63,7 +67,6 @@ The UI should stay quiet, fast, and developer-focused: a compact header, direct 
 
 ## Roadmap
 
-- Cron expression parser
 - SQL to NoSQL converter
 - Bulk file tools
 - Premium API access

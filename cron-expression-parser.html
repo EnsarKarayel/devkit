@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="format-detection" content="telephone=no">
+    <title>Cron Expression Parser | Formalint</title>
+    <meta name="description" content="Free cron expression parser for standard five-field cron schedules. Explain fields and preview upcoming run times locally in your browser.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/cron-expression-parser.html">
+    <meta name="theme-color" content="#0f8b8d">
+    <meta property="og:title" content="Formalint Cron Expression Parser">
+    <meta property="og:description" content="Parse standard cron expressions and preview upcoming run times.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://formalint.com/cron-expression-parser.html">
+    <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
+    <meta property="og:site_name" content="Formalint">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Formalint Cron Expression Parser">
+    <meta name="twitter:description" content="Parse cron expressions and preview next run times locally.">
+    <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://formalint.com/cron-expression-parser.html#cron-parser",
+        "name": "Formalint Cron Expression Parser",
+        "url": "https://formalint.com/cron-expression-parser.html",
+        "description": "A browser-based parser for standard five-field cron expressions.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+  <body data-tool="cron">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home">
+        <img src="assets/img/favicon.svg" alt="" width="34" height="34">
+        <span>Formalint</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a href="xml-formatter.html">XML</a>
+        <a href="regex-tester.html">Regex</a>
+        <a href="jwt-decoder.html">JWT</a>
+        <a href="timestamp-converter.html">Time</a>
+        <a href="base64-encoder-decoder.html">Base64</a>
+        <a href="url-encoder-decoder.html">URL</a>
+        <a href="hash-generator.html">Hash</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="tool-hero">
+        <div>
+          <p class="eyebrow">Browser-based developer tools</p>
+          <h1>Cron Parser</h1>
+          <p class="hero-copy">Explain standard five-field cron expressions and preview upcoming local run times.</p>
+        </div>
+        <div class="hero-actions" aria-label="Tool shortcuts">
+          <a class="text-link" href="timestamp-converter.html">Open Timestamp converter</a>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Cron expression parser workspace">
+        <div class="panel editor-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Expression</h2>
+              <p id="inputMeta" class="meta">5 fields</p>
+            </div>
+            <button class="ghost-button" type="button" data-action="sample">Sample</button>
+          </div>
+          <div class="form-stack">
+            <label for="cronInput">Cron expression</label>
+            <input id="cronInput" class="control-input mono-input" type="text" autocomplete="off" spellcheck="false" placeholder="*/15 9-17 * * 1-5">
+            <div class="notice-box">Supports standard five-field cron: minute hour day-of-month month day-of-week.</div>
+          </div>
+          <div class="button-row" aria-label="Cron actions">
+            <button type="button" data-action="parse"><span aria-hidden="true">*</span> Parse</button>
+            <button class="secondary" type="button" data-action="clear">Clear</button>
+          </div>
+        </div>
+
+        <div class="panel result-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Result</h2>
+              <p id="statusMessage" class="meta">Ready</p>
+            </div>
+          </div>
+          <div class="result-view active">
+            <pre class="code-output"><code id="cronOutput"></code></pre>
+          </div>
+          <div id="metrics" class="metrics" aria-label="Cron metrics"></div>
+          <div class="button-row output-actions" aria-label="Output actions">
+            <button type="button" data-action="copy"><span aria-hidden="true">[]</span> Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-strip" aria-label="More tools">
+        <a href="timestamp-converter.html"><span>Timestamp Converter</span><small>Unix time and ISO dates</small></a>
+        <a href="uuid-generator.html"><span>UUID Generator</span><small>Generate UUID v4 values</small></a>
+        <a href="regex-tester.html"><span>Regex Tester</span><small>Pattern matching and groups</small></a>
+      </section>
+
+      <section class="content-band" aria-labelledby="cron-reference-title">
+        <div>
+          <p class="eyebrow">Reference notes</p>
+          <h2 id="cron-reference-title">Schedule checks before production</h2>
+        </div>
+        <div class="content-grid">
+          <article><h3>Five fields</h3><p>Formalint parses the common cron format used by many schedulers: minute, hour, day of month, month and day of week.</p></article>
+          <article><h3>Preview runs</h3><p>Upcoming local run times help catch range, step and weekday mistakes before schedules go live.</p></article>
+          <article><h3>Scheduler differences</h3><p>Some platforms support seconds, years or special tokens. Always compare against your production scheduler documentation.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact">
+        <strong>&copy; 2026 Formalint</strong>
+        <span aria-hidden="true">-</span>
+        <span>Ensar Karayel</span>
+        <span aria-hidden="true">-</span>
+        <a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </footer>
+
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/cron-tool.js"></script>
+  </body>
+</html>
+
