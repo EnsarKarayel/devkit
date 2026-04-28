@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title">
+  <title id="title">DevKit app icon</title>
+  <rect width="180" height="180" rx="38" fill="#111317"/>
+  <path d="M57 66 32 90l25 24" fill="none" stroke="#f45b69" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m123 66 25 24-25 24" fill="none" stroke="#0f8b8d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M103 42 77 138" fill="none" stroke="#f5b841" stroke-width="14" stroke-linecap="round"/>
+</svg>
+

@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://ensarkarayel.github.io/devkit/sitemap.xml

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-labelledby="title desc">
+  <title id="title">DevKit logo</title>
+  <desc id="desc">DevKit wordmark with code bracket symbol.</desc>
+  <rect width="96" height="96" rx="18" fill="#111317"/>
+  <path d="M31 34 18 48l13 14" fill="none" stroke="#f45b69" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m65 34 13 14-13 14" fill="none" stroke="#0f8b8d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M55 23 41 73" fill="none" stroke="#f5b841" stroke-width="7" stroke-linecap="round"/>
+  <text x="118" y="60" fill="#15171a" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="42" font-weight="800">DevKit</text>
+  <text x="120" y="79" fill="#657074" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">JSON XML Developer Tools</text>
+</svg>
+

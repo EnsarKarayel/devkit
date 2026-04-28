@@ -1,0 +1,5 @@
+# DevKit ads.txt
+# Add the AdSense publisher line here after the Google AdSense account is approved.
+# Example format from Google:
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+

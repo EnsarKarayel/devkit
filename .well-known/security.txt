@@ -1,0 +1,4 @@
+Contact: https://github.com/EnsarKarayel/devkit/issues
+Preferred-Languages: en, tr
+Canonical: https://ensarkarayel.github.io/devkit/.well-known/security.txt
+

@@ -110,6 +110,14 @@ main {
   padding: 34px 0 20px;
 }
 
+.hero-copy {
+  max-width: 680px;
+  color: #3d474b;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 14px 0 0;
+}
+
 .eyebrow {
   color: var(--accent-strong);
   font-size: 0.79rem;
@@ -448,6 +456,42 @@ button.secondary:hover,
   margin-top: 6px;
 }
 
+.content-band {
+  display: grid;
+  grid-template-columns: 0.8fr 1.6fr;
+  gap: 28px;
+  border-top: 1px solid var(--line);
+  padding: 42px 0 52px;
+}
+
+.content-band h2 {
+  font-size: clamp(1.55rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.content-grid article {
+  min-width: 0;
+}
+
+.content-grid h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.content-grid p {
+  color: #3d474b;
+  line-height: 1.72;
+  margin: 0;
+}
+
 .document-page {
   width: min(820px, calc(100% - 32px));
   min-height: 60vh;
@@ -463,6 +507,18 @@ button.secondary:hover,
   color: #3d474b;
   font-size: 1.04rem;
   line-height: 1.8;
+}
+
+.document-page a {
+  color: var(--accent-strong);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.document-page h2 {
+  font-size: 1.25rem;
+  margin: 28px 0 10px;
 }
 
 .site-footer {
@@ -496,7 +552,9 @@ button.secondary:hover,
   }
 
   .workspace,
-  .tool-strip {
+  .tool-strip,
+  .content-band,
+  .content-grid {
     grid-template-columns: 1fr;
   }
 
@@ -532,4 +590,3 @@ button.secondary:hover,
     flex: 1 1 auto;
   }
 }
-

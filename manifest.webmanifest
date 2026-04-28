@@ -11,7 +11,11 @@
       "src": "assets/img/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
+    },
+    {
+      "src": "assets/img/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }
-
