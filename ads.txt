@@ -1,4 +1,1 @@
-# Formalint ads.txt
-# Add the AdSense publisher line here after the Google AdSense account is approved.
-# Example format from Google:
-# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-6534346834787678, DIRECT, f08c47fec0942fa0
