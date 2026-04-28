@@ -532,8 +532,27 @@ button.secondary:hover,
   padding: 24px 0 34px;
 }
 
-.site-footer > span {
+.footer-signature {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.footer-signature strong {
+  color: var(--ink);
   font-weight: 800;
+}
+
+.footer-signature a {
+  color: var(--accent-strong);
+  font-weight: 800;
+}
+
+.footer-signature a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .sr-only {
