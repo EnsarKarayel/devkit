@@ -17,7 +17,7 @@
   var lastOutput = "";
 
   var sampleJson = {
-    project: "DevKit",
+    project: "Formalint",
     release: "0.1.0",
     tools: ["json-formatter", "xml-formatter"],
     monetization: {

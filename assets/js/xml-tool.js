@@ -16,7 +16,7 @@
   var lastMode = "xml";
 
   var sampleXml =
-    '<project name="DevKit" version="0.1.0"><tools><tool type="formatter">JSON</tool><tool type="formatter">XML</tool></tools><privacy runsInBrowser="true">local-first</privacy></project>';
+    '<project name="Formalint" version="0.1.0"><tools><tool type="formatter">JSON</tool><tool type="formatter">XML</tool></tools><privacy runsInBrowser="true">local-first</privacy></project>';
 
   function parseXml() {
     var raw = input.value.trim();

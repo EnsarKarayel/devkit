@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ensarkarayel.github.io/devkit/sitemap.xml
+Sitemap: https://formalint.com/sitemap.xml

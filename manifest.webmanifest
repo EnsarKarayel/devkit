@@ -1,6 +1,6 @@
 {
-  "name": "DevKit",
-  "short_name": "DevKit",
+  "name": "Formalint",
+  "short_name": "Formalint",
   "description": "Fast browser-based developer tools for JSON, XML and more.",
   "start_url": "./index.html",
   "display": "standalone",

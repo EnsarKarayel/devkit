@@ -1,6 +1,6 @@
-# DevKit
+# Formalint
 
-DevKit is a fast, privacy-friendly developer toolbox. The first release ships a JSON formatter and validator plus an XML formatter, validator, and XML to JSON converter.
+Formalint is a fast, privacy-friendly developer toolbox. The first release ships a JSON formatter and validator plus an XML formatter, validator, and XML to JSON converter.
 
 ## Tools
 
@@ -17,13 +17,13 @@ DevKit is a fast, privacy-friendly developer toolbox. The first release ships a 
 - `privacy.html`, `terms.html`, `ads.txt`, `SECURITY.md`, and `.well-known/security.txt`
 - SVG favicon, wordmark, app icon, and social preview image
 
-The current canonical and sitemap URLs use the temporary GitHub Pages path:
+The production canonical and sitemap URLs use:
 
 ```text
-https://ensarkarayel.github.io/devkit/
+https://formalint.com/
 ```
 
-When the production domain is ready, replace that URL in HTML metadata, `sitemap.xml`, `robots.txt`, and `.well-known/security.txt`.
+The root `CNAME` file points GitHub Pages to `formalint.com`.
 
 ## Open Locally
 
@@ -43,7 +43,7 @@ Start-Process .\index.html
 
 ## AdSense Setup Notes
 
-1. Publish the site on the final domain.
+1. Publish the site on `formalint.com`.
 2. Add the site in Google AdSense.
 3. Replace the placeholder line in `ads.txt` with the publisher-specific line from AdSense.
 4. Add a consent/CMP flow if targeting regions that require consent.
