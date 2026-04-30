@@ -677,6 +677,30 @@ button.secondary:hover,
   padding: 24px 0 34px;
 }
 
+.site-footer nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-link {
+  min-height: auto;
+  border: 0;
+  background: transparent;
+  color: var(--accent-strong);
+  font: inherit;
+  font-weight: 800;
+  padding: 0;
+}
+
+.footer-link:hover {
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transform: none;
+}
+
 .footer-signature {
   display: flex;
   min-width: 0;

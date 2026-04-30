@@ -1,11 +1,13 @@
 # Formalint
 
-Formalint is a fast, privacy-friendly developer toolbox. The first release ships a JSON formatter and validator plus an XML formatter, validator, and XML to JSON converter.
+Formalint is a fast, privacy-friendly developer toolbox. The current release ships browser-based formatters, encoders, validators, and code cleanup tools.
 
 ## Tools
 
 - JSON format, minify, validate, copy, download, and tree view
 - XML format, minify, validate, copy, download, and JSON conversion
+- YAML formatter and common structure checks
+- Python indentation and whitespace cleaner
 - Regex tester with flags, matches, indexes, and capture groups
 - JWT decoder with readable claims and expiration timestamps
 - Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
