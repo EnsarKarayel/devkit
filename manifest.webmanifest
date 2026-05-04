@@ -1,7 +1,7 @@
 {
   "name": "Formalint",
   "short_name": "Formalint",
-  "description": "Fast browser-based developer tools for JSON, XML, YAML, Python and more.",
+  "description": "Fast browser-based developer tools for JSON, XML, YAML, SQL, Python and more.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f7f8f4",
