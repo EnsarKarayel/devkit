@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>YAML Formatting Guide | Formalint</title>
+    <meta name="description" content="A practical YAML formatting guide covering indentation, lists, maps, comments, configuration review and safe examples.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/yaml-formatting-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a>
+      <nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="about.html">About</a></nav>
+    </header>
+    <main class="document-page">
+      <h1>YAML Formatting Guide</h1>
+      <p class="guide-meta">Written by Ensar Karayel. Last updated May 11, 2026.</p>
+      <p>YAML is popular because it is readable, but that readability depends on indentation discipline. A single misplaced space can change whether a value belongs to a service, a list item or the root configuration.</p>
+      <h2>Indentation Is The Structure</h2>
+      <p>Unlike JSON, YAML does not use braces to show every object boundary. Spaces carry structural meaning. Teams should agree on a simple convention such as two spaces per level and avoid tabs entirely. This makes diffs easier to review and reduces accidental configuration drift.</p>
+      <pre class="guide-example"><code>services:
+  api:
+    image: formalint/api
+    ports:
+      - "8080:8080"</code></pre>
+      <h2>Lists And Maps</h2>
+      <p>Most YAML mistakes happen where lists and maps meet. If a list item owns several fields, keep those fields aligned under the item. If the next list item starts, return to the dash indentation. A formatter can make this easier to scan, but the reviewer still needs to understand the intended shape.</p>
+      <h2>Comments And Configuration Review</h2>
+      <p>Useful comments explain why a setting exists, not what the key already says. Before committing YAML, remove outdated comments, check duplicated keys and confirm that environment-specific values are not accidentally copied from production.</p>
+      <p class="guide-callout">Never paste live deployment secrets, tokens, private registry passwords or customer environment values into a public tool.</p>
+      <h2>Use Formalint</h2>
+      <p>Use the <a href="yaml-formatter.html">Formalint YAML Formatter</a> to clean spacing and run common structure checks. For adjacent work, try the <a href="json-formatting-guide.html">JSON guide</a> or the <a href="tools.html">tools directory</a>.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div>
+      <nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+    </footer>
+  </body>
+</html>

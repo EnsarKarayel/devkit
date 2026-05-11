@@ -739,6 +739,34 @@ button.secondary:hover,
   margin-top: 0;
 }
 
+.guide-meta {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin: -8px 0 24px;
+}
+
+.guide-example {
+  overflow-x: auto;
+  border: 1px solid var(--code-line);
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 16px;
+}
+
+.guide-callout {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  color: #244346;
+  font-weight: 700;
+  line-height: 1.7;
+  padding: 14px 16px;
+}
+
 .site-footer {
   display: flex;
   align-items: center;

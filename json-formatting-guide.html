@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>JSON Formatting Guide | Formalint</title>
+    <meta name="description" content="A practical JSON formatting guide for developers: validation, tree reading, payload review, privacy and common mistakes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/json-formatting-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a href="xml-formatter.html">XML</a>
+        <a href="yaml-formatter.html">YAML</a>
+        <a href="sql-formatter.html">SQL</a>
+        <a href="python-formatter.html">Python</a>
+        <a href="tools.html">All Tools</a>
+        <a class="active" href="guides.html">Guides</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+    <main class="document-page">
+      <h1>JSON Formatting Guide</h1>
+      <p class="guide-meta">Written by Ensar Karayel. Last updated May 11, 2026.</p>
+      <p>JSON is easy to generate and surprisingly easy to misread. A minified response may be valid while still hiding the exact object, array or field that caused a bug. Formatting is not decoration; it is a debugging step that turns a payload into something a developer can review with confidence.</p>
+      <h2>When Formatting Helps</h2>
+      <p>Formatting is most useful when you receive a dense API response, compare two versions of a payload, inspect webhook data or review configuration sent between services. Indentation reveals nesting depth, repeated object shapes and fields that appear in only one branch of the structure.</p>
+      <p>Validation should happen before interpretation. If a parser reports invalid JSON, avoid guessing based on visual appearance. Common issues include trailing commas, single-quoted strings, comments copied from JavaScript and missing quotation marks around object keys.</p>
+      <pre class="guide-example"><code>{ "customer": { "id": 42, "tags": ["trial", "api"] }, "active": true }</code></pre>
+      <h2>How To Read A Formatted Payload</h2>
+      <p>Start at the root type. If the root is an object, identify the main keys before reading values. If the root is an array, inspect whether each item has the same shape. In inconsistent arrays, bugs often come from optional fields that are present for one record and missing for another.</p>
+      <p>Then check data types. The string `"false"` is not the boolean `false`, and `"123"` is not the number `123`. Many integration bugs are type bugs disguised as value bugs.</p>
+      <h2>Privacy Before Pasting</h2>
+      <p>Even when a tool processes data locally, developers should avoid pasting production secrets, customer records, authorization tokens or private keys into any online page. Create a reduced sample that preserves the structure of the payload while replacing sensitive values.</p>
+      <p class="guide-callout">Good debugging samples keep field names and nesting, but replace personal data, credentials and live identifiers with safe placeholders.</p>
+      <h2>Use Formalint</h2>
+      <p>Use the <a href="index.html">Formalint JSON Formatter</a> to format, minify, validate and inspect payloads with a tree view. Related tools include the <a href="jwt-decoder.html">JWT Decoder</a> and <a href="base64-encoder-decoder.html">Base64 Encoder</a>.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div>
+      <nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+    </footer>
+  </body>
+</html>

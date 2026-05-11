@@ -20,6 +20,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - HEX, RGB, and HSL color converter
 - CSV to JSON converter
 - Tools directory, about page, and contact page for trust and navigation
+- Original developer guides for JSON, YAML, SQL, and safer use of online developer tools
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
@@ -28,7 +29,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - Per-page titles, descriptions, canonical URLs, Open Graph and Twitter card metadata
 - WebApplication and FAQ structured data
 - `sitemap.xml` and `robots.txt`
-- `tools.html`, `about.html`, `contact.html`, `privacy.html`, `terms.html`, `ads.txt`, `SECURITY.md`, and `.well-known/security.txt`
+- `tools.html`, `guides.html`, article pages, `about.html`, `contact.html`, `privacy.html`, `terms.html`, `ads.txt`, `SECURITY.md`, and `.well-known/security.txt`
 - SVG favicon, wordmark, app icon, and social preview image
 
 The production canonical and sitemap URLs use:
