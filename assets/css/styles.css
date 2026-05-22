@@ -767,6 +767,80 @@ button.secondary:hover,
   padding: 14px 16px;
 }
 
+.checklist-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.checklist-notes-panel,
+.checklist-panel {
+  min-height: 720px;
+}
+
+.compact-form textarea {
+  min-height: 110px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field-grid label {
+  display: grid;
+  gap: 8px;
+}
+
+.form-stack input,
+.form-stack select {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfa;
+  color: var(--ink);
+  padding: 10px 12px;
+}
+
+.checklist-groups {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.check-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfa;
+  padding: 14px;
+}
+
+.check-group h3 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.check-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: #3d474b;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.45;
+  padding: 8px 0;
+}
+
+.check-item input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--accent);
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -895,6 +969,7 @@ button.secondary:hover,
   }
 
   .workspace,
+  .checklist-layout,
   .tool-strip,
   .directory-grid,
   .section-heading,
@@ -936,6 +1011,10 @@ button.secondary:hover,
   }
 
   .option-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-grid {
     grid-template-columns: 1fr;
   }
 
