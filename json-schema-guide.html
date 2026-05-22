@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>JSON Schema Guide | Formalint</title>
+    <meta name="description" content="A practical JSON Schema guide for developers: generated schemas, required fields, arrays, nullable values and safe validation workflows.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/json-schema-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a href="xml-formatter.html">XML</a>
+        <a href="yaml-formatter.html">YAML</a>
+        <a href="sql-formatter.html">SQL</a>
+        <a href="python-formatter.html">Python</a>
+        <a href="tools.html">All Tools</a>
+        <a class="active" href="guides.html">Guides</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+    <main class="document-page">
+      <h1>JSON Schema Guide</h1>
+      <p class="guide-meta">Written by Ensar Karayel. Last updated May 22, 2026.</p>
+      <p>JSON Schema turns an example payload into an explicit contract. Instead of saying that an API returns "a customer object", a schema can describe which fields exist, which fields are required and what type each field should have.</p>
+      <h2>Generated Schemas Are Drafts</h2>
+      <p>A generator can infer structure from the values it sees. It can detect objects, arrays, strings, numbers, booleans and nulls. It cannot know every rule in your business domain. A generated schema is a starting point that should be reviewed by someone who understands the API.</p>
+      <pre class="guide-example"><code>{
+  "type": "object",
+  "required": ["id", "email"],
+  "properties": {
+    "id": { "type": "integer" },
+    "email": { "type": "string", "format": "email" }
+  }
+}</code></pre>
+      <h2>Required Fields Need Judgment</h2>
+      <p>If a field appears in one example, a generator may mark it as required. That is useful for one known payload, but production APIs often have optional fields. Review every required field and remove values that are not guaranteed by the API contract.</p>
+      <h2>Arrays Need More Than One Example</h2>
+      <p>For arrays, a single item only shows one possible shape. Better samples include multiple realistic records. If one item has a field and another item does not, the schema should usually treat that field as optional within the array item object.</p>
+      <h2>Validation Is A Conversation</h2>
+      <p>Schema validation is best used in API tests, documentation, integration checks and contract reviews. It helps teams catch accidental breaking changes before a frontend, webhook consumer or reporting job fails later.</p>
+      <p class="guide-callout">Before sharing schemas or payloads, remove live tokens, private identifiers and customer data. Keep the shape; replace sensitive values.</p>
+      <h2>Use Formalint</h2>
+      <p>Use the <a href="json-schema-generator.html">Formalint JSON Schema Generator</a> to draft a schema from a sample payload. For raw payload cleanup, start with the <a href="index.html">JSON Formatter</a>.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div>
+      <nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+    </footer>
+  </body>
+</html>

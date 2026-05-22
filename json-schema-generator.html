@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="format-detection" content="telephone=no">
+    <title>JSON Schema Generator and Validator | Formalint</title>
+    <meta name="description" content="Generate JSON Schema from a sample JSON payload, infer types, required fields and array item shapes, then run basic validation in your browser.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/json-schema-generator.html">
+    <meta name="theme-color" content="#0f8b8d">
+    <meta property="og:title" content="Formalint JSON Schema Generator">
+    <meta property="og:description" content="Generate and validate JSON Schema locally in the browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://formalint.com/json-schema-generator.html">
+    <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
+    <meta property="og:site_name" content="Formalint">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Formalint JSON Schema Generator">
+    <meta name="twitter:description" content="Generate JSON Schema from sample payloads in your browser.">
+    <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": "https://formalint.com/json-schema-generator.html#json-schema-generator",
+        "name": "Formalint JSON Schema Generator",
+        "url": "https://formalint.com/json-schema-generator.html",
+        "description": "A browser-based JSON Schema generator and basic validator for sample JSON payloads.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Processing runs in the browser.",
+        "featureList": ["JSON Schema generation", "Type inference", "Required field inference", "Basic JSON Schema validation", "Copy and download output"],
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+  <body data-tool="json-schema">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home">
+        <img src="assets/img/favicon.svg" alt="" width="34" height="34">
+        <span>Formalint</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a href="xml-formatter.html">XML</a>
+        <a href="yaml-formatter.html">YAML</a>
+        <a href="sql-formatter.html">SQL</a>
+        <a href="python-formatter.html">Python</a>
+        <a href="tools.html">All Tools</a>
+        <a href="guides.html">Guides</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="tool-hero">
+        <div>
+          <p class="eyebrow">Schema design</p>
+          <h1>JSON Schema Generator</h1>
+          <p class="hero-copy">Generate a JSON Schema from a sample payload, infer object properties, required fields and array item shapes, then run basic validation locally.</p>
+        </div>
+        <div class="hero-actions" aria-label="Tool shortcuts">
+          <a class="text-link" href="json-schema-guide.html">Read schema guide</a>
+          <a class="text-link" href="index.html">Open JSON formatter</a>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="JSON schema generator workspace">
+        <div class="panel editor-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Sample JSON</h2>
+              <p id="inputMeta" class="meta">0 bytes</p>
+            </div>
+            <button class="ghost-button" type="button" data-action="sample">Sample</button>
+          </div>
+          <label class="sr-only" for="schemaInput">Sample JSON input</label>
+          <textarea id="schemaInput" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+          <div class="button-row" aria-label="JSON Schema actions">
+            <button type="button" data-action="generate"><span aria-hidden="true">{}</span> Generate</button>
+            <button type="button" data-action="validate"><span aria-hidden="true">ok</span> Validate</button>
+            <button class="secondary" type="button" data-action="clear">Clear</button>
+          </div>
+        </div>
+
+        <div class="panel result-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Schema</h2>
+              <p id="statusMessage" class="meta">Ready</p>
+            </div>
+          </div>
+          <div class="notice-box">Generated schemas are inferred from examples. Review required fields, nullable values and business rules before using them in production.</div>
+          <div class="result-view active">
+            <pre class="code-output"><code id="schemaOutput"></code></pre>
+          </div>
+          <div id="metrics" class="metrics" aria-label="JSON Schema metrics"></div>
+          <div class="button-row output-actions" aria-label="Output actions">
+            <button type="button" data-action="copy"><span aria-hidden="true">[]</span> Copy</button>
+            <button class="secondary" type="button" data-action="download">Download</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-strip" aria-label="More tools">
+        <a href="index.html"><span>JSON Formatter</span><small>Format and inspect payloads</small></a>
+        <a href="json-formatting-guide.html"><span>JSON Guide</span><small>Read payload review notes</small></a>
+        <a href="safe-online-dev-tools.html"><span>Safe Tool Usage</span><small>Sanitize samples before pasting</small></a>
+      </section>
+
+      <section class="content-band" aria-labelledby="schema-reference-title">
+        <div>
+          <p class="eyebrow">Reference notes</p>
+          <h2 id="schema-reference-title">JSON Schema from real examples</h2>
+        </div>
+        <div class="content-grid">
+          <article><h3>Inference limits</h3><p>A sample payload can reveal observed fields and types, but it cannot know every valid business rule. Treat the result as a strong draft.</p></article>
+          <article><h3>Array merging</h3><p>The generator compares array items and builds a shared item schema so mixed examples produce a broader but still readable schema.</p></article>
+          <article><h3>Local processing</h3><p>Sample JSON and generated schema output are handled in the browser. Formalint does not upload pasted payloads to a backend.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact">
+        <strong>&copy; 2026 Formalint</strong>
+        <span aria-hidden="true">-</span>
+        <span>Ensar Karayel</span>
+        <span aria-hidden="true">-</span>
+        <a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a>
+      </div>
+      <nav aria-label="Footer navigation">
+        <button class="footer-link" type="button" data-consent-open>Privacy Preferences</button>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </footer>
+
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/json-schema-tool.js"></script>
+  </body>
+</html>

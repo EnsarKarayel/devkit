@@ -5,6 +5,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 ## Tools
 
 - JSON format, minify, validate, copy, download, and tree view
+- JSON Schema generator and basic validation from sample payloads
 - XML format, minify, validate, copy, download, and JSON conversion
 - YAML formatter and common structure checks
 - SQL formatter, compact mode, and common query checks
@@ -20,7 +21,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - HEX, RGB, and HSL color converter
 - CSV to JSON converter
 - Tools directory, about page, and contact page for trust and navigation
-- Original developer guides for JSON, YAML, SQL, and safer use of online developer tools
+- Original developer guides for JSON, JSON Schema, YAML, SQL, and safer use of online developer tools
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
