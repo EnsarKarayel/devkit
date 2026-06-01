@@ -941,6 +941,41 @@ button.secondary:hover,
   margin: 0;
 }
 
+.header-card-title {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header-card-title h2 {
+  overflow-wrap: anywhere;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.header-card-title span {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 6px 8px;
+}
+
+.header-card code {
+  display: block;
+  overflow: auto;
+  border-radius: 8px;
+  background: #f2f5f2;
+  color: #263236;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.84rem;
+  padding: 10px;
+  white-space: pre;
+}
+
 .site-footer {
   display: flex;
   align-items: center;

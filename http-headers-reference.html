@@ -6,21 +6,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
-    <title>HTTP Status Codes Reference and API Debugging Notes | Formalint</title>
-    <meta name="description" content="Search HTTP status codes and read practical API debugging notes for 2xx, 3xx, 4xx and 5xx responses. Filter by class and copy concise explanations.">
+    <title>HTTP Headers Reference for API Debugging | Formalint</title>
+    <meta name="description" content="Search common HTTP request, response, cache, CORS and security headers. Read practical API debugging notes and copy concise header explanations.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="https://formalint.com/http-status-codes.html">
+    <link rel="canonical" href="https://formalint.com/http-headers-reference.html">
     <meta name="theme-color" content="#0f8b8d">
-    <meta property="og:title" content="Formalint HTTP Status Codes Reference">
-    <meta property="og:description" content="Search status codes and get practical API debugging guidance.">
+    <meta property="og:title" content="Formalint HTTP Headers Reference">
+    <meta property="og:description" content="Search HTTP headers and get practical API debugging notes.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://formalint.com/http-status-codes.html">
+    <meta property="og:url" content="https://formalint.com/http-headers-reference.html">
     <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
     <meta property="og:site_name" content="Formalint">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Formalint HTTP Status Codes Reference">
-    <meta name="twitter:description" content="A searchable HTTP status code reference for API debugging.">
+    <meta name="twitter:title" content="Formalint HTTP Headers Reference">
+    <meta name="twitter:description" content="A searchable HTTP headers reference for API debugging and web security review.">
     <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -33,14 +33,14 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "@id": "https://formalint.com/http-status-codes.html#http-status-codes",
-        "name": "Formalint HTTP Status Codes Reference",
-        "url": "https://formalint.com/http-status-codes.html",
-        "description": "A searchable browser-based HTTP status code reference with API debugging notes.",
+        "@id": "https://formalint.com/http-headers-reference.html#http-headers-reference",
+        "name": "Formalint HTTP Headers Reference",
+        "url": "https://formalint.com/http-headers-reference.html",
+        "description": "A searchable browser-based HTTP headers reference with practical API debugging notes.",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript for filtering and copy actions.",
-        "featureList": ["HTTP status code search", "Status class filters", "API debugging notes", "Copy concise explanations"],
+        "featureList": ["HTTP header search", "Header category filters", "CORS notes", "Caching notes", "Security header notes", "Copy concise explanations"],
         "isAccessibleForFree": true,
         "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -53,33 +53,33 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Which HTTP status code should an API return for validation errors?",
+            "name": "Which headers should developers check first when an API request fails?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Many APIs use 400 for malformed requests and 422 when the request is syntactically valid but fails business or schema validation. The important part is to document the contract and return actionable error details."
+              "text": "Start with Authorization, Content-Type, Accept, Origin, request ID and caching headers. Those usually explain authentication failures, payload parsing errors, CORS failures and stale responses."
             }
           },
           {
             "@type": "Question",
-            "name": "What is the difference between 401 and 403?",
+            "name": "Why does CORS fail even when an endpoint works in Postman?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "401 usually means the request is not authenticated or the token is missing or invalid. 403 usually means the client is authenticated but does not have permission for the requested resource."
+              "text": "CORS is enforced by browsers. A server can work from Postman while still missing Access-Control-Allow-Origin, Access-Control-Allow-Methods or Access-Control-Allow-Headers for browser requests."
             }
           },
           {
             "@type": "Question",
-            "name": "How should developers debug 5xx API errors?",
+            "name": "Which response headers are useful for production API debugging?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Start with the request ID, timestamp, service logs, dependency health and recent deployments. A 5xx response means the server side of the contract failed, but the root cause can still be payload shape, timeout behavior or an upstream dependency."
+              "text": "Request IDs, cache validators, rate limit headers and retry hints are especially useful because they connect a client-visible response to server logs and operational behavior."
             }
           }
         ]
       }
     </script>
   </head>
-  <body data-tool="http-status">
+  <body data-tool="http-headers">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Formalint home">
         <img src="assets/img/favicon.svg" alt="" width="34" height="34">
@@ -101,36 +101,35 @@
       <section class="tool-hero">
         <div>
           <p class="eyebrow">API reference</p>
-          <h1>HTTP Status Codes</h1>
-          <p class="hero-copy">Search status codes, filter by response class and read practical debugging notes for the codes developers meet during API reviews and production incidents.</p>
+          <h1>HTTP Headers</h1>
+          <p class="hero-copy">Search common request, response, caching, CORS and security headers, then connect each header to a practical debugging step.</p>
         </div>
         <div class="hero-actions" aria-label="Tool shortcuts">
-          <a class="text-link" href="http-headers-reference.html">Open headers reference</a>
+          <a class="text-link" href="http-status-codes.html">Open status codes</a>
           <a class="text-link" href="api-debugging-checklist.html">Open debugging checklist</a>
-          <a class="text-link" href="api-debugging-guide.html">Read API guide</a>
         </div>
       </section>
 
-      <section class="status-reference" aria-label="HTTP status code reference">
+      <section class="status-reference" aria-label="HTTP headers reference">
         <div class="panel status-search-panel">
           <div class="panel-bar">
             <div>
               <h2>Search</h2>
-              <p id="statusMeta" class="meta">Common API status codes</p>
+              <p id="headerMeta" class="meta">Common HTTP headers</p>
             </div>
             <button class="ghost-button" type="button" data-action="clear">Clear</button>
           </div>
           <div class="form-stack">
-            <label for="statusSearch">Code, phrase or debugging keyword</label>
-            <input id="statusSearch" class="control-input" type="search" autocomplete="off" placeholder="Example: 401 token, 422 validation, timeout">
+            <label for="headerSearch">Header name, category or debugging keyword</label>
+            <input id="headerSearch" class="control-input" type="search" autocomplete="off" placeholder="Example: cors, token, cache, csp">
             <fieldset class="filter-set">
-              <legend>Status class</legend>
-              <label><input type="radio" name="statusClass" value="all" checked> All</label>
-              <label><input type="radio" name="statusClass" value="1"> 1xx</label>
-              <label><input type="radio" name="statusClass" value="2"> 2xx</label>
-              <label><input type="radio" name="statusClass" value="3"> 3xx</label>
-              <label><input type="radio" name="statusClass" value="4"> 4xx</label>
-              <label><input type="radio" name="statusClass" value="5"> 5xx</label>
+              <legend>Header category</legend>
+              <label><input type="radio" name="headerCategory" value="all" checked> All</label>
+              <label><input type="radio" name="headerCategory" value="request"> Request</label>
+              <label><input type="radio" name="headerCategory" value="response"> Response</label>
+              <label><input type="radio" name="headerCategory" value="cache"> Cache</label>
+              <label><input type="radio" name="headerCategory" value="cors"> CORS</label>
+              <label><input type="radio" name="headerCategory" value="security"> Security</label>
             </fieldset>
           </div>
           <div class="button-row inline-actions">
@@ -138,26 +137,25 @@
           </div>
         </div>
 
-        <div class="status-results" id="statusResults" aria-live="polite"></div>
+        <div class="status-results" id="headerResults" aria-live="polite"></div>
       </section>
 
       <section class="tool-strip" aria-label="Related tools">
-        <a href="api-debugging-checklist.html"><span>API Debugging Checklist</span><small>Track a failing request</small></a>
-        <a href="http-headers-reference.html"><span>HTTP Headers</span><small>Inspect CORS and cache clues</small></a>
-        <a href="json-schema-generator.html"><span>JSON Schema Generator</span><small>Review payload contracts</small></a>
+        <a href="http-status-codes.html"><span>HTTP Status Codes</span><small>Interpret response codes</small></a>
+        <a href="api-debugging-checklist.html"><span>API Debugging Checklist</span><small>Track failing requests</small></a>
         <a href="jwt-decoder.html"><span>JWT Decoder</span><small>Inspect auth claims</small></a>
-        <a href="timestamp-converter.html"><span>Timestamp Converter</span><small>Compare log timestamps</small></a>
+        <a href="timestamp-converter.html"><span>Timestamp Converter</span><small>Compare logs and retries</small></a>
       </section>
 
-      <section class="content-band" aria-labelledby="status-reference-title">
+      <section class="content-band" aria-labelledby="headers-reference-title">
         <div>
           <p class="eyebrow">Reference notes</p>
-          <h2 id="status-reference-title">How to use status codes during debugging</h2>
+          <h2 id="headers-reference-title">Headers turn vague failures into concrete evidence</h2>
         </div>
         <div class="content-grid">
-          <article><h3>Do not stop at the number</h3><p>A status code is a signal, not a full diagnosis. Pair it with the request method, route, request ID, environment, user role and payload shape before deciding what changed.</p></article>
-          <article><h3>Keep client and server causes separate</h3><p>4xx responses usually point to request identity, authorization or payload contract problems. 5xx responses point to server-side handling, dependency failure or unexpected runtime behavior.</p></article>
-          <article><h3>Write useful error responses</h3><p>Good APIs return a stable code, a clear machine-readable error key and a human-readable message that helps the caller fix the next request without exposing secrets.</p></article>
+          <article><h3>Auth failures leave clues</h3><p>Authorization, WWW-Authenticate and token-related headers help separate expired credentials from missing permissions or a broken proxy rule.</p></article>
+          <article><h3>Browser failures need CORS context</h3><p>A request that works in a server-side client can still fail in a browser when preflight headers do not allow the method, origin or custom headers.</p></article>
+          <article><h3>Caching can hide real fixes</h3><p>Cache-Control, ETag and Last-Modified explain why a client may keep seeing old data after the backend has already changed.</p></article>
         </div>
       </section>
     </main>
@@ -180,6 +178,6 @@
     </footer>
 
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/http-status-tool.js"></script>
+    <script src="assets/js/http-headers-tool.js"></script>
   </body>
 </html>
