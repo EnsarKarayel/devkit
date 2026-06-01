@@ -841,6 +841,106 @@ button.secondary:hover,
   accent-color: var(--accent);
 }
 
+.status-reference {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.status-search-panel {
+  position: sticky;
+  top: 16px;
+  min-height: 0;
+}
+
+.filter-set {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 0;
+  padding: 12px;
+}
+
+.filter-set legend {
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 0 6px;
+}
+
+.filter-set label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.filter-set input {
+  accent-color: var(--accent);
+}
+
+.status-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.status-card,
+.empty-reference {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 16px;
+}
+
+.status-card {
+  display: grid;
+  gap: 12px;
+}
+
+.status-code-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.status-code-row strong {
+  display: grid;
+  width: 72px;
+  min-height: 54px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #ffffff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.4rem;
+}
+
+.status-code-row h2 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+}
+
+.status-code-row span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.status-card p,
+.empty-reference {
+  color: #3d474b;
+  line-height: 1.68;
+  margin: 0;
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -970,6 +1070,8 @@ button.secondary:hover,
 
   .workspace,
   .checklist-layout,
+  .status-reference,
+  .status-results,
   .tool-strip,
   .directory-grid,
   .section-heading,
