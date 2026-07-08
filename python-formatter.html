@@ -46,6 +46,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Why does mixed tab and space indentation break Python?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Python uses indentation to define code blocks. Mixing tabs and spaces can produce an IndentationError, or worse, code that runs but executes a different block than intended depending on the editor's tab width setting."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does this tool reformat code like Black or autopep8?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "This tool focuses on indentation and trailing whitespace cleanup. It does not enforce PEP 8 line length, import ordering, or string quote style the way a full formatter like Black does."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Will it change my code's logic?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. Only whitespace, indentation consistency, and trailing spaces are adjusted. Statements, variable names, and logic are left untouched."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="python">
     <header class="site-header">
@@ -130,6 +162,26 @@
           <article><h3>Whitespace safe</h3><p>The formatter expands tabs, trims trailing whitespace and keeps a final newline so snippets paste cleanly into editors.</p></article>
           <article><h3>Indentation aware</h3><p>Basic checks flag mixed tabs/spaces, sudden indentation jumps and suspicious dedents before you copy the result.</p></article>
           <article><h3>Local processing</h3><p>Code is handled by client-side JavaScript. Formalint does not run Python code or upload snippets to a server.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="python-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="python-faq-title">Python cleanup questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Why does mixed tab and space indentation break Python?</summary>
+            <p>Python uses indentation to define code blocks. Mixing tabs and spaces can produce an IndentationError, or worse, code that runs but executes a different block than intended depending on the editor's tab width setting.</p>
+          </details>
+          <details>
+            <summary>Does this tool reformat code like Black or autopep8?</summary>
+            <p>This tool focuses on indentation and trailing whitespace cleanup. It does not enforce PEP 8 line length, import ordering, or string quote style the way a full formatter like Black does.</p>
+          </details>
+          <details>
+            <summary>Will it change my code's logic?</summary>
+            <p>No. Only whitespace, indentation consistency, and trailing spaces are adjusted. Statements, variable names, and logic are left untouched.</p>
+          </details>
         </div>
       </section>
     </main>

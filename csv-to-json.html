@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "How are commas inside quoted fields handled?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Fields wrapped in double quotes can contain commas without being split into extra columns, following the same convention most spreadsheet software uses when exporting CSV."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What happens if my CSV has no header row?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Without a header row, columns are converted using generic keys such as column1, column2. Include a header row if you want the resulting JSON keys to match your actual field names."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does it detect numbers and booleans automatically?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Yes, values that look like plain numbers or true/false are converted to their JSON-native types rather than left as quoted strings, unless the field was quoted in the source CSV."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="csv">
     <header class="site-header">
@@ -124,6 +156,26 @@
           <article><h3>Header row</h3><p>The first CSV row is used as object keys, which is the most common format for spreadsheet exports.</p></article>
           <article><h3>Quoted values</h3><p>The parser handles quoted fields, commas inside quotes and escaped quote characters.</p></article>
           <article><h3>Formatted output</h3><p>JSON output is pretty-printed so it can be copied into tests, docs and API examples.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="csv-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="csv-faq-title">CSV to JSON questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>How are commas inside quoted fields handled?</summary>
+            <p>Fields wrapped in double quotes can contain commas without being split into extra columns, following the same convention most spreadsheet software uses when exporting CSV.</p>
+          </details>
+          <details>
+            <summary>What happens if my CSV has no header row?</summary>
+            <p>Without a header row, columns are converted using generic keys such as column1, column2. Include a header row if you want the resulting JSON keys to match your actual field names.</p>
+          </details>
+          <details>
+            <summary>Does it detect numbers and booleans automatically?</summary>
+            <p>Yes, values that look like plain numbers or true/false are converted to their JSON-native types rather than left as quoted strings, unless the field was quoted in the source CSV.</p>
+          </details>
         </div>
       </section>
     </main>

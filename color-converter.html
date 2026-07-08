@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "When should I use HSL instead of HEX or RGB?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "HSL separates hue, saturation, and lightness into independent values, making it easier to create a consistent color palette by adjusting lightness alone, without recalculating an entirely new hex code."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does this support alpha transparency?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Yes, HEX with an 8-digit alpha channel, rgba(), and hsla() values are all converted so you can carry transparency across formats consistently."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why do two tools show slightly different RGB values for the same color?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "This usually comes down to rounding differences when converting between color spaces, or a difference in color profile handling between the browser and a design tool like Figma or Photoshop."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="color">
     <header class="site-header">
@@ -127,6 +159,26 @@
           <article><h3>HEX</h3><p>HEX colors are compact and common in design handoff, tokens and CSS variables.</p></article>
           <article><h3>RGB</h3><p>RGB output is useful for CSS, canvas work and systems that store separate red, green and blue channels.</p></article>
           <article><h3>HSL</h3><p>HSL is easier to reason about when adjusting hue, saturation and lightness for interface palettes.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="color-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="color-faq-title">Color converter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>When should I use HSL instead of HEX or RGB?</summary>
+            <p>HSL separates hue, saturation, and lightness into independent values, making it easier to create a consistent color palette by adjusting lightness alone, without recalculating an entirely new hex code.</p>
+          </details>
+          <details>
+            <summary>Does this support alpha transparency?</summary>
+            <p>Yes, HEX with an 8-digit alpha channel, rgba(), and hsla() values are all converted so you can carry transparency across formats consistently.</p>
+          </details>
+          <details>
+            <summary>Why do two tools show slightly different RGB values for the same color?</summary>
+            <p>This usually comes down to rounding differences when converting between color spaces, or a difference in color profile handling between the browser and a design tool like Figma or Photoshop.</p>
+          </details>
         </div>
       </section>
     </main>

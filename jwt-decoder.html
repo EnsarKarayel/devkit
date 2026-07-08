@@ -52,6 +52,46 @@
         }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Is my token sent anywhere when I decode it?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. Decoding happens entirely in your browser. Since a JWT's header and payload are only Base64-encoded, not encrypted, this tool never needs to contact a server to read them."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does decoding verify the token's signature?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. This tool decodes and displays the header and payload claims for inspection. It does not verify the signature against a secret or public key, so a decoded token should never be treated as authenticated."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why is my exp timestamp showing a strange date?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "JWT timestamp claims like exp and iat are Unix seconds, not milliseconds. If a date looks wildly far in the future, check whether the value was generated as milliseconds by mistake."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Is it safe to paste a production token here?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Since processing is local, it is technically safe, but as a general practice avoid pasting tokens tied to live sessions into any third-party tool. Use a test or expired token when possible."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="jwt">
     <header class="site-header">
@@ -142,6 +182,30 @@
             <h3>No verification</h3>
             <p>A decoded JWT can still be forged. Production systems must verify the signature, issuer, audience and expiration using trusted server-side code.</p>
           </article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="jwt-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="jwt-faq-title">JWT decoder questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Is my token sent anywhere when I decode it?</summary>
+            <p>No. Decoding happens entirely in your browser. Since a JWT's header and payload are only Base64-encoded, not encrypted, this tool never needs to contact a server to read them.</p>
+          </details>
+          <details>
+            <summary>Does decoding verify the token's signature?</summary>
+            <p>No. This tool decodes and displays the header and payload claims for inspection. It does not verify the signature against a secret or public key, so a decoded token should never be treated as authenticated.</p>
+          </details>
+          <details>
+            <summary>Why is my exp timestamp showing a strange date?</summary>
+            <p>JWT timestamp claims like exp and iat are Unix seconds, not milliseconds. If a date looks wildly far in the future, check whether the value was generated as milliseconds by mistake.</p>
+          </details>
+          <details>
+            <summary>Is it safe to paste a production token here?</summary>
+            <p>Since processing is local, it is technically safe, but as a general practice avoid pasting tokens tied to live sessions into any third-party tool. Use a test or expired token when possible.</p>
+          </details>
         </div>
       </section>
     </main>

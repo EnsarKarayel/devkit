@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "What do the five fields in a cron expression mean?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "In order, they represent minute, hour, day of month, month, and day of week. A common mistake is confusing the order of day-of-month and day-of-week, since both accept overlapping ranges of values."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What is the difference between * and ? in some cron systems?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Standard cron only uses *, meaning every value. Some schedulers like Quartz add ? to mean no specific value, used to avoid conflicts when both day-of-month and day-of-week are set to specific values."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What time zone do the upcoming run previews use?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Previews are calculated using your browser's local time zone. Production schedulers often run in UTC or a server-configured time zone, so double-check the target environment before deploying."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="cron">
     <header class="site-header">
@@ -127,6 +159,26 @@
           <article><h3>Five fields</h3><p>Formalint parses the common cron format used by many schedulers: minute, hour, day of month, month and day of week.</p></article>
           <article><h3>Preview runs</h3><p>Upcoming local run times help catch range, step and weekday mistakes before schedules go live.</p></article>
           <article><h3>Scheduler differences</h3><p>Some platforms support seconds, years or special tokens. Always compare against your production scheduler documentation.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="cron-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="cron-faq-title">Cron expression questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>What do the five fields in a cron expression mean?</summary>
+            <p>In order, they represent minute, hour, day of month, month, and day of week. A common mistake is confusing the order of day-of-month and day-of-week, since both accept overlapping ranges of values.</p>
+          </details>
+          <details>
+            <summary>What is the difference between * and ? in some cron systems?</summary>
+            <p>Standard cron only uses *, meaning every value. Some schedulers like Quartz add ? to mean no specific value, used to avoid conflicts when both day-of-month and day-of-week are set to specific values.</p>
+          </details>
+          <details>
+            <summary>What time zone do the upcoming run previews use?</summary>
+            <p>Previews are calculated using your browser's local time zone. Production schedulers often run in UTC or a server-configured time zone, so double-check the target environment before deploying.</p>
+          </details>
         </div>
       </section>
     </main>

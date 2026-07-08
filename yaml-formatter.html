@@ -46,6 +46,46 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Why is indentation so strict in YAML?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "YAML uses indentation instead of brackets to represent structure, so two spaces versus four spaces on a nested key changes which parent it belongs to. Mixing tabs and spaces is a common source of parse errors."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why did a value like \"yes\" or \"03\" change unexpectedly?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "YAML auto-converts certain unquoted strings into booleans, numbers, or null. Values like yes, no, on, off, and numbers with leading zeros should be quoted if you want them treated as literal text."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What common structure issues does the checker catch?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "It flags inconsistent indentation between sibling keys, tab characters mixed with spaces, and duplicate keys at the same level, which most parsers silently overwrite rather than error on."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Is YAML used only for config files?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "YAML is common in CI/CD pipelines like GitHub Actions and GitLab CI, Kubernetes manifests, Docker Compose files, and application configuration, in addition to general config files."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="yaml">
     <header class="site-header">
@@ -129,6 +169,30 @@
           <article><h3>Indentation first</h3><p>YAML is whitespace-sensitive. This cleaner converts tabs, trims trailing spaces and keeps list indentation readable.</p></article>
           <article><h3>Local processing</h3><p>Configuration snippets are processed in the browser. Formalint does not upload pasted YAML to a backend.</p></article>
           <article><h3>Common checks</h3><p>The validator flags tabs, odd indentation, duplicate mapping keys in the same block and unbalanced brackets or quotes.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="yaml-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="yaml-faq-title">YAML formatter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Why is indentation so strict in YAML?</summary>
+            <p>YAML uses indentation instead of brackets to represent structure, so two spaces versus four spaces on a nested key changes which parent it belongs to. Mixing tabs and spaces is a common source of parse errors.</p>
+          </details>
+          <details>
+            <summary>Why did a value like "yes" or "03" change unexpectedly?</summary>
+            <p>YAML auto-converts certain unquoted strings into booleans, numbers, or null. Values like yes, no, on, off, and numbers with leading zeros should be quoted if you want them treated as literal text.</p>
+          </details>
+          <details>
+            <summary>What common structure issues does the checker catch?</summary>
+            <p>It flags inconsistent indentation between sibling keys, tab characters mixed with spaces, and duplicate keys at the same level, which most parsers silently overwrite rather than error on.</p>
+          </details>
+          <details>
+            <summary>Is YAML used only for config files?</summary>
+            <p>YAML is common in CI/CD pipelines like GitHub Actions and GitLab CI, Kubernetes manifests, Docker Compose files, and application configuration, in addition to general config files.</p>
+          </details>
         </div>
       </section>
     </main>

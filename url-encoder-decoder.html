@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Why do spaces become %20 or +?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Percent-encoding replaces reserved and unsafe characters with a % followed by the character's hex code. Query strings sometimes use + for spaces instead, depending on the encoding context, which this tool distinguishes between."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Which characters need encoding in a URL?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Reserved characters like &amp;, =, ?, #, and space, along with any non-ASCII characters, need encoding when they appear inside a query parameter value to avoid being misread as part of the URL structure."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why does double-encoding break my link?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Encoding an already-encoded string turns a % into %25, corrupting the value. This is a common bug when a value passes through more than one layer of URL building without checking whether it was already encoded."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="url">
     <header class="site-header">
@@ -125,6 +157,26 @@
           <article><h3>Query values</h3><p>Encoding prevents spaces, ampersands and symbols from breaking query strings or request URLs.</p></article>
           <article><h3>Percent encoding</h3><p>Decoded output helps inspect copied links, redirect URLs and API callback parameters.</p></article>
           <article><h3>Component based</h3><p>Formalint uses component encoding, which is appropriate for query values and path fragments.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="urlenc-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="urlenc-faq-title">URL encoding questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Why do spaces become %20 or +?</summary>
+            <p>Percent-encoding replaces reserved and unsafe characters with a % followed by the character's hex code. Query strings sometimes use + for spaces instead, depending on the encoding context, which this tool distinguishes between.</p>
+          </details>
+          <details>
+            <summary>Which characters need encoding in a URL?</summary>
+            <p>Reserved characters like &amp;, =, ?, #, and space, along with any non-ASCII characters, need encoding when they appear inside a query parameter value to avoid being misread as part of the URL structure.</p>
+          </details>
+          <details>
+            <summary>Why does double-encoding break my link?</summary>
+            <p>Encoding an already-encoded string turns a % into %25, corrupting the value. This is a common bug when a value passes through more than one layer of URL building without checking whether it was already encoded.</p>
+          </details>
         </div>
       </section>
     </main>

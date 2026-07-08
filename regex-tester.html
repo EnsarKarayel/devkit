@@ -52,6 +52,46 @@
         }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Which regex flavor does this tool use?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Matching runs on the JavaScript RegExp engine built into the browser. Behavior closely matches Node.js and browser JavaScript, but differs in some edge cases from PCRE used by PHP or Python's re module."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What do the g, i, and m flags do?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "The g flag finds all matches instead of stopping at the first one, i makes matching case-insensitive, and m changes ^ and $ to match the start and end of each line instead of only the whole string."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why does my pattern match too much or too little?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "This is usually a greedy versus lazy quantifier issue. A pattern like .* matches as much as possible, while .*? stops at the first valid match, which often gives more predictable results for extracting values between delimiters."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Can I see named capture groups?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Yes. Capture groups, including named groups defined with the (?&lt;name&gt;...) syntax, are listed separately from the full match for each result."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="regex">
     <header class="site-header">
@@ -152,6 +192,30 @@
             <h3>Local test data</h3>
             <p>Input stays in the browser in this static release, which keeps small debugging samples fast and convenient.</p>
           </article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="regex-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="regex-faq-title">Regex tester questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Which regex flavor does this tool use?</summary>
+            <p>Matching runs on the JavaScript RegExp engine built into the browser. Behavior closely matches Node.js and browser JavaScript, but differs in some edge cases from PCRE used by PHP or Python's re module.</p>
+          </details>
+          <details>
+            <summary>What do the g, i, and m flags do?</summary>
+            <p>The g flag finds all matches instead of stopping at the first one, i makes matching case-insensitive, and m changes ^ and $ to match the start and end of each line instead of only the whole string.</p>
+          </details>
+          <details>
+            <summary>Why does my pattern match too much or too little?</summary>
+            <p>This is usually a greedy versus lazy quantifier issue. A pattern like .* matches as much as possible, while .*? stops at the first valid match, which often gives more predictable results for extracting values between delimiters.</p>
+          </details>
+          <details>
+            <summary>Can I see named capture groups?</summary>
+            <p>Yes. Capture groups, including named groups defined with the (?&lt;name&gt;...) syntax, are listed separately from the full match for each result.</p>
+          </details>
         </div>
       </section>
     </main>

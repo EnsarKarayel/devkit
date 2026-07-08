@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Which SHA variant should I use?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "SHA-256 is the standard general-purpose choice for checksums and integrity checks. SHA-1 is considered weak for security purposes and should only be used for legacy compatibility, not for anything security-sensitive."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Can a hash be reversed back to the original text?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. Cryptographic hash functions are one-way. The only way to check if a piece of text matches a hash is to hash that text again and compare the two digests."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Is this suitable for hashing passwords?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. Plain SHA hashes are unsuitable for password storage because they are fast to compute, making brute-force attacks feasible. Password storage should use a slow, salted algorithm such as bcrypt or Argon2 instead."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="hash">
     <header class="site-header">
@@ -124,6 +156,26 @@
           <article><h3>SHA algorithms</h3><p>Formalint generates SHA-1, SHA-256, SHA-384 and SHA-512 digests through the browser Web Crypto API.</p></article>
           <article><h3>Checksums</h3><p>Hashes are useful for comparing text values, fixtures, examples and API payloads during development.</p></article>
           <article><h3>Not password storage</h3><p>Plain SHA hashes are not enough for password storage. Production systems need salted, slow password hashing algorithms.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="hash-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="hash-faq-title">Hash generator questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Which SHA variant should I use?</summary>
+            <p>SHA-256 is the standard general-purpose choice for checksums and integrity checks. SHA-1 is considered weak for security purposes and should only be used for legacy compatibility, not for anything security-sensitive.</p>
+          </details>
+          <details>
+            <summary>Can a hash be reversed back to the original text?</summary>
+            <p>No. Cryptographic hash functions are one-way. The only way to check if a piece of text matches a hash is to hash that text again and compare the two digests.</p>
+          </details>
+          <details>
+            <summary>Is this suitable for hashing passwords?</summary>
+            <p>No. Plain SHA hashes are unsuitable for password storage because they are fast to compute, making brute-force attacks feasible. Password storage should use a slow, salted algorithm such as bcrypt or Argon2 instead.</p>
+          </details>
         </div>
       </section>
     </main>

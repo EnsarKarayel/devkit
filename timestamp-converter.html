@@ -52,6 +52,38 @@
         }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "What is the difference between Unix seconds and milliseconds?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Unix time in seconds is a 10-digit number for current dates, while JavaScript and many APIs use milliseconds, a 13-digit number. Pasting a 13-digit value as seconds gives a date far in the future."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does the converter account for time zones?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Unix timestamps are always UTC-based. The tool displays both the UTC value and your browser's local time zone so you can compare the two directly."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What ISO 8601 formats are supported?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Standard ISO date strings including date-only, date-time with a Z suffix for UTC, and date-time with an explicit offset such as +03:00 are all parsed correctly."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="timestamp">
     <header class="site-header">
@@ -143,6 +175,26 @@
             <h3>ISO input</h3>
             <p>Paste an ISO date string to convert it back into Unix timestamp values for tests, fixtures and API requests.</p>
           </article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="timestamp-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="timestamp-faq-title">Timestamp converter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>What is the difference between Unix seconds and milliseconds?</summary>
+            <p>Unix time in seconds is a 10-digit number for current dates, while JavaScript and many APIs use milliseconds, a 13-digit number. Pasting a 13-digit value as seconds gives a date far in the future.</p>
+          </details>
+          <details>
+            <summary>Does the converter account for time zones?</summary>
+            <p>Unix timestamps are always UTC-based. The tool displays both the UTC value and your browser's local time zone so you can compare the two directly.</p>
+          </details>
+          <details>
+            <summary>What ISO 8601 formats are supported?</summary>
+            <p>Standard ISO date strings including date-only, date-time with a Z suffix for UTC, and date-time with an explicit offset such as +03:00 are all parsed correctly.</p>
+          </details>
         </div>
       </section>
     </main>

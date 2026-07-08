@@ -91,6 +91,22 @@
               "@type": "Answer",
               "text": "The current static release does not upload XML input to a server."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does my XML fail to parse?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common causes are a missing closing tag, mismatched tag names, an unescaped ampersand or angle bracket in text, or more than one root element."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it validate against an XSD schema?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The tool checks that XML is well-formed per specification, but does not validate against a custom XSD or DTD."
+            }
           }
         ]
       }
@@ -202,6 +218,35 @@
             <h3>Fast static delivery</h3>
             <p>The tool is built for GitHub Pages and other static hosts, which keeps hosting simple and avoids unnecessary backend exposure.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="content-band faq-band" aria-labelledby="xml-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="xml-faq-title">XML formatter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Can Formalint format XML in the browser?</summary>
+            <p>Yes. The static Formalint XML tool parses and formats XML locally in the browser.</p>
+          </details>
+          <details>
+            <summary>Can XML be converted to JSON?</summary>
+            <p>Formalint can convert a valid XML document into a readable JSON representation while preserving attributes and text content.</p>
+          </details>
+          <details>
+            <summary>Does Formalint upload XML input?</summary>
+            <p>The current static release does not upload XML input to a server.</p>
+          </details>
+          <details>
+            <summary>Why does my XML fail to parse?</summary>
+            <p>The most frequent issues are a missing closing tag, mismatched tag names, an unescaped ampersand or angle bracket inside text content, or more than one root element. XML requires exactly one root element per document.</p>
+          </details>
+          <details>
+            <summary>Does it validate against an XSD schema?</summary>
+            <p>This tool checks that the XML is well-formed per the XML specification. It does not validate against a custom XSD or DTD schema.</p>
+          </details>
         </div>
       </section>
     </main>

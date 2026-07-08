@@ -46,6 +46,46 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Does the formatter support every SQL dialect?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "The formatter handles standard SQL syntax common to PostgreSQL, MySQL, SQL Server, and Oracle. Dialect-specific syntax such as vendor-only functions is preserved as-is but not validated."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why format a query before running it?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Consistent indentation of joins, subqueries, and CTEs makes it far easier to spot a missing join condition or an accidental cross join before it runs against a production database."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What does compact mode do?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Compact mode collapses a formatted query onto fewer lines while keeping clause boundaries readable, which is useful when pasting a query into a chat message or a code comment."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What common query issues does the checker flag?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "It highlights patterns like SELECT * in production queries, missing WHERE clauses on UPDATE or DELETE statements, and unbalanced parentheses."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="sql">
     <header class="site-header">
@@ -131,6 +171,30 @@
           <article><h3>Clause focused</h3><p>The formatter splits common clauses such as SELECT, FROM, JOIN, WHERE, GROUP BY, HAVING, ORDER BY and LIMIT onto readable lines.</p></article>
           <article><h3>Local processing</h3><p>SQL text is handled by client-side JavaScript. Formalint does not execute, store or upload pasted queries.</p></article>
           <article><h3>Basic checks</h3><p>The checker flags unbalanced parentheses, unclosed quotes, missing SELECT/FROM structure and destructive statements.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="sql-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="sql-faq-title">SQL formatter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Does the formatter support every SQL dialect?</summary>
+            <p>The formatter handles standard SQL syntax common to PostgreSQL, MySQL, SQL Server, and Oracle. Dialect-specific syntax such as vendor-only functions is preserved as-is but not validated.</p>
+          </details>
+          <details>
+            <summary>Why format a query before running it?</summary>
+            <p>Consistent indentation of joins, subqueries, and CTEs makes it far easier to spot a missing join condition or an accidental cross join before it runs against a production database.</p>
+          </details>
+          <details>
+            <summary>What does compact mode do?</summary>
+            <p>Compact mode collapses a formatted query onto fewer lines while keeping clause boundaries readable, which is useful when pasting a query into a chat message or a code comment.</p>
+          </details>
+          <details>
+            <summary>What common query issues does the checker flag?</summary>
+            <p>It highlights patterns like SELECT * in production queries, missing WHERE clauses on UPDATE or DELETE statements, and unbalanced parentheses.</p>
+          </details>
         </div>
       </section>
     </main>

@@ -44,6 +44,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "What makes UUID v4 different from other versions?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Version 4 UUIDs are generated from random or pseudo-random numbers, unlike version 1 which encodes a timestamp and MAC address, or version 5 which is derived deterministically from a namespace and name."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Can two generated UUIDs ever collide?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "The probability is astronomically small given the 122 bits of randomness in a v4 UUID. In practice, UUID v4 is treated as unique for database primary keys and distributed system identifiers."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Are UUIDs generated locally?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Yes. Generation uses the browser's cryptographically secure random number source, so no request is sent to a server and no generated value is logged."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="uuid">
     <header class="site-header">
@@ -123,6 +155,26 @@
           <article><h3>UUID v4</h3><p>Version 4 UUIDs are random identifiers commonly used for fixtures, tests, distributed records and temporary IDs.</p></article>
           <article><h3>Local generation</h3><p>Values are generated in the browser and are not requested from a server.</p></article>
           <article><h3>Collision safety</h3><p>UUID v4 collisions are extremely unlikely, but production systems should still enforce uniqueness where it matters.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="uuid-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="uuid-faq-title">UUID generator questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>What makes UUID v4 different from other versions?</summary>
+            <p>Version 4 UUIDs are generated from random or pseudo-random numbers, unlike version 1 which encodes a timestamp and MAC address, or version 5 which is derived deterministically from a namespace and name.</p>
+          </details>
+          <details>
+            <summary>Can two generated UUIDs ever collide?</summary>
+            <p>The probability is astronomically small given the 122 bits of randomness in a v4 UUID. In practice, UUID v4 is treated as unique for database primary keys and distributed system identifiers.</p>
+          </details>
+          <details>
+            <summary>Are UUIDs generated locally?</summary>
+            <p>Yes. Generation uses the browser's cryptographically secure random number source, so no request is sent to a server and no generated value is logged.</p>
+          </details>
         </div>
       </section>
     </main>

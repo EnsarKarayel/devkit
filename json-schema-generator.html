@@ -46,6 +46,38 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "How is a schema generated from a sample payload?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "The generator inspects the type of each field in your sample JSON, whether it is a string, number, boolean, array, or nested object, and builds a matching JSON Schema draft that describes those types."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does the generated schema mark every field as required?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "By default all fields present in the sample are marked required, since a single sample cannot tell which fields are optional. Review and remove required entries for fields that may be absent in other payloads."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "What is JSON Schema used for?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "JSON Schema validates API request and response bodies, generates documentation, and enables tooling like auto-completion and type generation for API contracts before code is written against them."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="json-schema">
     <header class="site-header">
@@ -130,6 +162,26 @@
           <article><h3>Inference limits</h3><p>A sample payload can reveal observed fields and types, but it cannot know every valid business rule. Treat the result as a strong draft.</p></article>
           <article><h3>Array merging</h3><p>The generator compares array items and builds a shared item schema so mixed examples produce a broader but still readable schema.</p></article>
           <article><h3>Local processing</h3><p>Sample JSON and generated schema output are handled in the browser. Formalint does not upload pasted payloads to a backend.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="schema-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="schema-faq-title">JSON Schema generator questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>How is a schema generated from a sample payload?</summary>
+            <p>The generator inspects the type of each field in your sample JSON, whether it is a string, number, boolean, array, or nested object, and builds a matching JSON Schema draft that describes those types.</p>
+          </details>
+          <details>
+            <summary>Does the generated schema mark every field as required?</summary>
+            <p>By default all fields present in the sample are marked required, since a single sample cannot tell which fields are optional. Review and remove required entries for fields that may be absent in other payloads.</p>
+          </details>
+          <details>
+            <summary>What is JSON Schema used for?</summary>
+            <p>JSON Schema validates API request and response bodies, generates documentation, and enables tooling like auto-completion and type generation for API contracts before code is written against them.</p>
+          </details>
         </div>
       </section>
     </main>

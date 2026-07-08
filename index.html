@@ -92,6 +92,22 @@
               "@type": "Answer",
               "text": "Yes. Formalint can minify valid JSON and can also reformat minified JSON into readable indentation."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I convert JSON to a tree view for large payloads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, the tree view collapses nested objects and arrays for inspecting large API responses or config files."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the formatter support JSON5 or comments?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, the tool validates strict JSON per specification. Comments and trailing commas are treated as syntax errors."
+            }
           }
         ]
       }
@@ -262,6 +278,35 @@
             <h3>Search-friendly utility</h3>
             <p>This page is intentionally focused on one developer task, with fast loading, no external UI libraries and clear navigation to related tools.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="content-band faq-band" aria-labelledby="json-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="json-faq-title">JSON formatter questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Is the Formalint JSON formatter private?</summary>
+            <p>The static Formalint formatter processes JSON in the browser. The current version does not upload pasted JSON to a server.</p>
+          </details>
+          <details>
+            <summary>Can Formalint validate invalid JSON?</summary>
+            <p>Formalint parses JSON with the browser runtime and reports validation errors so developers can fix malformed input. The most common causes are trailing commas, single quotes instead of double quotes, and unescaped control characters.</p>
+          </details>
+          <details>
+            <summary>Does Formalint support minified JSON?</summary>
+            <p>Yes. Formalint can minify valid JSON and can also reformat minified JSON into readable indentation.</p>
+          </details>
+          <details>
+            <summary>Can I convert JSON to a tree view for large payloads?</summary>
+            <p>Yes. The tree view collapses nested objects and arrays so you can inspect a large API response or config file without scrolling through flat text.</p>
+          </details>
+          <details>
+            <summary>Does the formatter support JSON5 or comments?</summary>
+            <p>No, this tool validates strict JSON per the JSON specification. Comments and trailing commas are treated as syntax errors, matching how most APIs and parsers behave in production.</p>
+          </details>
         </div>
       </section>
     </main>

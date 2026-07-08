@@ -637,6 +637,52 @@ button.secondary:hover,
   margin: 0;
 }
 
+.faq-band .faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-band details {
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+
+.faq-band details:first-of-type {
+  border-top: none;
+}
+
+.faq-band summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.faq-band summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-band summary::after {
+  content: "+";
+  color: var(--accent);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.faq-band details[open] summary::after {
+  content: "\2212";
+}
+
+.faq-band details p {
+  color: var(--muted);
+  line-height: 1.72;
+  margin: 10px 0 0;
+}
+
 .document-page {
   width: min(820px, calc(100% - 32px));
   min-height: 60vh;

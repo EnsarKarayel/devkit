@@ -44,6 +44,46 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+                      "@type": "Question",
+                      "name": "Is Base64 the same as encryption?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "No. Base64 is a reversible text encoding, not encryption. Anyone can decode a Base64 string back to its original value with no key or password required. Do not use it to protect sensitive data."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Why does my decoded output look garbled?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "This usually happens when the input contains characters outside the standard Base64 alphabet, or when the string was encoded with a different charset than UTF-8. Check for missing padding characters at the end of the string as well."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Where is Base64 commonly used?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Base64 shows up in JWT tokens, HTTP Basic authentication headers, embedding small images directly in CSS or HTML with data URIs, and encoding binary attachments inside JSON or XML payloads."
+                      }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Does this tool handle large files?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "This tool is built for text and short strings processed entirely in your browser. Very large files may slow down the tab since no data is streamed to a server for processing."
+                      }
+          }
+        ]
+      }
+    </script>
   </head>
   <body data-tool="base64">
     <header class="site-header">
@@ -125,6 +165,30 @@
           <article><h3>UTF-8 aware</h3><p>The encoder handles regular Unicode text by converting strings through UTF-8 bytes before Base64 output.</p></article>
           <article><h3>API friendly</h3><p>Base64 appears in tokens, request payloads, basic auth headers and compact transport formats.</p></article>
           <article><h3>Not encryption</h3><p>Base64 is reversible encoding. Do not treat encoded values as secret or protected data.</p></article>
+        </div>
+      </section>
+      <section class="content-band faq-band" aria-labelledby="base64-faq-title">
+        <div>
+          <p class="eyebrow">Frequently asked</p>
+          <h2 id="base64-faq-title">Base64 encoding questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Is Base64 the same as encryption?</summary>
+            <p>No. Base64 is a reversible text encoding, not encryption. Anyone can decode a Base64 string back to its original value with no key or password required. Do not use it to protect sensitive data.</p>
+          </details>
+          <details>
+            <summary>Why does my decoded output look garbled?</summary>
+            <p>This usually happens when the input contains characters outside the standard Base64 alphabet, or when the string was encoded with a different charset than UTF-8. Check for missing padding characters at the end of the string as well.</p>
+          </details>
+          <details>
+            <summary>Where is Base64 commonly used?</summary>
+            <p>Base64 shows up in JWT tokens, HTTP Basic authentication headers, embedding small images directly in CSS or HTML with data URIs, and encoding binary attachments inside JSON or XML payloads.</p>
+          </details>
+          <details>
+            <summary>Does this tool handle large files?</summary>
+            <p>This tool is built for text and short strings processed entirely in your browser. Very large files may slow down the tab since no data is streamed to a server for processing.</p>
+          </details>
         </div>
       </section>
     </main>
