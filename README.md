@@ -5,6 +5,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 ## Tools
 
 - JSON format, minify, validate, copy, download, and tree view
+- JSON diff viewer for comparing two snippets side by side
 - JSON Schema generator and basic validation from sample payloads
 - API debugging checklist with local incident notes and Markdown report export
 - HTTP status code reference with API debugging notes and filters
