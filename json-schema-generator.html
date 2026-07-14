@@ -6,21 +6,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
-    <title>JSON Schema Generator and Validator | Formalint</title>
-    <meta name="description" content="Generate JSON Schema from a sample JSON payload, infer types, required fields and array item shapes, then run basic validation in your browser.">
+    <title>JSON Schema Generator for APIs and Python | Formalint</title>
+    <meta name="description" content="Generate JSON Schema from sample JSON for APIs, Python, FastAPI and Pydantic workflows, infer types and run basic validation in your browser.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/json-schema-generator.html">
     <meta name="theme-color" content="#0f8b8d">
     <meta property="og:title" content="Formalint JSON Schema Generator">
-    <meta property="og:description" content="Generate and validate JSON Schema locally in the browser.">
+    <meta property="og:description" content="Generate and validate JSON Schema for API and Python workflows locally in the browser.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://formalint.com/json-schema-generator.html">
     <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
     <meta property="og:site_name" content="Formalint">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Formalint JSON Schema Generator">
-    <meta name="twitter:description" content="Generate JSON Schema from sample payloads in your browser.">
+    <meta name="twitter:description" content="Generate JSON Schema from sample payloads for API and Python workflows in your browser.">
     <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -74,6 +74,14 @@
                                   "@type": "Answer",
                                   "text": "JSON Schema validates API request and response bodies, generates documentation, and enables tooling like auto-completion and type generation for API contracts before code is written against them."
                       }
+          },
+          {
+                      "@type": "Question",
+                      "name": "Can I use generated JSON Schema with Python APIs?",
+                      "acceptedAnswer": {
+                                  "@type": "Answer",
+                                  "text": "Yes. A generated schema can be a useful draft for Python API projects using FastAPI, Pydantic, Flask or Django REST, but required fields and business rules should be reviewed before production use."
+                      }
           }
         ]
       }
@@ -102,8 +110,8 @@
       <section class="tool-hero">
         <div>
           <p class="eyebrow">Schema design</p>
-          <h1>JSON Schema Generator</h1>
-          <p class="hero-copy">Generate a JSON Schema from a sample payload, infer object properties, required fields and array item shapes, then run basic validation locally.</p>
+          <h1>JSON Schema Generator for APIs</h1>
+          <p class="hero-copy">Generate a JSON Schema from a sample payload for API, Python, FastAPI or Pydantic workflows, infer object properties, required fields and array item shapes, then run basic validation locally.</p>
         </div>
         <div class="hero-actions" aria-label="Tool shortcuts">
           <a class="text-link" href="json-schema-guide.html">Read schema guide</a>
@@ -162,7 +170,7 @@
         <div class="content-grid">
           <article><h3>Inference limits</h3><p>A sample payload can reveal observed fields and types, but it cannot know every valid business rule. Treat the result as a strong draft.</p></article>
           <article><h3>Array merging</h3><p>The generator compares array items and builds a shared item schema so mixed examples produce a broader but still readable schema.</p></article>
-          <article><h3>Local processing</h3><p>Sample JSON and generated schema output are handled in the browser. Formalint does not upload pasted payloads to a backend.</p></article>
+          <article><h3>Python API workflows</h3><p>Use generated schemas as a starting point when documenting FastAPI, Pydantic, Flask or Django REST request and response payloads.</p></article>
         </div>
       </section>
       <section class="content-band faq-band" aria-labelledby="schema-faq-title">
@@ -182,6 +190,10 @@
           <details>
             <summary>What is JSON Schema used for?</summary>
             <p>JSON Schema validates API request and response bodies, generates documentation, and enables tooling like auto-completion and type generation for API contracts before code is written against them.</p>
+          </details>
+          <details>
+            <summary>Can I use generated JSON Schema with Python APIs?</summary>
+            <p>Yes. A generated schema can be a useful draft for Python API projects using FastAPI, Pydantic, Flask or Django REST, but required fields and business rules should be reviewed before production use.</p>
           </details>
         </div>
       </section>
