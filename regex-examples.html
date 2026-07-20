@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Regex Examples and Pattern Cheatsheet | Formalint</title>
+    <meta name="description" content="Practical regex examples for email, URL, UUID, slug, hex color, ISO date, log lines and JavaScript validation, with notes on when each pattern is safe to use.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-examples.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": "https://formalint.com/regex-examples.html#article",
+        "headline": "Regex Examples and Pattern Cheatsheet",
+        "description": "Practical regular expression examples for common developer validation and parsing tasks.",
+        "datePublished": "2026-07-20",
+        "dateModified": "2026-07-20",
+        "author": { "@type": "Person", "name": "Ensar Karayel" },
+        "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
+        "mainEntityOfPage": "https://formalint.com/regex-examples.html"
+      }
+    </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Are these regex examples safe for every production form?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. They are practical starting points for common validation and parsing tasks. Production rules should be tested against your own data and adjusted for business requirements."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which regex engine are these examples written for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The examples are written for JavaScript regular expressions, matching the Formalint regex matcher and modern browser or Node.js behavior."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should regex validate email addresses perfectly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most applications should use a practical email format check and then confirm deliverability through a verification email rather than trying to encode the entire email specification in one pattern."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home">
+        <img src="assets/img/favicon.svg" alt="" width="34" height="34">
+        <span>Formalint</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a>
+        <a href="json-diff.html">JSON Diff</a>
+        <a href="xml-formatter.html">XML</a>
+        <a href="yaml-formatter.html">YAML</a>
+        <a href="sql-formatter.html">SQL</a>
+        <a href="python-formatter.html">Python</a>
+        <a href="tools.html">All Tools</a>
+        <a class="active" href="guides.html">Guides</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <main class="document-page">
+      <h1>Regex Examples and Pattern Cheatsheet</h1>
+      <p class="guide-meta">Written by Ensar Karayel. Last updated July 20, 2026.</p>
+      <p>Regular expressions are most useful when the pattern is narrow, tested and attached to a clear goal. This page collects practical JavaScript regex examples for everyday developer work: validation, extraction, cleanup and log parsing. Each example includes a short note about where the pattern works well and where it should be reviewed before production use.</p>
+
+      <h2>How to Use These Examples</h2>
+      <p>Copy a pattern into the <a href="regex-tester.html">Formalint Regex Matcher and Validator</a>, paste representative test text, and verify both matching and non-matching cases. A useful regex test set should include normal values, empty values, malformed input, edge cases and values that look valid but should be rejected by your business rules.</p>
+
+      <h2>Email Format Check</h2>
+      <p>This is a practical form-level check, not a complete email specification parser. Use it to catch obvious mistakes, then confirm ownership with an email verification flow.</p>
+      <pre class="guide-example"><code>^[^\s@]+@[^\s@]+\.[^\s@]+$</code></pre>
+
+      <h2>URL With HTTP or HTTPS</h2>
+      <p>This pattern is useful for simple input validation where users must provide a web URL with an explicit protocol. For advanced URL handling, use the platform URL parser after the regex check.</p>
+      <pre class="guide-example"><code>^https?:\/\/[^\s/$.?#].[^\s]*$</code></pre>
+
+      <h2>UUID v4</h2>
+      <p>Use this when you need to validate UUID v4 strings in logs, test data or API parameters. The version and variant sections are constrained instead of accepting any UUID-looking value.</p>
+      <pre class="guide-example"><code>^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$</code></pre>
+
+      <h2>Slug</h2>
+      <p>A slug pattern is useful for route segments, article URLs and simple identifiers. This version allows lowercase letters, numbers and single hyphens between words.</p>
+      <pre class="guide-example"><code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code></pre>
+
+      <h2>Hex Color</h2>
+      <p>This pattern accepts common 3-digit and 6-digit CSS hex colors. It is a good fit for simple color inputs, design token checks and data cleanup scripts.</p>
+      <pre class="guide-example"><code>^#(?:[0-9a-fA-F]{3}){1,2}$</code></pre>
+
+      <h2>ISO Date</h2>
+      <p>This checks the shape of an ISO-style date. It does not verify calendar validity, so a second date parser should still reject impossible dates such as February 31.</p>
+      <pre class="guide-example"><code>^\d{4}-\d{2}-\d{2}$</code></pre>
+
+      <h2>Log Level Extractor</h2>
+      <p>Use this to extract common log levels from structured or semi-structured application logs. Capture groups make it easier to inspect the level and message separately.</p>
+      <pre class="guide-example"><code>^(INFO|WARN|ERROR|DEBUG)\s+(.+)$</code></pre>
+
+      <h2>Query Parameter Pair</h2>
+      <p>This pattern can help inspect query strings during debugging. It extracts one key-value pair at a time and keeps the separator out of the captured key and value.</p>
+      <pre class="guide-example"><code>(?:^|&amp;)([^=&amp;]+)=([^&amp;]*)</code></pre>
+
+      <h2>Common Regex Mistakes</h2>
+      <p>Do not use a regex where a parser is safer. JSON, XML, URLs, dates and HTML all have edge cases that a dedicated parser handles better. Regex is best for a small, well-defined text shape. Watch for greedy quantifiers, missing anchors, unescaped dots, broad character classes and patterns that become slow on long input.</p>
+
+      <h2>Test Checklist</h2>
+      <p>Before shipping a regex, test valid examples, invalid examples, empty input, long input, Unicode input when relevant and input with leading or trailing whitespace. If the pattern protects a security boundary, treat it as one layer of validation rather than the only control.</p>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Are these regex examples safe for every production form?</summary>
+          <p>No. They are practical starting points for common validation and parsing tasks. Production rules should be tested against your own data and adjusted for business requirements.</p>
+        </details>
+        <details>
+          <summary>Which regex engine are these examples written for?</summary>
+          <p>The examples are written for JavaScript regular expressions, matching the Formalint regex matcher and modern browser or Node.js behavior.</p>
+        </details>
+        <details>
+          <summary>Should regex validate email addresses perfectly?</summary>
+          <p>Most applications should use a practical email format check and then confirm deliverability through a verification email rather than trying to encode the entire email specification in one pattern.</p>
+        </details>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact">
+        <strong>&copy; 2026 Formalint</strong>
+        <span aria-hidden="true">-</span>
+        <span>Ensar Karayel</span>
+        <span aria-hidden="true">-</span>
+        <a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a>
+      </div>
+      <nav aria-label="Footer navigation">
+        <button class="footer-link" type="button" data-consent-open>Privacy Preferences</button>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </footer>
+  </body>
+</html>

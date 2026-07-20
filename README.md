@@ -15,6 +15,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - SQL formatter, compact mode, and common query checks
 - Python indentation and whitespace cleaner
 - Regex tester with flags, matches, indexes, and capture groups
+- Regex examples and pattern cheatsheet for common validation and parsing tasks
 - JWT decoder with readable claims and expiration timestamps
 - Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
 - Base64 encoder and decoder for UTF-8 text
@@ -25,7 +26,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - HEX, RGB, and HSL color converter
 - CSV to JSON converter
 - Tools directory, about page, and contact page for trust and navigation
-- Original developer guides and reference pages for API debugging, HTTP status codes, HTTP headers, JSON, JSON Schema, YAML, SQL, and safer use of online developer tools
+- Original developer guides and reference pages for API debugging, HTTP status codes, HTTP headers, Regex, JSON, JSON Schema, YAML, SQL, and safer use of online developer tools
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
