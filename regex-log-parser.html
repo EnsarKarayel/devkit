@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Regex Log Parser Pattern for JavaScript | Formalint</title>
+    <meta name="description" content="Build and test a regex log parser pattern for timestamps, log levels and messages, with JavaScript capture group examples.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-log-parser.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/regex-log-parser.html#article", "headline": "Regex Log Parser Pattern for JavaScript", "description": "A regex log parsing guide with capture groups for timestamps, levels and messages.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/regex-log-parser.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Regex Log Parser Pattern</h1>
+      <p class="guide-meta">Log parsing, capture groups and JavaScript regex debugging. Last updated July 28, 2026.</p>
+      <p>Regex is useful for quick log inspection when logs are semi-structured but not clean JSON. A good log parser pattern should capture the timestamp, level and message without pretending to understand every possible logging format.</p>
+      <p><a href="regex-tester.html">Open the Formalint Regex Matcher</a> to inspect capture groups with your own log lines.</p>
+      <h2>Basic Log Parser Regex</h2>
+      <pre class="guide-example"><code>^(\d{4}-\d{2}-\d{2}T[^\s]+)\s+(INFO|WARN|ERROR|DEBUG)\s+(.+)$</code></pre>
+      <p>The first group captures an ISO-style timestamp, the second captures the log level and the third captures the remaining message. This is a practical starting point for application logs that follow a consistent line format.</p>
+      <h2>Example Lines</h2>
+      <pre class="guide-example"><code>2026-07-28T10:15:00Z INFO request completed
+2026-07-28T10:15:02Z WARN retrying upstream call
+2026-07-28T10:15:05Z ERROR timeout after 5000ms
+bad line without level</code></pre>
+      <h2>Named Capture Group Version</h2>
+      <pre class="guide-example"><code>^(?&lt;time&gt;\d{4}-\d{2}-\d{2}T[^\s]+)\s+(?&lt;level&gt;INFO|WARN|ERROR|DEBUG)\s+(?&lt;message&gt;.+)$</code></pre>
+      <p>Named groups make parsed output easier to read in JavaScript. They are especially helpful when the pattern grows to include request IDs, durations, routes or service names.</p>
+      <h2>Regex vs Structured Logs</h2>
+      <p>If you control the system, structured JSON logs are easier to query and safer to parse. Use regex for legacy logs, incident notes, quick CLI inspection and one-off cleanup. Avoid building mission-critical monitoring around a fragile expression if the log format changes often.</p>
+      <h2>Implementation Checklist</h2>
+      <p>Start with a small sample that includes success, warning and error lines. Add a malformed line on purpose so you can confirm the parser rejects it. When the pattern works, test a larger log sample to make sure greedy groups do not swallow too much text.</p>
+      <p>If logs include request IDs, service names or durations, add them as separate capture groups instead of parsing them from the message later. Clear capture groups make debugging faster during an incident review.</p>
+      <h2>Common Log Regex Mistakes</h2>
+      <p>The biggest mistake is writing a pattern that only matches the one line you are currently looking at. Logs change across services, environments and deploys. Keep the required structure narrow and the message capture flexible unless you control every log producer.</p>
+      <h2>Frequently Asked Log Parser Questions</h2>
+      <p><strong>Should every log line match the same regex?</strong> Only if the logging format is standardized. Otherwise, separate patterns by service or log type are easier to maintain.</p>
+      <p><strong>Can regex replace a log platform?</strong> No. Regex helps with quick extraction and cleanup. Search, retention, alerting and correlation belong in a proper logging system.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="regex-matcher.html">Regex Matcher Guide</a> for parser behavior, <a href="timestamp-converter.html">Timestamp Converter</a> for time values and <a href="api-debugging-checklist.html">API Debugging Checklist</a> when logs are part of an incident review.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

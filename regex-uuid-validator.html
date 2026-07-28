@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>UUID v4 Regex Validator Pattern | Formalint</title>
+    <meta name="description" content="Validate UUID v4 strings with a JavaScript regex pattern, examples, variant checks and practical debugging notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-uuid-validator.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/regex-uuid-validator.html#article", "headline": "UUID v4 Regex Validator Pattern", "description": "A UUID v4 regex validation guide for JavaScript and API debugging.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/regex-uuid-validator.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>UUID v4 Regex Validator</h1>
+      <p class="guide-meta">UUID regex, version 4 validation and API parameter checks. Last updated July 28, 2026.</p>
+      <p>UUIDs show up in API paths, database rows, event logs and integration payloads. A loose UUID-looking pattern can pass values that are not version 4 UUIDs, so the version and variant characters should be checked when the system expects UUID v4.</p>
+      <p><a href="regex-tester.html">Open the Formalint Regex Matcher</a> to test this UUID pattern now.</p>
+      <h2>UUID v4 Regex</h2>
+      <pre class="guide-example"><code>^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$</code></pre>
+      <p>The third group starts with 4, which marks UUID version 4. The fourth group starts with 8, 9, a or b, which checks the common UUID variant bits. Add the case-insensitive flag if your values may contain uppercase hex characters.</p>
+      <h2>Test Values</h2>
+      <pre class="guide-example"><code>550e8400-e29b-41d4-a716-446655440000
+550e8400-e29b-11d4-a716-446655440000
+550e8400e29b41d4a716446655440000
+not-a-uuid
+550E8400-E29B-41D4-A716-446655440000</code></pre>
+      <h2>Where UUID Regex Helps</h2>
+      <p>Use a UUID regex when filtering logs, validating route parameters or checking sample payloads before they reach an API. It is also helpful in test data generators where invalid IDs hide real integration failures.</p>
+      <h2>Do Not Treat UUID as Authorization</h2>
+      <p>A valid UUID only proves the string has the expected shape. It does not prove the user can access the resource behind that ID. Authorization must still happen in the application or API layer.</p>
+      <h2>Implementation Checklist</h2>
+      <p>Decide whether uppercase hex characters should be accepted, normalize case only if your application already treats IDs case-insensitively and keep the hyphenated format consistent across logs and APIs. If the ID is part of a URL path, validate after URL decoding so encoded characters cannot hide a malformed value.</p>
+      <p>When debugging APIs, test a valid UUID that exists, a valid UUID that does not exist and an invalid UUID string. Those three cases often map to different responses such as 200, 404 and 400.</p>
+      <h2>Common UUID Regex Mistakes</h2>
+      <p>A generic UUID regex may accept version 1, version 3 or version 5 IDs when the endpoint expects version 4. If the version matters, keep the version and variant checks in the expression instead of only checking length and hyphens.</p>
+      <h2>Frequently Asked UUID Regex Questions</h2>
+      <p><strong>Should UUID validation be case-sensitive?</strong> UUID hex is commonly treated case-insensitively, but many teams normalize to lowercase for consistency in logs and database records.</p>
+      <p><strong>Can a regex tell whether a UUID exists?</strong> No. It can only validate the string shape. Existence requires a lookup in the application or database.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="uuid-generator.html">UUID Generator</a> to create sample IDs, <a href="json-schema-generator.html">JSON Schema Generator</a> for payload contracts and <a href="regex-examples.html">Regex Examples</a> for more validation patterns.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

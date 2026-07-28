@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>URL Regex Validator for HTTP and HTTPS Links | Formalint</title>
+    <meta name="description" content="Test a practical URL regex validator for JavaScript, with HTTP and HTTPS examples, failure cases and parser safety notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-url-validator.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/regex-url-validator.html#article", "headline": "URL Regex Validator for HTTP and HTTPS Links", "description": "A practical URL regex validation guide for JavaScript forms and debugging.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/regex-url-validator.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>URL Regex Validator</h1>
+      <p class="guide-meta">HTTP URL regex, JavaScript validation and parser safety notes. Last updated July 28, 2026.</p>
+      <p>URL validation is useful when a form requires a link and the application needs quick feedback before saving. Regex can check a simple shape, but a platform URL parser should still handle real URL interpretation.</p>
+      <p><a href="regex-tester.html">Open the Formalint Regex Matcher</a> to test this URL pattern with your data.</p>
+      <h2>HTTP and HTTPS URL Regex</h2>
+      <pre class="guide-example"><code>^https?:\/\/[^\s/$.?#].[^\s]*$</code></pre>
+      <p>This pattern requires http or https, then allows a non-space URL body. It is intentionally practical rather than exhaustive. It catches missing protocols and spaces, which are common input mistakes.</p>
+      <h2>Test Values</h2>
+      <pre class="guide-example"><code>https://formalint.com/
+http://example.com/path?x=1
+example.com
+ftp://example.com
+https://bad url.com
+https://example.com/docs#section</code></pre>
+      <p>Test links with paths, query strings, fragments, local-looking hosts and internationalized domains if those appear in your product. A regex that is too strict can reject URLs that browsers and APIs handle correctly.</p>
+      <h2>Use Regex Before a Parser</h2>
+      <p>A good workflow is regex first for friendly UI feedback, then the JavaScript URL constructor or a server-side parser for canonical parsing. The parser can normalize hosts, read query parameters and reject malformed edge cases more reliably than a hand-written expression.</p>
+      <h2>Security Notes</h2>
+      <p>Valid URL shape does not mean safe destination. For redirects, webhooks or callback URLs, review allowed protocols, private IP ranges, localhost access and domain allowlists. URL validation should not become an open redirect or server-side request forgery risk.</p>
+      <h2>Implementation Checklist</h2>
+      <p>Trim the value, require a protocol when your workflow needs one and reject spaces before passing the value to a parser. If the URL is stored for later crawling or webhook delivery, validate it again on the server and log why it was rejected.</p>
+      <p>When accepting user-provided URLs, decide whether localhost, private network ranges, file URLs and non-HTTP protocols are allowed. Many applications should reject them even if the string is technically parseable.</p>
+      <h2>Common URL Regex Mistakes</h2>
+      <p>Do not try to encode every valid URL rule into one expression. Internationalized domains, encoded paths and query strings quickly make the pattern hard to maintain. Use regex to catch obvious form mistakes, then use a real URL parser for interpretation.</p>
+      <h2>Frequently Asked URL Regex Questions</h2>
+      <p><strong>Should example.com without a protocol be accepted?</strong> That depends on your product. If the system will open the link directly, requiring http or https removes ambiguity.</p>
+      <p><strong>Can regex prevent phishing links?</strong> No. Regex checks format, not reputation or intent. Phishing defense needs domain review, user interface warnings and security controls outside the pattern.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="url-encoder-decoder.html">URL Encoder and Decoder</a> for percent-encoded strings, <a href="regex-examples.html">Regex Examples</a> for more patterns and <a href="api-debugging-checklist.html">API Debugging Checklist</a> for request troubleshooting.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

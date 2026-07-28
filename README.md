@@ -20,6 +20,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - Regex tester with flags, matches, indexes, and capture groups
 - Regex matcher, parser, and validator reference for search-focused regex workflows
 - Regex examples and pattern cheatsheet for common validation and parsing tasks
+- Focused Regex cluster pages for email validation, URL validation, UUID v4 checks, date strings, and log parsing
 - JWT decoder with readable claims and expiration timestamps
 - Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
 - Base64 encoder and decoder for UTF-8 text

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Date Regex Validator for YYYY-MM-DD | Formalint</title>
+    <meta name="description" content="Use a YYYY-MM-DD date regex validator with JavaScript examples, invalid cases and notes on when to use a real date parser.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-date-validator.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/regex-date-validator.html#article", "headline": "Date Regex Validator for YYYY-MM-DD", "description": "A practical date regex guide with JavaScript test cases and parser notes.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/regex-date-validator.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Date Regex Validator for YYYY-MM-DD</h1>
+      <p class="guide-meta">ISO-style date regex and calendar validation notes. Last updated July 28, 2026.</p>
+      <p>Date regex validation is useful when a form or import file requires a specific string format. It should usually check the shape of the date first, then a date parser should confirm that the calendar value is real.</p>
+      <p><a href="regex-tester.html">Open the Formalint Regex Matcher</a> to test date strings in the browser.</p>
+      <h2>Simple YYYY-MM-DD Regex</h2>
+      <pre class="guide-example"><code>^\d{4}-\d{2}-\d{2}$</code></pre>
+      <p>This pattern checks exactly four digits, a hyphen, two digits, another hyphen and two digits. It accepts the intended format but does not reject impossible dates like 2026-02-31.</p>
+      <h2>Stricter Shape Check</h2>
+      <pre class="guide-example"><code>^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$</code></pre>
+      <p>The stricter version limits months to 01 through 12 and days to 01 through 31. It still does not know which months have 30 days or whether February has 28 or 29 days in a specific year.</p>
+      <h2>Test Values</h2>
+      <pre class="guide-example"><code>2026-07-28
+2026-2-8
+2026-13-01
+2026-02-31
+28-07-2026
+2026/07/28</code></pre>
+      <h2>Use a Parser for Real Calendar Checks</h2>
+      <p>After a regex accepts the shape, parse the date in your application and compare the result to the original value. This catches impossible calendar dates and timezone surprises more reliably than a single expression.</p>
+      <h2>Implementation Checklist</h2>
+      <p>Choose one date format for user input, error messages and API payloads. If the expected format is YYYY-MM-DD, reject slashes and day-first formats early so the user knows exactly what to enter.</p>
+      <p>After the regex check, parse the date in a strict mode where possible. Then verify that the parsed year, month and day match the original text. This prevents automatic rollover behavior from turning an invalid value into a different date.</p>
+      <h2>Common Date Regex Mistakes</h2>
+      <p>The most common mistake is assuming that a shape check is a calendar check. Another mistake is mixing local time and UTC behavior when converting a date-only value into a timestamp. Keep display dates, storage dates and timestamps separate in your review.</p>
+      <h2>Frequently Asked Date Regex Questions</h2>
+      <p><strong>Can regex validate leap years?</strong> It is possible, but the expression becomes hard to read. A parser is usually clearer and easier to test.</p>
+      <p><strong>Should date input allow single-digit months?</strong> If your API expects YYYY-MM-DD, require zero-padded months and days so values sort correctly as strings.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="timestamp-converter.html">Timestamp Converter</a> for Unix and ISO values, <a href="regex-examples.html">Regex Examples</a> for more patterns and <a href="json-schema-generator.html">JSON Schema Generator</a> when dates appear in JSON payloads.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>
