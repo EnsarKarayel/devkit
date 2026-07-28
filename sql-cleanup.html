@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>SQL Cleanup Tool and Query Formatter | Formalint</title>
+    <meta name="description" content="Clean SQL queries online, format SELECT statements, split joins and clauses, compact SQL snippets and review common query mistakes in your browser.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/sql-cleanup.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/sql-cleanup.html#article", "headline": "SQL Cleanup Tool and Query Formatter", "description": "Practical SQL cleanup notes for readable query reviews and debugging.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/sql-cleanup.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>SQL Cleanup Tool</h1>
+      <p class="guide-meta">Clean SQL, SQL cleanup and query formatting guide. Last updated July 28, 2026.</p>
+      <p>SQL cleanup makes a query easier to review, debug and share. Formalint formats common SELECT queries, splits major clauses, normalizes noisy spacing and keeps query snippets readable without executing or uploading them.</p>
+      <p><a href="sql-formatter.html">Open the SQL Formatter and Query Cleaner</a> to clean a query now.</p>
+      <h2>Before Cleanup</h2>
+      <pre class="guide-example"><code>select id,name,total from orders where status='paid' order by created_at desc</code></pre>
+      <h2>After Cleanup</h2>
+      <pre class="guide-example"><code>SELECT id, name, total
+FROM orders
+WHERE status = 'paid'
+ORDER BY created_at DESC</code></pre>
+      <h2>What Clean SQL Helps You Spot</h2>
+      <p>Readable SQL makes it easier to find missing join conditions, broad SELECT * usage, filters placed in the wrong clause, destructive statements without WHERE conditions and nested logic that deserves a clearer CTE.</p>
+      <h2>SQL Cleanup Workflow</h2>
+      <p>Start by formatting the query so each major clause is visible. Then check whether every JOIN has a clear ON condition, every filter belongs in WHERE or HAVING intentionally and every ORDER BY or LIMIT is part of the actual requirement. Cleanup is most useful before code review, during incident debugging and when turning a one-line query from logs into something a teammate can read.</p>
+      <p>Formalint does not execute SQL, connect to a database or validate vendor-specific syntax. That is deliberate. A browser cleanup tool should help you inspect text safely, not run queries against production data. After cleanup, review the query in your database client or application test suite.</p>
+      <h2>SQL Review Checklist</h2>
+      <p>Look for missing WHERE clauses on UPDATE and DELETE statements, accidental cartesian joins, SELECT * in queries that return large rows, inconsistent aliases and nested subqueries that would be clearer as a CTE. If the query was copied from logs, confirm parameter values are safe before pasting it anywhere else.</p>
+      <h2>Frequently Asked SQL Cleanup Questions</h2>
+      <p><strong>Does formatting improve performance?</strong> Formatting alone does not change database performance. It makes logic easier to review, which can help you find the real performance issue.</p>
+      <p><strong>Can Formalint validate PostgreSQL, MySQL or SQL Server syntax?</strong> It keeps common SQL readable and flags simple risks, but dialect-specific validation still belongs in the target database or a dialect-aware linter.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="sql-formatter.html">SQL Formatter</a> for the live cleanup tool, <a href="sql-formatting-guide.html">SQL Formatting Guide</a> for style notes, and <a href="csv-to-json.html">CSV to JSON</a> when query results need to become sample data.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>YAML Indentation Checker and Formatter | Formalint</title>
+    <meta name="description" content="Fix YAML indentation online, check tabs, spacing and nesting mistakes, then format YAML config snippets locally in your browser.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/yaml-indentation.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/yaml-indentation.html#article", "headline": "YAML Indentation Checker and Formatter", "description": "Practical YAML indentation notes for config files, CI pipelines and deployment manifests.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/yaml-indentation.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>YAML Indentation Checker</h1>
+      <p class="guide-meta">YAML indentation, yaml indent and config spacing guide. Last updated July 28, 2026.</p>
+      <p>YAML uses indentation as structure, so a spacing mistake can change the meaning of a deployment file, CI workflow, Docker Compose document or Kubernetes manifest. Formalint helps clean indentation and flags common YAML structure issues before a config file reaches production.</p>
+      <p><a href="yaml-formatter.html">Open the YAML Formatter and Indentation Checker</a> to clean a YAML snippet now.</p>
+      <h2>Good YAML Indentation</h2>
+      <p>Use spaces instead of tabs, keep sibling keys aligned, and indent child keys consistently under their parent. Two spaces is common, but consistency matters more than the exact width.</p>
+      <pre class="guide-example"><code>service:
+  name: api
+  ports:
+    - 8080
+    - 8443</code></pre>
+      <h2>Why YAML Indentation Breaks Builds</h2>
+      <p>YAML files are common in GitHub Actions workflows, Kubernetes manifests, Docker Compose services and application configuration. In those places, indentation is not cosmetic. Moving a key two spaces left can move it to a different parent object, and moving a list item under the wrong key can change what a deployment or pipeline actually runs.</p>
+      <p>This is why YAML errors often feel unrelated to the line you just edited. The parser may complain about a later block because the parent block above it ended earlier than you expected. A quick indentation check helps you review structure before committing a config file.</p>
+      <h2>Common YAML Mistakes</h2>
+      <p>Watch for tabs mixed with spaces, list items aligned under the wrong key, duplicate keys in the same object and unquoted values such as yes, no, on or off when they should remain strings.</p>
+      <h2>YAML Review Checklist</h2>
+      <p>Before using a YAML file, scan sibling keys for the same indentation depth, confirm list items belong under the intended parent, remove tab characters and quote values that should stay as strings. Be especially careful with environment variables, version numbers, ports, feature flags and values copied from documentation.</p>
+      <h2>Frequently Asked YAML Questions</h2>
+      <p><strong>Should YAML use two spaces or four spaces?</strong> Both can work, but two spaces is common in config files. The important part is consistency inside the same file.</p>
+      <p><strong>Can a formatter know every YAML schema?</strong> No. A formatter can clean spacing and catch common structure problems, but Kubernetes, GitHub Actions and app-specific config files still have their own schema rules.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="yaml-formatter.html">YAML Formatter</a> for cleanup, <a href="json-schema-generator.html">JSON Schema Generator</a> when validating JSON payloads, and <a href="python-formatter.html">Python Formatter</a> for another indentation-sensitive language.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

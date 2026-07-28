@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Python Indentation Fixer and Formatter | Formalint</title>
+    <meta name="description" content="Fix Python indentation, normalize tabs and spaces, clean blank lines and review indentation mistakes before pasting code snippets into a project.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/python-indentation-fixer.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/python-indentation-fixer.html#article", "headline": "Python Indentation Fixer and Formatter", "description": "Practical Python indentation cleanup notes for snippets and debugging.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/python-indentation-fixer.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Python Indentation Fixer</h1>
+      <p class="guide-meta">Python indentation, tabs, spaces and snippet cleanup. Last updated July 28, 2026.</p>
+      <p>Python uses indentation as part of the language syntax. A copied snippet with mixed tabs, uneven nesting or noisy blank lines can fail before the code reaches the real logic. Formalint helps normalize Python snippets for quick review and sharing.</p>
+      <p><a href="python-formatter.html">Open the Python Formatter</a> to clean indentation and whitespace in the browser.</p>
+      <h2>Common Python Indentation Problems</h2>
+      <p>The most common issues are mixing tabs and spaces, nesting a block under the wrong statement, leaving stray indentation after deleting code and copying code from rich text where spaces are altered.</p>
+      <pre class="guide-example"><code>def total(items):
+    result = 0
+    for item in items:
+        result += item
+    return result</code></pre>
+      <h2>What a Python Indentation Fixer Can Safely Change</h2>
+      <p>A small browser fixer is best for snippet cleanup. It can expand tabs to spaces, trim trailing whitespace, normalize blank lines and make copied code easier to inspect. That helps when code comes from a ticket, chat message, PDF, blog post or log output where whitespace may have been damaged.</p>
+      <p>Indentation changes deserve review because Python uses whitespace to define blocks. A fixer should make suspicious indentation easier to see, but it cannot know what you intended the program to do. After cleanup, read each if, for, while, try, except, class and function block before using the snippet in a real project.</p>
+      <h2>Formatter Limits</h2>
+      <p>Formalint is useful for snippet cleanup, whitespace normalization and quick review. It does not execute Python code and does not replace a full formatter such as Black inside a production project.</p>
+      <h2>Python Review Checklist</h2>
+      <p>Check that tabs are gone, sibling statements line up, nested statements sit under the right parent and blank lines do not hide a stray block. If the snippet came from an unknown source, review the code for security and logic before running it.</p>
+      <h2>Frequently Asked Python Indentation Questions</h2>
+      <p><strong>Can this fix every IndentationError?</strong> No. It can normalize whitespace and reveal structure problems, but some indentation errors require a human decision about which block a line belongs to.</p>
+      <p><strong>Does it execute Python code?</strong> No. Formalint handles the text in the browser and does not run the code.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="python-formatter.html">Python Formatter</a> for code cleanup, <a href="yaml-indentation.html">YAML Indentation Checker</a> for config spacing, and <a href="json-schema-generator.html">JSON Schema Generator</a> for API payload contracts in Python projects.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

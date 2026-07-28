@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Regex Matcher Online, Parser and Validator | Formalint</title>
+    <meta name="description" content="Use Formalint as an online regex matcher, parser and validator for JavaScript regular expressions. Test matches, flags, capture groups and pattern errors.">
+    <meta name="author" content="Formalint">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-matcher.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": "https://formalint.com/regex-matcher.html#article",
+        "headline": "Regex Matcher Online, Parser and Validator",
+        "description": "A practical guide and entry page for testing JavaScript regular expressions with Formalint.",
+        "datePublished": "2026-07-28",
+        "dateModified": "2026-07-28",
+        "author": { "@type": "Person", "name": "Ensar Karayel" },
+        "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
+        "mainEntityOfPage": "https://formalint.com/regex-matcher.html"
+      }
+    </script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does a regex matcher do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A regex matcher applies a regular expression to sample text and shows the matches, match positions and capture groups so developers can verify the pattern before using it in code."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Formalint validate regular expression syntax?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Formalint uses the browser JavaScript RegExp engine and reports syntax errors for invalid JavaScript regular expressions."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a>
+      </nav>
+    </header>
+    <main class="document-page">
+      <h1>Regex Matcher Online</h1>
+      <p class="guide-meta">Regex matcher, parser and validator for JavaScript patterns. Last updated July 28, 2026.</p>
+      <p>Formalint helps you test a regular expression against sample text before you paste the pattern into JavaScript, Node.js, frontend validation, log parsing or data cleanup code. The main matcher shows full matches, indexes, capture groups and named capture groups.</p>
+      <p><a href="regex-tester.html">Open the Regex Matcher and Validator</a> to test a pattern now, or use the notes below to choose safer patterns and test cases.</p>
+      <h2>What to Test</h2>
+      <p>A useful regex test should include values that should match, values that should not match, empty input, whitespace, long input and edge cases that are common in your real data. Testing only one happy-path example is how regex bugs reach production forms and parsers.</p>
+      <h2>Example Pattern</h2>
+      <p>This pattern extracts a log level and the remaining message from a simple application log line.</p>
+      <pre class="guide-example"><code>^(INFO|WARN|ERROR|DEBUG)\s+(.+)$</code></pre>
+      <h2>Regex Parser Notes</h2>
+      <p>When people search for a regex parser, they usually want to understand what their pattern is capturing. In Formalint, each match displays capture groups separately, making it easier to confirm whether a parser extracts the intended fields rather than only matching the whole line.</p>
+      <h2>Validation Notes</h2>
+      <p>Formalint validates JavaScript regex syntax with the same browser engine that runs the test. Patterns written for PCRE, Python or .NET may need small changes before they behave the same way in JavaScript.</p>
+      <h2>Related Formalint Pages</h2>
+      <p>Use <a href="regex-examples.html">Regex Examples</a> for common patterns, <a href="regex-tester.html">Regex Tester</a> for live matching, and <a href="url-encoder-decoder.html">URL Encoder</a> when your pattern is part of a query string or route debugging workflow.</p>
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details><summary>What does a regex matcher do?</summary><p>A regex matcher applies a regular expression to sample text and shows the matches, match positions and capture groups so developers can verify the pattern before using it in code.</p></details>
+        <details><summary>Can Formalint validate regular expression syntax?</summary><p>Yes. Formalint uses the browser JavaScript RegExp engine and reports syntax errors for invalid JavaScript regular expressions.</p></details>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>
