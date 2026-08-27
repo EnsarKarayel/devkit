@@ -21,13 +21,61 @@
       { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/regex-email-validator.html#article", "headline": "Email Regex Validator Pattern for JavaScript", "description": "A practical email regex validator guide with test cases and limits.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/regex-email-validator.html" }
     </script>
   </head>
-  <body>
+  <body data-tool="regex" data-regex-sample-pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" data-regex-sample-text="name@example.com
+first.last@example.co
+bad-email
+name@
+@example.com
+name example@example.com">
     <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
     <main class="document-page">
       <h1>Email Regex Validator Pattern</h1>
       <p class="guide-meta">JavaScript email regex, form validation and test-case guide. Last updated July 28, 2026.</p>
       <p>Email validation is one of the most common regex tasks, but it is also one of the easiest to over-engineer. Most product forms do not need a complete RFC parser. They need a practical format check that catches obvious mistakes before the application sends a verification email.</p>
       <p><a href="regex-tester.html">Open the Formalint Regex Matcher</a> to test the pattern with your own examples.</p>
+      <section class="workspace compact-workspace" aria-label="Email regex validator workspace">
+        <div class="panel editor-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Pattern and Test Text</h2>
+              <p id="inputMeta" class="meta">Ready</p>
+            </div>
+            <button class="ghost-button" type="button" data-action="sample">Sample</button>
+          </div>
+          <div class="form-stack">
+            <label for="regexPattern">Email regular expression</label>
+            <input id="regexPattern" class="control-input mono-input" type="text" autocomplete="off" spellcheck="false">
+            <div class="option-grid" aria-label="Regex flags">
+              <label><input type="checkbox" value="g" checked> global</label>
+              <label><input type="checkbox" value="i"> ignore case</label>
+              <label><input type="checkbox" value="m"> multiline</label>
+              <label><input type="checkbox" value="s"> dot all</label>
+              <label><input type="checkbox" value="u"> unicode</label>
+            </div>
+            <label for="regexText">Email test cases</label>
+            <textarea id="regexText" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+          </div>
+          <div class="button-row" aria-label="Email regex actions">
+            <button type="button" data-action="test"><span aria-hidden="true">.*</span> Test</button>
+            <button class="secondary" type="button" data-action="clear">Clear</button>
+          </div>
+        </div>
+        <div class="panel result-panel">
+          <div class="panel-bar">
+            <div>
+              <h2>Matches</h2>
+              <p id="statusMessage" class="meta">Ready</p>
+            </div>
+          </div>
+          <div class="result-view active">
+            <div id="regexOutput" class="code-output match-output"></div>
+          </div>
+          <div id="metrics" class="metrics" aria-label="Email regex metrics"></div>
+          <div class="button-row output-actions" aria-label="Output actions">
+            <button type="button" data-action="copy"><span aria-hidden="true">[]</span> Copy</button>
+          </div>
+        </div>
+      </section>
       <h2>Practical Email Regex</h2>
       <pre class="guide-example"><code>^[^\s@]+@[^\s@]+\.[^\s@]+$</code></pre>
       <p>This pattern checks for text before an at sign, text after the at sign, a dot in the domain section and no whitespace. It is readable, fast and useful for client-side form feedback.</p>
@@ -54,6 +102,8 @@ name example@example.com</code></pre>
       <h2>Related Formalint Pages</h2>
       <p>Use <a href="regex-examples.html">Regex Examples</a> for more patterns, <a href="regex-matcher.html">Regex Matcher Guide</a> for parser notes and <a href="url-encoder-decoder.html">URL Encoder</a> when debugging query strings that include email addresses.</p>
     </main>
-    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/regex-tool.js"></script>
   </body>
 </html>

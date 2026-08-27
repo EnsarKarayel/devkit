@@ -153,6 +153,14 @@ h2 {
   align-items: stretch;
 }
 
+.compact-workspace {
+  margin: 26px 0 34px;
+}
+
+.compact-workspace .panel {
+  min-height: 520px;
+}
+
 .diff-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>API Debugging Handbook for Developers | Formalint</title>
+    <meta name="description" content="A practical API debugging handbook covering status codes, headers, auth, payload validation, logs, retries and incident notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/api-debugging-handbook.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/api-debugging-handbook.html#article", "headline": "API Debugging Handbook for Developers", "description": "A practical API debugging handbook covering status codes, headers, auth, payload validation, logs and retries.", "datePublished": "2026-08-27", "dateModified": "2026-08-27", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/api-debugging-handbook.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>API Debugging Handbook</h1>
+      <p class="guide-meta">Status codes, headers, payloads, logs and retry strategy. Last updated August 27, 2026.</p>
+      <p>API bugs are easier to solve when you slow down and separate the evidence. A failing request has identity, authentication, transport details, headers, payload shape, server behavior and logs. If those are mixed together too early, teams guess. If they are recorded clearly, the fix usually becomes smaller.</p>
+      <h2>Start With the Request Identity</h2>
+      <p>Record method, URL, environment, timestamp, request ID and user or tenant context. Many incidents become confusing because one person is testing staging while another reads production logs. The first job is to make sure everyone is discussing the same request.</p>
+      <h2>Read the Status Code Correctly</h2>
+      <p>A 400 usually points to request shape or validation. A 401 points to authentication. A 403 points to permission. A 404 may mean missing resource, hidden resource or wrong route. A 409 usually means conflict. A 429 means throttling. A 500-series response points to server or upstream behavior. Status codes are not the whole answer, but they narrow the first question.</p>
+      <h2>Inspect Headers</h2>
+      <p>Headers explain content type, caching, CORS, authentication method, correlation IDs and retry guidance. A correct JSON body with the wrong <code>Content-Type</code> can fail before business validation runs. A browser CORS error may hide a perfectly valid API response that JavaScript is not allowed to read.</p>
+      <h2>Authentication and Authorization</h2>
+      <p>Authentication answers who the caller is. Authorization answers what that caller may do. A valid token can still fail with a 403 if the account lacks permission, the tenant is wrong or the resource belongs to someone else. Decode tokens only to inspect claims such as issuer, audience and expiration; never treat decoded token content as proof that the signature is valid.</p>
+      <h2>Validate the Payload</h2>
+      <p>Format JSON, XML or YAML before comparing fields. Then check required keys, enum values, date formats, numeric precision and null handling. If the receiving API publishes a schema, validate against it. If there is no schema, build a minimal known-good request and add fields until the failure appears.</p>
+      <h2>Reduce the Request</h2>
+      <p>When a payload is large, create the smallest request that still fails. Remove optional fields, nested arrays and unrelated metadata until only the failure remains. A reduced request is easier to share safely, easier to compare with documentation and easier for another developer to reproduce.</p>
+      <h2>Compare Known-good and Failing Requests</h2>
+      <p>When one request works and another fails, compare them field by field. Look at headers, path parameters, query parameters and body values. Many failures come from one invisible difference: a missing content type, a stale token, a different tenant ID, a trailing slash or a date formatted in the wrong timezone.</p>
+      <h2>Watch Environment Drift</h2>
+      <p>Staging and production often differ in feature flags, seed data, certificates, DNS, rate limits, API keys and permissions. If a request works in one environment and fails in another, write down the environment-specific values before changing code. The bug may be configuration drift rather than application logic.</p>
+      <h2>Use Logs Without Drowning in Them</h2>
+      <p>Search logs by request ID first, then by user, route and timestamp. Avoid copying full secrets or customer data into debugging notes. Good incident notes capture what was tested, what changed and what remains unknown.</p>
+      <h2>Retries and Rate Limits</h2>
+      <p>Retry only operations that are safe or idempotent. A payment, order creation or inventory change should not be retried blindly. Use idempotency keys when the API supports them, honor <code>Retry-After</code> and treat repeated 429 or 503 responses as a system signal, not a loop to fight.</p>
+      <h2>Browser-specific Failures</h2>
+      <p>If an API works from a server script but fails in the browser, check CORS, cookies, credentials mode, preflight requests and mixed-content restrictions. The browser enforces rules that command-line clients do not. A network tab entry with a blocked response is different from a server that never responded.</p>
+      <h2>Incident Note Template</h2>
+      <pre class="guide-example"><code>Request:
+Method and URL:
+Environment:
+Status:
+Request ID:
+Payload summary:
+Headers checked:
+Logs checked:
+Likely cause:
+Next action:</code></pre>
+      <p>A small template keeps the team from losing evidence while the issue is active. It also gives you a useful summary later when writing a fix note or post-incident review.</p>
+      <h2>Debugging Order</h2>
+      <p>Work from the outside inward: network reachability, DNS or TLS, route, method, authentication, authorization, headers, payload parse, schema validation and business rules. Jumping straight to business logic before confirming the request shape wastes time.</p>
+      <h2>What to Share With a Teammate</h2>
+      <p>Share the sanitized request, the exact response, the request ID, a short timeline and the smallest reproduction steps. Avoid sending screenshots of huge payloads when formatted text would be searchable. Keep secrets out of the note, and replace customer identifiers with placeholders unless the receiving teammate truly needs them.</p>
+      <h2>When to Stop Debugging and Escalate</h2>
+      <p>Escalate when the API behavior contradicts documentation, when repeated 5xx responses suggest service instability, when authorization decisions are unclear or when a payment, order or compliance workflow is affected. Good escalation is not a failure; it is a clean handoff with evidence.</p>
+      <h2>Formalint API Debugging Tools</h2>
+      <p>Use the <a href="api-debugging-checklist.html">API Debugging Checklist</a> to keep notes, <a href="http-status-codes.html">HTTP Status Codes</a> for response references, <a href="http-headers-reference.html">HTTP Headers Reference</a> for header behavior, <a href="index.html">JSON Formatter</a> for payloads and <a href="jwt-decoder.html">JWT Decoder</a> when token claims matter.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

@@ -15,8 +15,8 @@
   var metrics = $("#metrics");
   var lastOutput = "";
 
-  var samplePattern = "user(?:name)?=([A-Za-z0-9_]+)";
-  var sampleText = "username=ensar\nuser=admin\nname=ignored\nusername=formalint_2026";
+  var samplePattern = document.body.dataset.regexSamplePattern || "user(?:name)?=([A-Za-z0-9_]+)";
+  var sampleText = document.body.dataset.regexSampleText || "username=ensar\nuser=admin\nname=ignored\nusername=formalint_2026";
 
   function getFlags() {
     return Array.prototype.slice.call(document.querySelectorAll(".option-grid input:checked"))

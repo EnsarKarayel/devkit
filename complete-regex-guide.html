@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Complete Regex Guide for Developers | Formalint</title>
+    <meta name="description" content="A practical regex guide for developers: anchors, groups, flags, greedy matches, validation patterns, parser limits and safer testing workflows.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/complete-regex-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/complete-regex-guide.html#article", "headline": "Complete Regex Guide for Developers", "description": "A practical regex guide for anchors, groups, flags, validation and safer testing workflows.", "datePublished": "2026-08-27", "dateModified": "2026-08-27", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/complete-regex-guide.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Complete Regex Guide for Developers</h1>
+      <p class="guide-meta">Regex fundamentals, JavaScript examples and production review notes. Last updated August 27, 2026.</p>
+      <p>Regular expressions are powerful because they turn a text rule into one compact pattern. They are dangerous for the same reason: a pattern can look correct while quietly matching too much, too little or the wrong input family. This guide treats regex as a developer tool for narrow, testable text problems rather than a magic parser for every format.</p>
+      <p>Use the <a href="regex-tester.html">Formalint Regex Matcher</a> while reading this guide. Testing a pattern against real examples is the fastest way to understand whether it fits the job.</p>
+      <h2>Start With the Shape of the Text</h2>
+      <p>Before writing a pattern, describe the input in plain language. Is the value a whole field, a line inside a log file, a token in a URL, or a fragment inside a larger payload? Whole-field validation usually needs anchors. Extraction from a longer string usually does not.</p>
+      <pre class="guide-example"><code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code></pre>
+      <p>This slug pattern uses anchors so the entire value must match. Without anchors, the pattern could match one valid-looking piece inside a larger invalid string.</p>
+      <h2>Anchors and Boundaries</h2>
+      <p>The caret anchors the start of input and the dollar sign anchors the end. With the multiline flag, they can also refer to line starts and line ends. Word boundaries are different: they mark a change between word and non-word characters. Use anchors for form values, boundaries for words inside text and explicit separators when parsing logs or delimited strings.</p>
+      <h2>Groups and Capture Groups</h2>
+      <p>Parentheses can group alternatives or capture a value. Non-capturing groups use <code>?:</code> and are useful when you need structure but do not need the captured text. Named capture groups make extraction clearer when a pattern has several fields.</p>
+      <pre class="guide-example"><code>^(?&lt;level&gt;INFO|WARN|ERROR)\s+(?&lt;message&gt;.+)$</code></pre>
+      <p>This parser is easier to read because the output fields are named. It also keeps the allowed log levels explicit instead of accepting any uppercase word.</p>
+      <h2>Character Classes</h2>
+      <p>Character classes describe one character position. <code>[0-9]</code> accepts one digit, <code>[a-z]</code> accepts one lowercase ASCII letter and <code>[^@]</code> accepts one character that is not an at sign. Classes are useful because they make a pattern narrower than a dot. A dot is easy to write, but it often accepts more than you intended.</p>
+      <p>Prefer an explicit class when the input has known separators. For example, a query parameter key should stop at <code>=</code> or <code>&amp;</code>, not at an arbitrary point chosen by a broad wildcard.</p>
+      <h2>Greedy vs Lazy Matching</h2>
+      <p>Quantifiers such as <code>*</code> and <code>+</code> are greedy by default. They match as much as possible while still allowing the full pattern to succeed. Lazy versions such as <code>*?</code> stop as early as possible. Greedy matching is fine for simple values, but extraction between delimiters often needs a narrower character class or a lazy quantifier.</p>
+      <h2>Lookarounds</h2>
+      <p>Lookaheads and lookbehinds check context without consuming characters. They can make validation rules expressive, but they also make patterns harder to read and less portable between regex engines. If a rule becomes a long chain of lookarounds, consider splitting the validation into multiple readable checks in code.</p>
+      <h2>Flags Matter</h2>
+      <p>The global flag finds more than one match. Ignore-case changes letter matching. Multiline changes anchors. Dot-all lets a dot match newlines. Unicode affects how certain character classes and escapes behave. A pattern copied from another language may behave differently in JavaScript, so always test it in the engine where it will run.</p>
+      <h2>Performance and Safety</h2>
+      <p>Some expressions can become slow on long input, especially when nested quantifiers compete with each other. A pattern that feels instant on a short test value may become expensive on a pasted log file or untrusted form input. Keep validation patterns anchored when possible, avoid unnecessary backtracking and place reasonable length limits around user input.</p>
+      <h2>Regex Is Not a Parser for Everything</h2>
+      <p>Use dedicated parsers for JSON, XML, URLs, HTML and dates when correctness matters. Regex can check a useful shape before a parser runs, but it should not replace the parser for complex grammars. A URL regex can require <code>https://</code>; a URL parser should interpret hosts, ports, paths and query parameters.</p>
+      <h2>Example Debugging Flow</h2>
+      <p>When a pattern fails, remove pieces until a smaller pattern matches, then add rules back one at a time. Check whether anchors, flags or escaping changed behavior. If the regex came from a string literal, remember that JavaScript strings may need double escaping before the RegExp engine receives the final pattern.</p>
+      <pre class="guide-example"><code>const pattern = "\\d{4}-\\d{2}-\\d{2}";
+const regex = new RegExp(pattern);</code></pre>
+      <p>The string contains escaped backslashes so the regular expression receives <code>\d</code>. Testing in the browser matcher helps separate regex syntax from programming-language string syntax.</p>
+      <h2>Production Checklist</h2>
+      <p>Test valid values, invalid values, empty input, long input, leading and trailing whitespace, Unicode input when relevant and inputs that look valid but should fail business rules. If the regex protects an API, repeat validation on the server. If it parses logs or imports, keep rejected examples so future changes do not break known edge cases.</p>
+      <h2>Common Mistakes</h2>
+      <p>The most common mistakes are missing anchors, unescaped dots, using <code>.*</code> where a smaller class would be safer, copying PCRE syntax into JavaScript, and treating one successful match as proof that the pattern is production-ready. Good regex work is mostly good test-case work.</p>
+      <h2>Focused Regex References</h2>
+      <p>Continue with <a href="regex-email-validator.html">Email Regex Validator</a>, <a href="regex-url-validator.html">URL Regex Validator</a>, <a href="regex-uuid-validator.html">UUID v4 Regex</a>, <a href="regex-date-validator.html">Date Regex Validator</a> and <a href="regex-log-parser.html">Regex Log Parser</a> for practical patterns and test cases.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

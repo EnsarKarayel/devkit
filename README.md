@@ -21,6 +21,8 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - Regex matcher, parser, and validator reference for search-focused regex workflows
 - Regex examples and pattern cheatsheet for common validation and parsing tasks
 - Focused Regex cluster pages for email validation, URL validation, UUID v4 checks, date strings, and log parsing
+- Cornerstone guides for Regex fundamentals, JSON vs XML vs YAML decisions, and API debugging workflows
+- Transparency pages for editorial policy, local-first processing, and product changelog
 - JWT decoder with readable claims and expiration timestamps
 - Timestamp converter for Unix seconds, Unix milliseconds, and ISO dates
 - Base64 encoder and decoder for UTF-8 text
@@ -31,7 +33,7 @@ Formalint is a fast, privacy-friendly developer toolbox. The current release shi
 - HEX, RGB, and HSL color converter
 - CSV to JSON converter
 - Tools directory, about page, and contact page for trust and navigation
-- Original developer guides and reference pages for API debugging, HTTP status codes, HTTP headers, Regex, XML linting, JSON, JSON Schema, YAML, SQL, Python indentation, and safer use of online developer tools
+- Original developer guides and reference pages for API debugging, HTTP status codes, HTTP headers, Regex, XML linting, JSON, JSON Schema, YAML, SQL, Python indentation, data format decisions, editorial standards, and safer use of online developer tools
 - Local-first processing. Input is handled in the browser.
 - GitHub Pages ready. No build step is required.
 
