@@ -1,14 +1,16 @@
 :root {
   color-scheme: light;
-  --bg: #f7f8f4;
+  --bg: #f6f7f8;
   --surface: #ffffff;
-  --surface-soft: #eef3ee;
-  --ink: #15171a;
-  --muted: #657074;
-  --line: #d8dfd8;
-  --accent: #0f8b8d;
-  --accent-strong: #0a6466;
-  --accent-soft: #d9f0ef;
+  --surface-soft: #edf2f3;
+  --ink: #14181c;
+  --muted: #65717a;
+  --line: #d7dde1;
+  --accent: #12727e;
+  --accent-strong: #0a535e;
+  --accent-soft: #dceff1;
+  --steel: #22313a;
+  --paper: #fbfbf8;
   --rose: #f45b69;
   --gold: #f5b841;
   --success: #25784a;
@@ -33,7 +35,8 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background:
-    linear-gradient(180deg, rgba(15, 139, 141, 0.08), transparent 330px),
+    radial-gradient(circle at 8% 0%, rgba(18, 114, 126, 0.12), transparent 290px),
+    linear-gradient(180deg, rgba(20, 24, 28, 0.05), transparent 420px),
     var(--bg);
 }
 
@@ -56,11 +59,17 @@ main {
 }
 
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 22px 0 14px;
+  border-bottom: 1px solid rgba(20, 24, 28, 0.08);
+  padding: 16px 0 14px;
+  background: rgba(246, 247, 248, 0.92);
+  backdrop-filter: blur(14px);
 }
 
 .brand {
@@ -107,7 +116,8 @@ main {
   align-items: end;
   justify-content: space-between;
   gap: 22px;
-  padding: 34px 0 20px;
+  border-bottom: 1px solid rgba(20, 24, 28, 0.08);
+  padding: 46px 0 30px;
 }
 
 .hero-copy {
@@ -134,8 +144,8 @@ p {
 }
 
 h1 {
-  font-size: clamp(2rem, 6vw, 4.6rem);
-  line-height: 0.95;
+  font-size: clamp(2.15rem, 6vw, 4.4rem);
+  line-height: 0.98;
   letter-spacing: 0;
   margin-bottom: 0;
 }
@@ -684,7 +694,7 @@ button.secondary:hover,
   align-content: center;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.82);
   padding: 16px;
 }
 
@@ -730,6 +740,127 @@ button.secondary:hover,
 }
 
 .content-grid p {
+  color: #3d474b;
+  line-height: 1.72;
+  margin: 0;
+}
+
+.institution-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--line);
+  margin: 22px 0 36px;
+}
+
+.institution-strip div {
+  min-width: 0;
+  background: var(--paper);
+  padding: 16px;
+}
+
+.institution-strip strong {
+  display: block;
+  color: var(--steel);
+  font-size: 0.94rem;
+  margin-bottom: 6px;
+}
+
+.institution-strip span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.proof-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 18px;
+}
+
+.proof-card strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 1.9rem;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.proof-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.library-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.resource-list {
+  display: grid;
+  gap: 10px;
+}
+
+.resource-list a {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 14px 16px;
+}
+
+.resource-list a:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.resource-list strong {
+  color: var(--ink);
+}
+
+.resource-list span {
+  color: #3d474b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.principle-list {
+  display: grid;
+  gap: 14px;
+  counter-reset: principle;
+}
+
+.principle-list article {
+  position: relative;
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 0 4px 18px;
+}
+
+.principle-list h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+}
+
+.principle-list p {
   color: #3d474b;
   line-height: 1.72;
   margin: 0;
@@ -808,6 +939,14 @@ button.secondary:hover,
 .document-page h2 {
   font-size: 1.25rem;
   margin: 28px 0 10px;
+}
+
+.document-page ul,
+.document-page ol {
+  color: #3d474b;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  padding-left: 24px;
 }
 
 .directory-hero {
@@ -1254,6 +1393,9 @@ button.secondary:hover,
   .status-results,
   .tool-strip,
   .directory-grid,
+  .institution-strip,
+  .proof-grid,
+  .library-layout,
   .section-heading,
   .content-band,
   .content-grid {

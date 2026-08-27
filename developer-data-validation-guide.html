@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Developer Data Validation Guide | Formalint</title>
+    <meta name="description" content="A practical data validation guide for developers working with JSON, XML, YAML, APIs, schemas, client-side checks, server validation and integration payloads.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/developer-data-validation-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/developer-data-validation-guide.html#article", "headline": "Developer Data Validation Guide", "description": "A practical guide to validating developer data across JSON, XML, YAML, APIs and integrations.", "datePublished": "2026-08-27", "dateModified": "2026-08-27", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/developer-data-validation-guide.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Developer Data Validation Guide</h1>
+      <p class="guide-meta">A practical validation workflow for API payloads, configuration files, imports and integration data. Last updated August 27, 2026.</p>
+      <p>Data validation is not one feature. It is a chain of small decisions that starts when a user or system creates data and ends when another service trusts that data. A formatter can make payloads readable, a linter can catch style or structure problems, a parser can decide whether a document is valid syntax and a schema can describe the contract a system expects. Production validation usually needs more than one of those layers.</p>
+      <p>Formalint focuses on browser-based tools and reference notes for the early part of that workflow: cleaning examples, inspecting payloads, checking common shapes and preparing safe samples for debugging. This guide explains where those tools fit and where application code, backend checks and integration tests still matter.</p>
+
+      <h2>Start With the Boundary</h2>
+      <p>Before writing validation rules, name the boundary you are protecting. A signup form, an internal admin screen, a webhook endpoint, a CSV import, a partner API and a configuration file all fail in different ways. Client-side validation improves feedback for the person entering data, but it cannot be the only authority. Server-side validation protects the application. Integration validation protects contracts between teams and vendors.</p>
+      <p>For API work, the most important question is not "is this valid JSON?" but "is this valid for this endpoint at this moment?" A payload can be syntactically valid and still fail because a required field is missing, a value has the wrong domain meaning, an enum changed, a timestamp is outside the allowed window or a nested object belongs to another version of the contract.</p>
+
+      <h2>Separate Syntax From Meaning</h2>
+      <p>Syntax validation answers whether the document can be parsed. JSON must use double-quoted property names and cannot contain trailing commas. XML must be well-formed, with one root element and correctly nested tags. YAML depends heavily on indentation, block style and scalar interpretation. These are format-level checks. They help you get to the next step, but they do not prove business correctness.</p>
+      <p>Meaning validation answers whether parsed data satisfies the rule your system actually cares about. A string may be valid JSON and still not be a valid email address for your product. A date string may match a regex and still represent an impossible calendar date. A status field may be present and still use a value your workflow no longer accepts. Keep these layers separate so errors are easier to explain.</p>
+
+      <h2>Use Schemas Where Contracts Matter</h2>
+      <p>Schemas are useful when multiple systems need a shared contract. JSON Schema can describe required fields, primitive types, arrays, nested objects, enums and simple string constraints. XML Schema can define element structure and attribute expectations. OpenAPI can document endpoint contracts and expected responses. A generated schema is a draft, not a replacement for review, but it can quickly expose inconsistent examples.</p>
+      <p>Use the <a href="json-schema-generator.html">JSON Schema Generator</a> to create a first pass from sample JSON, then review every required field, nullable value and array item. A generator cannot know whether an optional field happened to be missing from the sample or whether a string should be limited to a specific enum. That decision belongs to the team that owns the contract.</p>
+
+      <h2>Validate Close to the Source</h2>
+      <p>The earlier you reject bad data, the cheaper the fix usually is. A browser form can prevent a user from submitting a clearly malformed value. A backend endpoint can reject unauthorized or out-of-range input before it reaches storage. A background import job can quarantine rows with missing identifiers. A webhook receiver can log and return a clear error when a partner sends an unexpected shape.</p>
+      <p>That does not mean every layer repeats every rule. Put fast feedback in the client, authoritative rules on the server and contract tests around integrations. If a rule controls money, permissions, inventory, personal data or irreversible workflow state, the server should enforce it even when the client already checked it.</p>
+
+      <h2>Regex Is a Shape Check</h2>
+      <p>Regex is useful for simple string shape checks: UUIDs, slugs, phone-like strings, date-like strings and coarse email checks. It is less useful for complex grammars, nested documents or business rules. A regex can say a value looks like a date; a date parser should decide whether the date exists. A regex can require an HTTPS-looking URL; a URL parser should interpret the host, path, query and port.</p>
+      <p>If a regex becomes a wall of lookarounds, alternatives and nested quantifiers, split the rule into readable checks. Use the <a href="complete-regex-guide.html">Complete Regex Guide</a> and <a href="regex-tester.html">Regex Tester</a> to test valid, invalid, empty, long and edge-case values before copying a pattern into production.</p>
+
+      <h2>Check Error Messages Like Product Behavior</h2>
+      <p>Validation is part of the user experience. "Invalid payload" may be enough for a log line, but it is not enough for a person trying to fix a form or a partner trying to repair an integration. Good validation errors name the field, explain the rule and avoid leaking sensitive details. They should also be stable enough for support teams and integration partners to search internal notes.</p>
+      <p>For public APIs, prefer errors that include a machine-readable code, a human-readable message and a pointer to the field when possible. For imports, keep rejected rows with reasons so the data owner can repair the source file. For internal tools, show the rule near the field so the user does not need to guess.</p>
+
+      <h2>Protect Sensitive Samples</h2>
+      <p>Developers often use real payloads while debugging. Before pasting data into any web tool, remove secrets, access tokens, customer names, emails, phone numbers, addresses, payment details and internal identifiers. Formalint's current static tools process input in the browser, but safe sample discipline still matters. A copied payload can be shared in chat, screenshots, bug reports or browser history after the tool has done its job.</p>
+      <p>Use realistic fake values. Preserve structure, lengths and edge cases, but replace private data. If a bug depends on a secret value, reproduce it in a controlled environment rather than pasting production material into a generic tool.</p>
+
+      <h2>A Repeatable Validation Checklist</h2>
+      <ul>
+        <li>Confirm the input boundary: browser, API, import job, webhook, config file or internal tool.</li>
+        <li>Validate syntax first with the correct parser for JSON, XML, YAML or CSV.</li>
+        <li>Validate schema and required fields before checking deeper business rules.</li>
+        <li>Use regex only for narrow string shapes and test both passing and failing examples.</li>
+        <li>Keep server-side checks for any rule that affects security, billing, permissions or persisted state.</li>
+        <li>Log enough context to debug the failure without storing secrets or private data unnecessarily.</li>
+        <li>Document common failures so future developers do not rediscover the same rules during incidents.</li>
+      </ul>
+
+      <h2>Where Formalint Fits</h2>
+      <p>Use Formalint to clean JSON, compare payloads, lint XML, review YAML indentation, test regex patterns, inspect HTTP status codes and prepare readable snippets for tickets. Then move the final rule into your application code, API contract, test suite or import pipeline. The goal is not to replace engineering judgment; it is to make the messy input clear enough that judgment can work.</p>
+      <p>Related Formalint pages include <a href="formatter-linter-validator-guide.html">Formatter vs Linter vs Validator</a>, <a href="data-formats-guide.html">JSON vs XML vs YAML</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a>, <a href="safe-online-dev-tools.html">Safe Online Developer Tools</a> and the <a href="tools.html">developer tools directory</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>

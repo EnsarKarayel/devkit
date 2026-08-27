@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Formatter vs Linter vs Validator | Formalint</title>
+    <meta name="description" content="Understand the difference between formatters, linters, validators, parsers and schema checks for JSON, XML, YAML, SQL, Regex and developer tools.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/formatter-linter-validator-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/formatter-linter-validator-guide.html#article", "headline": "Formatter vs Linter vs Validator", "description": "A practical guide to choosing the right developer tool for formatting, linting, validating, parsing and schema checking.", "datePublished": "2026-08-27", "dateModified": "2026-08-27", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/formatter-linter-validator-guide.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Formatter vs Linter vs Validator</h1>
+      <p class="guide-meta">A practical vocabulary guide for developers choosing the right tool for messy data. Last updated August 27, 2026.</p>
+      <p>Developers often use words like formatter, linter, validator and parser as if they mean the same thing. They are related, but they solve different problems. Knowing the difference helps you debug faster and avoid trusting a tool for a job it was never designed to do.</p>
+      <p>A formatter improves readability. A linter points out style or rule violations. A validator checks whether input satisfies a rule. A parser reads input into a structure a program can understand. A schema describes a contract. A converter changes data from one representation to another. One product can include several of these features, but each feature has a different promise.</p>
+
+      <h2>What a Formatter Does</h2>
+      <p>A formatter changes presentation without intentionally changing meaning. A JSON formatter adds indentation and line breaks. A SQL formatter separates clauses and aligns nested expressions. A Python formatter may normalize blank lines and whitespace. Formatters are useful during reviews because they make structure visible, but a formatter alone does not prove that the data is correct for your application.</p>
+      <p>Formatting is the right first step when a payload is valid but unreadable. If a minified API response is one long line, formatting lets you inspect keys, arrays and nested objects. If a query is hard to review, formatting helps separate joins, filters and ordering rules. Use <a href="index.html">JSON Formatter</a>, <a href="sql-formatter.html">SQL Formatter</a>, <a href="yaml-formatter.html">YAML Formatter</a> and <a href="python-formatter.html">Python Formatter</a> for this kind of cleanup.</p>
+
+      <h2>What a Linter Does</h2>
+      <p>A linter checks rules that go beyond basic formatting. Some lints are stylistic, such as consistent indentation or casing. Others catch likely mistakes, such as tabs in YAML, duplicate-looking blocks, unreachable code or suspicious syntax patterns. In XML and YAML work, people sometimes say "linter" when they mean a combination of parser checks, structure checks and practical warnings.</p>
+      <p>Linting is useful before handoff. It turns silent concerns into visible notes: a config file may parse but still be hard to maintain, a query may run but still be dangerous to review, and a payload may look valid while hiding a duplicated key or ambiguous scalar. Use linting when you want a second pass before sharing a file or committing a change.</p>
+
+      <h2>What a Validator Does</h2>
+      <p>A validator answers a yes-or-no question against a rule. Is this strict JSON? Does this UUID look like a version 4 UUID? Does this date string match YYYY-MM-DD? Does this object satisfy required fields in a schema? Validation depends entirely on the rule. A broad validator may accept values your business rejects; a narrow validator may reject values that are technically valid but outside the pattern you chose.</p>
+      <p>That is why validation should name its scope. The <a href="regex-email-validator.html">Email Regex Validator</a> is a practical string-shape check, not proof that an address can receive mail. A JSON validator proves syntax, not endpoint compatibility. A schema validator checks a contract, not real-world availability, permissions or account state.</p>
+
+      <h2>What a Parser Does</h2>
+      <p>A parser converts text into a structured representation. JSON.parse turns JSON text into JavaScript values. An XML parser builds a document tree. A URL parser separates protocol, host, path and query string. Parsers are stricter and more specific than most regex patterns because they understand grammar, not just character sequences.</p>
+      <p>Use a parser when the format has nested rules or escaping behavior. Regex can find a URL-looking fragment; a URL parser should interpret it. Regex can search an XML tag in a log line; an XML parser should validate the document. Regex can check date shape; a date library should handle calendar logic when correctness matters.</p>
+
+      <h2>What a Schema Adds</h2>
+      <p>A schema describes the expected shape of structured data. It can say which fields are required, what type each field should have, how arrays are structured and which enum values are allowed. Schemas are especially useful between services because they turn an informal example into a contract. They also help reviewers discuss changes: did the payload actually change, or did one sample simply include more optional fields?</p>
+      <p>Generated schemas should be reviewed. A sample payload can only show what exists in that sample. It cannot prove that a missing field is optional, that a string should be an enum, or that a number has a maximum value. Treat schema generation as a fast draft, then apply domain knowledge.</p>
+
+      <h2>How to Choose the Right Tool</h2>
+      <p>If the text is valid but unreadable, start with a formatter. If the text may contain style or maintainability mistakes, use a linter. If you need to enforce a rule, use a validator. If the format has grammar, use a parser. If multiple systems share the same data contract, use a schema. If you need another representation, use a converter after the source data is understood.</p>
+      <p>The order matters. Converting invalid data often hides the original problem. Formatting without validation can make a bad payload look trustworthy. Running a regex against structured data can match a fragment while missing the document rule. Good debugging usually moves from syntax, to structure, to contract, to business meaning.</p>
+
+      <h2>Common Examples</h2>
+      <p>A broken JSON API response should first be parsed or validated as JSON. Once valid, format it and compare it with a known-good sample using <a href="json-diff.html">JSON Diff</a>. A YAML deployment config should be checked for indentation and ambiguous structure before being copied into CI. An XML partner feed should be well-formed before anyone debates field mapping. An email field should use a practical regex for fast feedback, but the backend should still enforce account and deliverability rules where needed.</p>
+
+      <h2>Formalint's Position</h2>
+      <p>Formalint is intentionally a toolkit, not a single magic button. Its pages are named around the job they actually perform: formatters format, validators validate narrow rules, references explain limits and guides connect the tools to real debugging decisions. That clarity is better for developers and better for search quality because each page has a distinct purpose.</p>
+      <p>Continue with the <a href="developer-data-validation-guide.html">Developer Data Validation Guide</a>, <a href="data-formats-guide.html">JSON vs XML vs YAML</a>, <a href="complete-regex-guide.html">Complete Regex Guide</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a> or the full <a href="tools.html">developer tools directory</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+  </body>
+</html>
