@@ -79,7 +79,7 @@ Start-Process .\index.html
 
 ## Frontend Direction
 
-The UI should stay quiet, fast, and developer-focused: a compact header, direct tool workspace in the first viewport, restrained color palette, code-first panels, and reference content below the tool for search engines and AdSense review quality.
+The UI should stay quiet, fast, and developer-focused: a dark console-style shell, compact header, direct tool workspace in the first viewport, code-first panels, clear navigation, and reference content below the tool for search engines and AdSense review quality.
 
 ## Roadmap
 
