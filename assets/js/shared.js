@@ -117,47 +117,106 @@
   var sidebarGroups = [
     {
       title: "Workspace",
+      mode: "data",
+      description: "Format, lint and clean the payload or code sample you are actively debugging.",
       links: [
-        { label: "JSON Formatter", href: "index.html", icon: "{ }" },
-        { label: "Regex Matcher", href: "regex-tester.html", icon: ".*" },
-        { label: "XML Formatter", href: "xml-formatter.html", icon: "</>" },
-        { label: "YAML Formatter", href: "yaml-formatter.html", icon: "Y" },
-        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL" },
-        { label: "Python Formatter", href: "python-formatter.html", icon: "PY" }
+        { label: "JSON Formatter", href: "index.html", icon: "{ }", description: "Format, minify, validate and inspect JSON tree output." },
+        { label: "XML Formatter", href: "xml-formatter.html", icon: "</>", description: "Beautify XML and catch malformed structure before integration tests." },
+        { label: "YAML Formatter", href: "yaml-formatter.html", icon: "Y", description: "Clean indentation for CI, Docker, Kubernetes and config files." },
+        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging." },
+        { label: "Python Formatter", href: "python-formatter.html", icon: "PY", description: "Normalize indentation and whitespace in Python snippets." },
+        { label: "Python Indent Fixer", href: "python-indentation-fixer.html", icon: "TAB", description: "Fix mixed tabs and spaces before Python raises indentation errors." }
       ]
     },
     {
-      title: "Inspect",
+      title: "Regex Lab",
+      mode: "regex",
+      description: "Test patterns, capture groups and validation expressions with focused examples.",
       links: [
-        { label: "JSON Diff", href: "json-diff.html", icon: "DIFF" },
-        { label: "JSON Schema", href: "json-schema-generator.html", icon: "SCH" },
-        { label: "HTTP Status", href: "http-status-codes.html", icon: "HTTP" },
-        { label: "HTTP Headers", href: "http-headers-reference.html", icon: "HDR" },
-        { label: "JWT Decoder", href: "jwt-decoder.html", icon: "JWT" },
-        { label: "Cron Parser", href: "cron-expression-parser.html", icon: "CRON" }
+        { label: "Regex Matcher", href: "regex-tester.html", icon: ".*", description: "Run JavaScript regex patterns against sample text." },
+        { label: "Regex Guide", href: "regex-matcher.html", icon: "RX", description: "Learn matcher behavior, flags and parser tradeoffs." },
+        { label: "Regex Examples", href: "regex-examples.html", icon: "EX", description: "Review practical validation and extraction patterns." },
+        { label: "Email Regex", href: "regex-email-validator.html", icon: "@", description: "Compare realistic email validation cases." },
+        { label: "URL Regex", href: "regex-url-validator.html", icon: "URL", description: "Check link-shaped strings before parser-level validation." },
+        { label: "UUID Regex", href: "regex-uuid-validator.html", icon: "ID", description: "Validate UUID v4 version and variant characters." },
+        { label: "Date Regex", href: "regex-date-validator.html", icon: "DATE", description: "Understand date pattern limits before calendar parsing." },
+        { label: "Log Parser", href: "regex-log-parser.html", icon: "LOG", description: "Extract timestamps, levels and messages from logs." }
       ]
     },
     {
-      title: "Convert",
+      title: "Inspect & Convert",
+      mode: "data",
+      description: "Compare, decode, encode and generate values without leaving the browser.",
       links: [
-        { label: "Base64", href: "base64-encoder-decoder.html", icon: "64" },
-        { label: "URL Encode", href: "url-encoder-decoder.html", icon: "URL" },
-        { label: "Hash Generator", href: "hash-generator.html", icon: "#" },
-        { label: "UUID Generator", href: "uuid-generator.html", icon: "ID" },
-        { label: "CSV to JSON", href: "csv-to-json.html", icon: "CSV" },
-        { label: "Color Converter", href: "color-converter.html", icon: "RGB" }
+        { label: "JSON Diff", href: "json-diff.html", icon: "DIFF", description: "Compare two JSON payloads field by field." },
+        { label: "JSON Schema", href: "json-schema-generator.html", icon: "SCH", description: "Infer a starting schema from sample JSON." },
+        { label: "CSV to JSON", href: "csv-to-json.html", icon: "CSV", description: "Convert tabular text into JSON arrays." },
+        { label: "Base64", href: "base64-encoder-decoder.html", icon: "64", description: "Encode and decode UTF-8 Base64 strings." },
+        { label: "URL Encode", href: "url-encoder-decoder.html", icon: "URL", description: "Escape query values and decode percent-encoded text." },
+        { label: "Hash Generator", href: "hash-generator.html", icon: "#", description: "Create SHA digests for browser-side text samples." },
+        { label: "UUID Generator", href: "uuid-generator.html", icon: "ID", description: "Generate UUID v4 identifiers quickly." },
+        { label: "Color Converter", href: "color-converter.html", icon: "RGB", description: "Convert HEX, RGB and HSL values." }
+      ]
+    },
+    {
+      title: "API Debugging",
+      mode: "api",
+      description: "Use when a request fails and you need status, headers, tokens, timing and incident notes.",
+      links: [
+        { label: "API Checklist", href: "api-debugging-checklist.html", icon: "FIX", description: "Track request identity, auth, payload, logs and fix notes." },
+        { label: "HTTP Status", href: "http-status-codes.html", icon: "HTTP", description: "Search status codes and debugging meaning." },
+        { label: "HTTP Headers", href: "http-headers-reference.html", icon: "HDR", description: "Review cache, CORS, auth and security headers." },
+        { label: "JWT Decoder", href: "jwt-decoder.html", icon: "JWT", description: "Decode token headers, claims and expiration values." },
+        { label: "Timestamp", href: "timestamp-converter.html", icon: "TIME", description: "Convert Unix and ISO timestamps while debugging logs." },
+        { label: "Cron Parser", href: "cron-expression-parser.html", icon: "CRON", description: "Explain schedules and preview upcoming runs." }
       ]
     },
     {
       title: "Reference",
+      mode: "learn",
+      description: "Read original guides that explain when each formatter, linter or validator is the right tool.",
       links: [
-        { label: "All Tools", href: "tools.html", icon: "ALL" },
-        { label: "Guides", href: "guides.html", icon: "DOC" },
-        { label: "Regex Guide", href: "complete-regex-guide.html", icon: "RX" },
-        { label: "API Handbook", href: "api-debugging-handbook.html", icon: "API" },
-        { label: "Safe Tools", href: "safe-online-dev-tools.html", icon: "SEC" },
-        { label: "About", href: "about.html", icon: "i" }
+        { label: "All Tools", href: "tools.html", icon: "ALL", description: "Browse the complete Formalint tool directory." },
+        { label: "Guides", href: "guides.html", icon: "DOC", description: "Start from the full reference library." },
+        { label: "Complete Regex Guide", href: "complete-regex-guide.html", icon: "RX", description: "Learn regex fundamentals and testing discipline." },
+        { label: "Data Formats Guide", href: "data-formats-guide.html", icon: "FMT", description: "Compare JSON, XML and YAML tradeoffs." },
+        { label: "API Handbook", href: "api-debugging-handbook.html", icon: "API", description: "Follow a repeatable API debugging process." },
+        { label: "Data Validation", href: "developer-data-validation-guide.html", icon: "VAL", description: "Separate syntax checks from business validation." },
+        { label: "Formatter vs Linter", href: "formatter-linter-validator-guide.html", icon: "LINT", description: "Understand formatter, linter and validator responsibilities." },
+        { label: "Safe Tools", href: "safe-online-dev-tools.html", icon: "SEC", description: "Know what not to paste into online utilities." },
+        { label: "How Formalint Works", href: "how-formalint-works.html", icon: "OPS", description: "Read privacy, local-first and maintenance notes." }
       ]
+    }
+  ];
+
+  var railModes = [
+    {
+      mode: "data",
+      icon: "{ }",
+      label: "Data tools",
+      description: "Format, convert and inspect structured data.",
+      tip: "Start here when a payload is hard to read, compare or validate."
+    },
+    {
+      mode: "regex",
+      icon: ".*",
+      label: "Regex lab",
+      description: "Test patterns and validation examples.",
+      tip: "Use this mode to check matches, groups, edge cases and realistic validation limits."
+    },
+    {
+      mode: "api",
+      icon: "API",
+      label: "API debugging",
+      description: "Debug status codes, headers, tokens and schedules.",
+      tip: "Use this mode when a request fails and you need repeatable incident notes."
+    },
+    {
+      mode: "learn",
+      icon: "?",
+      label: "Guides",
+      description: "Open original guides and safety references.",
+      tip: "Use this mode when you need the why behind a formatter, linter or validator."
     }
   ];
 
@@ -177,11 +236,70 @@
       '<span class="sidebar-icon" aria-hidden="true">' +
       escapeHtml(link.icon) +
       "</span>" +
-      "<span>" +
+      '<span class="sidebar-link-copy"><span>' +
       escapeHtml(link.label) +
-      "</span>" +
+      "</span><small>" +
+      escapeHtml(link.description || "") +
+      "</small></span>" +
       "</a>"
     );
+  }
+
+  function detectInitialMode(pageName) {
+    var matchedMode = "data";
+    sidebarGroups.forEach(function (group) {
+      group.links.forEach(function (link) {
+        if (link.href === pageName) {
+          matchedMode = group.mode;
+        }
+      });
+    });
+    return matchedMode;
+  }
+
+  function modeDetails(mode) {
+    return (
+      railModes.filter(function (item) {
+        return item.mode === mode;
+      })[0] || railModes[0]
+    );
+  }
+
+  function activateRailMode(mode, sidebar) {
+    var root = sidebar || document.querySelector(".app-sidebar");
+    if (!root) {
+      return;
+    }
+
+    root.setAttribute("data-active-mode", mode);
+    $$(".rail-mark", root).forEach(function (button) {
+      var isActive = button.getAttribute("data-rail-mode") === mode;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    $$(".sidebar-group", root).forEach(function (group) {
+      var isActiveGroup = group.getAttribute("data-sidebar-mode") === mode;
+      group.classList.toggle("mode-focused", isActiveGroup);
+    });
+
+    var details = modeDetails(mode);
+    var modeCard = $(".sidebar-mode-card", root);
+    if (modeCard) {
+      modeCard.innerHTML =
+        '<span class="mode-kicker">Active mode</span>' +
+        "<strong>" +
+        escapeHtml(details.label) +
+        "</strong>" +
+        "<p>" +
+        escapeHtml(details.tip) +
+        "</p>";
+    }
+
+    var activeGroup = $('.sidebar-group[data-sidebar-mode="' + mode + '"]', root);
+    if (activeGroup && root.querySelector(".sidebar-panel")) {
+      activeGroup.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
   }
 
   function initAppSidebar() {
@@ -191,25 +309,43 @@
     }
 
     var pageName = currentPageName();
+    var activeMode = detectInitialMode(pageName);
     var sidebar = document.createElement("aside");
     sidebar.className = "app-sidebar";
     sidebar.setAttribute("aria-label", "Formalint workspace navigation");
     sidebar.innerHTML =
-      '<div class="sidebar-rail" aria-hidden="true">' +
-      '<span class="rail-mark active">{ }</span>' +
-      '<span class="rail-mark">.*</span>' +
-      '<span class="rail-mark">API</span>' +
-      '<span class="rail-mark">?</span>' +
+      '<div class="sidebar-rail" aria-label="Workspace modes">' +
+      railModes
+        .map(function (item) {
+          return (
+            '<button class="rail-mark" type="button" data-rail-mode="' +
+            escapeHtml(item.mode) +
+            '" aria-pressed="false" title="' +
+            escapeHtml(item.label + " - " + item.description) +
+            '"><span aria-hidden="true">' +
+            escapeHtml(item.icon) +
+            '</span><span class="sr-only">' +
+            escapeHtml(item.label) +
+            "</span></button>"
+          );
+        })
+        .join("") +
       "</div>" +
       '<nav class="sidebar-panel">' +
-      '<div class="sidebar-brandline"><strong>Formalint</strong><span>Developer console</span></div>' +
+      '<div class="sidebar-brandline"><strong>Formalint</strong><span>Developer console</span><p>Choose a mode on the left, then open the exact tool or guide for the debugging task.</p></div>' +
+      '<div class="sidebar-mode-card" aria-live="polite"></div>' +
       sidebarGroups
         .map(function (group) {
           return (
-            '<section class="sidebar-group">' +
+            '<section class="sidebar-group" data-sidebar-mode="' +
+            escapeHtml(group.mode) +
+            '">' +
             "<h2>" +
             escapeHtml(group.title) +
             "</h2>" +
+            "<p>" +
+            escapeHtml(group.description) +
+            "</p>" +
             group.links
               .map(function (link) {
                 return buildSidebarLink(link, pageName);
@@ -225,6 +361,12 @@
     var header = document.querySelector(".site-header");
     document.body.insertBefore(sidebar, header ? header.nextSibling : document.body.firstChild);
     document.body.classList.add("with-app-sidebar");
+    $$(".rail-mark", sidebar).forEach(function (button) {
+      button.addEventListener("click", function () {
+        activateRailMode(button.getAttribute("data-rail-mode"), sidebar);
+      });
+    });
+    activateRailMode(activeMode, sidebar);
   }
 
   if (document.readyState === "loading") {
