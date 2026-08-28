@@ -195,28 +195,56 @@
       icon: "{ }",
       label: "Data tools",
       description: "Format, convert and inspect structured data.",
-      tip: "Start here when a payload is hard to read, compare or validate."
+      tip: "Start here when a payload is hard to read, compare or validate.",
+      href: "index.html",
+      workflow: [
+        "Paste only safe sample data, not secrets or customer records.",
+        "Format or lint the payload before changing business logic.",
+        "Compare schema, diff or conversion output when structure looks suspicious.",
+        "Copy the clean result back into your local editor and review it there."
+      ]
     },
     {
       mode: "regex",
       icon: ".*",
       label: "Regex lab",
       description: "Test patterns and validation examples.",
-      tip: "Use this mode to check matches, groups, edge cases and realistic validation limits."
+      tip: "Use this mode to check matches, groups, edge cases and realistic validation limits.",
+      href: "regex-tester.html",
+      workflow: [
+        "Write the smallest pattern that proves the exact match you need.",
+        "Test valid, invalid, empty and long examples before using it in production.",
+        "Check capture groups separately from the full match.",
+        "Move strict business validation into code when regex becomes too clever."
+      ]
     },
     {
       mode: "api",
       icon: "API",
       label: "API debugging",
       description: "Debug status codes, headers, tokens and schedules.",
-      tip: "Use this mode when a request fails and you need repeatable incident notes."
+      tip: "Use this mode when a request fails and you need repeatable incident notes.",
+      href: "api-debugging-checklist.html",
+      workflow: [
+        "Record method, URL, status code, correlation id and environment first.",
+        "Check authentication, headers, payload shape and retry behavior separately.",
+        "Decode timestamps or JWT claims only from safe non-sensitive samples.",
+        "Write the final cause and fix note so the issue is searchable later."
+      ]
     },
     {
       mode: "learn",
       icon: "?",
       label: "Guides",
       description: "Open original guides and safety references.",
-      tip: "Use this mode when you need the why behind a formatter, linter or validator."
+      tip: "Use this mode when you need the why behind a formatter, linter or validator.",
+      href: "guides.html",
+      workflow: [
+        "Choose the guide that matches the decision you are making.",
+        "Confirm whether you need formatting, linting, parsing or validation.",
+        "Use the safety guidance before pasting data into any web tool.",
+        "Return to the matching Formalint tool once the workflow is clear."
+      ]
     }
   ];
 
@@ -293,12 +321,76 @@
         "</strong>" +
         "<p>" +
         escapeHtml(details.tip) +
-        "</p>";
+        "</p>" +
+        '<div class="sidebar-mode-actions">' +
+        '<a href="' +
+        escapeHtml(details.href) +
+        '">Open starter</a>' +
+        '<button type="button" data-copy-workflow="' +
+        escapeHtml(details.mode) +
+        '">Copy workflow</button>' +
+        "</div>";
     }
 
     var activeGroup = $('.sidebar-group[data-sidebar-mode="' + mode + '"]', root);
     if (activeGroup && root.querySelector(".sidebar-panel")) {
       activeGroup.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  }
+
+  function workflowText(mode) {
+    var details = modeDetails(mode);
+    return (
+      details.label +
+      " workflow\n" +
+      details.workflow
+        .map(function (step, index) {
+          return index + 1 + ". " + step;
+        })
+        .join("\n")
+    );
+  }
+
+  function filterSidebarLinks(sidebar, query) {
+    var normalized = String(query || "").trim().toLowerCase();
+    var visibleCount = 0;
+
+    $$(".sidebar-link", sidebar).forEach(function (link) {
+      var haystack = link.textContent.toLowerCase();
+      var isVisible = !normalized || haystack.indexOf(normalized) !== -1;
+      link.hidden = !isVisible;
+      if (isVisible) {
+        visibleCount += 1;
+      }
+    });
+
+    $$(".sidebar-group", sidebar).forEach(function (group) {
+      var hasVisibleLink = $$(".sidebar-link", group).some(function (link) {
+        return !link.hidden;
+      });
+      group.hidden = Boolean(normalized && !hasVisibleLink);
+    });
+
+    var empty = $(".sidebar-search-empty", sidebar);
+    if (empty) {
+      empty.hidden = !normalized || visibleCount > 0;
+    }
+
+    var count = $(".sidebar-search-count", sidebar);
+    if (count) {
+      count.textContent = normalized ? visibleCount + " matches" : "Search 37 tools and guides";
+    }
+
+    var modeCard = $(".sidebar-mode-card", sidebar);
+    if (modeCard && normalized) {
+      modeCard.innerHTML =
+        '<span class="mode-kicker">Search results</span>' +
+        "<strong>" +
+        visibleCount +
+        " matching resources</strong>" +
+        "<p>Search checks tool names and short explanations, so you can jump from a debugging symptom to the right Formalint page faster.</p>";
+    } else if (modeCard) {
+      activateRailMode(sidebar.getAttribute("data-active-mode") || "data", sidebar);
     }
   }
 
@@ -333,6 +425,7 @@
       "</div>" +
       '<nav class="sidebar-panel">' +
       '<div class="sidebar-brandline"><strong>Formalint</strong><span>Developer console</span><p>Choose a mode on the left, then open the exact tool or guide for the debugging task.</p></div>' +
+      '<div class="sidebar-search"><label for="formalintSidebarSearch">Find a tool</label><input id="formalintSidebarSearch" type="search" autocomplete="off" placeholder="Search JSON, regex, JWT..."><span class="sidebar-search-count">Search 37 tools and guides</span></div>' +
       '<div class="sidebar-mode-card" aria-live="polite"></div>' +
       sidebarGroups
         .map(function (group) {
@@ -355,6 +448,7 @@
           );
         })
         .join("") +
+      '<p class="sidebar-search-empty" hidden>No matching Formalint tool yet. Try JSON, regex, API, JWT, YAML or SQL.</p>' +
       '<div class="sidebar-footer"><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></div>' +
       "</nav>";
 
@@ -363,8 +457,44 @@
     document.body.classList.add("with-app-sidebar");
     $$(".rail-mark", sidebar).forEach(function (button) {
       button.addEventListener("click", function () {
+        var search = $("#formalintSidebarSearch", sidebar);
+        if (search) {
+          search.value = "";
+          filterSidebarLinks(sidebar, "");
+        }
         activateRailMode(button.getAttribute("data-rail-mode"), sidebar);
       });
+    });
+    var searchInput = $("#formalintSidebarSearch", sidebar);
+    if (searchInput) {
+      searchInput.addEventListener(
+        "input",
+        debounce(function () {
+          filterSidebarLinks(sidebar, searchInput.value);
+        }, 80)
+      );
+    }
+    sidebar.addEventListener("click", function (event) {
+      var target = event.target && event.target.closest ? event.target.closest("[data-copy-workflow]") : null;
+      if (!target) {
+        return;
+      }
+      var mode = target.getAttribute("data-copy-workflow");
+      copyText(workflowText(mode)).then(function () {
+        var oldText = target.textContent;
+        target.textContent = "Copied";
+        window.setTimeout(function () {
+          target.textContent = oldText;
+        }, 1300);
+      });
+    });
+    document.addEventListener("keydown", function (event) {
+      var tagName = event.target && event.target.tagName;
+      var isTyping = tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT";
+      if (event.key === "/" && !isTyping && searchInput) {
+        event.preventDefault();
+        searchInput.focus();
+      }
     });
     activateRailMode(activeMode, sidebar);
   }

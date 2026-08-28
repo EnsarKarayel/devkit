@@ -1799,9 +1799,60 @@ body.with-app-sidebar .site-footer {
   margin: 6px 0 0;
 }
 
-.sidebar-mode-card {
+.sidebar-search {
   position: sticky;
   top: 0;
+  z-index: 3;
+  display: grid;
+  gap: 6px;
+  background: #191b1f;
+  padding-bottom: 10px;
+  margin: 0 0 10px;
+}
+
+.sidebar-search label {
+  color: #8ccbff;
+  font-size: 0.66rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.sidebar-search input {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid #2f3945;
+  border-radius: 6px;
+  background: #11161d;
+  color: #eef4f8;
+  outline: 0;
+  padding: 9px 10px;
+}
+
+.sidebar-search input:focus {
+  border-color: rgba(70, 163, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(70, 163, 255, 0.14);
+}
+
+.sidebar-search-count,
+.sidebar-search-empty {
+  color: #9ba8b3;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.sidebar-search-empty {
+  border: 1px dashed rgba(140, 203, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(70, 163, 255, 0.08);
+  padding: 10px;
+}
+
+.sidebar-mode-card {
+  position: sticky;
+  top: 82px;
   z-index: 2;
   display: grid;
   gap: 4px;
@@ -1836,6 +1887,38 @@ body.with-app-sidebar .site-footer {
   margin: 0;
 }
 
+.sidebar-mode-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.sidebar-mode-actions a,
+.sidebar-mode-actions button {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(70, 163, 255, 0.24);
+  border-radius: 5px;
+  background: rgba(70, 163, 255, 0.1);
+  color: #dcecf8;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 7px 8px;
+}
+
+.sidebar-mode-actions a:hover,
+.sidebar-mode-actions button:hover {
+  border-color: rgba(70, 163, 255, 0.54);
+  background: rgba(70, 163, 255, 0.18);
+  color: #ffffff;
+  transform: none;
+}
+
 .sidebar-group {
   display: grid;
   gap: 3px;
@@ -1844,6 +1927,10 @@ body.with-app-sidebar .site-footer {
   margin-bottom: 12px;
   opacity: 0.72;
   transition: opacity 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.app-sidebar [hidden] {
+  display: none !important;
 }
 
 .sidebar-group.mode-focused {
@@ -2018,6 +2105,7 @@ body.with-app-sidebar .consent-banner {
 
   .sidebar-rail,
   .sidebar-brandline,
+  .sidebar-search,
   .sidebar-mode-card {
     display: none;
   }
@@ -2106,6 +2194,8 @@ body.with-app-sidebar .consent-banner {
   .sidebar-group h2,
   .sidebar-group > p,
   .sidebar-link-copy small,
+  .sidebar-search,
+  .sidebar-search-empty,
   .sidebar-footer {
     display: none;
   }
