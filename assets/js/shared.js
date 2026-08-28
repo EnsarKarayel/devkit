@@ -120,12 +120,15 @@
       mode: "data",
       description: "Format, lint and clean the payload or code sample you are actively debugging.",
       links: [
-        { label: "JSON Formatter", href: "index.html", icon: "{ }", description: "Format, minify, validate and inspect JSON tree output." },
-        { label: "XML Formatter", href: "xml-formatter.html", icon: "</>", description: "Beautify XML and catch malformed structure before integration tests." },
-        { label: "YAML Formatter", href: "yaml-formatter.html", icon: "Y", description: "Clean indentation for CI, Docker, Kubernetes and config files." },
-        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging." },
-        { label: "Python Formatter", href: "python-formatter.html", icon: "PY", description: "Normalize indentation and whitespace in Python snippets." },
-        { label: "Python Indent Fixer", href: "python-indentation-fixer.html", icon: "TAB", description: "Fix mixed tabs and spaces before Python raises indentation errors." }
+        { label: "JSON Formatter", href: "index.html", icon: "{ }", description: "Format, minify, validate and inspect JSON tree output.", keywords: "json formatter json validator json beautifier json lint" },
+        { label: "XML Formatter", href: "xml-formatter.html", icon: "</>", description: "Beautify XML and catch malformed structure before integration tests.", keywords: "xml formatter xml beautifier xml validator" },
+        { label: "XML Linter", href: "xml-linter.html", icon: "XML", description: "Lint XML structure, parser errors and common document mistakes.", keywords: "xml lint xml linter xmllint xml validator" },
+        { label: "YAML Formatter", href: "yaml-formatter.html", icon: "Y", description: "Clean indentation for CI, Docker, Kubernetes and config files.", keywords: "yaml formatter yaml lint yaml linter yaml indent" },
+        { label: "YAML Indentation", href: "yaml-indentation.html", icon: "YML", description: "Review YAML spacing rules and indentation pitfalls.", keywords: "yaml indentation yaml indent yaml lint yaml linter" },
+        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" },
+        { label: "SQL Cleanup", href: "sql-cleanup.html", icon: "SQL", description: "Clean noisy SQL before sharing, comparing or reviewing it.", keywords: "sql cleanup clean sql sql clean query cleanup" },
+        { label: "Python Formatter", href: "python-formatter.html", icon: "PY", description: "Normalize indentation and whitespace in Python snippets.", keywords: "python formatter python format python beautifier" },
+        { label: "Python Indent Fixer", href: "python-indentation-fixer.html", icon: "TAB", description: "Fix mixed tabs and spaces before Python raises indentation errors.", keywords: "python indentation fixer python indent fixer python indentation" }
       ]
     },
     {
@@ -133,14 +136,14 @@
       mode: "regex",
       description: "Test patterns, capture groups and validation expressions with focused examples.",
       links: [
-        { label: "Regex Matcher", href: "regex-tester.html", icon: ".*", description: "Run JavaScript regex patterns against sample text." },
-        { label: "Regex Guide", href: "regex-matcher.html", icon: "RX", description: "Learn matcher behavior, flags and parser tradeoffs." },
-        { label: "Regex Examples", href: "regex-examples.html", icon: "EX", description: "Review practical validation and extraction patterns." },
-        { label: "Email Regex", href: "regex-email-validator.html", icon: "@", description: "Compare realistic email validation cases." },
-        { label: "URL Regex", href: "regex-url-validator.html", icon: "URL", description: "Check link-shaped strings before parser-level validation." },
-        { label: "UUID Regex", href: "regex-uuid-validator.html", icon: "ID", description: "Validate UUID v4 version and variant characters." },
-        { label: "Date Regex", href: "regex-date-validator.html", icon: "DATE", description: "Understand date pattern limits before calendar parsing." },
-        { label: "Log Parser", href: "regex-log-parser.html", icon: "LOG", description: "Extract timestamps, levels and messages from logs." }
+        { label: "Regex Matcher", href: "regex-tester.html", icon: ".*", description: "Run JavaScript regex patterns against sample text.", keywords: "regex matcher regex parser regex validator regular expression matcher validate regular expression" },
+        { label: "Regex Guide", href: "regex-matcher.html", icon: "RX", description: "Learn matcher behavior, flags and parser tradeoffs.", keywords: "regex guide regex tutorial regex parser regular expression guide" },
+        { label: "Regex Examples", href: "regex-examples.html", icon: "EX", description: "Review practical validation and extraction patterns.", keywords: "regex examples pattern checker regex pattern checker" },
+        { label: "Email Regex", href: "regex-email-validator.html", icon: "@", description: "Compare realistic email validation cases.", keywords: "email regex email regex javascript email validation regex regex for email validation" },
+        { label: "URL Regex", href: "regex-url-validator.html", icon: "URL", description: "Check link-shaped strings before parser-level validation.", keywords: "url regex url validator regex link regex" },
+        { label: "UUID Regex", href: "regex-uuid-validator.html", icon: "ID", description: "Validate UUID v4 version and variant characters.", keywords: "uuid regex uuid validator uuid v4 regex" },
+        { label: "Date Regex", href: "regex-date-validator.html", icon: "DATE", description: "Understand date pattern limits before calendar parsing.", keywords: "date regex date validator regex date pattern" },
+        { label: "Log Parser", href: "regex-log-parser.html", icon: "LOG", description: "Extract timestamps, levels and messages from logs.", keywords: "regex log parser log parser regex log pattern" }
       ]
     },
     {
@@ -253,6 +256,67 @@
     return path || "index.html";
   }
 
+  function sidebarResourceList() {
+    var resources = [];
+    sidebarGroups.forEach(function (group) {
+      group.links.forEach(function (link) {
+        resources.push({
+          label: link.label,
+          href: link.href,
+          icon: link.icon,
+          description: link.description || "",
+          keywords: link.keywords || "",
+          group: group.title,
+          mode: group.mode
+        });
+      });
+    });
+    return resources;
+  }
+
+  function readStoredJson(key, fallback) {
+    try {
+      var value = window.localStorage ? window.localStorage.getItem(key) : null;
+      return value ? JSON.parse(value) : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function writeStoredJson(key, value) {
+    try {
+      if (window.localStorage) {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      }
+    } catch (error) {
+      // Browser privacy modes can disable localStorage; Formalint still works without recents.
+    }
+  }
+
+  function rememberResource(href) {
+    if (!href) {
+      return;
+    }
+    var existing = readStoredJson("formalintRecentTools", []);
+    var updated = [href].concat(
+      existing.filter(function (item) {
+        return item !== href;
+      })
+    );
+    writeStoredJson("formalintRecentTools", updated.slice(0, 6));
+  }
+
+  function recentResources(resources) {
+    var hrefs = readStoredJson("formalintRecentTools", []);
+    return hrefs
+      .map(function (href) {
+        return resources.filter(function (resource) {
+          return resource.href === href;
+        })[0];
+      })
+      .filter(Boolean);
+  }
+
   function buildSidebarLink(link, pageName) {
     var isActive = link.href === pageName || (pageName === "" && link.href === "index.html");
     return (
@@ -351,9 +415,268 @@
     );
   }
 
+  var paletteWorkflows = [
+    {
+      title: "Clean a broken API payload",
+      mode: "data",
+      href: "index.html",
+      steps: "Format JSON, compare with schema, convert CSV only after the structure is trusted."
+    },
+    {
+      title: "Validate an email pattern",
+      mode: "regex",
+      href: "regex-email-validator.html",
+      steps: "Test realistic valid, invalid and edge case addresses before shipping a regex."
+    },
+    {
+      title: "Debug a failing request",
+      mode: "api",
+      href: "api-debugging-checklist.html",
+      steps: "Capture status, headers, token claims, timestamp and fix notes in one pass."
+    },
+    {
+      title: "Use web tools safely",
+      mode: "learn",
+      href: "safe-online-dev-tools.html",
+      steps: "Remove secrets, customer data and production tokens before using browser tools."
+    }
+  ];
+
+  function createCommandPalette(sidebar) {
+    if (document.querySelector(".command-palette")) {
+      return;
+    }
+
+    var resources = sidebarResourceList();
+    var activeIndex = 0;
+    var currentResults = [];
+    var lastFocused = null;
+    var palette = document.createElement("div");
+    palette.className = "command-palette";
+    palette.hidden = true;
+    palette.innerHTML =
+      '<div class="command-backdrop" data-close-command-palette></div>' +
+      '<section class="command-panel" role="dialog" aria-modal="true" aria-labelledby="formalintCommandTitle">' +
+      '<div class="command-header">' +
+      '<div><span class="command-kicker">Formalint console</span><h2 id="formalintCommandTitle">Command palette</h2></div>' +
+      '<button class="command-close" type="button" data-close-command-palette aria-label="Close command palette">Esc</button>' +
+      "</div>" +
+      '<label class="command-input-wrap" for="formalintCommandInput"><span aria-hidden="true">/</span><input id="formalintCommandInput" type="search" autocomplete="off" placeholder="Search a tool, guide, regex, JWT, YAML, SQL..."></label>' +
+      '<div class="command-results" role="listbox" aria-label="Formalint command results"></div>' +
+      '<div class="command-workflows" aria-label="Suggested developer workflows"></div>' +
+      "</section>";
+    document.body.appendChild(palette);
+
+    var input = $("#formalintCommandInput", palette);
+    var resultsEl = $(".command-results", palette);
+    var workflowsEl = $(".command-workflows", palette);
+
+    function scoreResource(resource, query) {
+      var haystack = [resource.label, resource.description, resource.keywords, resource.group, resource.icon].join(" ").toLowerCase();
+      var tokens = query.split(/\s+/).filter(Boolean);
+      var score = 0;
+      tokens.forEach(function (token) {
+        if (resource.label.toLowerCase().indexOf(token) !== -1) {
+          score += 6;
+        }
+        if (resource.href.toLowerCase().indexOf(token) !== -1) {
+          score += 4;
+        }
+        if (haystack.indexOf(token) !== -1) {
+          score += 2;
+        }
+      });
+      if (resource.href === currentPageName()) {
+        score += 1;
+      }
+      return tokens.length && tokens.every(function (token) { return haystack.indexOf(token) !== -1 || resource.href.toLowerCase().indexOf(token) !== -1; }) ? score : 0;
+    }
+
+    function renderResults(query) {
+      var normalized = String(query || "").trim().toLowerCase();
+      if (normalized) {
+        currentResults = resources
+          .map(function (resource) {
+            return { resource: resource, score: scoreResource(resource, normalized) };
+          })
+          .filter(function (item) {
+            return item.score > 0;
+          })
+          .sort(function (a, b) {
+            return b.score - a.score || a.resource.label.localeCompare(b.resource.label);
+          })
+          .slice(0, 12)
+          .map(function (item) {
+            return item.resource;
+          });
+      } else {
+        var recent = recentResources(resources);
+        currentResults = recent.length ? recent.concat(resources.filter(function (resource) {
+          return recent.every(function (recentItem) {
+            return recentItem.href !== resource.href;
+          });
+        })).slice(0, 10) : resources.slice(0, 10);
+      }
+
+      activeIndex = Math.min(activeIndex, Math.max(currentResults.length - 1, 0));
+      resultsEl.innerHTML =
+        '<div class="command-section-title">' +
+        escapeHtml(normalized ? currentResults.length + " matching resources" : recentResources(resources).length ? "Recent and recommended tools" : "Recommended tools") +
+        "</div>" +
+        (currentResults.length
+          ? currentResults
+              .map(function (resource, index) {
+                return (
+                  '<a class="command-result' +
+                  (index === activeIndex ? " active" : "") +
+                  (resource.href === currentPageName() ? " current" : "") +
+                  '" role="option" aria-selected="' +
+                  (index === activeIndex ? "true" : "false") +
+                  '" href="' +
+                  escapeHtml(resource.href) +
+                  '" data-command-index="' +
+                  index +
+                  '">' +
+                  '<span class="command-icon">' +
+                  escapeHtml(resource.icon) +
+                  "</span>" +
+                  '<span class="command-copy"><strong>' +
+                  escapeHtml(resource.label) +
+                  "</strong><small>" +
+                  escapeHtml(resource.group + " - " + resource.description) +
+                  "</small></span>" +
+                  '<span class="command-open">Open</span>' +
+                  "</a>"
+                );
+              })
+              .join("")
+          : '<p class="command-empty">No matching tool yet. Try JSON, regex, email, JWT, XML, SQL, YAML or API.</p>');
+
+      workflowsEl.innerHTML =
+        '<div class="command-section-title">Suggested workflows</div>' +
+        paletteWorkflows
+          .map(function (workflow) {
+            return (
+              '<a class="command-workflow" href="' +
+              escapeHtml(workflow.href) +
+              '" data-command-workflow="' +
+              escapeHtml(workflow.mode) +
+              '">' +
+              "<strong>" +
+              escapeHtml(workflow.title) +
+              "</strong><span>" +
+              escapeHtml(workflow.steps) +
+              "</span></a>"
+            );
+          })
+          .join("");
+    }
+
+    function openPalette() {
+      lastFocused = document.activeElement;
+      palette.hidden = false;
+      document.body.classList.add("command-palette-open");
+      renderResults(input ? input.value : "");
+      window.setTimeout(function () {
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }, 0);
+    }
+
+    function closePalette() {
+      palette.hidden = true;
+      document.body.classList.remove("command-palette-open");
+      if (lastFocused && lastFocused.focus) {
+        lastFocused.focus();
+      }
+    }
+
+    function openActiveResult() {
+      var resource = currentResults[activeIndex];
+      if (!resource) {
+        return;
+      }
+      rememberResource(resource.href);
+      window.location.href = resource.href;
+    }
+
+    if (input) {
+      input.addEventListener(
+        "input",
+        debounce(function () {
+          activeIndex = 0;
+          renderResults(input.value);
+        }, 40)
+      );
+    }
+
+    palette.addEventListener("click", function (event) {
+      var closeTarget = event.target && event.target.closest ? event.target.closest("[data-close-command-palette]") : null;
+      if (closeTarget) {
+        closePalette();
+        return;
+      }
+      var link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
+      if (link) {
+        rememberResource(link.getAttribute("href"));
+      }
+    });
+
+    palette.addEventListener("mousemove", function (event) {
+      var result = event.target && event.target.closest ? event.target.closest("[data-command-index]") : null;
+      if (!result) {
+        return;
+      }
+      activeIndex = Number(result.getAttribute("data-command-index")) || 0;
+      renderResults(input ? input.value : "");
+    });
+
+    document.addEventListener("keydown", function (event) {
+      var isCommandShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
+      if (isCommandShortcut) {
+        event.preventDefault();
+        openPalette();
+        return;
+      }
+      if (palette.hidden) {
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePalette();
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, Math.max(currentResults.length - 1, 0));
+        renderResults(input ? input.value : "");
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, 0);
+        renderResults(input ? input.value : "");
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        openActiveResult();
+      }
+    });
+
+    sidebar.addEventListener("click", function (event) {
+      var opener = event.target && event.target.closest ? event.target.closest("[data-open-command-palette]") : null;
+      if (opener) {
+        openPalette();
+        return;
+      }
+      var link = event.target && event.target.closest ? event.target.closest(".sidebar-link[href]") : null;
+      if (link) {
+        rememberResource(link.getAttribute("href"));
+      }
+    });
+  }
+
   function filterSidebarLinks(sidebar, query) {
     var normalized = String(query || "").trim().toLowerCase();
     var visibleCount = 0;
+    var totalCount = sidebarResourceList().length;
 
     $$(".sidebar-link", sidebar).forEach(function (link) {
       var haystack = link.textContent.toLowerCase();
@@ -378,7 +701,7 @@
 
     var count = $(".sidebar-search-count", sidebar);
     if (count) {
-      count.textContent = normalized ? visibleCount + " matches" : "Search 37 tools and guides";
+      count.textContent = normalized ? visibleCount + " matches" : "Search " + totalCount + " tools and guides";
     }
 
     var modeCard = $(".sidebar-mode-card", sidebar);
@@ -407,6 +730,7 @@
     sidebar.setAttribute("aria-label", "Formalint workspace navigation");
     sidebar.innerHTML =
       '<div class="sidebar-rail" aria-label="Workspace modes">' +
+      '<button class="rail-mark rail-command" type="button" data-open-command-palette title="Open command palette - Ctrl K"><span aria-hidden="true">K</span><span class="sr-only">Open command palette</span></button>' +
       railModes
         .map(function (item) {
           return (
@@ -425,7 +749,9 @@
       "</div>" +
       '<nav class="sidebar-panel">' +
       '<div class="sidebar-brandline"><strong>Formalint</strong><span>Developer console</span><p>Choose a mode on the left, then open the exact tool or guide for the debugging task.</p></div>' +
-      '<div class="sidebar-search"><label for="formalintSidebarSearch">Find a tool</label><input id="formalintSidebarSearch" type="search" autocomplete="off" placeholder="Search JSON, regex, JWT..."><span class="sidebar-search-count">Search 37 tools and guides</span></div>' +
+      '<div class="sidebar-search"><label for="formalintSidebarSearch">Find a tool</label><input id="formalintSidebarSearch" type="search" autocomplete="off" placeholder="Search JSON, regex, JWT..."><button class="sidebar-command-button" type="button" data-open-command-palette><span>Command palette</span><kbd>Ctrl K</kbd></button><span class="sidebar-search-count">Search ' +
+      sidebarResourceList().length +
+      ' tools and guides</span></div>' +
       '<div class="sidebar-mode-card" aria-live="polite"></div>' +
       sidebarGroups
         .map(function (group) {
@@ -455,7 +781,7 @@
     var header = document.querySelector(".site-header");
     document.body.insertBefore(sidebar, header ? header.nextSibling : document.body.firstChild);
     document.body.classList.add("with-app-sidebar");
-    $$(".rail-mark", sidebar).forEach(function (button) {
+    $$(".rail-mark[data-rail-mode]", sidebar).forEach(function (button) {
       button.addEventListener("click", function () {
         var search = $("#formalintSidebarSearch", sidebar);
         if (search) {
@@ -496,6 +822,7 @@
         searchInput.focus();
       }
     });
+    createCommandPalette(sidebar);
     activateRailMode(activeMode, sidebar);
   }
 
