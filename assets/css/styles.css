@@ -1185,6 +1185,85 @@ button.secondary:hover,
   padding: 16px;
 }
 
+.command-block {
+  position: relative;
+  border: 1px solid var(--code-line);
+  border-radius: 8px;
+  background: var(--code-bg);
+  overflow: hidden;
+  margin: 12px 0 18px;
+}
+
+.command-block pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 18px 16px 16px;
+}
+
+.command-block code {
+  color: var(--code-text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.copy-code-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-height: 28px;
+  border: 1px solid rgba(140, 203, 255, 0.22);
+  border-radius: 5px;
+  background: #202832;
+  color: #dcecf8;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 7px 9px;
+}
+
+.copy-code-button:hover,
+.copy-code-button:focus-visible {
+  border-color: rgba(70, 163, 255, 0.55);
+  background: #253343;
+  color: #ffffff;
+  transform: none;
+}
+
+.workflow-table {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-collapse: collapse;
+  border-radius: 8px;
+  margin: 14px 0 22px;
+}
+
+.workflow-table th,
+.workflow-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.workflow-table th {
+  background: var(--surface-soft);
+  color: #ffffff;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.workflow-table td {
+  color: #c4d0da;
+  line-height: 1.5;
+}
+
+.workflow-table tr:last-child td {
+  border-bottom: 0;
+}
+
 .guide-callout {
   border-left: 4px solid var(--accent);
   background: var(--accent-soft);

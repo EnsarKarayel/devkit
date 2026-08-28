@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Windows Admin Commands for Developers and DBAs | Formalint</title>
+    <meta name="description" content="Windows CMD and PowerShell command reference for developers and DBAs: services, ports, DNS, disks, event logs, processes and SQL Server host checks.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/windows-admin-command-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260828-dba">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Windows Admin Commands for Developers and DBAs</h1>
+      <p class="guide-meta">CMD and PowerShell checks for Windows hosts. Last updated August 28, 2026.</p>
+      <p>Windows troubleshooting gets cleaner when CMD is used for legacy checks and PowerShell is used for structured inspection. A DBA should be able to prove host identity, service state, ports, disk pressure and recent errors before changing an application or database.</p>
+
+      <h2>Host identity</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>hostname
+whoami
+ver
+ipconfig /all</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>$PSVersionTable.PSVersion
+Get-ComputerInfo | Select-Object OsName, OsVersion, CsName
+Get-Date -Format o
+Get-Location</code></pre></div>
+
+      <h2>Services and database processes</h2>
+      <p>Use service state before restarting anything. Look for SQL Server, PostgreSQL, MySQL, Oracle, web server and queue worker services.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Get-Service | Where-Object {$_.Name -match 'sql|postgres|mysql|oracle|iis|nginx|apache'} | Sort-Object Status, Name
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 15
+tasklist | findstr /i "sql postgres mysql oracle"</code></pre></div>
+
+      <h2>DNS and port reachability</h2>
+      <p>PowerShell's <code>Test-NetConnection</code> helps separate DNS, route and blocked-port issues.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Resolve-DnsName formalint.com
+Test-NetConnection formalint.com -Port 443
+Test-NetConnection db.example.internal -Port 1433
+Test-NetConnection db.example.internal -Port 5432
+netstat -ano | findstr LISTENING</code></pre></div>
+
+      <h2>Disk and filesystem pressure</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Get-Volume
+Get-PSDrive -PSProvider FileSystem
+Get-ChildItem C:\ -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 20</code></pre></div>
+
+      <h2>Event logs</h2>
+      <p>Event logs help confirm whether a failure is a service crash, login problem, disk warning, driver issue or application error.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Get-EventLog -LogName Application -Newest 80
+Get-EventLog -LogName System -EntryType Error,Warning -Newest 80
+Get-WinEvent -LogName Application -MaxEvents 50 | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, Message</code></pre></div>
+
+      <h2>DBA handoff checklist</h2>
+      <ol>
+        <li>Record host, Windows version, user and timestamp.</li>
+        <li>Record database service status and recent log errors.</li>
+        <li>Check disk volume health and backup destination space.</li>
+        <li>Check port reachability from the application host.</li>
+        <li>Attach commands and outputs to the incident note after removing secrets.</li>
+      </ol>
+      <p class="guide-callout">Prefer read-only commands first. Restarting a database service should be a deliberate change, not the first diagnostic step.</p>
+      <p>Related: <a href="terminal-workflows-for-developers.html">Terminal Workflows</a>, <a href="dba-admin-roadmap.html">DBA Admin Roadmap</a>, <a href="hardware-diagnostics-guide.html">Hardware Diagnostics</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

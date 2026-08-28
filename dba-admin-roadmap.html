@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>DBA Admin Roadmap and Daily Checklist | Formalint</title>
+    <meta name="description" content="A practical DBA administrator roadmap covering access, backups, restores, monitoring, incidents, SQL review, storage, maintenance and documentation.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/dba-admin-roadmap.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260828-dba">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/dba-admin-roadmap.html#article", "headline": "DBA Admin Roadmap and Daily Checklist", "description": "A practical DBA administrator roadmap covering access, backups, restores, monitoring and incidents.", "datePublished": "2026-08-28", "dateModified": "2026-08-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/dba-admin-roadmap.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>DBA Admin Roadmap</h1>
+      <p class="guide-meta">A practical operating path for database administrators. Last updated August 28, 2026.</p>
+      <p>A DBA is not only the person who knows SQL. A good DBA protects access, proves backups, watches capacity, understands operating-system signals, reviews risky changes and leaves a record that another engineer can trust. This roadmap gives a repeatable order for daily work and incidents.</p>
+
+      <h2>1. Know the estate</h2>
+      <p>Start by listing database engines, versions, hosts, environments, owners, ports, backup locations and restore expectations. A team cannot protect what it cannot name.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Database:
+Engine and version:
+Host:
+Environment:
+Owner:
+Port:
+Backup path:
+Restore target:
+Last restore test:
+Critical applications:</code></pre></div>
+
+      <h2>2. Control access</h2>
+      <p>Use named accounts, least privilege and reviewable admin access. Shared database passwords make incidents harder because you cannot know who changed what. Separate read-only reporting access from deployment, migration and administrator access.</p>
+
+      <h2>3. Prove backups by restoring</h2>
+      <p>A backup that has never been restored is a hope, not an operational control. Track backup schedule, retention, offsite copy, encryption, restore time and restore test evidence.</p>
+      <table class="workflow-table">
+        <thead><tr><th>Check</th><th>Question</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td>Schedule</td><td>How often does backup run?</td><td>Job history, backup files, monitoring events.</td></tr>
+          <tr><td>Retention</td><td>How far back can you restore?</td><td>Policy, storage listing, lifecycle rules.</td></tr>
+          <tr><td>Restore</td><td>Can the team restore to a usable database?</td><td>Restore test date, target host, validation query.</td></tr>
+          <tr><td>Security</td><td>Are backups encrypted and access-controlled?</td><td>Key policy, bucket permissions, file ownership.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>4. Monitor the host, not only SQL</h2>
+      <p>Slow databases often begin as host pressure. Check CPU, memory, disk space, IO wait, network, service status and logs before rewriting queries.</p>
+      <p>Use <a href="linux-admin-command-guide.html">Linux Admin Commands</a>, <a href="windows-admin-command-guide.html">Windows Admin Commands</a> and <a href="hardware-diagnostics-guide.html">Hardware Diagnostics</a> when the problem might live below the database engine.</p>
+
+      <h2>5. Review schema and query changes</h2>
+      <p>Every schema change needs intent, rollback thinking and a blast-radius check. Large indexes, column type changes and migrations can be more dangerous than application code because they touch production data directly.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Change:
+Target database:
+Reason:
+Expected lock behavior:
+Expected duration:
+Rollback approach:
+Backup verified:
+Maintenance window:
+Validation query:</code></pre></div>
+
+      <h2>6. Build incident notes while debugging</h2>
+      <p>During an outage, write down the exact symptom, timestamp, host, database, service state, recent deployment, top query and next action. The note is not bureaucracy; it is how the team stops looping.</p>
+
+      <h2>7. Keep a weekly DBA rhythm</h2>
+      <ol>
+        <li>Review failed jobs, backup warnings and restore-test status.</li>
+        <li>Review storage growth and tables that are expanding faster than expected.</li>
+        <li>Review slow query trends and missing index candidates.</li>
+        <li>Review admin accounts and expired access.</li>
+        <li>Review patch notes and maintenance windows.</li>
+        <li>Update runbooks when an incident teaches a better check.</li>
+      </ol>
+
+      <p class="guide-callout">A DBA roadmap should reduce surprise. If a database fails, the team should already know where logs, backups, owners, dashboards and restore instructions live.</p>
+
+      <h2>Related Formalint references</h2>
+      <p>Use <a href="sql-formatter.html">SQL Formatter</a> for query review, <a href="terminal-workflows-for-developers.html">Terminal Workflows</a> for shell choice, <a href="linux-cockpit-server-guide.html">Cockpit Server Guide</a> for Linux visibility and <a href="api-debugging-checklist.html">API Debugging Checklist</a> for incident notes.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

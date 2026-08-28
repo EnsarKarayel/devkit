@@ -175,6 +175,42 @@
       ]
     },
     {
+      title: "Shell & DBA Ops",
+      mode: "ops",
+      description: "Move between Windows shells, Git Bash and Linux server consoles with repeatable DBA checks.",
+      links: [
+        { label: "DBA Admin Roadmap", href: "dba-admin-roadmap.html", icon: "DBA", description: "Follow a practical database administrator operating path from access to incidents.", keywords: "dba admin roadmap database administrator checklist backup restore monitoring maintenance incident" },
+        { label: "Terminal Workflows", href: "terminal-workflows-for-developers.html", icon: ">_", description: "Choose CMD, PowerShell, Git Bash or Linux shell for daily engineering tasks.", keywords: "cmd powershell git bash linux terminal command line developer dba workflow" },
+        { label: "Cockpit Server Guide", href: "linux-cockpit-server-guide.html", icon: "9090", description: "Install Cockpit and expose a safe browser console for Linux server administration.", keywords: "cockpit linux server setup dba web console install ubuntu debian rhel centos fedora cockpit 9090" }
+      ]
+    },
+    {
+      title: "Operating Systems",
+      mode: "os",
+      description: "Choose Windows or Linux first, then use the commands that match the host you are administering.",
+      links: [
+        { label: "Windows Admin Commands", href: "windows-admin-command-guide.html", icon: "WIN", description: "Use CMD and PowerShell checks for services, ports, disks, logs and database hosts.", keywords: "windows admin commands powershell cmd dba services ports event logs disk sql server" },
+        { label: "Linux Admin Commands", href: "linux-admin-command-guide.html", icon: "LIN", description: "Use Linux shell checks for services, logs, ports, storage, packages and users.", keywords: "linux admin commands bash dba systemctl journalctl ss df firewall server" }
+      ]
+    },
+    {
+      title: "Software Runtime",
+      mode: "code",
+      description: "Inspect language runtimes before blaming application code or deployment scripts.",
+      links: [
+        { label: "PHP Runtime Guide", href: "php-runtime-guide.html", icon: "PHP", description: "Check PHP CLI, FPM, Composer, extensions, php.ini and web server integration.", keywords: "php runtime guide php install composer php-fpm php ini extensions apache nginx" },
+        { label: "Java Runtime Guide", href: "java-runtime-guide.html", icon: "JAVA", description: "Check JDK, JAVA_HOME, Maven, Gradle, memory flags and service runtime behavior.", keywords: "java runtime guide jdk install java_home maven gradle openjdk jar service" }
+      ]
+    },
+    {
+      title: "Hardware & Capacity",
+      mode: "hardware",
+      description: "Connect CPU, memory, disk and network symptoms to database and application incidents.",
+      links: [
+        { label: "Hardware Diagnostics", href: "hardware-diagnostics-guide.html", icon: "HW", description: "Run safe Windows and Linux checks for CPU, RAM, disks, IO and network pressure.", keywords: "hardware diagnostics cpu memory disk io network windows linux dba capacity" }
+      ]
+    },
+    {
       title: "Reference",
       mode: "learn",
       description: "Read original guides that explain when each formatter, linter or validator is the right tool.",
@@ -247,6 +283,62 @@
         "Confirm whether you need formatting, linting, parsing or validation.",
         "Use the safety guidance before pasting data into any web tool.",
         "Return to the matching Formalint tool once the workflow is clear."
+      ]
+    },
+    {
+      mode: "ops",
+      icon: ">_",
+      label: "Shell & DBA ops",
+      description: "Use command-line and Linux web console references.",
+      tip: "Use this mode when you need repeatable shell commands, DBA checks or a Cockpit server console setup.",
+      href: "terminal-workflows-for-developers.html",
+      workflow: [
+        "Pick the shell that matches the host: CMD or PowerShell for Windows, Git Bash for Git habits, Bash for Linux servers.",
+        "Run read-only discovery commands before changing packages, services, firewall rules or database settings.",
+        "Use Cockpit for browser-based Linux visibility, then keep privileged changes deliberate and logged.",
+        "Document the final commands so another DBA can repeat the setup safely."
+      ]
+    },
+    {
+      mode: "os",
+      icon: "OS",
+      label: "OS admin",
+      description: "Choose Windows or Linux operating-system workflows.",
+      tip: "Use this mode first when the host operating system decides which commands, logs and service tools are available.",
+      href: "windows-admin-command-guide.html",
+      workflow: [
+        "Identify the host operating system and shell before copying commands.",
+        "Use Windows tools for services, Event Viewer, PowerShell networking and SQL Server hosts.",
+        "Use Linux tools for systemd, journal logs, sockets, packages, mounts and permissions.",
+        "Keep platform-specific findings in the incident note so handoff is repeatable."
+      ]
+    },
+    {
+      mode: "code",
+      icon: "</>",
+      label: "Software",
+      description: "Inspect PHP, Java and runtime-level developer systems.",
+      tip: "Use this mode when the problem might be a runtime, dependency, package, web server or environment-variable issue.",
+      href: "php-runtime-guide.html",
+      workflow: [
+        "Check runtime version and executable path before changing code.",
+        "Confirm package manager state, extensions and environment variables.",
+        "Separate CLI behavior from web server behavior for PHP, Java services and jobs.",
+        "Write the exact runtime evidence beside the failing request or deployment."
+      ]
+    },
+    {
+      mode: "hardware",
+      icon: "HW",
+      label: "Hardware",
+      description: "Inspect capacity, IO and host-level pressure.",
+      tip: "Use this mode when slow queries, timeouts or service failures may be caused by CPU, memory, disk or network pressure.",
+      href: "hardware-diagnostics-guide.html",
+      workflow: [
+        "Check CPU, memory, disk and network before tuning application code.",
+        "Correlate host pressure with database slow queries and application timeouts.",
+        "Keep destructive stress tests out of production unless approved.",
+        "Document capacity evidence with timestamps and host names."
       ]
     }
   ];
@@ -439,8 +531,55 @@
       mode: "learn",
       href: "safe-online-dev-tools.html",
       steps: "Remove secrets, customer data and production tokens before using browser tools."
+    },
+    {
+      title: "Prepare a Linux DBA console",
+      mode: "ops",
+      href: "linux-cockpit-server-guide.html",
+      steps: "Install Cockpit, open port 9090 only where needed, then verify services and storage."
+    },
+    {
+      title: "Choose the right OS path",
+      mode: "os",
+      href: "windows-admin-command-guide.html",
+      steps: "Start with Windows or Linux, then inspect services, logs, ports and disks in the native shell."
+    },
+    {
+      title: "Check a runtime before code",
+      mode: "code",
+      href: "php-runtime-guide.html",
+      steps: "Verify PHP or Java versions, package managers, extensions and service environment before editing code."
+    },
+    {
+      title: "Rule out hardware pressure",
+      mode: "hardware",
+      href: "hardware-diagnostics-guide.html",
+      steps: "Check CPU, memory, IO, disk and network signals before blaming SQL or API logic."
     }
   ];
+
+  function initCopyCodeButtons(root) {
+    $$("[data-copy-code]", root || document).forEach(function (button) {
+      if (button.getAttribute("data-copy-bound") === "true") {
+        return;
+      }
+      button.setAttribute("data-copy-bound", "true");
+      button.addEventListener("click", function () {
+        var block = button.closest(".command-block");
+        var code = block ? $("code", block) : null;
+        if (!code) {
+          return;
+        }
+        copyText(code.textContent).then(function () {
+          var oldText = button.textContent;
+          button.textContent = "Copied";
+          window.setTimeout(function () {
+            button.textContent = oldText;
+          }, 1300);
+        });
+      });
+    });
+  }
 
   function createCommandPalette(sidebar) {
     if (document.querySelector(".command-palette")) {
@@ -720,6 +859,7 @@
   function initAppSidebar() {
     if (document.querySelector(".app-sidebar")) {
       document.body.classList.add("with-app-sidebar");
+      initCopyCodeButtons(document);
       return;
     }
 
@@ -823,6 +963,7 @@
       }
     });
     createCommandPalette(sidebar);
+    initCopyCodeButtons(document);
     activateRailMode(activeMode, sidebar);
   }
 

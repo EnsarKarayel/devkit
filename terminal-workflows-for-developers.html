@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>CMD, PowerShell, Git Bash and Linux Terminal Workflow Guide | Formalint</title>
+    <meta name="description" content="A practical terminal workflow guide for developers and DBAs who move between CMD, PowerShell, Git Bash and Linux shells while debugging systems, APIs and databases.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/terminal-workflows-for-developers.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260828-dba">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/terminal-workflows-for-developers.html#article", "headline": "CMD, PowerShell, Git Bash and Linux Terminal Workflow Guide", "description": "A practical terminal workflow guide for developers and DBAs who move between Windows and Linux shells.", "datePublished": "2026-08-28", "dateModified": "2026-08-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/terminal-workflows-for-developers.html" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>CMD, PowerShell, Git Bash and Linux Terminal Workflow Guide</h1>
+      <p class="guide-meta">A practical shell reference for developers, DBAs and integration engineers. Last updated August 28, 2026.</p>
+      <p>Good troubleshooting is not only about knowing commands. It is about choosing the right shell, collecting evidence in a safe order and leaving a repeatable trail for the next person. This guide shows how to move between Windows CMD, PowerShell, Git Bash and Linux without turning a simple incident into guesswork.</p>
+
+      <h2>Which shell should you use?</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Shell</th><th>Best use</th><th>Watch out for</th></tr></thead>
+        <tbody>
+          <tr><td>CMD</td><td>Legacy Windows commands, quick network checks, old batch scripts and vendor instructions that still use <code>.bat</code> files.</td><td>Text parsing is limited; prefer PowerShell for structured output.</td></tr>
+          <tr><td>PowerShell</td><td>Windows services, processes, firewall checks, path discovery, JSON handling and repeatable admin scripts.</td><td>Some Linux-style examples need translation because aliases can hide different behavior.</td></tr>
+          <tr><td>Git Bash</td><td>Git-heavy work, SSH keys, Unix-like commands on Windows and scripts shared with Linux users.</td><td>Windows paths and permissions can behave differently from real Linux hosts.</td></tr>
+          <tr><td>Linux shell</td><td>Server services, packages, logs, ports, storage, database clients and automation on production-like systems.</td><td>Use read-only discovery before package, firewall or service changes.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Start every incident with environment facts</h2>
+      <p>Before changing anything, capture where you are. A DBA should know the host, OS, shell, user, current path, IP information and time. These commands are safe discovery checks.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>:: CMD
+hostname
+whoami
+cd
+ver
+ipconfig /all
+where git</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># PowerShell
+$PSVersionTable.PSVersion
+hostname
+whoami
+Get-Location
+Get-ComputerInfo | Select-Object OsName, OsVersion, CsName
+Get-Command git -ErrorAction SilentlyContinue</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Git Bash or Linux
+pwd
+whoami
+hostname
+uname -a
+cat /etc/os-release 2&gt;/dev/null
+command -v git</code></pre></div>
+
+      <h2>Network and port checks</h2>
+      <p>When an application or database is unreachable, separate DNS, routing, firewall and service listener problems. Do not jump straight to restarting services.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># PowerShell
+Resolve-DnsName example.com
+Test-NetConnection example.com -Port 443
+Test-NetConnection db.example.internal -Port 5432</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Linux
+getent hosts example.com
+curl -I https://example.com
+ss -tulpn
+sudo ss -tulpn | grep -E ':(22|80|443|5432|3306|1433)\b'</code></pre></div>
+
+      <h2>Service and log checks</h2>
+      <p>For Linux servers, <code>systemctl</code> and <code>journalctl</code> should be the default path before editing config files. You want status, recent errors and restart history.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Linux service inspection
+systemctl status postgresql --no-pager
+systemctl status mysql --no-pager
+systemctl status nginx --no-pager
+journalctl -u postgresql -n 80 --no-pager
+journalctl -p warning -n 100 --no-pager</code></pre></div>
+      <p>On Windows, a DBA often needs service state and process ownership before touching database settings.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># PowerShell service inspection
+Get-Service | Where-Object {$_.Name -match 'sql|postgres|mysql|oracle'}
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 10
+Get-EventLog -LogName Application -Newest 50</code></pre></div>
+
+      <h2>Storage checks for DBAs</h2>
+      <p>Many database incidents are storage incidents wearing an application costume. Always check free space, mounts, inode pressure and the location of data and backups.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Linux storage discovery
+df -h
+df -ih
+lsblk
+mount | column -t
+du -sh /var/lib/postgresql /var/lib/mysql /var/log 2&gt;/dev/null</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># PowerShell disk discovery
+Get-Volume
+Get-PSDrive -PSProvider FileSystem
+Get-ChildItem C:\ -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 20</code></pre></div>
+
+      <h2>Git Bash for repeatable handoffs</h2>
+      <p>Git Bash is useful when Windows users need to run familiar Git and SSH commands. For a DBA, it is often enough for repository checks, deployment notes and controlled script review.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Git Bash
+git status
+git log --oneline -5
+git remote -v
+ssh -V
+ssh user@server.example.com
+scp ./sanitized-query.sql user@server.example.com:/tmp/</code></pre></div>
+
+      <h2>DBA troubleshooting order</h2>
+      <ol>
+        <li>Identify the host, shell, user, environment and current time.</li>
+        <li>Check DNS, route and port reachability before changing a service.</li>
+        <li>Check service status and recent logs before editing configuration.</li>
+        <li>Check disk, mounts and backup paths before tuning the database.</li>
+        <li>Sanitize commands and payloads before sharing them in tickets or chat.</li>
+        <li>Use a browser console such as <a href="linux-cockpit-server-guide.html">Cockpit</a> when a team needs a safer visual overview of Linux services, storage and logs.</li>
+      </ol>
+
+      <p class="guide-callout">A terminal workflow should make the next action safer. If a command would change packages, firewall rules, services, data files or database state, write down the expected result first.</p>
+
+      <h2>Related Formalint tools</h2>
+      <p>Use <a href="sql-formatter.html">SQL Formatter</a> for query readability, <a href="api-debugging-checklist.html">API Debugging Checklist</a> for incident notes, <a href="timestamp-converter.html">Timestamp Converter</a> for log times, <a href="regex-log-parser.html">Regex Log Parser</a> for semi-structured logs and <a href="linux-cockpit-server-guide.html">Linux Cockpit Server Guide</a> for browser-based Linux administration.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

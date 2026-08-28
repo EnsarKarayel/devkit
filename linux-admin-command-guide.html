@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Linux Admin Commands for Developers and DBAs | Formalint</title>
+    <meta name="description" content="Linux admin command reference for developers and DBAs: systemd, journalctl, ss, df, lsblk, firewall, users, packages and database host checks.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/linux-admin-command-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260828-dba">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Linux Admin Commands for Developers and DBAs</h1>
+      <p class="guide-meta">Safe Linux checks for services, logs, ports and storage. Last updated August 28, 2026.</p>
+      <p>Linux administration is easier when you inspect the host in layers: identity, packages, services, logs, ports, storage and users. A DBA can use this order before opening Cockpit, tuning SQL or changing a firewall.</p>
+
+      <h2>Host and distribution</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>hostnamectl
+cat /etc/os-release
+uname -a
+date -Is
+whoami
+pwd</code></pre></div>
+
+      <h2>Services and logs</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>systemctl --failed --no-pager
+systemctl status postgresql --no-pager
+systemctl status mysql --no-pager
+systemctl status nginx --no-pager
+journalctl -p warning -n 100 --no-pager
+journalctl -u postgresql -n 80 --no-pager</code></pre></div>
+
+      <h2>Ports and firewall</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>ss -tulpn
+sudo ss -tulpn | grep -E ':(22|80|443|9090|5432|3306|1433)\b'
+sudo firewall-cmd --list-all 2&gt;/dev/null
+sudo ufw status verbose 2&gt;/dev/null</code></pre></div>
+
+      <h2>Storage and IO</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>df -h
+df -ih
+lsblk
+mount | column -t
+iostat -xz 1 3 2&gt;/dev/null
+du -sh /var/lib/postgresql /var/lib/mysql /var/log 2&gt;/dev/null</code></pre></div>
+
+      <h2>Packages and updates</h2>
+      <p>Package changes should follow maintenance policy. These commands identify package manager state without forcing an update.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>command -v apt dnf yum zypper pacman
+apt list --upgradable 2&gt;/dev/null | head
+dnf check-update 2&gt;/dev/null | head
+yum check-update 2&gt;/dev/null | head</code></pre></div>
+
+      <h2>User and permission checks</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>id
+groups
+sudo -l
+last -n 10
+find /etc/sudoers.d -maxdepth 1 -type f -print</code></pre></div>
+
+      <h2>When to open Cockpit</h2>
+      <p>Use <a href="linux-cockpit-server-guide.html">Cockpit</a> when the team needs a browser-based view of services, logs, storage or network state. Use SSH when you need exact command history, automation or a text-only emergency path.</p>
+      <p class="guide-callout">A Linux admin check is stronger when it is timestamped. Copy the host, time and command output into the incident note before changing the server.</p>
+      <p>Related: <a href="terminal-workflows-for-developers.html">Terminal Workflows</a>, <a href="dba-admin-roadmap.html">DBA Admin Roadmap</a>, <a href="hardware-diagnostics-guide.html">Hardware Diagnostics</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
