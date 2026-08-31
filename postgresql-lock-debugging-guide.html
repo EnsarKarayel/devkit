@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>PostgreSQL Lock Debugging Guide | Formalint</title>
+    <meta name="description" content="PostgreSQL lock debugging guide for blocked sessions, pg_stat_activity, pg_locks, transactions and safe incident notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/postgresql-lock-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-100-page-library">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/postgresql-lock-debugging-guide.html#article", "headline": "PostgreSQL Lock Debugging Guide", "description": "PostgreSQL lock debugging guide for blocked sessions, pg_stat_activity, pg_locks, transactions and safe incident notes.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>PostgreSQL Lock Debugging Guide</h1>
+      <p class="guide-meta">PostgreSQL lock debugging guide for blocked sessions, pg_stat_activity, pg_locks, transactions and safe incident notes. Last updated August 31, 2026.</p>
+      <p>This guide is for the moment when queries pile up, writes stop or migrations hang while one transaction holds a lock. Formalint keeps the page practical: start with observable evidence, keep commands repeatable, avoid pasting secrets into tools and write down the final decision so another developer can reproduce the fix.</p>
+      <p>The reference baseline for this page is <a href="https://www.postgresql.org/docs/current/monitoring.html" rel="noopener" target="_blank">PostgreSQL monitoring</a>. Vendor documentation defines the exact behavior, while this Formalint guide turns the behavior into a debugging workflow that is easier to follow during incidents, reviews and handoffs.</p>
+
+      <h2>Fast triage order</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>Question</th><th>Evidence to capture</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Can you reproduce the issue with the smallest safe sample?</td><td>Input, command, URL, version, timestamp and environment name.</td></tr>
+          <tr><td>2</td><td>Is the failure syntax, configuration, transport, permission or runtime behavior?</td><td>Error message, status code, log line, stack trace or parser output.</td></tr>
+          <tr><td>3</td><td>Did the same check pass in another environment?</td><td>Working version, failing version, config difference and deploy reference.</td></tr>
+          <tr><td>4</td><td>What change would prove the root cause without hiding another issue?</td><td>One controlled fix, rollback path and follow-up test.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Useful checks</h2>
+      <ul>
+        <li>Confirm the exact tool, runtime, browser, server or database version before comparing behavior.</li>
+        <li>Reduce the example to a safe sample that keeps the shape of the problem but removes private data.</li>
+        <li>Prefer one repeatable command over screenshots when you need another person to verify the same behavior.</li>
+        <li>Record both the failing input and the corrected input so the fix becomes reviewable.</li>
+      </ul>
+
+      <h2>Commands and examples</h2>
+      <ul>
+          <li><code>select pid, state, wait_event_type, wait_event, query from pg_stat_activity;</code></li>
+          <li><code>select * from pg_locks where not granted;</code></li>
+      </ul>
+
+      <h2>Decision checklist</h2>
+      <ul>
+        <li>Do not ship the fix until the failing case and at least one normal case both pass.</li>
+        <li>Check whether the issue belongs in code, configuration, infrastructure, documentation or user input handling.</li>
+        <li>If the page involves authentication, cookies, tokens, headers, database records or logs, redact values before sharing them.</li>
+        <li>Update the runbook, test fixture or team note while the details are still fresh.</li>
+      </ul>
+
+      <h2>Common mistakes</h2>
+      <p>The most common mistake is treating the first visible error as the root cause. A timeout can be DNS, TLS, proxy, application, database or client retry behavior. A parser error can be invalid syntax, wrong encoding, invisible whitespace or a sample that no longer matches production. Keep the investigation narrow, but do not skip the boundary where the value crosses from one system into another.</p>
+      <p>Another mistake is fixing only the happy path. Good debugging leaves behind a small failure example, a working example and a note that explains why the chosen fix is safer than the alternatives considered.</p>
+
+      <h2>Related Formalint pages</h2>
+      <p>Continue with <a href="postgresql-dba-checklist.html">PostgreSQL DBA Checklist</a>, <a href="postgresql-index-debugging-guide.html">PostgreSQL Index Debugging Guide</a>, <a href="sql-formatting-guide.html">SQL Formatting Guide</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a>.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-signature" aria-label="Contact">
+        <strong>&copy; 2026 Formalint</strong>
+        <span aria-hidden="true">-</span>
+        <span>Ensar Karayel</span>
+        <span aria-hidden="true">-</span>
+        <a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a>
+      </div>
+      <nav aria-label="Footer navigation">
+        <button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+      </nav>
+    </footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

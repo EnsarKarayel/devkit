@@ -128,7 +128,10 @@
         { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" },
         { label: "SQL Cleanup", href: "sql-cleanup.html", icon: "SQL", description: "Clean noisy SQL before sharing, comparing or reviewing it.", keywords: "sql cleanup clean sql sql clean query cleanup" },
         { label: "Python Formatter", href: "python-formatter.html", icon: "PY", description: "Normalize indentation and whitespace in Python snippets.", keywords: "python formatter python format python beautifier" },
-        { label: "Python Indent Fixer", href: "python-indentation-fixer.html", icon: "TAB", description: "Fix mixed tabs and spaces before Python raises indentation errors.", keywords: "python indentation fixer python indent fixer python indentation" }
+        { label: "Python Indent Fixer", href: "python-indentation-fixer.html", icon: "TAB", description: "Fix mixed tabs and spaces before Python raises indentation errors.", keywords: "python indentation fixer python indent fixer python indentation" },
+        { label: "XML Schema XSD", href: "xml-schema-xsd-guide.html", icon: "XSD", description: "Validate XML structure, elements, attributes, namespaces and integration contracts.", keywords: "xml schema xsd validation xml linter validate xml schema" },
+        { label: "XML to JSON Guide", href: "xml-to-json-conversion-guide.html", icon: "X2J", description: "Handle attributes, arrays, namespaces, text nodes and safe API migration notes.", keywords: "xml to json conversion guide convert xml json attributes arrays namespaces" },
+        { label: "YAML Lint Checklist", href: "yaml-lint-checklist.html", icon: "YML", description: "Review indentation, tabs, anchors, quoted strings, booleans and CI configuration.", keywords: "yaml lint checklist yaml indentation yaml parser github actions docker compose" }
       ]
     },
     {
@@ -143,7 +146,12 @@
         { label: "URL Regex", href: "regex-url-validator.html", icon: "URL", description: "Check link-shaped strings before parser-level validation.", keywords: "url regex url validator regex link regex" },
         { label: "UUID Regex", href: "regex-uuid-validator.html", icon: "ID", description: "Validate UUID v4 version and variant characters.", keywords: "uuid regex uuid validator uuid v4 regex" },
         { label: "Date Regex", href: "regex-date-validator.html", icon: "DATE", description: "Understand date pattern limits before calendar parsing.", keywords: "date regex date validator regex date pattern" },
-        { label: "Log Parser", href: "regex-log-parser.html", icon: "LOG", description: "Extract timestamps, levels and messages from logs.", keywords: "regex log parser log parser regex log pattern" }
+        { label: "Log Parser", href: "regex-log-parser.html", icon: "LOG", description: "Extract timestamps, levels and messages from logs.", keywords: "regex log parser log parser regex log pattern" },
+        { label: "Email Regex JavaScript", href: "email-regex-javascript-guide.html", icon: "@JS", description: "Review realistic JavaScript email validation rules, examples and edge cases.", keywords: "email regex javascript email validation regex regex for email validation js" },
+        { label: "JavaScript Regex Cheatsheet", href: "javascript-regex-cheatsheet.html", icon: "JSRX", description: "Use flags, anchors, groups, classes, quantifiers, replacement and validation patterns.", keywords: "javascript regex cheatsheet js regex flags groups anchors replace match" },
+        { label: "Lookahead Lookbehind", href: "regex-lookahead-lookbehind-guide.html", icon: "?=", description: "Use positive and negative assertions when nearby text should not be consumed.", keywords: "regex lookahead lookbehind positive negative assertion javascript regex" },
+        { label: "Regex Replace", href: "regex-replace-guide.html", icon: "REP", description: "Clean strings with capture groups, whitespace normalization and safe replacements.", keywords: "regex replace javascript string replace capture groups cleanup" },
+        { label: "Regex Performance", href: "regex-performance-guide.html", icon: "PERF", description: "Debug slow patterns, backtracking risk, large logs, input limits and parser choices.", keywords: "regex performance catastrophic backtracking slow regex javascript regex debug" }
       ]
     },
     {
@@ -195,7 +203,15 @@
         { label: "Terminal Workflows", href: "terminal-workflows-for-developers.html", icon: ">_", description: "Choose CMD, PowerShell, Git Bash or Linux shell for daily engineering tasks.", keywords: "cmd powershell git bash linux terminal command line developer dba workflow" },
         { label: "Cockpit Server Guide", href: "linux-cockpit-server-guide.html", icon: "9090", description: "Install Cockpit and expose a safe browser console for Linux server administration.", keywords: "cockpit linux server setup dba web console install ubuntu debian rhel centos fedora cockpit 9090" },
         { label: "Docker Compose Debugging", href: "docker-compose-debugging-guide.html", icon: "DC", description: "Inspect services, logs, ports, volumes, healthchecks and rebuilds without guesswork.", keywords: "docker compose debugging docker compose logs up down ps exec healthcheck volumes ports" },
-        { label: "Nginx Reverse Proxy Checklist", href: "nginx-reverse-proxy-checklist.html", icon: "NGX", description: "Debug proxy config, upstreams, headers, TLS, redirects and service logs.", keywords: "nginx reverse proxy checklist nginx config test proxy_pass upstream headers tls redirect logs" }
+        { label: "Nginx Reverse Proxy Checklist", href: "nginx-reverse-proxy-checklist.html", icon: "NGX", description: "Debug proxy config, upstreams, headers, TLS, redirects and service logs.", keywords: "nginx reverse proxy checklist nginx config test proxy_pass upstream headers tls redirect logs" },
+        { label: "Docker Env Files", href: "docker-env-file-guide.html", icon: ".ENV", description: "Debug Compose variables, quoting, secrets boundaries, defaults and deployments.", keywords: "docker env file docker compose environment variables .env guide" },
+        { label: "Kubernetes Pod Debugging", href: "kubernetes-pod-debugging-guide.html", icon: "K8S", description: "Investigate Pending, CrashLoopBackOff, ImagePullBackOff, logs and events.", keywords: "kubernetes pod debugging crashloopbackoff imagepullbackoff kubectl describe logs" },
+        { label: "DNS Debugging", href: "dns-debugging-guide.html", icon: "DNS", description: "Check A, CNAME, TXT, MX, nameservers, propagation, TTL and domain launch issues.", keywords: "dns debugging guide a cname txt mx nameserver ttl propagation" },
+        { label: "TLS Certificate Debugging", href: "tls-certificate-debugging-guide.html", icon: "TLS", description: "Debug HTTPS failures, redirects, certificate names, expiry, chains and mixed content.", keywords: "tls certificate debugging https ssl certificate chain expiry mixed content" },
+        { label: "Nginx 502 504", href: "nginx-502-504-debugging-guide.html", icon: "502", description: "Debug upstream health, proxy timeouts, logs, DNS, TLS and gateway ownership.", keywords: "nginx 502 504 debugging bad gateway gateway timeout proxy upstream" },
+        { label: "PowerShell Network Debugging", href: "powershell-network-debugging-guide.html", icon: "PS", description: "Use ping, TCP port tests, DNS, routes, services and Windows API connectivity checks.", keywords: "powershell network debugging test-netconnection port dns route windows" },
+        { label: "Git Merge Conflicts", href: "git-merge-conflict-guide.html", icon: "GIT", description: "Read conflict markers, choose changes, test the result and finish merges safely.", keywords: "git merge conflict guide resolve conflict markers git status" },
+        { label: "Git Rebase Workflow", href: "git-rebase-workflow-guide.html", icon: "BASE", description: "Update branches, resolve conflicts, continue safely and avoid history surprises.", keywords: "git rebase workflow resolve conflicts rebase continue abort" }
       ]
     },
     {
@@ -208,7 +224,10 @@
         { label: "Redis Debugging Checklist", href: "redis-debugging-checklist.html", icon: "RED", description: "Use redis-cli, INFO, memory, clients, slowlog and keyspace checks safely.", keywords: "redis debugging checklist redis-cli info memory clients slowlog keyspace latency cache" },
         { label: "DBA Admin Roadmap", href: "dba-admin-roadmap.html", icon: "DBA", description: "Follow access, backup, restore, monitoring and incident routines.", keywords: "dba admin roadmap database administrator checklist backup restore monitoring maintenance incident" },
         { label: "SQL Cleanup", href: "sql-cleanup.html", icon: "SQL", description: "Clean noisy SQL before sharing, comparing or reviewing it.", keywords: "sql cleanup clean sql sql clean query cleanup" },
-        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" }
+        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" },
+        { label: "PostgreSQL Locks", href: "postgresql-lock-debugging-guide.html", icon: "LOCK", description: "Debug blocked sessions, pg_stat_activity, pg_locks, transactions and incidents.", keywords: "postgresql lock debugging pg_locks pg_stat_activity blocked sessions" },
+        { label: "PostgreSQL Indexes", href: "postgresql-index-debugging-guide.html", icon: "IDX", description: "Review EXPLAIN, missing indexes, unused indexes, row estimates and query evidence.", keywords: "postgresql index debugging explain analyze missing unused indexes" },
+        { label: "MySQL Slow Queries", href: "mysql-slow-query-debugging-guide.html", icon: "SLOW", description: "Use slow query log, EXPLAIN, indexes, lock time and rows examined evidence.", keywords: "mysql slow query debugging slow query log explain rows examined indexes" }
       ]
     },
     {
@@ -228,7 +247,10 @@
         { label: "PHP Runtime Guide", href: "php-runtime-guide.html", icon: "PHP", description: "Check PHP CLI, FPM, Composer, extensions, php.ini and web server integration.", keywords: "php runtime guide php install composer php-fpm php ini extensions apache nginx" },
         { label: "Java Runtime Guide", href: "java-runtime-guide.html", icon: "JAVA", description: "Check JDK, JAVA_HOME, Maven, Gradle, memory flags and service runtime behavior.", keywords: "java runtime guide jdk install java_home maven gradle openjdk jar service" },
         { label: "Python Runtime Guide", href: "python-runtime-guide.html", icon: "PY", description: "Check Python, pip, virtual environments, services and package paths.", keywords: "python runtime guide python install pip venv virtualenv django flask fastapi service" },
-        { label: "Node.js Runtime Guide", href: "nodejs-runtime-guide.html", icon: "NODE", description: "Check Node, npm, npx, package managers, build scripts, ports and process managers.", keywords: "nodejs runtime guide node npm npx pnpm yarn pm2 vite next express install debug" }
+        { label: "Node.js Runtime Guide", href: "nodejs-runtime-guide.html", icon: "NODE", description: "Check Node, npm, npx, package managers, build scripts, ports and process managers.", keywords: "nodejs runtime guide node npm npx pnpm yarn pm2 vite next express install debug" },
+        { label: "npm Dependency Debugging", href: "nodejs-npm-dependency-debugging.html", icon: "NPM", description: "Debug package-lock, npm install, npm ci, scripts, engines and module resolution.", keywords: "nodejs npm dependency debugging package lock npm install npm ci module not found" },
+        { label: "PHP Composer Autoload", href: "php-composer-autoload-guide.html", icon: "CMP", description: "Debug vendor files, namespaces, class maps, optimized autoload and deployments.", keywords: "php composer autoload debugging class not found vendor dump autoload" },
+        { label: "Java Memory Debugging", href: "java-memory-debugging-guide.html", icon: "HEAP", description: "Check heap settings, OutOfMemoryError, container limits, GC logs and JVM evidence.", keywords: "java memory debugging heap outofmemoryerror xmx gc logs container" }
       ]
     },
     {
