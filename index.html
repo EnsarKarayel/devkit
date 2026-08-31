@@ -25,7 +25,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-auth-webhook-page">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-idempotency-graphql-cookie">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <meta name="google-site-verification" content="900qdF_ULyPBSsmWQTF476EULUhK2YzDm-iLiA5l49A" />
@@ -236,7 +236,7 @@
 
       <section class="institution-strip" aria-label="Formalint quality signals">
         <div>
-          <strong>75 public pages</strong>
+          <strong>78 public pages</strong>
           <span>Tool pages, API references, DBA checks, runtime guides, privacy notes and editorial documentation are linked in the open.</span>
         </div>
         <div>
@@ -267,6 +267,9 @@
           <a class="tool-card" href="openapi-contract-checklist.html"><span>OpenAPI Contract Checklist</span><small>Review paths, operations, parameters, schemas, responses, examples and auth rules.</small></a>
           <a class="tool-card" href="webhook-debugging-guide.html"><span>Webhook Debugging</span><small>Debug deliveries, signatures, retries, idempotency, raw bodies and queue handoff.</small></a>
           <a class="tool-card" href="api-pagination-debugging.html"><span>API Pagination Debugging</span><small>Inspect Link headers, cursors, offsets, missing results and duplicate rows.</small></a>
+          <a class="tool-card" href="api-idempotency-retry-guide.html"><span>API Idempotency and Retry</span><small>Design safe retries, idempotency keys, duplicate POST handling and timeout recovery.</small></a>
+          <a class="tool-card" href="graphql-api-debugging-guide.html"><span>GraphQL API Debugging</span><small>Inspect queries, variables, operation names, partial data and GraphQL error paths.</small></a>
+          <a class="tool-card" href="cookie-samesite-debugging.html"><span>Cookie SameSite Debugging</span><small>Fix Secure, HttpOnly, SameSite, credential and session cookie failures.</small></a>
           <a class="tool-card" href="cors-debugging-guide.html"><span>CORS Debugging Guide</span><small>Debug origins, OPTIONS preflight, credentials, allowed headers and browser console errors.</small></a>
           <a class="tool-card" href="api-rate-limit-debugging.html"><span>429 Rate Limit Debugging</span><small>Inspect Retry-After, RateLimit headers, quotas, backoff and throttled clients.</small></a>
           <a class="tool-card" href="http-cache-control-guide.html"><span>HTTP Cache-Control</span><small>Choose safe cache headers for HTML, APIs, CDN responses and versioned assets.</small></a>
@@ -327,6 +330,18 @@
         <a href="api-pagination-debugging.html">
           <span>API Pagination</span>
           <small>Cursors and pages</small>
+        </a>
+        <a href="api-idempotency-retry-guide.html">
+          <span>Idempotency</span>
+          <small>Safe retries</small>
+        </a>
+        <a href="graphql-api-debugging-guide.html">
+          <span>GraphQL Debugging</span>
+          <small>Errors and variables</small>
+        </a>
+        <a href="cookie-samesite-debugging.html">
+          <span>Cookie SameSite</span>
+          <small>Sessions and CORS</small>
         </a>
         <a href="api-rate-limit-debugging.html">
           <span>429 Rate Limits</span>
@@ -476,7 +491,7 @@
           <h2 id="site-depth-title">Built to look maintained because it is maintained</h2>
         </div>
         <div class="proof-grid">
-          <div class="proof-card"><strong>75</strong><span>Public HTML targets in the current site structure.</span></div>
+          <div class="proof-card"><strong>78</strong><span>Public HTML targets in the current site structure.</span></div>
           <div class="proof-card"><strong>30+</strong><span>Dedicated guide and reference pages beyond the core tools.</span></div>
           <div class="proof-card"><strong>0</strong><span>Account walls, upload gates or forced sign-in flows in the static release.</span></div>
           <div class="proof-card"><strong>1</strong><span>Clear owner and contact path: Ensar Karayel, linked in the footer and About page.</span></div>

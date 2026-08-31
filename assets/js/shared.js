@@ -164,7 +164,7 @@
     {
       title: "API Debugging",
       mode: "api",
-      description: "Use when a request fails and you need status, headers, tokens, timing and incident notes.",
+      description: "Use when a request fails and you need status, headers, tokens, retries, GraphQL evidence, cookies and incident notes.",
       links: [
         { label: "API Checklist", href: "api-debugging-checklist.html", icon: "FIX", description: "Track request identity, auth, payload, logs and fix notes." },
         { label: "curl API Cheatsheet", href: "curl-api-debugging-cheatsheet.html", icon: "curl", description: "Copy curl commands for headers, JSON payloads, auth, timing, TLS and preflight checks.", keywords: "curl api debugging cheatsheet curl headers json post bearer token timing tls cors preflight" },
@@ -172,6 +172,9 @@
         { label: "OpenAPI Contract Checklist", href: "openapi-contract-checklist.html", icon: "OAS", description: "Review paths, operations, parameters, schemas, responses, examples and auth contracts.", keywords: "openapi checklist swagger api contract paths operations parameters schemas responses examples security" },
         { label: "Webhook Debugging", href: "webhook-debugging-guide.html", icon: "HOOK", description: "Debug deliveries, signatures, retries, idempotency, raw body handling and queue handoff.", keywords: "webhook debugging guide webhook signature delivery retry idempotency raw body queue hmac" },
         { label: "API Pagination", href: "api-pagination-debugging.html", icon: "PAGE", description: "Debug Link headers, page size, cursors, offsets, missing results and duplicate rows.", keywords: "api pagination debugging link header cursor offset page per_page missing results duplicates" },
+        { label: "Idempotency Retry Guide", href: "api-idempotency-retry-guide.html", icon: "RETRY", description: "Design safe retries, idempotency keys, duplicate POST handling and timeout recovery.", keywords: "api idempotency retry guide idempotency key duplicate post timeout backoff safe retry" },
+        { label: "GraphQL API Debugging", href: "graphql-api-debugging-guide.html", icon: "GQL", description: "Debug GraphQL queries, variables, operation names, errors, partial data and HTTP behavior.", keywords: "graphql api debugging guide query variables errors partial data operation name graphql over http" },
+        { label: "Cookie SameSite Debugging", href: "cookie-samesite-debugging.html", icon: "COOKIE", description: "Debug Secure, HttpOnly, SameSite, CORS credentials and session cookie failures.", keywords: "cookie samesite debugging secure httponly samesite none lax strict cors credentials session" },
         { label: "CORS Debugging", href: "cors-debugging-guide.html", icon: "CORS", description: "Debug Access-Control-Allow-Origin, OPTIONS preflight, credentials and Vary Origin behavior.", keywords: "cors debugging guide access-control-allow-origin preflight options credentials vary origin" },
         { label: "429 Rate Limit Debugging", href: "api-rate-limit-debugging.html", icon: "429", description: "Inspect Retry-After, RateLimit headers, quotas, backoff and throttled clients.", keywords: "429 too many requests rate limit debugging retry-after ratelimit headers quota backoff api throttling" },
         { label: "Cache-Control Guide", href: "http-cache-control-guide.html", icon: "CACHE", description: "Review browser cache, CDN cache, no-cache, no-store, max-age and immutable rules.", keywords: "cache-control guide http cache headers max-age no-cache no-store immutable cdn browser cache" },

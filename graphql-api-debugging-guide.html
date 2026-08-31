@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>GraphQL API Debugging Guide | Formalint</title>
+    <meta name="description" content="GraphQL API debugging guide for queries, variables, errors, partial data, operation names, validation failures, HTTP status codes and curl testing.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/graphql-api-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-idempotency-graphql-cookie">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/graphql-api-debugging-guide.html#article", "headline": "GraphQL API Debugging Guide", "description": "A practical guide to debugging GraphQL queries, variables, errors, partial data, operation names, validation failures and HTTP transport behavior.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>GraphQL API Debugging Guide</h1>
+      <p class="guide-meta">Queries, variables, operation names, validation failures, partial data and HTTP behavior. Last updated August 31, 2026.</p>
+      <p>The GraphQL specification separates request errors from execution errors and describes how responses may contain <code>data</code>, <code>errors</code> and implementation-specific extensions. See the current GraphQL spec at <a href="https://spec.graphql.org/September2025/" rel="noopener" target="_blank">spec.graphql.org</a>. The GraphQL-over-HTTP draft also gives practical HTTP status recommendations for parse errors, validation failures, auth failures and server failures at <a href="https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md" rel="noopener" target="_blank">graphql-over-http</a>.</p>
+
+      <h2>Minimal curl request</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i -X POST https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer REPLACE_WITH_TEST_TOKEN" \
+  --data '{"query":"query Viewer { viewer { id login } }"}'</code></pre></div>
+
+      <h2>Query with variables</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>{
+  "operationName": "CustomerById",
+  "query": "query CustomerById($id: ID!) { customer(id: $id) { id name email } }",
+  "variables": {
+    "id": "cus_123"
+  }
+}</code></pre></div>
+      <p>Use the <a href="index.html">JSON Formatter</a> before debugging variables. Many GraphQL failures start as ordinary JSON body mistakes: wrong variable shape, missing <code>operationName</code>, invalid string escaping or stale copied payloads.</p>
+
+      <h2>Error classification</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Symptom</th><th>Likely layer</th><th>Next check</th></tr></thead>
+        <tbody>
+          <tr><td>Invalid JSON body</td><td>HTTP transport</td><td>Format the request body and inspect <code>Content-Type</code>.</td></tr>
+          <tr><td>GraphQL parse error</td><td>Query document</td><td>Check braces, field syntax and copied fragments.</td></tr>
+          <tr><td>Validation error</td><td>Schema contract</td><td>Check field names, argument names and variable types.</td></tr>
+          <tr><td>Auth error</td><td>Token or policy</td><td>Check bearer token, scopes, viewer identity and field-level authorization.</td></tr>
+          <tr><td>Partial data with errors</td><td>Resolver execution</td><td>Inspect error path, nullable fields and downstream service logs.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Debug checklist</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>endpoint:
+operation name:
+query hash:
+variables valid JSON:
+auth token scope:
+http status:
+data present:
+errors present:
+first error message:
+error path:
+resolver owner:
+downstream service:</code></pre></div>
+
+      <h2>Production safeguards</h2>
+      <ul>
+        <li>Use operation names so logs and traces can group requests.</li>
+        <li>Capture variables separately from the query text, with sensitive values redacted.</li>
+        <li>Limit query depth or cost when public clients can submit arbitrary queries.</li>
+        <li>Watch for N+1 resolver behavior when one query fans out into many database calls.</li>
+        <li>Document which errors are request errors and which are partial execution errors.</li>
+      </ul>
+
+      <p class="guide-callout">GraphQL debugging starts by deciding whether the failure happened before execution or during execution. That one distinction prevents a lot of false backend hunts.</p>
+      <p>Related: <a href="index.html">JSON Formatter</a>, <a href="oauth-jwt-debugging-checklist.html">OAuth JWT Debugging</a>, <a href="openapi-contract-checklist.html">OpenAPI Contract Checklist</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
