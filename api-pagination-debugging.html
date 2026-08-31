@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>API Pagination Debugging Guide | Formalint</title>
+    <meta name="description" content="API pagination debugging guide for Link headers, page, per_page, cursor, offset, missing results, duplicates, sorting and stable exports.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/api-pagination-debugging.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-auth-webhook-page">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/api-pagination-debugging.html#article", "headline": "API Pagination Debugging Guide", "description": "A practical guide to debugging API pagination, Link headers, page and per_page parameters, cursor pagination, offsets, missing results and duplicates.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>API Pagination Debugging Guide</h1>
+      <p class="guide-meta">Link headers, page size, cursor pagination, offsets, missing results and duplicate rows. Last updated August 31, 2026.</p>
+      <p>Pagination bugs usually appear as missing rows, duplicate rows, incomplete exports or unstable API clients. GitHub's REST API pagination guide explains that paginated responses may include a <code>link</code> header with URLs for next, previous, first and last pages, and that some endpoints support a <code>per_page</code> query parameter. See <a href="https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api" rel="noopener" target="_blank">GitHub Docs</a>. This page generalizes the debugging workflow for APIs that use page, offset or cursor pagination.</p>
+
+      <h2>Find the pagination style</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Style</th><th>Typical parameters</th><th>Common failure</th></tr></thead>
+        <tbody>
+          <tr><td>Page-based</td><td><code>page</code>, <code>per_page</code></td><td>Client stops too early or assumes the wrong page size.</td></tr>
+          <tr><td>Offset-based</td><td><code>offset</code>, <code>limit</code></td><td>Rows shift while data changes during export.</td></tr>
+          <tr><td>Cursor-based</td><td><code>after</code>, <code>before</code>, <code>cursor</code></td><td>Client treats opaque cursors like sortable IDs.</td></tr>
+          <tr><td>Time-based</td><td><code>since</code>, <code>updated_after</code></td><td>Boundary timestamps create duplicates or gaps.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Inspect headers and body</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i "https://api.example.com/items?page=1&per_page=50"
+curl -sS -D page1.headers -o page1.json "https://api.example.com/items?page=1&per_page=50"
+curl -sS -D page2.headers -o page2.json "https://api.example.com/items?page=2&per_page=50"</code></pre></div>
+
+      <h2>Missing results checklist</h2>
+      <ul>
+        <li>Confirm whether default page size is smaller than expected.</li>
+        <li>Check the next-page signal: link header, cursor field, total pages or boolean flag.</li>
+        <li>Verify auth scope. Missing results may be permission filtering, not pagination.</li>
+        <li>Use a stable sort key when exporting changing datasets.</li>
+        <li>Record item IDs from the end of page 1 and start of page 2 to detect gaps.</li>
+      </ul>
+
+      <h2>Duplicate result checklist</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>page 1 last id:
+page 2 first id:
+sort field:
+sort direction:
+created/updated during export:
+cursor reused:
+retry duplicated page:
+client de-dup key:</code></pre></div>
+
+      <h2>Client loop pattern</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>next_url = first_url
+while next_url:
+    response = fetch(next_url)
+    save response.items
+    next_url = response.links.next or response.body.next_cursor
+    stop if next_url was already visited</code></pre></div>
+
+      <p class="guide-callout">Treat pagination cursors as opaque. A cursor is a server-provided bookmark, not a number the client should invent, sort or edit unless the API documentation explicitly says so.</p>
+      <p>Related: <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="api-rate-limit-debugging.html">API Rate Limit Debugging</a>, <a href="openapi-contract-checklist.html">OpenAPI Contract Checklist</a>, <a href="json-diff.html">JSON Diff</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

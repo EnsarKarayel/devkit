@@ -168,7 +168,10 @@
       links: [
         { label: "API Checklist", href: "api-debugging-checklist.html", icon: "FIX", description: "Track request identity, auth, payload, logs and fix notes." },
         { label: "curl API Cheatsheet", href: "curl-api-debugging-cheatsheet.html", icon: "curl", description: "Copy curl commands for headers, JSON payloads, auth, timing, TLS and preflight checks.", keywords: "curl api debugging cheatsheet curl headers json post bearer token timing tls cors preflight" },
+        { label: "OAuth JWT Debugging", href: "oauth-jwt-debugging-checklist.html", icon: "AUTH", description: "Separate 401, 403, scopes, issuer, audience, expiration and refresh-token failures.", keywords: "oauth jwt debugging checklist 401 403 bearer token scopes issuer audience exp refresh token" },
         { label: "OpenAPI Contract Checklist", href: "openapi-contract-checklist.html", icon: "OAS", description: "Review paths, operations, parameters, schemas, responses, examples and auth contracts.", keywords: "openapi checklist swagger api contract paths operations parameters schemas responses examples security" },
+        { label: "Webhook Debugging", href: "webhook-debugging-guide.html", icon: "HOOK", description: "Debug deliveries, signatures, retries, idempotency, raw body handling and queue handoff.", keywords: "webhook debugging guide webhook signature delivery retry idempotency raw body queue hmac" },
+        { label: "API Pagination", href: "api-pagination-debugging.html", icon: "PAGE", description: "Debug Link headers, page size, cursors, offsets, missing results and duplicate rows.", keywords: "api pagination debugging link header cursor offset page per_page missing results duplicates" },
         { label: "CORS Debugging", href: "cors-debugging-guide.html", icon: "CORS", description: "Debug Access-Control-Allow-Origin, OPTIONS preflight, credentials and Vary Origin behavior.", keywords: "cors debugging guide access-control-allow-origin preflight options credentials vary origin" },
         { label: "429 Rate Limit Debugging", href: "api-rate-limit-debugging.html", icon: "429", description: "Inspect Retry-After, RateLimit headers, quotas, backoff and throttled clients.", keywords: "429 too many requests rate limit debugging retry-after ratelimit headers quota backoff api throttling" },
         { label: "Cache-Control Guide", href: "http-cache-control-guide.html", icon: "CACHE", description: "Review browser cache, CDN cache, no-cache, no-store, max-age and immutable rules.", keywords: "cache-control guide http cache headers max-age no-cache no-store immutable cdn browser cache" },
@@ -284,13 +287,13 @@
       mode: "api",
       icon: "API",
       label: "API debugging",
-      description: "Debug curl requests, contracts, status codes, headers, CORS, cache, security, tokens and schedules.",
-      tip: "Use this mode when a request fails and you need reproducible curl evidence, OpenAPI contract checks, browser headers and repeatable incident notes.",
+      description: "Debug curl requests, auth, webhooks, pagination, contracts, status codes, headers, CORS, cache, security, tokens and schedules.",
+      tip: "Use this mode when a request fails and you need reproducible curl evidence, auth checks, webhook delivery notes, pagination proof, OpenAPI contract checks and browser headers.",
       href: "api-debugging-checklist.html",
       workflow: [
         "Record method, URL, status code, correlation id and environment first.",
         "Use curl to capture headers, response body, redirects and timing without browser noise.",
-        "Check OpenAPI contract drift, CORS, cache, security headers, authentication, payload shape and retry behavior separately.",
+        "Check authentication, webhook delivery, pagination, OpenAPI contract drift, CORS, cache, security headers, payload shape and retry behavior separately.",
         "Decode timestamps or JWT claims only from safe non-sensitive samples.",
         "Write the final cause and fix note so the issue is searchable later."
       ]

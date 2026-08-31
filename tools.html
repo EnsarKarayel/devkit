@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-contract-security-rate">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-auth-webhook-page">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -97,7 +97,10 @@
         <div class="directory-grid">
           <a class="tool-card" href="api-debugging-checklist.html"><span>API Debugging Checklist</span><small>Track request identity, auth, payload, logs, retries and final fix notes.</small></a>
           <a class="tool-card" href="curl-api-debugging-cheatsheet.html"><span>curl API Debugging Cheatsheet</span><small>Copy curl commands for headers, JSON POST, auth, timing, redirects, TLS and CORS preflight.</small></a>
+          <a class="tool-card" href="oauth-jwt-debugging-checklist.html"><span>OAuth JWT Debugging Checklist</span><small>Separate 401, 403, bearer tokens, scopes, issuer, audience, expiration and refresh-token failures.</small></a>
           <a class="tool-card" href="openapi-contract-checklist.html"><span>OpenAPI Contract Checklist</span><small>Review paths, operations, parameters, request bodies, responses, schemas and auth contracts.</small></a>
+          <a class="tool-card" href="webhook-debugging-guide.html"><span>Webhook Debugging Guide</span><small>Debug webhook deliveries, signatures, retries, idempotency, raw body handling and queue handoff.</small></a>
+          <a class="tool-card" href="api-pagination-debugging.html"><span>API Pagination Debugging</span><small>Inspect Link headers, page size, cursors, offsets, missing results and duplicate rows.</small></a>
           <a class="tool-card" href="cors-debugging-guide.html"><span>CORS Debugging Guide</span><small>Debug Access-Control-Allow-Origin, OPTIONS preflight, credentials, Vary Origin and browser failures.</small></a>
           <a class="tool-card" href="api-rate-limit-debugging.html"><span>API Rate Limit Debugging</span><small>Inspect 429 responses, Retry-After, RateLimit headers, quotas and client backoff behavior.</small></a>
           <a class="tool-card" href="http-cache-control-guide.html"><span>HTTP Cache-Control Guide</span><small>Choose max-age, no-cache, no-store, immutable and CDN cache behavior safely.</small></a>
@@ -143,7 +146,10 @@
           <a class="tool-card" href="data-formats-guide.html"><span>JSON vs XML vs YAML</span><small>Compare data formats before choosing a parser, linter or formatter.</small></a>
           <a class="tool-card" href="api-debugging-handbook.html"><span>API Debugging Handbook</span><small>Debug requests with status codes, headers, payloads, logs and retries.</small></a>
           <a class="tool-card" href="curl-api-debugging-cheatsheet.html"><span>curl API Debugging Cheatsheet</span><small>Use repeatable command-line checks when a browser, proxy or API client behaves differently.</small></a>
+          <a class="tool-card" href="oauth-jwt-debugging-checklist.html"><span>OAuth JWT Debugging Checklist</span><small>Use token claims and scope evidence before guessing why an API returned 401 or 403.</small></a>
           <a class="tool-card" href="openapi-contract-checklist.html"><span>OpenAPI Contract Checklist</span><small>Keep API documentation, schemas, generated clients and debugging notes aligned.</small></a>
+          <a class="tool-card" href="webhook-debugging-guide.html"><span>Webhook Debugging Guide</span><small>Verify delivery, signature, idempotency and retry behavior for event-driven integrations.</small></a>
+          <a class="tool-card" href="api-pagination-debugging.html"><span>API Pagination Debugging</span><small>Debug missing results, duplicate rows, unstable exports and client pagination loops.</small></a>
           <a class="tool-card" href="cors-debugging-guide.html"><span>CORS Debugging Guide</span><small>Understand why curl may succeed while frontend JavaScript still cannot read the response.</small></a>
           <a class="tool-card" href="api-rate-limit-debugging.html"><span>API Rate Limit Debugging</span><small>Understand 429, Retry-After, quota headers, backoff and gateway ownership.</small></a>
           <a class="tool-card" href="http-cache-control-guide.html"><span>HTTP Cache-Control Guide</span><small>Review cache directives before shipping stale assets or caching private API data.</small></a>

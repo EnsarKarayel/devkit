@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>OAuth and JWT Debugging Checklist | Formalint</title>
+    <meta name="description" content="OAuth and JWT debugging checklist for 401, 403, bearer tokens, scopes, issuer, audience, expiration, refresh tokens and API authorization failures.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/oauth-jwt-debugging-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-auth-webhook-page">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/oauth-jwt-debugging-checklist.html#article", "headline": "OAuth and JWT Debugging Checklist", "description": "A practical checklist for OAuth bearer token failures, JWT claims, scopes, issuer, audience, expiration and refresh-token debugging.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>OAuth and JWT Debugging Checklist</h1>
+      <p class="guide-meta">401, 403, bearer tokens, scopes, issuer, audience, expiration and refresh-token failures. Last updated August 31, 2026.</p>
+      <p>OAuth 2.0 defines access tokens as credentials used to access protected resources, and refresh tokens as credentials used to obtain new access tokens. See <a href="https://www.rfc-editor.org/info/rfc6749/" rel="noopener" target="_blank">RFC 6749</a>. JSON Web Token defines a compact claims format with registered claims such as <code>iss</code>, <code>sub</code>, <code>aud</code>, <code>exp</code>, <code>nbf</code>, <code>iat</code> and <code>jti</code>; see <a href="https://www.rfc-editor.org/rfc/rfc7519.html" rel="noopener" target="_blank">RFC 7519</a>. This checklist turns those concepts into an API debugging workflow.</p>
+
+      <h2>Separate 401 from 403</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Status</th><th>Common meaning</th><th>Start here</th></tr></thead>
+        <tbody>
+          <tr><td>401 Unauthorized</td><td>The request is missing valid authentication.</td><td>Token presence, token type, expiration, signature, issuer and audience.</td></tr>
+          <tr><td>403 Forbidden</td><td>The caller is authenticated but not allowed.</td><td>Scopes, roles, tenant boundary, resource ownership and policy rules.</td></tr>
+          <tr><td>419 or custom auth code</td><td>Session or CSRF-specific failure in some stacks.</td><td>Cookie settings, same-site policy, CSRF token and frontend origin.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Capture auth evidence with curl</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i https://api.example.com/me \
+  -H "Authorization: Bearer REPLACE_WITH_TEST_TOKEN"
+
+curl -i https://api.example.com/admin/reports \
+  -H "Authorization: Bearer REPLACE_WITH_TEST_TOKEN" \
+  -H "X-Request-Id: auth-debug-001"</code></pre></div>
+
+      <h2>JWT claim checklist</h2>
+      <ul>
+        <li><code>iss</code>: the token issuer expected by the API.</li>
+        <li><code>sub</code>: the user, client or service identity the API should authorize.</li>
+        <li><code>aud</code>: the API audience; many 401 failures are audience mismatch issues.</li>
+        <li><code>exp</code>: expiration time. Compare it with server time, not only laptop time.</li>
+        <li><code>nbf</code>: not-before time; future tokens fail until this timestamp is reached.</li>
+        <li><code>scope</code> or roles: permissions must match the operation, not merely the login.</li>
+      </ul>
+
+      <h2>Refresh-token failure path</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>grant_type=refresh_token
+client_id checked:
+client secret required:
+refresh token rotated:
+old refresh token revoked:
+scope narrowed:
+token endpoint status:
+response error:</code></pre></div>
+
+      <h2>Incident note template</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>endpoint:
+status:
+auth scheme:
+issuer:
+audience:
+subject type:
+expires at:
+server time:
+scopes:
+roles:
+tenant:
+resource owner:
+failure layer:</code></pre></div>
+
+      <p class="guide-callout">Never paste live access tokens, refresh tokens or private signing keys into a public tool or support ticket. Decode only safe test tokens or redact sensitive values before sharing evidence.</p>
+      <p>Related: <a href="jwt-decoder.html">JWT Decoder</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>, <a href="http-security-headers-checklist.html">HTTP Security Headers Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
