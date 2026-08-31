@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>PostgreSQL DBA Checklist and psql Commands | Formalint</title>
+    <meta name="description" content="PostgreSQL DBA checklist with psql commands for connection identity, sessions, locks, size, vacuum signals, backups, restore checks and incident evidence.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/postgresql-dba-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-runtime-db">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/postgresql-dba-checklist.html#article", "headline": "PostgreSQL DBA Checklist and psql Commands", "description": "Read-only PostgreSQL DBA checks for connection identity, sessions, locks, size, vacuum, backups and incidents.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>PostgreSQL DBA Checklist</h1>
+      <p class="guide-meta">psql, sessions, locks, size, vacuum, backups and incident evidence. Last updated August 31, 2026.</p>
+      <p>PostgreSQL troubleshooting should start with identity and read-only evidence: which server, which database, which user, which sessions, which locks and which storage pressure. The PostgreSQL documentation describes <a href="https://www.postgresql.org/docs/current/app-psql.html" rel="noopener" target="_blank">psql</a> as the interactive terminal for PostgreSQL. This page turns that into a practical DBA checklist for developers and administrators.</p>
+
+      <h2>Connection identity</h2>
+      <p>Save this block before changing config or tuning SQL. It prevents the classic mistake of debugging the wrong database.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>psql -c "select version();"
+psql -c "select current_database(), current_user, inet_server_addr(), inet_server_port();"
+psql -c "show data_directory;"
+psql -c "show config_file;"
+psql -c "show hba_file;"</code></pre></div>
+
+      <h2>Database size and table signals</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>psql -c "select pg_size_pretty(pg_database_size(current_database())) as database_size;"
+psql -c "select schemaname, relname, n_live_tup, n_dead_tup, last_vacuum, last_autovacuum from pg_stat_user_tables order by n_dead_tup desc limit 20;"
+psql -c "select relname, pg_size_pretty(pg_total_relation_size(relid)) as total_size from pg_catalog.pg_statio_user_tables order by pg_total_relation_size(relid) desc limit 20;"</code></pre></div>
+
+      <h2>Sessions and slow activity</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>psql -c "select pid, usename, application_name, client_addr, state, wait_event_type, wait_event, now() - query_start as age, left(query, 120) as query from pg_stat_activity where state &lt;&gt; 'idle' order by query_start;"
+psql -c "select state, count(*) from pg_stat_activity group by state order by count(*) desc;"
+psql -c "select application_name, client_addr, count(*) from pg_stat_activity group by application_name, client_addr order by count(*) desc limit 20;"</code></pre></div>
+
+      <h2>Locks and blocking</h2>
+      <p>Use lock evidence carefully. Killing sessions can cause application errors, so collect the blocking chain first.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>psql -c "select blocked.pid as blocked_pid, blocked.query as blocked_query, blocking.pid as blocking_pid, blocking.query as blocking_query from pg_stat_activity blocked join pg_locks blocked_locks on blocked_locks.pid = blocked.pid join pg_locks blocking_locks on blocking_locks.locktype = blocked_locks.locktype and blocking_locks.database is not distinct from blocked_locks.database and blocking_locks.relation is not distinct from blocked_locks.relation and blocking_locks.page is not distinct from blocked_locks.page and blocking_locks.tuple is not distinct from blocked_locks.tuple and blocking_locks.virtualxid is not distinct from blocked_locks.virtualxid and blocking_locks.transactionid is not distinct from blocked_locks.transactionid and blocking_locks.classid is not distinct from blocked_locks.classid and blocking_locks.objid is not distinct from blocked_locks.objid and blocking_locks.objsubid is not distinct from blocked_locks.objsubid and blocking_locks.pid &lt;&gt; blocked_locks.pid join pg_stat_activity blocking on blocking.pid = blocking_locks.pid where not blocked_locks.granted and blocking_locks.granted;"</code></pre></div>
+
+      <h2>Backup and restore readiness</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Evidence</th><th>Command</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Logical backup exists</td><td><code>pg_dump --format=custom</code></td><td>Confirms you can export a restoreable database artifact.</td></tr>
+          <tr><td>Restore test works</td><td><code>pg_restore --list backup.dump</code></td><td>Confirms the artifact can be inspected before restore.</td></tr>
+          <tr><td>Disk has room</td><td><code>df -h</code></td><td>Backups and indexes fail when storage is tight.</td></tr>
+          <tr><td>WAL pressure is known</td><td><code>select * from pg_stat_archiver;</code></td><td>Archive or replication problems can fill disks.</td></tr>
+          <tr><td>Ownership is known</td><td><code>\du</code></td><td>Restore and migration failures often come from role mismatch.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Safe backup commands</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>pg_dump --format=custom --file=backup.dump my_database
+pg_restore --list backup.dump
+createdb my_database_restore_test
+pg_restore --dbname=my_database_restore_test --clean --if-exists backup.dump</code></pre></div>
+
+      <h2>Incident evidence bundle</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>date -Is
+hostname
+psql -c "select version();"
+psql -c "select current_database(), current_user, inet_server_addr(), inet_server_port();"
+psql -c "select state, count(*) from pg_stat_activity group by state order by count(*) desc;"
+psql -c "select pg_size_pretty(pg_database_size(current_database())) as database_size;"</code></pre></div>
+
+      <p class="guide-callout">The best PostgreSQL DBA habit is boring and powerful: prove connection identity, collect read-only evidence, then decide whether the issue is SQL, locks, storage, config or application traffic.</p>
+      <p>Related: <a href="dba-admin-roadmap.html">DBA Admin Roadmap</a>, <a href="sql-cleanup.html">SQL Cleanup</a>, <a href="docker-compose-debugging-guide.html">Docker Compose Debugging</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

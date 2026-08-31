@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Node.js Runtime Checklist for Developers | Formalint</title>
+    <meta name="description" content="Node.js runtime troubleshooting checklist covering node, npm, npx, pnpm, yarn, package scripts, ports, environment variables, PM2 and service logs.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/nodejs-runtime-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-runtime-db">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/nodejs-runtime-guide.html#article", "headline": "Node.js Runtime Checklist for Developers", "description": "Operational checks for Node.js runtime, package managers, build scripts, ports, services and deployment debugging.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Node.js Runtime Checklist</h1>
+      <p class="guide-meta">Node.js, npm, package managers, ports and services. Last updated August 31, 2026.</p>
+      <p>Node.js incidents often come from a runtime mismatch rather than a JavaScript bug. The shell may use one Node version, CI may use another, the production service may start from a stale directory, or the package manager may install a lockfile differently than expected. Node.js publishes current downloads and release options at <a href="https://nodejs.org/en/download" rel="noopener" target="_blank">nodejs.org/en/download</a>; this checklist focuses on proving what is actually running.</p>
+
+      <h2>Identify Node and package managers</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>node --version
+npm --version
+npx --version
+corepack --version
+which node
+which npm</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Windows PowerShell
+node --version
+npm --version
+Get-Command node
+Get-Command npm
+where node
+where npm</code></pre></div>
+
+      <h2>Read package intent before running scripts</h2>
+      <p>Before you rerun a failing app, inspect the scripts, engines and dependency manager hints. This prevents accidental production-like commands on the wrong host.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>node -p "process.version"
+node -p "process.execPath"
+node -p "process.platform + ' ' + process.arch"
+npm pkg get scripts
+npm pkg get engines
+ls package-lock.json yarn.lock pnpm-lock.yaml 2&gt;/dev/null</code></pre></div>
+
+      <h2>Install and dependency checks</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>npm ci
+npm audit --omit=dev
+npm outdated --depth=0
+npm ls --depth=0
+node -e "console.log(process.env.NODE_ENV || 'NODE_ENV not set')"</code></pre></div>
+
+      <h2>Ports, processes and logs</h2>
+      <p>When a Node API, Vite app, Next.js app or Express server does not respond, prove the process, port and service manager first.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>ps aux | grep '[n]ode'
+ss -tulpn | grep -E 'node|:3000|:5173|:8080' 2&gt;/dev/null
+pm2 list 2&gt;/dev/null
+pm2 logs --lines 80 2&gt;/dev/null
+systemctl status my-node-app --no-pager
+journalctl -u my-node-app -n 120 --no-pager</code></pre></div>
+
+      <h2>Common Node.js runtime failures</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Symptom</th><th>Check first</th><th>Likely direction</th></tr></thead>
+        <tbody>
+          <tr><td>Build works locally, fails in CI</td><td>Node version, lockfile, package manager, environment variables</td><td>CI does not match the developer runtime.</td></tr>
+          <tr><td>Port already in use</td><td><code>ss</code>, <code>netstat</code>, service manager, PM2 list</td><td>An old process is still bound to the port.</td></tr>
+          <tr><td>Module not found</td><td>Lockfile, install command, workspace path, <code>NODE_PATH</code></td><td>Dependencies were installed in a different directory or mode.</td></tr>
+          <tr><td>Static build stale</td><td>Build output timestamp, deployment commit, CDN cache</td><td>The server is serving an older artifact.</td></tr>
+          <tr><td>Memory crash</td><td>Container limits, <code>NODE_OPTIONS</code>, logs, heap usage</td><td>The process limit differs from the host memory.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Deployment evidence to save</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>date -Is
+hostname
+git rev-parse --short HEAD
+node --version
+npm --version
+npm pkg get scripts
+printenv | grep -E 'NODE|NPM|PORT|HOST|DATABASE|REDIS' | sort</code></pre></div>
+
+      <p class="guide-callout">Before changing JavaScript, prove the runtime. Node version, package manager, script command, working directory, port and service logs usually reveal the real failure path.</p>
+      <p>Related: <a href="docker-compose-debugging-guide.html">Docker Compose Debugging</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a>, <a href="linux-admin-command-guide.html">Linux Admin Commands</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

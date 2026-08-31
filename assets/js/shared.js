@@ -181,7 +181,19 @@
       links: [
         { label: "DBA Admin Roadmap", href: "dba-admin-roadmap.html", icon: "DBA", description: "Follow a practical database administrator operating path from access to incidents.", keywords: "dba admin roadmap database administrator checklist backup restore monitoring maintenance incident" },
         { label: "Terminal Workflows", href: "terminal-workflows-for-developers.html", icon: ">_", description: "Choose CMD, PowerShell, Git Bash or Linux shell for daily engineering tasks.", keywords: "cmd powershell git bash linux terminal command line developer dba workflow" },
-        { label: "Cockpit Server Guide", href: "linux-cockpit-server-guide.html", icon: "9090", description: "Install Cockpit and expose a safe browser console for Linux server administration.", keywords: "cockpit linux server setup dba web console install ubuntu debian rhel centos fedora cockpit 9090" }
+        { label: "Cockpit Server Guide", href: "linux-cockpit-server-guide.html", icon: "9090", description: "Install Cockpit and expose a safe browser console for Linux server administration.", keywords: "cockpit linux server setup dba web console install ubuntu debian rhel centos fedora cockpit 9090" },
+        { label: "Docker Compose Debugging", href: "docker-compose-debugging-guide.html", icon: "DC", description: "Inspect services, logs, ports, volumes, healthchecks and rebuilds without guesswork.", keywords: "docker compose debugging docker compose logs up down ps exec healthcheck volumes ports" }
+      ]
+    },
+    {
+      title: "Database Operations",
+      mode: "db",
+      description: "Start from connection, health, sessions, storage and backup evidence before tuning SQL.",
+      links: [
+        { label: "PostgreSQL DBA Checklist", href: "postgresql-dba-checklist.html", icon: "PG", description: "Use psql, system checks and safe SQL to inspect PostgreSQL hosts.", keywords: "postgresql dba checklist psql postgres commands backup restore vacuum connections locks database admin" },
+        { label: "DBA Admin Roadmap", href: "dba-admin-roadmap.html", icon: "DBA", description: "Follow access, backup, restore, monitoring and incident routines.", keywords: "dba admin roadmap database administrator checklist backup restore monitoring maintenance incident" },
+        { label: "SQL Cleanup", href: "sql-cleanup.html", icon: "SQL", description: "Clean noisy SQL before sharing, comparing or reviewing it.", keywords: "sql cleanup clean sql sql clean query cleanup" },
+        { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" }
       ]
     },
     {
@@ -200,7 +212,8 @@
       links: [
         { label: "PHP Runtime Guide", href: "php-runtime-guide.html", icon: "PHP", description: "Check PHP CLI, FPM, Composer, extensions, php.ini and web server integration.", keywords: "php runtime guide php install composer php-fpm php ini extensions apache nginx" },
         { label: "Java Runtime Guide", href: "java-runtime-guide.html", icon: "JAVA", description: "Check JDK, JAVA_HOME, Maven, Gradle, memory flags and service runtime behavior.", keywords: "java runtime guide jdk install java_home maven gradle openjdk jar service" },
-        { label: "Python Runtime Guide", href: "python-runtime-guide.html", icon: "PY", description: "Check Python, pip, virtual environments, services and package paths.", keywords: "python runtime guide python install pip venv virtualenv django flask fastapi service" }
+        { label: "Python Runtime Guide", href: "python-runtime-guide.html", icon: "PY", description: "Check Python, pip, virtual environments, services and package paths.", keywords: "python runtime guide python install pip venv virtualenv django flask fastapi service" },
+        { label: "Node.js Runtime Guide", href: "nodejs-runtime-guide.html", icon: "NODE", description: "Check Node, npm, npx, package managers, build scripts, ports and process managers.", keywords: "nodejs runtime guide node npm npx pnpm yarn pm2 vite next express install debug" }
       ]
     },
     {
@@ -315,16 +328,30 @@
       ]
     },
     {
+      mode: "db",
+      icon: "DB",
+      label: "Database ops",
+      description: "Inspect PostgreSQL and SQL-side operational evidence.",
+      tip: "Use this mode when a slow API, failing job or blocked deployment may really be a database connection, lock, storage or backup issue.",
+      href: "postgresql-dba-checklist.html",
+      workflow: [
+        "Confirm connection identity and server version before running diagnostic SQL.",
+        "Check active sessions, locks, database size and recent errors with read-only commands.",
+        "Separate SQL readability from database health, backup and restore evidence.",
+        "Save commands and timestamps so the DBA handoff is repeatable."
+      ]
+    },
+    {
       mode: "code",
       icon: "</>",
       label: "Software",
-      description: "Inspect PHP, Java and runtime-level developer systems.",
+      description: "Inspect PHP, Java, Python, Node.js and runtime-level developer systems.",
       tip: "Use this mode when the problem might be a runtime, dependency, package, web server or environment-variable issue.",
       href: "php-runtime-guide.html",
       workflow: [
         "Check runtime version and executable path before changing code.",
         "Confirm package manager state, extensions and environment variables.",
-        "Separate CLI behavior from web server behavior for PHP, Java services and jobs.",
+        "Separate CLI behavior from service behavior for PHP, Java, Python and Node.js jobs.",
         "Write the exact runtime evidence beside the failing request or deployment."
       ]
     },

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Docker Compose Debugging Checklist | Formalint</title>
+    <meta name="description" content="Docker Compose debugging checklist for services, logs, ports, environment files, volumes, healthchecks, rebuilds and safe container troubleshooting.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/docker-compose-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-runtime-db">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/docker-compose-debugging-guide.html#article", "headline": "Docker Compose Debugging Checklist", "description": "Operational checks for Docker Compose services, logs, ports, volumes, environment variables and healthchecks.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Docker Compose Debugging Checklist</h1>
+      <p class="guide-meta">Services, logs, ports, volumes, env files and healthchecks. Last updated August 31, 2026.</p>
+      <p>Docker Compose is commonly used to define and run multi-container application stacks from one YAML file. Docker's own documentation describes Compose as a way to manage services, networks and volumes across environments. This Formalint checklist is for the debugging moment: the stack is not healthy, one container keeps restarting, a database is not reachable, or a developer needs to prove exactly what Compose started.</p>
+
+      <h2>Start with the project state</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker compose version
+docker compose config
+docker compose ps
+docker compose top
+docker compose ls</code></pre></div>
+
+      <h2>Read logs without flooding the terminal</h2>
+      <p>Use bounded log windows first. Full log streams are useful only after you know which service is failing.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker compose logs --tail=120
+docker compose logs --tail=120 api
+docker compose logs --since=30m db
+docker compose events --json</code></pre></div>
+
+      <h2>Inspect one service</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker compose exec api sh
+docker compose exec api env | sort
+docker compose exec api getent hosts db
+docker compose exec api nc -vz db 5432
+docker inspect $(docker compose ps -q api)</code></pre></div>
+
+      <h2>Ports, networks and volumes</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Question</th><th>Command</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td>Is the host port bound?</td><td><code>docker compose ps</code></td><td>The service is published to the expected host port.</td></tr>
+          <tr><td>Can containers resolve each other?</td><td><code>getent hosts service</code></td><td>Compose DNS sees the target service name.</td></tr>
+          <tr><td>Is data persisted?</td><td><code>docker volume ls</code></td><td>The database or upload path is using a volume.</td></tr>
+          <tr><td>Did config render correctly?</td><td><code>docker compose config</code></td><td>Overrides, env files and YAML merges produced the expected final config.</td></tr>
+          <tr><td>Is the image stale?</td><td><code>docker compose build --no-cache service</code></td><td>The failure is not from an old layer or cached dependency install.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Safe rebuild order</h2>
+      <p>For developer machines, rebuild one service before tearing down volumes. Removing volumes can delete local databases, queues or uploaded test files.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker compose pull
+docker compose build api
+docker compose up -d api
+docker compose ps
+docker compose logs --tail=80 api</code></pre></div>
+
+      <h2>Healthcheck and dependency debugging</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker inspect --format='{{json .State.Health}}' $(docker compose ps -q api)
+docker compose restart api
+docker compose exec api curl -I http://localhost:3000/health
+docker compose exec api printenv | grep -E 'DATABASE|REDIS|QUEUE|PORT|HOST' | sort</code></pre></div>
+
+      <h2>Compose incident notes</h2>
+      <p>Save the rendered config, service list, relevant logs and container IDs when handing the issue to another developer or DBA.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>date -Is
+hostname
+git rev-parse --short HEAD
+docker compose version
+docker compose ps
+docker compose logs --tail=120 api db</code></pre></div>
+
+      <p class="guide-callout">Do not start with <code>down -v</code>. First prove config, logs, DNS, ports and volumes. Then rebuild or reset only the piece that explains the failure.</p>
+      <p>Related: <a href="yaml-formatter.html">YAML Formatter</a>, <a href="nodejs-runtime-guide.html">Node.js Runtime Guide</a>, <a href="postgresql-dba-checklist.html">PostgreSQL DBA Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
