@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>curl API Debugging Cheatsheet | Formalint</title>
+    <meta name="description" content="curl API debugging cheatsheet for headers, JSON payloads, auth tokens, response timing, redirects, TLS, CORS preflight and repeatable incident evidence.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/curl-api-debugging-cheatsheet.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-api-cors-cache">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/curl-api-debugging-cheatsheet.html#article", "headline": "curl API Debugging Cheatsheet", "description": "A practical curl checklist for API request debugging, response headers, JSON payloads, auth, timings, redirects, TLS and CORS preflight checks.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>curl API Debugging Cheatsheet</h1>
+      <p class="guide-meta">Headers, JSON payloads, auth, timing, redirects, TLS and reproducible request evidence. Last updated August 31, 2026.</p>
+      <p>curl is one of the fastest ways to turn an API complaint into reproducible evidence. The official curl manual describes curl as a tool for transferring data with URLs at <a href="https://curl.se/docs/manpage.html" rel="noopener" target="_blank">curl.se/docs/manpage.html</a>. This Formalint cheatsheet focuses on practical debugging commands developers can copy into a terminal and adapt safely.</p>
+
+      <h2>Start with a visible response</h2>
+      <p>Use headers, status and body separately. A browser may hide details behind CORS or UI behavior, but curl can show the raw HTTP exchange.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i https://api.example.com/health
+curl -sS -D headers.txt -o body.json https://api.example.com/health
+curl -sS -w "\nstatus=%{http_code} time=%{time_total}s\n" https://api.example.com/health</code></pre></div>
+
+      <h2>Send JSON without losing evidence</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -sS -X POST https://api.example.com/customers \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  --data '{"name":"Ada Lovelace","email":"ada@example.com"}'</code></pre></div>
+      <p>Format the response with the <a href="index.html">JSON Formatter</a>, compare two responses with <a href="json-diff.html">JSON Diff</a>, and turn a stable example into a draft contract with the <a href="json-schema-generator.html">JSON Schema Generator</a>.</p>
+
+      <h2>Auth and token checks</h2>
+      <p>Do not paste production tokens into public tickets or browser tools. Use short-lived test tokens and redact secrets in command history before sharing.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i https://api.example.com/me \
+  -H "Authorization: Bearer REPLACE_WITH_TEST_TOKEN"
+
+curl -i https://api.example.com/admin \
+  -H "Authorization: Bearer REPLACE_WITH_TEST_TOKEN" \
+  -H "X-Request-Id: debug-20260831-001"</code></pre></div>
+
+      <h2>Timing and redirect evidence</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Question</th><th>curl command</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td>Which status code returned?</td><td><code>curl -I https://example.com/</code></td><td>Headers and status without downloading the body.</td></tr>
+          <tr><td>Where does it redirect?</td><td><code>curl -I -L https://example.com/</code></td><td>Final URL, redirect chain and response headers.</td></tr>
+          <tr><td>Is the API slow?</td><td><code>curl -w "%{time_total}\n" -o NUL -s https://example.com/</code></td><td>Total request time on Windows PowerShell or CMD.</td></tr>
+          <tr><td>Is DNS or TLS the delay?</td><td><code>curl -w "dns=%{time_namelookup} tls=%{time_appconnect} total=%{time_total}\n" -o /dev/null -s https://example.com/</code></td><td>Timing split for Linux and Git Bash.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Debug a CORS preflight with curl</h2>
+      <p>CORS is enforced by browsers, not curl, but curl can reproduce the preflight request that the browser sends before some cross-origin requests.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i -X OPTIONS https://api.example.com/orders \
+  -H "Origin: https://app.example.com" \
+  -H "Access-Control-Request-Method: POST" \
+  -H "Access-Control-Request-Headers: content-type,authorization"</code></pre></div>
+
+      <h2>Repeatable incident note</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>endpoint:
+method:
+environment:
+request-id:
+status:
+headers saved:
+body sample redacted:
+expected:
+observed:
+next layer to inspect:</code></pre></div>
+
+      <p class="guide-callout">The best curl command for a production issue is the smallest command that captures method, URL, headers, payload shape, status, timing and a request ID without exposing secrets.</p>
+      <p>Related: <a href="api-debugging-checklist.html">API Debugging Checklist</a>, <a href="cors-debugging-guide.html">CORS Debugging Guide</a>, <a href="http-cache-control-guide.html">HTTP Cache-Control Guide</a>, <a href="http-headers-reference.html">HTTP Headers Reference</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

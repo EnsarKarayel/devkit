@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>HTTP Cache-Control Guide for Developers | Formalint</title>
+    <meta name="description" content="HTTP Cache-Control guide for max-age, s-maxage, no-cache, no-store, immutable, CDN behavior, browser debugging and safe API caching decisions.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/http-cache-control-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-api-cors-cache">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/http-cache-control-guide.html#article", "headline": "HTTP Cache-Control Guide for Developers", "description": "A practical guide to Cache-Control directives, browser caches, shared caches, API responses, CDN behavior and debugging stale content.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>HTTP Cache-Control Guide</h1>
+      <p class="guide-meta">Browser cache, CDN cache, API responses, stale content and safe cache header decisions. Last updated August 31, 2026.</p>
+      <p>MDN defines <code>Cache-Control</code> as an HTTP header whose directives control caching in browsers and shared caches such as proxies and CDNs. The reference lives at <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control" rel="noopener" target="_blank">MDN Cache-Control</a>. This Formalint guide is a practical field checklist for developers debugging stale assets and API responses.</p>
+
+      <h2>Start with the actual headers</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -I https://example.com/app.js
+curl -I https://example.com/api/profile
+curl -I -H "Cache-Control: no-cache" https://example.com/app.js
+curl -I -H "Pragma: no-cache" https://example.com/app.js</code></pre></div>
+
+      <h2>Common directives</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Directive</th><th>Typical use</th><th>Review note</th></tr></thead>
+        <tbody>
+          <tr><td><code>max-age=31536000</code></td><td>Versioned static assets</td><td>Only safe when filenames change on deploy.</td></tr>
+          <tr><td><code>immutable</code></td><td>Hashed JS, CSS and images</td><td>Good for long-lived assets with content hashes.</td></tr>
+          <tr><td><code>no-cache</code></td><td>Revalidate before reuse</td><td>Does not mean "never store"; it means check before using.</td></tr>
+          <tr><td><code>no-store</code></td><td>Sensitive responses</td><td>Use for private account, token or payment data.</td></tr>
+          <tr><td><code>s-maxage</code></td><td>Shared caches and CDNs</td><td>Can differ from browser cache policy.</td></tr>
+          <tr><td><code>private</code></td><td>User-specific browser cache</td><td>Shared caches should not store the response.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Recommended starting policies</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Hashed static asset
+Cache-Control: public, max-age=31536000, immutable
+
+# HTML shell
+Cache-Control: no-cache
+
+# Public API reference data
+Cache-Control: public, max-age=300, stale-while-revalidate=60
+
+# Private account API
+Cache-Control: no-store</code></pre></div>
+
+      <h2>Debug stale content</h2>
+      <ol>
+        <li>Confirm whether the stale response is HTML, JS, CSS, image, API JSON or CDN edge content.</li>
+        <li>Compare browser DevTools response headers with <code>curl -I</code>.</li>
+        <li>Check whether a service worker, CDN rule, reverse proxy or application middleware changed headers.</li>
+        <li>Verify deploy filenames. Long cache is safe for hashed assets, risky for stable names such as <code>app.js</code>.</li>
+        <li>Record before/after headers in the incident note.</li>
+      </ol>
+
+      <h2>Nginx example</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>location /assets/ {
+    add_header Cache-Control "public, max-age=31536000, immutable";
+}
+
+location / {
+    add_header Cache-Control "no-cache";
+}</code></pre></div>
+
+      <h2>Cache review checklist</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>url:
+resource type:
+cache-control:
+etag:
+last-modified:
+cdn cache status:
+service worker involved:
+safe to cache:
+user-specific data present:
+fix:</code></pre></div>
+
+      <p class="guide-callout">Strong caching is excellent for performance, but only when the resource can safely be reused. Cache public versioned assets aggressively; treat user-specific API responses with much more suspicion.</p>
+      <p>Related: <a href="http-headers-reference.html">HTTP Headers Reference</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="nginx-reverse-proxy-checklist.html">Nginx Reverse Proxy Checklist</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

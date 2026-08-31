@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>CORS Debugging Guide for APIs | Formalint</title>
+    <meta name="description" content="CORS debugging guide for Access-Control-Allow-Origin, preflight OPTIONS requests, credentials, Vary Origin, browser errors and API gateway checks.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/cors-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-api-cors-cache">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/cors-debugging-guide.html#article", "headline": "CORS Debugging Guide for APIs", "description": "A practical guide to CORS failures, preflight OPTIONS requests, Access-Control-Allow-Origin, credentials, Vary Origin and proxy troubleshooting.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>CORS Debugging Guide</h1>
+      <p class="guide-meta">Preflight, origins, credentials, headers, browser console evidence and API gateway checks. Last updated August 31, 2026.</p>
+      <p>MDN describes CORS as an HTTP-header based mechanism that lets a server indicate which other origins a browser may allow to load resources. Read the browser-level reference at <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" rel="noopener" target="_blank">MDN CORS Guide</a>. This Formalint page turns that model into a debugging checklist.</p>
+
+      <h2>What CORS is really telling you</h2>
+      <p>A CORS error does not always mean the API is down. It often means the browser received a response but refused to expose it to frontend JavaScript. That is why curl, Postman and a backend service may succeed while the browser still fails.</p>
+
+      <h2>Collect browser evidence first</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Evidence</th><th>Where to look</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Console error</td><td>Browser DevTools Console</td><td>Names the missing or invalid CORS header.</td></tr>
+          <tr><td>OPTIONS request</td><td>Network tab</td><td>Shows whether preflight reached the server.</td></tr>
+          <tr><td>Origin header</td><td>Request headers</td><td>Shows the exact scheme, host and port the server must allow.</td></tr>
+          <tr><td>Response headers</td><td>Response headers</td><td>Confirms whether the API or proxy emitted CORS headers.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Reproduce preflight safely</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i -X OPTIONS https://api.example.com/resource \
+  -H "Origin: https://app.example.com" \
+  -H "Access-Control-Request-Method: POST" \
+  -H "Access-Control-Request-Headers: content-type,authorization"</code></pre></div>
+
+      <h2>Header rules that prevent most mistakes</h2>
+      <ul>
+        <li>Use a specific origin when credentials such as cookies or HTTP auth are involved.</li>
+        <li>Do not combine <code>Access-Control-Allow-Origin: *</code> with credentialed browser requests.</li>
+        <li>Include <code>Vary: Origin</code> when a gateway dynamically returns different allowed origins.</li>
+        <li>Allow the headers the browser asks for in <code>Access-Control-Request-Headers</code>.</li>
+        <li>Handle <code>OPTIONS</code> at the same layer that protects the real API route.</li>
+      </ul>
+
+      <h2>Common CORS failures</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Browser message</th><th>Likely cause</th><th>Next check</th></tr></thead>
+        <tbody>
+          <tr><td>Allow-Origin missing</td><td>API or proxy did not attach the CORS header.</td><td>Check route config, gateway rules and Nginx response headers.</td></tr>
+          <tr><td>Preflight failed</td><td>OPTIONS route blocked by auth, WAF, proxy or app router.</td><td>Run the curl OPTIONS command and inspect status.</td></tr>
+          <tr><td>Credentials not supported</td><td>Cookie request lacks explicit origin or credentials header.</td><td>Check frontend <code>credentials</code> setting and server headers.</td></tr>
+          <tr><td>Header not allowed</td><td>Custom header not listed in <code>Access-Control-Allow-Headers</code>.</td><td>Compare requested headers with allowed headers.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Server-side checklist</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>origin observed:
+method:
+request headers:
+preflight status:
+allow-origin returned:
+allow-methods returned:
+allow-headers returned:
+allow-credentials returned:
+vary origin present:
+gateway or app layer responsible:</code></pre></div>
+
+      <p class="guide-callout">Treat CORS as a browser access-control decision. Debug the network response first, then decide whether the fix belongs in the API app, Nginx, CDN, gateway or frontend request options.</p>
+      <p>Related: <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="http-headers-reference.html">HTTP Headers Reference</a>, <a href="nginx-reverse-proxy-checklist.html">Nginx Reverse Proxy Checklist</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

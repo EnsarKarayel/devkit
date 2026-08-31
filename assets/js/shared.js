@@ -167,6 +167,9 @@
       description: "Use when a request fails and you need status, headers, tokens, timing and incident notes.",
       links: [
         { label: "API Checklist", href: "api-debugging-checklist.html", icon: "FIX", description: "Track request identity, auth, payload, logs and fix notes." },
+        { label: "curl API Cheatsheet", href: "curl-api-debugging-cheatsheet.html", icon: "curl", description: "Copy curl commands for headers, JSON payloads, auth, timing, TLS and preflight checks.", keywords: "curl api debugging cheatsheet curl headers json post bearer token timing tls cors preflight" },
+        { label: "CORS Debugging", href: "cors-debugging-guide.html", icon: "CORS", description: "Debug Access-Control-Allow-Origin, OPTIONS preflight, credentials and Vary Origin behavior.", keywords: "cors debugging guide access-control-allow-origin preflight options credentials vary origin" },
+        { label: "Cache-Control Guide", href: "http-cache-control-guide.html", icon: "CACHE", description: "Review browser cache, CDN cache, no-cache, no-store, max-age and immutable rules.", keywords: "cache-control guide http cache headers max-age no-cache no-store immutable cdn browser cache" },
         { label: "HTTP Status", href: "http-status-codes.html", icon: "HTTP", description: "Search status codes and debugging meaning." },
         { label: "HTTP Headers", href: "http-headers-reference.html", icon: "HDR", description: "Review cache, CORS, auth and security headers." },
         { label: "JWT Decoder", href: "jwt-decoder.html", icon: "JWT", description: "Decode token headers, claims and expiration values." },
@@ -278,12 +281,13 @@
       mode: "api",
       icon: "API",
       label: "API debugging",
-      description: "Debug status codes, headers, tokens and schedules.",
-      tip: "Use this mode when a request fails and you need repeatable incident notes.",
+      description: "Debug curl requests, status codes, headers, CORS, cache, tokens and schedules.",
+      tip: "Use this mode when a request fails and you need reproducible curl evidence, browser headers and repeatable incident notes.",
       href: "api-debugging-checklist.html",
       workflow: [
         "Record method, URL, status code, correlation id and environment first.",
-        "Check authentication, headers, payload shape and retry behavior separately.",
+        "Use curl to capture headers, response body, redirects and timing without browser noise.",
+        "Check CORS, cache, authentication, payload shape and retry behavior separately.",
         "Decode timestamps or JWT claims only from safe non-sensitive samples.",
         "Write the final cause and fix note so the issue is searchable later."
       ]
@@ -608,8 +612,8 @@
     {
       title: "Debug a failing request",
       mode: "api",
-      href: "api-debugging-checklist.html",
-      steps: "Capture status, headers, token claims, timestamp and fix notes in one pass."
+      href: "curl-api-debugging-cheatsheet.html",
+      steps: "Capture curl headers, timing, auth context, CORS preflight and fix notes in one pass."
     },
     {
       title: "Use web tools safely",
