@@ -1077,6 +1077,92 @@ button.secondary:hover,
   max-width: 820px;
 }
 
+.directory-control-panel {
+  display: grid;
+  gap: 16px;
+  border: 1px solid rgba(140, 203, 255, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(20, 28, 36, 0.98), rgba(17, 22, 29, 0.98));
+  box-shadow: var(--shadow-soft);
+  margin: 10px 0 28px;
+  padding: 18px;
+}
+
+.directory-search-box {
+  display: grid;
+  gap: 8px;
+}
+
+.directory-search-box label {
+  color: #d7e7f4;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.directory-search-box input {
+  min-height: 48px;
+  border: 1px solid rgba(140, 203, 255, 0.24);
+  border-radius: 7px;
+  background: #0f141b;
+  color: #f6fbff;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0 14px;
+  outline: none;
+}
+
+.directory-search-box input:focus {
+  border-color: rgba(70, 163, 255, 0.76);
+  box-shadow: 0 0 0 3px rgba(70, 163, 255, 0.16);
+}
+
+.directory-topic-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.directory-topic-row button,
+.directory-filter-footer button {
+  min-height: 34px;
+  border: 1px solid rgba(140, 203, 255, 0.18);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #c7d6e1;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 850;
+  padding: 7px 11px;
+}
+
+.directory-topic-row button:hover,
+.directory-topic-row button:focus-visible,
+.directory-filter-footer button:hover,
+.directory-filter-footer button:focus-visible {
+  border-color: rgba(70, 163, 255, 0.58);
+  background: rgba(70, 163, 255, 0.13);
+  color: #ffffff;
+}
+
+.directory-topic-row button[aria-pressed="true"] {
+  border-color: rgba(70, 163, 255, 0.72);
+  background: rgba(70, 163, 255, 0.18);
+  color: #ffffff;
+}
+
+.directory-filter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
 .directory-section {
   border-top: 1px solid var(--line);
   padding: 34px 0 20px;

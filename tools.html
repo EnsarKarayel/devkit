@@ -7,26 +7,26 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
     <title>Developer Tools Directory | Formalint</title>
-    <meta name="description" content="Browse Formalint developer tools and guides for JSON, XML, YAML, SQL, Python, Regex, JWT, APIs, Windows, Linux, DBA administration, PHP, Java and hardware diagnostics.">
+    <meta name="description" content="Search and filter Formalint developer tools and guides for JSON, XML, YAML, SQL, Python, Regex, JWT, APIs, Windows, Linux, DBA administration, PHP, Java and hardware diagnostics.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/tools.html">
     <meta name="theme-color" content="#0d1117">
     <meta property="og:title" content="Formalint Developer Tools Directory">
-    <meta property="og:description" content="A focused directory of local-first browser tools for developers.">
+    <meta property="og:description" content="A searchable directory of local-first browser tools and debugging guides for developers.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://formalint.com/tools.html">
     <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
     <meta property="og:site_name" content="Formalint">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Formalint Developer Tools Directory">
-    <meta name="twitter:description" content="Browse all Formalint developer tools in one place.">
+    <meta name="twitter:description" content="Search all Formalint developer tools and guides in one place.">
     <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-100-page-library">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-directory-search">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -36,7 +36,7 @@
         "@id": "https://formalint.com/tools.html#tools-directory",
         "name": "Formalint Developer Tools Directory",
         "url": "https://formalint.com/tools.html",
-        "description": "A directory of browser-based developer tools for formatting, validating, encoding and converting common developer data.",
+        "description": "A searchable directory of browser-based developer tools for formatting, validating, encoding, converting and debugging common developer data.",
         "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" },
         "isAccessibleForFree": true
       }
@@ -65,10 +65,30 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">A fast set of browser-based utilities for formatting payloads, cleaning code, decoding tokens and converting everyday developer data.</p>
+        <p class="hero-copy">Search 100 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
-      <section class="directory-section" aria-labelledby="formatters-title">
+      <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
+        <div class="directory-search-box">
+          <label for="toolsDirectorySearch">Search the developer library</label>
+          <input id="toolsDirectorySearch" type="search" autocomplete="off" placeholder="Search regex, XML, JWT, PostgreSQL, Docker, DNS...">
+        </div>
+        <div class="directory-topic-row" aria-label="Filter by topic">
+          <button type="button" data-tools-topic="all" aria-pressed="true">All</button>
+          <button type="button" data-tools-topic="formatter" aria-pressed="false">Formatters</button>
+          <button type="button" data-tools-topic="regex" aria-pressed="false">Regex</button>
+          <button type="button" data-tools-topic="api" aria-pressed="false">API</button>
+          <button type="button" data-tools-topic="ops" aria-pressed="false">Ops and DBA</button>
+          <button type="button" data-tools-topic="runtime" aria-pressed="false">Runtime</button>
+          <button type="button" data-tools-topic="security" aria-pressed="false">Security</button>
+        </div>
+        <div class="directory-filter-footer">
+          <span id="toolsDirectoryCount">Showing 100 resources</span>
+          <button type="button" data-clear-tools>Clear</button>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="formatters-title" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">Formatters</p>
           <h2 id="formatters-title">Payload, config and code cleanup</h2>
@@ -89,7 +109,7 @@
         </div>
       </section>
 
-      <section class="directory-section" aria-labelledby="inspectors-title">
+      <section class="directory-section" aria-labelledby="inspectors-title" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">Inspectors</p>
           <h2 id="inspectors-title">Debug and inspect developer strings</h2>
@@ -132,7 +152,7 @@
         </div>
       </section>
 
-      <section class="directory-section" aria-labelledby="encoders-title">
+      <section class="directory-section" aria-labelledby="encoders-title" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">Converters</p>
           <h2 id="encoders-title">Encode, generate and transform values</h2>
@@ -146,7 +166,7 @@
         </div>
       </section>
 
-      <section class="directory-section" aria-labelledby="guides-title">
+      <section class="directory-section" aria-labelledby="guides-title" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">Guides</p>
           <h2 id="guides-title">Context for safer, better tool usage</h2>
@@ -192,7 +212,7 @@
         </div>
       </section>
 
-      <section class="directory-section" aria-labelledby="ops-title">
+      <section class="directory-section" aria-labelledby="ops-title" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">Admin library</p>
           <h2 id="ops-title">DBA, operating system and runtime references</h2>
@@ -230,5 +250,6 @@
       </nav>
     </footer>
     <script src="assets/js/shared.js"></script>
+    <script src="assets/js/tools-directory.js"></script>
   </body>
 </html>
