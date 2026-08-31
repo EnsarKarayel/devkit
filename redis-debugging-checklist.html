@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Redis Debugging Checklist and redis-cli Commands | Formalint</title>
+    <meta name="description" content="Redis debugging checklist with redis-cli commands for connectivity, INFO, memory, clients, slowlog, keyspace, latency and safe cache incident evidence.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/redis-debugging-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-dba-cache-proxy">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/redis-debugging-checklist.html#article", "headline": "Redis Debugging Checklist and redis-cli Commands", "description": "Read-only Redis checks for connectivity, INFO, memory, clients, slowlog, keyspace and cache incidents.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Redis Debugging Checklist</h1>
+      <p class="guide-meta">redis-cli, INFO, memory, clients, slowlog and cache incident evidence. Last updated August 31, 2026.</p>
+      <p>Redis issues usually appear as slow APIs, login failures, queue delays, missing sessions or sudden memory pressure. Redis documents <a href="https://redis.io/docs/latest/develop/tools/cli/" rel="noopener" target="_blank">redis-cli</a> as the command-line tool for interactive and scripted work. Use this checklist to gather safe evidence before flushing keys, restarting services or changing application code.</p>
+
+      <h2>Connectivity and identity</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>redis-cli ping
+redis-cli info server
+redis-cli info clients
+redis-cli info memory
+redis-cli config get bind
+redis-cli config get port</code></pre></div>
+
+      <h2>Service and logs</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>systemctl status redis --no-pager
+systemctl status redis-server --no-pager
+journalctl -u redis -n 120 --no-pager
+journalctl -u redis-server -n 120 --no-pager
+ss -tulpn | grep redis 2&gt;/dev/null</code></pre></div>
+
+      <h2>Memory and keyspace</h2>
+      <p>Memory checks should come before cache-clearing decisions. A cache flush can hide the symptom and create a traffic spike against the database.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>redis-cli info memory
+redis-cli info stats
+redis-cli info keyspace
+redis-cli dbsize
+redis-cli --bigkeys
+redis-cli --memkeys</code></pre></div>
+
+      <h2>Clients, slowlog and latency</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>redis-cli client list
+redis-cli client list | wc -l
+redis-cli slowlog len
+redis-cli slowlog get 10
+redis-cli latency latest
+redis-cli latency doctor</code></pre></div>
+
+      <h2>Common Redis failure patterns</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Symptom</th><th>Check first</th><th>Likely direction</th></tr></thead>
+        <tbody>
+          <tr><td>API suddenly slow</td><td><code>slowlog get</code>, latency, connected clients</td><td>Slow commands, connection storms or network pressure.</td></tr>
+          <tr><td>Sessions disappear</td><td>keyspace, TTL policy, memory, eviction settings</td><td>Keys expire or memory policy evicts them.</td></tr>
+          <tr><td>Queue backlog grows</td><td>clients, blocked workers, list/stream size</td><td>Consumers are down or slower than producers.</td></tr>
+          <tr><td>Memory keeps rising</td><td><code>info memory</code>, <code>--bigkeys</code>, key prefixes</td><td>Unbounded keys, missing TTL or large payloads.</td></tr>
+          <tr><td>App cannot connect</td><td>bind, port, auth, firewall, DNS, container network</td><td>The application runtime points at the wrong Redis endpoint.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Safe key inspection</h2>
+      <p>Avoid <code>KEYS *</code> on busy production systems. Use cursor-based scanning and inspect a narrow prefix when possible.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>redis-cli --scan --pattern 'session:*' | head -50
+redis-cli ttl session:example
+redis-cli type session:example
+redis-cli memory usage session:example</code></pre></div>
+
+      <h2>Incident evidence bundle</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>date -Is
+hostname
+redis-cli ping
+redis-cli info server
+redis-cli info clients
+redis-cli info memory
+redis-cli info keyspace
+redis-cli slowlog get 10</code></pre></div>
+
+      <p class="guide-callout">The safest Redis debugging order is connectivity, identity, memory, keyspace, clients, slowlog and latency. Restart or flush only after the evidence explains the failure.</p>
+      <p>Related: <a href="mysql-dba-checklist.html">MySQL DBA Checklist</a>, <a href="postgresql-dba-checklist.html">PostgreSQL DBA Checklist</a>, <a href="docker-compose-debugging-guide.html">Docker Compose Debugging</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

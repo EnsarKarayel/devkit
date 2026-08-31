@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Nginx Reverse Proxy Checklist for APIs | Formalint</title>
+    <meta name="description" content="Nginx reverse proxy checklist for config tests, proxy_pass, upstream services, headers, TLS, redirects, logs, CORS and API gateway debugging.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/nginx-reverse-proxy-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-dba-cache-proxy">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/nginx-reverse-proxy-checklist.html#article", "headline": "Nginx Reverse Proxy Checklist for APIs", "description": "Operational checks for Nginx reverse proxy configuration, upstreams, headers, TLS, redirects and API debugging.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Nginx Reverse Proxy Checklist</h1>
+      <p class="guide-meta">Config tests, upstreams, headers, TLS, redirects and API proxy evidence. Last updated August 31, 2026.</p>
+      <p>Nginx problems often show up as API 502 errors, broken redirects, missing headers, CORS failures, HTTPS loops or static files served from the wrong location. The Nginx beginner guide covers the basic service and configuration model at <a href="https://nginx.org/en/docs/beginners_guide.html" rel="noopener" target="_blank">nginx.org/en/docs/beginners_guide.html</a>. This Formalint checklist is for the operational debugging path.</p>
+
+      <h2>Config and service identity</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>nginx -v
+nginx -V 2&gt;&amp;1 | tr ' ' '\n' | grep -- '--conf-path'
+nginx -t
+systemctl status nginx --no-pager
+journalctl -u nginx -n 120 --no-pager</code></pre></div>
+
+      <h2>Find active server blocks</h2>
+      <p>Before editing, identify which file is actually loaded. Many failures come from changing a file that is not included by the active Nginx config.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>nginx -T 2&gt;/tmp/nginx-rendered.conf
+grep -n "server_name\\|proxy_pass\\|listen\\|root\\|location" /tmp/nginx-rendered.conf | head -120
+ls -la /etc/nginx/sites-enabled 2&gt;/dev/null
+ls -la /etc/nginx/conf.d 2&gt;/dev/null</code></pre></div>
+
+      <h2>Proxy and upstream checks</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>ss -tulpn | grep -E ':80|:443|:3000|:5000|:8000|:8080'
+curl -I http://127.0.0.1:3000/health
+curl -I http://127.0.0.1:8000/health
+curl -I https://example.com/
+curl -I -H "Host: example.com" http://127.0.0.1/</code></pre></div>
+
+      <h2>Headers and API forwarding</h2>
+      <p>APIs often need the original host, scheme and client IP. Missing proxy headers can break redirects, callback URLs, authentication and logs.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>location /api/ {
+    proxy_pass http://127.0.0.1:3000/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}</code></pre></div>
+
+      <h2>Common Nginx proxy failures</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Symptom</th><th>Check first</th><th>Likely direction</th></tr></thead>
+        <tbody>
+          <tr><td>502 Bad Gateway</td><td>Upstream port, app process, error log</td><td>Nginx cannot reach the application service.</td></tr>
+          <tr><td>Redirect loop</td><td><code>X-Forwarded-Proto</code>, app trusted proxy settings</td><td>The app thinks HTTPS requests are HTTP.</td></tr>
+          <tr><td>CORS failure</td><td>Response headers, preflight route, API app config</td><td>The browser blocks a response that curl can still fetch.</td></tr>
+          <tr><td>Wrong site served</td><td><code>server_name</code>, listen order, default server</td><td>The request matches a different server block.</td></tr>
+          <tr><td>Large upload fails</td><td><code>client_max_body_size</code>, app upload limit</td><td>Nginx rejects the request before the app sees it.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>TLS and certificate checks</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>openssl s_client -connect example.com:443 -servername example.com &lt;/dev/null 2&gt;/dev/null | openssl x509 -noout -dates -subject -issuer
+curl -I https://example.com/
+grep -n "ssl_certificate\\|ssl_certificate_key" /tmp/nginx-rendered.conf
+nginx -t</code></pre></div>
+
+      <h2>Log-focused debugging</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>tail -n 120 /var/log/nginx/error.log
+tail -n 120 /var/log/nginx/access.log
+grep " 502 " /var/log/nginx/access.log | tail -30
+grep "upstream" /var/log/nginx/error.log | tail -30</code></pre></div>
+
+      <h2>Safe reload order</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>nginx -t
+systemctl reload nginx
+systemctl status nginx --no-pager
+curl -I https://example.com/
+tail -n 40 /var/log/nginx/error.log</code></pre></div>
+
+      <p class="guide-callout">A good Nginx fix proves four things: the active config file, the matching server block, the reachable upstream and the response headers the browser actually receives.</p>
+      <p>Related: <a href="http-headers-reference.html">HTTP Headers Reference</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>, <a href="docker-compose-debugging-guide.html">Docker Compose Debugging</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
