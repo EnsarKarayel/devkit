@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>OpenAPI Contract Checklist for Developers | Formalint</title>
+    <meta name="description" content="OpenAPI contract checklist for paths, operations, parameters, request bodies, responses, schemas, examples, security and API review notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/openapi-contract-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-contract-security-rate">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/openapi-contract-checklist.html#article", "headline": "OpenAPI Contract Checklist for Developers", "description": "A practical OpenAPI review checklist for paths, operations, parameters, request bodies, responses, schemas, examples and security.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>OpenAPI Contract Checklist</h1>
+      <p class="guide-meta">Paths, operations, parameters, request bodies, responses, schemas, examples and security review. Last updated August 31, 2026.</p>
+      <p>OpenAPI descriptions are most useful when they are treated as working contracts, not decorative documentation. The OpenAPI Specification defines the root document, paths, operations, parameters, request bodies, responses and reusable components at <a href="https://spec.openapis.org/oas/latest.html" rel="noopener" target="_blank">spec.openapis.org/oas/latest.html</a>. The learning guide explains that API endpoints are represented as paths and operations at <a href="https://learn.openapis.org/specification/paths.html" rel="noopener" target="_blank">learn.openapis.org/specification/paths.html</a>. This checklist helps teams review the contract before client code, tests and docs drift apart.</p>
+
+      <h2>Minimum contract shape</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>openapi: 3.1.0
+info:
+  title: Example API
+  version: 1.0.0
+servers:
+  - url: https://api.example.com
+paths:
+  /customers/{customerId}:
+    get:
+      summary: Get a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer found
+        "404":
+          description: Customer not found</code></pre></div>
+
+      <h2>Review paths before schemas</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Area</th><th>Question</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Servers</td><td>Does the server URL match the real environment?</td><td>Generated clients and docs will call the wrong host if this drifts.</td></tr>
+          <tr><td>Paths</td><td>Do path names start with <code>/</code> and match production routes?</td><td>Small route mismatches create expensive client debugging.</td></tr>
+          <tr><td>Operations</td><td>Is each method described with a clear summary and response set?</td><td>Consumers need expected outcomes, not just endpoint names.</td></tr>
+          <tr><td>Parameters</td><td>Are path parameters required and typed?</td><td>Path variables must be explicit for reliable validation and generation.</td></tr>
+          <tr><td>Responses</td><td>Are success and common error responses documented?</td><td>Client handling depends on 400, 401, 403, 404, 409, 422 and 429 behavior.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Payload and schema checks</h2>
+      <ul>
+        <li>Keep request bodies separate from path and query parameters.</li>
+        <li>Document nullable values deliberately instead of copying one accidental sample.</li>
+        <li>Use examples that match the declared schema, including arrays and nested objects.</li>
+        <li>Name reusable schemas in <code>components.schemas</code> when multiple endpoints share the same shape.</li>
+        <li>Review enum values, date formats and IDs with product or backend owners before publishing.</li>
+      </ul>
+
+      <h2>Security and auth review</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []</code></pre></div>
+      <p>Security declarations should match real behavior. If one operation is public, override it explicitly. If an endpoint requires a scope, role or tenant boundary, write that in the operation description and test it in the API checklist.</p>
+
+      <h2>Pre-release checklist</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>contract version:
+server URLs checked:
+paths match deployed routes:
+operation IDs unique:
+path params required:
+query params typed:
+request body schema reviewed:
+success responses documented:
+error responses documented:
+auth scheme matches production:
+examples validate:
+breaking change noted:</code></pre></div>
+
+      <p class="guide-callout">A useful OpenAPI file lets another developer build, test and debug against the API without asking what the route, body, status code or auth rule means.</p>
+      <p>Related: <a href="json-schema-generator.html">JSON Schema Generator</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="developer-data-validation-guide.html">Developer Data Validation</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

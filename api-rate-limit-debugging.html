@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>API Rate Limit and 429 Debugging Guide | Formalint</title>
+    <meta name="description" content="API rate limit and HTTP 429 debugging guide for Retry-After, RateLimit headers, client backoff, quotas, abuse protection and incident evidence.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/api-rate-limit-debugging.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-contract-security-rate">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/api-rate-limit-debugging.html#article", "headline": "API Rate Limit and 429 Debugging Guide", "description": "A practical debugging guide for HTTP 429, Retry-After, RateLimit headers, client backoff, quotas and API rate limiting incidents.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>API Rate Limit and 429 Debugging</h1>
+      <p class="guide-meta">Retry-After, RateLimit headers, quotas, client backoff and production incident evidence. Last updated August 31, 2026.</p>
+      <p>HTTP 429 means the client sent too many requests in a period of time, and MDN notes that a <code>Retry-After</code> header may tell the client how long to wait before retrying. See <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429" rel="noopener" target="_blank">MDN 429 Too Many Requests</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After" rel="noopener" target="_blank">MDN Retry-After</a>. IETF rate limit header drafts also describe quota signals such as remaining quota and reset timing; production APIs may use standard, draft or vendor-specific names.</p>
+
+      <h2>Capture the response</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i https://api.example.com/search?q=test
+curl -sS -D rate-limit-headers.txt -o response.json https://api.example.com/search?q=test
+curl -sS -w "\nstatus=%{http_code} total=%{time_total}s\n" https://api.example.com/search?q=test</code></pre></div>
+
+      <h2>Headers to inspect</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Header</th><th>Meaning to check</th><th>Debugging note</th></tr></thead>
+        <tbody>
+          <tr><td><code>Retry-After</code></td><td>How long the client should wait before another request.</td><td>May be seconds or an HTTP date.</td></tr>
+          <tr><td><code>RateLimit-Limit</code></td><td>Quota limit in the active window.</td><td>Some APIs expose this name, others use vendor prefixes.</td></tr>
+          <tr><td><code>RateLimit-Remaining</code></td><td>Remaining quota near the response time.</td><td>Do not treat a positive value as a guarantee under concurrency.</td></tr>
+          <tr><td><code>RateLimit-Reset</code></td><td>When quota may reset.</td><td>Interpret carefully because deployments vary between seconds and timestamps.</td></tr>
+          <tr><td><code>X-RateLimit-*</code></td><td>Legacy or vendor-specific quota headers.</td><td>Document the API provider behavior before coding a client.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Client backoff pattern</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>1. Stop immediate retry loops.
+2. Respect Retry-After when it is present.
+3. Add exponential backoff with jitter.
+4. Queue or batch low-priority requests.
+5. Separate per-user, per-token and per-IP quota evidence.
+6. Log request id, status, quota headers and retry delay.</code></pre></div>
+
+      <h2>Server-side questions</h2>
+      <ul>
+        <li>Is the limit keyed by IP, user, API token, tenant, route or organization?</li>
+        <li>Are browser preflight requests counted against the same quota as real API calls?</li>
+        <li>Does the gateway, CDN, reverse proxy or application own the 429 response?</li>
+        <li>Do error responses include enough headers for clients to slow down correctly?</li>
+        <li>Can internal jobs bypass public limits safely without hiding abusive loops?</li>
+      </ul>
+
+      <h2>Incident note template</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>endpoint:
+client identity:
+status:
+retry-after:
+ratelimit-limit:
+ratelimit-remaining:
+ratelimit-reset:
+request volume:
+window:
+owner layer:
+client fix:
+server fix:</code></pre></div>
+
+      <p class="guide-callout">A healthy rate limit failure should tell a client how to slow down. A noisy 429 without retry or quota evidence turns protection into guesswork.</p>
+      <p>Related: <a href="http-status-codes.html">HTTP Status Codes Reference</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="api-debugging-checklist.html">API Debugging Checklist</a>, <a href="nginx-reverse-proxy-checklist.html">Nginx Reverse Proxy Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

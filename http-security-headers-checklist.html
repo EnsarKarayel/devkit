@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>HTTP Security Headers Checklist | Formalint</title>
+    <meta name="description" content="HTTP security headers checklist for CSP, HSTS, X-Content-Type-Options, frame protection, Referrer-Policy, Permissions-Policy and deployment review.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/http-security-headers-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-contract-security-rate">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/http-security-headers-checklist.html#article", "headline": "HTTP Security Headers Checklist", "description": "A practical checklist for CSP, HSTS, MIME sniffing protection, frame protection, referrer policy and permissions policy review.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-31" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>HTTP Security Headers Checklist</h1>
+      <p class="guide-meta">CSP, HSTS, nosniff, frame protection, referrer policy and permissions policy review. Last updated August 31, 2026.</p>
+      <p>Security headers turn browser behavior into part of the application security model. MDN explains Content Security Policy as instructions from a site to a browser that restrict what page code may do, especially what resources it may load. See <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP" rel="noopener" target="_blank">MDN CSP</a>. MDN also documents HSTS and MIME sniffing protection through <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security" rel="noopener" target="_blank">Strict-Transport-Security</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options" rel="noopener" target="_blank">X-Content-Type-Options</a>.</p>
+
+      <h2>Inspect headers first</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -I https://example.com/
+curl -I https://example.com/app.js
+curl -I https://example.com/api/profile</code></pre></div>
+
+      <h2>Header checklist</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Header</th><th>Typical goal</th><th>Review warning</th></tr></thead>
+        <tbody>
+          <tr><td><code>Content-Security-Policy</code></td><td>Limit scripts, styles, images, frames and connections.</td><td>Start in report-only mode for complex apps when possible.</td></tr>
+          <tr><td><code>Strict-Transport-Security</code></td><td>Tell browsers to use HTTPS for future requests.</td><td>Be careful with <code>includeSubDomains</code> and preload if subdomains are not ready.</td></tr>
+          <tr><td><code>X-Content-Type-Options</code></td><td>Prevent MIME sniffing with <code>nosniff</code>.</td><td>Make sure JS and CSS files have correct content types.</td></tr>
+          <tr><td><code>Referrer-Policy</code></td><td>Control how much URL context is sent as referrer.</td><td><code>strict-origin-when-cross-origin</code> is a practical default for many sites.</td></tr>
+          <tr><td><code>Permissions-Policy</code></td><td>Limit browser features such as camera, microphone and geolocation.</td><td>Do not allow features the page never uses.</td></tr>
+          <tr><td><code>frame-ancestors</code></td><td>Control who can embed the page.</td><td>Prefer CSP <code>frame-ancestors</code> over legacy-only framing assumptions.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Static site starter policy</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre></div>
+
+      <h2>Nginx example</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>add_header Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests" always;
+add_header Strict-Transport-Security "max-age=31536000" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;</code></pre></div>
+
+      <h2>Deployment review</h2>
+      <ul>
+        <li>Check headers on HTML, JS, CSS, images and API responses separately.</li>
+        <li>Verify ad, analytics and CDN domains before tightening <code>script-src</code> or <code>connect-src</code>.</li>
+        <li>Do not preload HSTS until every important subdomain is HTTPS-ready.</li>
+        <li>Record the expected policy in the changelog or security notes.</li>
+        <li>Retest after CDN, reverse proxy or hosting changes.</li>
+      </ul>
+
+      <p class="guide-callout">Security headers should be reviewed as production behavior. A policy that blocks required scripts is a reliability bug; a policy that allows everything is barely a policy.</p>
+      <p>Related: <a href="http-headers-reference.html">HTTP Headers Reference</a>, <a href="nginx-reverse-proxy-checklist.html">Nginx Reverse Proxy Checklist</a>, <a href="safe-online-dev-tools.html">Safe Online Developer Tools</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
