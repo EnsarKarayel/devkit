@@ -2054,10 +2054,10 @@ body.with-app-sidebar .site-footer {
 
 .sidebar-group {
   display: grid;
-  gap: 3px;
+  gap: 7px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  padding: 0 0 9px;
+  margin-bottom: 9px;
   opacity: 0.72;
   transition: opacity 160ms ease, border-color 160ms ease, background 160ms ease;
 }
@@ -2071,25 +2071,117 @@ body.with-app-sidebar .site-footer {
   border-color: rgba(70, 163, 255, 0.22);
 }
 
-.sidebar-group h2 {
+.sidebar-group-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
   color: #9da7b0;
-  font-size: 0.79rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 0;
-  padding: 7px 2px;
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 7px;
+  text-align: left;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
-.sidebar-group.mode-focused h2 {
+.sidebar-group-toggle:hover,
+.sidebar-group-toggle:focus-visible,
+.sidebar-group.open .sidebar-group-toggle {
+  border-color: rgba(70, 163, 255, 0.18);
+  background: rgba(255, 255, 255, 0.045);
+  color: #ffffff;
+}
+
+.sidebar-group-toggle:focus-visible {
+  outline: 3px solid rgba(245, 184, 65, 0.45);
+  outline-offset: 2px;
+}
+
+.sidebar-group.mode-focused .sidebar-group-toggle {
   color: #8ccbff;
 }
 
-.sidebar-group > p {
+.sidebar-group-heading {
+  overflow: hidden;
+  font-size: 0.79rem;
+  font-weight: 850;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-group-count,
+.sidebar-group-caret {
+  display: grid;
+  min-width: 23px;
+  height: 23px;
+  place-items: center;
+  border: 1px solid rgba(140, 203, 255, 0.12);
+  border-radius: 5px;
+  background: #20252c;
+  color: #9fd2ff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.sidebar-group-caret {
+  min-width: 21px;
+  height: 21px;
+  color: #cbd7e2;
+}
+
+.sidebar-group.open .sidebar-group-caret {
+  background: rgba(70, 163, 255, 0.18);
+  color: #ffffff;
+}
+
+.sidebar-group.open .sidebar-group-caret::before {
+  content: "-";
+}
+
+.sidebar-group.open .sidebar-group-caret {
+  font-size: 0;
+}
+
+.sidebar-group.open .sidebar-group-caret::before {
+  font-size: 0.82rem;
+}
+
+.sidebar-group-content {
+  display: grid;
+  gap: 4px;
+  animation: sidebarGroupOpen 150ms ease;
+}
+
+.sidebar-group:not(.open) .sidebar-group-content {
+  display: none;
+}
+
+.sidebar-group-description {
   color: #aab7c2;
   font-size: 0.74rem;
   font-weight: 650;
   line-height: 1.42;
-  margin: -2px 2px 7px;
+  margin: -1px 7px 7px;
+}
+
+@keyframes sidebarGroupOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sidebar-link {
@@ -2524,7 +2616,7 @@ body.with-app-sidebar .consent-banner {
   }
 
   .sidebar-group {
-    min-width: 210px;
+    min-width: 230px;
     border-bottom: 0;
     border-right: 1px solid rgba(255, 255, 255, 0.055);
     padding-right: 12px;
@@ -2533,7 +2625,7 @@ body.with-app-sidebar .consent-banner {
     opacity: 1;
   }
 
-  .sidebar-group > p {
+  .sidebar-group-description {
     max-width: 220px;
   }
 
@@ -2589,18 +2681,35 @@ body.with-app-sidebar .consent-banner {
 
   .sidebar-group {
     display: flex;
+    align-items: flex-start;
     min-width: max-content;
     gap: 7px;
     border-right: 0;
     padding-right: 0;
   }
 
-  .sidebar-group h2,
-  .sidebar-group > p,
+  .sidebar-group-content,
+  .sidebar-group-description,
   .sidebar-link-copy small,
   .sidebar-search,
   .sidebar-search-empty,
   .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-group.open .sidebar-group-content {
+    display: flex;
+    gap: 7px;
+  }
+
+  .sidebar-group-toggle {
+    min-height: 36px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 6px 8px;
+    white-space: nowrap;
+  }
+
+  .sidebar-group-count {
     display: none;
   }
 

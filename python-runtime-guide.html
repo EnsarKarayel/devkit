@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Python Runtime Checklist for Developers and Admins | Formalint</title>
+    <meta name="description" content="Python runtime troubleshooting checklist covering python, pip, venv, package paths, FastAPI, Django, Flask, Linux services and Windows environment checks.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/python-runtime-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260828-accordion">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      { "@context": "https://schema.org", "@type": "TechArticle", "@id": "https://formalint.com/python-runtime-guide.html#article", "headline": "Python Runtime Checklist for Developers and Admins", "description": "Operational checks for Python runtime, pip, virtual environments, package paths, services and web app deployment debugging.", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "dateModified": "2026-08-28" }
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Python Runtime Checklist</h1>
+      <p class="guide-meta">Python, pip, venv, package paths and service checks. Last updated August 28, 2026.</p>
+      <p>Python issues often look like application bugs when the real cause is runtime drift: the terminal uses one interpreter, the service uses another, the virtual environment is not active, a package is installed globally instead of inside <code>.venv</code>, or the web worker starts from the wrong directory. The official Python documentation maintains platform setup notes at <a href="https://docs.python.org/3/using/index.html" rel="noopener" target="_blank">docs.python.org/3/using</a>, and the Python Packaging User Guide explains <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/" rel="noopener" target="_blank">pip and virtual environments</a>. Use this checklist to collect operational evidence before changing code.</p>
+
+      <h2>Identify the active interpreter</h2>
+      <p>Run these checks in the same shell, container or remote session where the problem happens. Python command names can differ between Windows, Linux, WSL, Git Bash and hosting panels.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>python --version
+python3 --version
+python -c "import sys; print(sys.executable); print(sys.version)"
+python -c "import site; print(site.getsitepackages())" 2&gt;/dev/null
+which python
+which python3</code></pre></div>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code># Windows PowerShell
+py --version
+py -0p
+python -c "import sys; print(sys.executable); print(sys.version)"
+where python
+where py</code></pre></div>
+
+      <h2>Verify pip and virtual environments</h2>
+      <p>Always call pip through the interpreter you plan to run. This avoids installing a package into one Python while executing another Python.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>python -m pip --version
+python -m pip list
+python -m pip check
+python -m venv .venv
+# Linux or macOS
+source .venv/bin/activate
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1</code></pre></div>
+
+      <h2>Framework and service checks</h2>
+      <p>Django, Flask and FastAPI apps usually fail because the service environment is not the same as the interactive shell. Compare module imports, environment variables, working directory and service command.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>python -m pip freeze
+python -c "import os, sys; print(os.getcwd()); print(sys.path[:5])"
+python -c "import django; print(django.get_version())" 2&gt;/dev/null
+python -c "import flask; print(flask.__version__)" 2&gt;/dev/null
+python -c "import fastapi; print(fastapi.__version__)" 2&gt;/dev/null</code></pre></div>
+
+      <h2>Linux systemd evidence</h2>
+      <p>When Python runs behind Gunicorn, Uvicorn, Celery, RQ or a custom worker, inspect the exact command before changing settings.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>systemctl status my-python-app --no-pager
+systemctl cat my-python-app
+journalctl -u my-python-app -n 120 --no-pager
+ps aux | grep -E '[p]ython|[g]unicorn|[u]vicorn|[c]elery'
+ss -tulpn | grep -E 'python|gunicorn|uvicorn' 2&gt;/dev/null</code></pre></div>
+
+      <h2>Windows service and scheduled task checks</h2>
+      <p>On Windows hosts, verify whether the app is launched by a user shell, Task Scheduler, NSSM, IIS, a service wrapper or a CI runner.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Get-Command python
+py -0p
+Get-Service | Where-Object {$_.Name -match "python|app|worker"}
+Get-ScheduledTask | Where-Object {$_.TaskName -match "python|app|worker"}
+Get-EventLog -LogName Application -Newest 80 | Select-Object TimeGenerated, Source, EntryType, Message</code></pre></div>
+
+      <h2>Common Python runtime failures</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Symptom</th><th>Check first</th><th>Likely direction</th></tr></thead>
+        <tbody>
+          <tr><td><code>ModuleNotFoundError</code></td><td><code>python -m pip --version</code>, <code>sys.executable</code>, active <code>.venv</code></td><td>The package is installed into a different interpreter.</td></tr>
+          <tr><td>Works in terminal, fails as service</td><td>systemd unit, Windows service command, working directory, environment variables</td><td>The service does not activate the same environment.</td></tr>
+          <tr><td>Import uses old code</td><td><code>sys.path</code>, deployment path, editable installs, cache files</td><td>The host is running a stale directory or package.</td></tr>
+          <tr><td>Slow API response</td><td>worker count, CPU, database latency, logs, blocking calls</td><td>The runtime may be waiting on IO rather than Python itself.</td></tr>
+          <tr><td>TLS or HTTP failures</td><td>certificate store, proxy variables, package versions</td><td>The runtime environment differs from local development.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Deployment evidence to save</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>date -Is
+hostname
+git rev-parse --short HEAD
+python -c "import sys; print(sys.executable); print(sys.version)"
+python -m pip --version
+python -m pip check
+env | grep -E 'PYTHON|VIRTUAL|DJANGO|FLASK|FASTAPI|DATABASE|REDIS' | sort</code></pre></div>
+
+      <p class="guide-callout">The fastest Python fix is often not a code edit. First prove the interpreter, pip target, virtual environment, service command and logs are all describing the same runtime.</p>
+      <p>Related: <a href="python-indentation-fixer.html">Python Indentation Guide</a>, <a href="linux-admin-command-guide.html">Linux Admin Commands</a>, <a href="windows-admin-command-guide.html">Windows Admin Commands</a>, <a href="api-debugging-handbook.html">API Debugging Handbook</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

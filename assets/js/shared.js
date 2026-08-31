@@ -199,7 +199,8 @@
       description: "Inspect language runtimes before blaming application code or deployment scripts.",
       links: [
         { label: "PHP Runtime Guide", href: "php-runtime-guide.html", icon: "PHP", description: "Check PHP CLI, FPM, Composer, extensions, php.ini and web server integration.", keywords: "php runtime guide php install composer php-fpm php ini extensions apache nginx" },
-        { label: "Java Runtime Guide", href: "java-runtime-guide.html", icon: "JAVA", description: "Check JDK, JAVA_HOME, Maven, Gradle, memory flags and service runtime behavior.", keywords: "java runtime guide jdk install java_home maven gradle openjdk jar service" }
+        { label: "Java Runtime Guide", href: "java-runtime-guide.html", icon: "JAVA", description: "Check JDK, JAVA_HOME, Maven, Gradle, memory flags and service runtime behavior.", keywords: "java runtime guide jdk install java_home maven gradle openjdk jar service" },
+        { label: "Python Runtime Guide", href: "python-runtime-guide.html", icon: "PY", description: "Check Python, pip, virtual environments, services and package paths.", keywords: "python runtime guide python install pip venv virtualenv django flask fastapi service" }
       ]
     },
     {
@@ -429,6 +430,57 @@
     );
   }
 
+  function setSidebarGroupOpen(group, isOpen) {
+    if (!group) {
+      return;
+    }
+    var button = $(".sidebar-group-toggle", group);
+    var state = Boolean(isOpen);
+    group.classList.toggle("open", state);
+    if (button) {
+      button.setAttribute("aria-expanded", state ? "true" : "false");
+    }
+  }
+
+  function collapseSidebarGroups(sidebar) {
+    $$(".sidebar-group", sidebar).forEach(function (group) {
+      setSidebarGroupOpen(group, false);
+    });
+  }
+
+  function buildSidebarGroup(group, index, pageName) {
+    var groupId = "formalint-sidebar-group-" + index;
+    return (
+      '<section class="sidebar-group" data-sidebar-mode="' +
+      escapeHtml(group.mode) +
+      '">' +
+      '<button class="sidebar-group-toggle" type="button" data-sidebar-group-toggle aria-expanded="false" aria-controls="' +
+      groupId +
+      '">' +
+      '<span class="sidebar-group-heading">' +
+      escapeHtml(group.title) +
+      "</span>" +
+      '<span class="sidebar-group-count">' +
+      group.links.length +
+      "</span>" +
+      '<span class="sidebar-group-caret" aria-hidden="true">+</span>' +
+      "</button>" +
+      '<div class="sidebar-group-content" id="' +
+      groupId +
+      '">' +
+      '<p class="sidebar-group-description">' +
+      escapeHtml(group.description) +
+      "</p>" +
+      group.links
+        .map(function (link) {
+          return buildSidebarLink(link, pageName);
+        })
+        .join("") +
+      "</div>" +
+      "</section>"
+    );
+  }
+
   function detectInitialMode(pageName) {
     var matchedMode = "data";
     sidebarGroups.forEach(function (group) {
@@ -449,7 +501,7 @@
     );
   }
 
-  function activateRailMode(mode, sidebar) {
+  function activateRailMode(mode, sidebar, openGroups) {
     var root = sidebar || document.querySelector(".app-sidebar");
     if (!root) {
       return;
@@ -465,6 +517,9 @@
     $$(".sidebar-group", root).forEach(function (group) {
       var isActiveGroup = group.getAttribute("data-sidebar-mode") === mode;
       group.classList.toggle("mode-focused", isActiveGroup);
+      if (openGroups) {
+        setSidebarGroupOpen(group, isActiveGroup);
+      }
     });
 
     var details = modeDetails(mode);
@@ -489,7 +544,7 @@
     }
 
     var activeGroup = $('.sidebar-group[data-sidebar-mode="' + mode + '"]', root);
-    if (activeGroup && root.querySelector(".sidebar-panel")) {
+    if (openGroups && activeGroup && root.querySelector(".sidebar-panel")) {
       activeGroup.scrollIntoView({ block: "nearest", inline: "nearest" });
     }
   }
@@ -831,6 +886,7 @@
         return !link.hidden;
       });
       group.hidden = Boolean(normalized && !hasVisibleLink);
+      setSidebarGroupOpen(group, Boolean(normalized && hasVisibleLink));
     });
 
     var empty = $(".sidebar-search-empty", sidebar);
@@ -852,7 +908,8 @@
         " matching resources</strong>" +
         "<p>Search checks tool names and short explanations, so you can jump from a debugging symptom to the right Formalint page faster.</p>";
     } else if (modeCard) {
-      activateRailMode(sidebar.getAttribute("data-active-mode") || "data", sidebar);
+      collapseSidebarGroups(sidebar);
+      activateRailMode(sidebar.getAttribute("data-active-mode") || "data", sidebar, false);
     }
   }
 
@@ -894,24 +951,8 @@
       ' tools and guides</span></div>' +
       '<div class="sidebar-mode-card" aria-live="polite"></div>' +
       sidebarGroups
-        .map(function (group) {
-          return (
-            '<section class="sidebar-group" data-sidebar-mode="' +
-            escapeHtml(group.mode) +
-            '">' +
-            "<h2>" +
-            escapeHtml(group.title) +
-            "</h2>" +
-            "<p>" +
-            escapeHtml(group.description) +
-            "</p>" +
-            group.links
-              .map(function (link) {
-                return buildSidebarLink(link, pageName);
-              })
-              .join("") +
-            "</section>"
-          );
+        .map(function (group, index) {
+          return buildSidebarGroup(group, index, pageName);
         })
         .join("") +
       '<p class="sidebar-search-empty" hidden>No matching Formalint tool yet. Try JSON, regex, API, JWT, YAML or SQL.</p>' +
@@ -928,7 +969,7 @@
           search.value = "";
           filterSidebarLinks(sidebar, "");
         }
-        activateRailMode(button.getAttribute("data-rail-mode"), sidebar);
+        activateRailMode(button.getAttribute("data-rail-mode"), sidebar, true);
       });
     });
     var searchInput = $("#formalintSidebarSearch", sidebar);
@@ -941,6 +982,13 @@
       );
     }
     sidebar.addEventListener("click", function (event) {
+      var groupToggle = event.target && event.target.closest ? event.target.closest("[data-sidebar-group-toggle]") : null;
+      if (groupToggle) {
+        var group = groupToggle.closest(".sidebar-group");
+        setSidebarGroupOpen(group, !group.classList.contains("open"));
+        return;
+      }
+
       var target = event.target && event.target.closest ? event.target.closest("[data-copy-workflow]") : null;
       if (!target) {
         return;
@@ -964,7 +1012,7 @@
     });
     createCommandPalette(sidebar);
     initCopyCodeButtons(document);
-    activateRailMode(activeMode, sidebar);
+    activateRailMode(activeMode, sidebar, false);
   }
 
   if (document.readyState === "loading") {
