@@ -15,11 +15,11 @@
   var activeTopic = "all";
 
   var topicMatchers = {
-    formatter: ["formatter", "format", "lint", "linter", "indent", "cleanup", "schema", "csv", "json", "xml", "yaml", "sql", "python"],
-    regex: ["regex", "regular expression", "lookahead", "lookbehind", "email", "phone", "password", "ip address", "slug", "hex", "uuid", "url", "date", "log parser", "javascript regex"],
-    api: ["api", "http", "jwt", "expiration", "401", "403", "timeout", "oauth", "cors", "webhook", "graphql", "cookie", "samesite", "rate limit", "cache-control", "status", "headers"],
-    ops: ["dba", "database", "postgresql", "mysql", "redis", "docker", "kubernetes", "nginx", "linux", "journalctl", "windows", "powershell", "git", "dns", "tls", "cockpit"],
-    runtime: ["runtime", "node", "node.js", "npm", "environment", "php", "composer", "fpm", "java", "jdk", "thread dump", "python", "virtualenv", "fastapi", "django", "flask"],
+    formatter: ["formatter", "format", "lint", "linter", "indent", "cleanup", "schema", "csv", "json", "ndjson", "xml", "namespace", "yaml", "compose", "sql", "python"],
+    regex: ["regex", "regular expression", "lookahead", "lookbehind", "email", "phone", "password", "ip address", "slug", "hex", "capture", "numbers", "duplicate", "whitespace", "uuid", "url", "date", "log parser", "javascript regex"],
+    api: ["api", "http", "method", "post", "json request", "versioning", "error response", "jwt", "expiration", "401", "403", "timeout", "oauth", "refresh token", "cors", "webhook", "signature", "graphql", "cookie", "samesite", "rate limit", "cache-control", "status", "headers"],
+    ops: ["dba", "database", "postgresql", "mysql", "redis", "docker", "volume", "kubernetes", "crashloopbackoff", "nginx", "linux", "systemctl", "journalctl", "windows", "powershell", "git", "branch", "dns", "tls", "cockpit"],
+    runtime: ["runtime", "node", "node.js", "npm", "environment", "php", "composer", "dependency", "fpm", "java", "jdk", "maven", "thread dump", "python", "virtualenv", "fastapi", "django", "flask"],
     security: ["security", "injection", "jwt", "oauth", "password", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "safe", "privacy", "secret"]
   };
 

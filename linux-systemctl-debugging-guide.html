@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Linux systemctl Debugging Guide | Formalint</title>
+    <meta name="description" content="Use systemctl status, restart history, unit files and journal evidence during service incidents.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/linux-systemctl-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-150">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/linux-systemctl-debugging-guide.html#article","headline":"Linux systemctl Debugging Guide","description":"Use systemctl status, restart history, unit files and journal evidence during service incidents.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/linux-systemctl-debugging-guide.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Linux systemctl Debugging Guide</h1>
+      <p class="guide-meta">Use systemctl status, restart history, unit files and journal evidence during service incidents. Last updated September 1, 2026.</p>
+      <p>Use systemctl status, restart history, unit files and journal evidence during service incidents. This Formalint guide is built as practical reference content for developers, DBAs and support engineers who need repeatable steps during real debugging work.</p>
+      <p>The goal is not to replace your local editor, logs or database tools. The goal is to give you a clean order of operations so you can move from symptom to evidence faster.</p>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to verify</th></tr></thead><tbody><tr><td>Identify the host</td><td>Record OS, service name, container name, namespace or repository before running commands.</td></tr><tr><td>Use read-only checks first</td><td>Gather status, logs, config and timestamps before restarting or deleting anything.</td></tr><tr><td>Keep a rollback path</td><td>Every operational fix should be explainable and reversible.</td></tr></tbody></table>
+      <h2>Terminal evidence commands</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>systemctl status service-name --no-pager
+systemctl cat service-name
+journalctl -u service-name -n 100 --no-pager</code></pre></div>
+      <h2>Review checklist</h2>
+      <ol><li>Use Linux systemctl Debugging as a workflow, not as a copy-paste shortcut.</li><li>Keep production secrets and customer data out of browser tools and tickets.</li><li>Record host, shell, service and timestamp with every command.</li><li>Prefer small, reversible changes while debugging.</li><li>Link the final note to a related Formalint reference for future handoff.</li></ol>
+      <h2>Common mistake</h2>
+      <p>Linux systemctl Debugging gets dangerous when restart, delete or firewall commands happen before read-only evidence is captured.</p>
+      <p class="guide-callout">Keep the smallest useful sample, remove secrets and verify each assumption separately. That is the Formalint rhythm.</p>
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Is Linux systemctl Debugging enough for production?</summary><p>It is enough as a review workflow. Production safety still depends on tests, logs, access control, monitoring and team change process.</p></details><details><summary>Should I paste real production data here?</summary><p>No. Use redacted, synthetic or minimal samples when working in browser-based developer tools.</p></details></div>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="terminal-workflows-for-developers.html">CMD, PowerShell, Git Bash and Linux Terminal Workflow</a>, <a href="linux-admin-command-guide.html">Linux Admin Commands for Developers and DBAs</a>, <a href="docker-compose-debugging-guide.html">Docker Compose Debugging Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
