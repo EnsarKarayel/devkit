@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Slug Regex Validator Guide | Formalint</title>
+    <meta name="description" content="Create and validate URL slugs for docs, blogs and tools with practical regex rules, examples and collision handling notes.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/regex-slug-validator.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-124">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-slug-validator.html#article","headline":"Slug Regex Validator Guide","description":"Create and validate URL slugs for docs, blogs and tools with practical regex rules, examples and collision handling notes.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-slug-validator.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Slug Regex Validator Guide</h1>
+      <p class="guide-meta">Keep public URLs clean, readable and predictable. Last updated September 1, 2026.</p>
+      <p>Create and validate URL slugs for docs, blogs and tools with practical regex rules, examples and collision handling notes. This Formalint reference is written for working developers, DBAs and support engineers who need a repeatable debugging path instead of a one-line snippet with no context.</p>
+      <p>Use the notes below as a practical review order: understand the input, capture evidence, make one small change and verify the result before moving to the next assumption.</p>
+
+      <h2>When to use this page</h2>
+      <p>Keep public URLs clean, readable and predictable. It is most useful when a small validation or debugging mistake can create noisy tickets, misleading logs or hard-to-review production changes.</p>
+
+      <h2>Practical workflow</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>What to confirm</th></tr></thead>
+        <tbody><tr><td>Normalize the title</td><td>Lowercase text, remove unsupported punctuation and collapse whitespace to hyphens.</td></tr><tr><td>Validate the final slug</td><td>Reject empty strings, double hyphens and leading or trailing hyphens.</td></tr><tr><td>Handle collisions</td><td>Use a unique suffix or database constraint so two pages never share one slug.</td></tr></tbody>
+      </table>
+
+      <h2>Common slug pattern</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>^[a-z0-9]+(?:-[a-z0-9]+)*$</code></pre></div>
+
+      <h2>Review checklist</h2>
+      <ol><li>Keep slugs short enough to scan in search results and logs.</li><li>Do not put dates, versions or IDs in every slug unless they help users.</li><li>Redirect old slugs when a published title changes.</li><li>Avoid mixing uppercase and lowercase routes on static hosting.</li><li>Store the original title separately from the URL slug.</li></ol>
+
+      <h2>Common mistake</h2>
+      <p>A valid-looking slug can still point to the wrong content. Validation controls shape; routing and canonical URLs control meaning.</p>
+      <p class="guide-callout">Formalint is strongest when the page helps the developer decide what the tool cannot prove. Treat every formatter, regex and command as one layer of evidence, not the whole truth.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Should slugs include underscores?</summary><p>Hyphens are easier to read in URLs and are the common choice for public pages.</p></details><details><summary>Can slugs improve SEO?</summary><p>Readable slugs can help users understand a URL, but useful content and clear titles matter more.</p></details></div>
+
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="url-encoder-decoder.html">URL Encoder Decoder</a>, <a href="tools.html">Developer Tools Directory</a>, <a href="editorial-policy.html">Editorial Policy</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

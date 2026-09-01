@@ -151,7 +151,13 @@
         { label: "JavaScript Regex Cheatsheet", href: "javascript-regex-cheatsheet.html", icon: "JSRX", description: "Use flags, anchors, groups, classes, quantifiers, replacement and validation patterns.", keywords: "javascript regex cheatsheet js regex flags groups anchors replace match" },
         { label: "Lookahead Lookbehind", href: "regex-lookahead-lookbehind-guide.html", icon: "?=", description: "Use positive and negative assertions when nearby text should not be consumed.", keywords: "regex lookahead lookbehind positive negative assertion javascript regex" },
         { label: "Regex Replace", href: "regex-replace-guide.html", icon: "REP", description: "Clean strings with capture groups, whitespace normalization and safe replacements.", keywords: "regex replace javascript string replace capture groups cleanup" },
-        { label: "Regex Performance", href: "regex-performance-guide.html", icon: "PERF", description: "Debug slow patterns, backtracking risk, large logs, input limits and parser choices.", keywords: "regex performance catastrophic backtracking slow regex javascript regex debug" }
+        { label: "Regex Performance", href: "regex-performance-guide.html", icon: "PERF", description: "Debug slow patterns, backtracking risk, large logs, input limits and parser choices.", keywords: "regex performance catastrophic backtracking slow regex javascript regex debug" },
+        { label: "JavaScript Regex match vs test", href: "javascript-regex-match-vs-test.html", icon: "JS", description: "Choose the right JavaScript regex method before trusting a result.", keywords: "javascript regex match vs test regexp test string match matchall exec regex guide" },
+        { label: "HEX Color Regex Validator", href: "regex-hex-color-validator.html", icon: "HEX", description: "Check color strings before converting them into RGB or HSL.", keywords: "hex color regex validator css color regex hex rgb hsl" },
+        { label: "Slug Regex Validator", href: "regex-slug-validator.html", icon: "SLUG", description: "Keep public URLs clean, readable and predictable.", keywords: "slug regex url slug validator javascript seo friendly urls" },
+        { label: "IP Address Regex Validator", href: "regex-ip-address-validator.html", icon: "IP", description: "Check IPv4 string shape before using network tools or address parsers.", keywords: "ip address regex ipv4 regex validator network debugging regular expression" },
+        { label: "Password Regex Validation", href: "regex-password-validation-guide.html", icon: "PASS", description: "Design password checks that help users without creating fragile security theater.", keywords: "password regex validation javascript password policy regular expression security checklist" },
+        { label: "Phone Number Regex Validation", href: "regex-phone-number-guide.html", icon: "TEL", description: "Validate phone-shaped input without pretending regex can prove a reachable number.", keywords: "phone regex phone number regex validation javascript international phone form validation" }
       ]
     },
     {
@@ -191,7 +197,10 @@
         { label: "HTTP Headers", href: "http-headers-reference.html", icon: "HDR", description: "Review cache, CORS, auth and security headers." },
         { label: "JWT Decoder", href: "jwt-decoder.html", icon: "JWT", description: "Decode token headers, claims and expiration values." },
         { label: "Timestamp", href: "timestamp-converter.html", icon: "TIME", description: "Convert Unix and ISO timestamps while debugging logs." },
-        { label: "Cron Parser", href: "cron-expression-parser.html", icon: "CRON", description: "Explain schedules and preview upcoming runs." }
+        { label: "Cron Parser", href: "cron-expression-parser.html", icon: "CRON", description: "Explain schedules and preview upcoming runs." },
+        { label: "JWT Expiration Debugging", href: "jwt-expiration-debugging.html", icon: "EXP", description: "Understand token time claims without exposing real credentials.", keywords: "jwt expiration debugging exp iat nbf clock skew refresh token bearer token" },
+        { label: "API Timeout Debugging", href: "api-timeout-debugging-guide.html", icon: "TIME", description: "Turn vague timeout reports into ordered evidence.", keywords: "api timeout debugging gateway timeout client timeout curl timing dns tls upstream database" },
+        { label: "API 401 vs 403 Debugging", href: "api-401-403-debugging-guide.html", icon: "401", description: "Separate missing authentication from denied authorization.", keywords: "401 403 api debugging unauthorized forbidden jwt oauth bearer token scope role" }
       ]
     },
     {
@@ -211,7 +220,10 @@
         { label: "Nginx 502 504", href: "nginx-502-504-debugging-guide.html", icon: "502", description: "Debug upstream health, proxy timeouts, logs, DNS, TLS and gateway ownership.", keywords: "nginx 502 504 debugging bad gateway gateway timeout proxy upstream" },
         { label: "PowerShell Network Debugging", href: "powershell-network-debugging-guide.html", icon: "PS", description: "Use ping, TCP port tests, DNS, routes, services and Windows API connectivity checks.", keywords: "powershell network debugging test-netconnection port dns route windows" },
         { label: "Git Merge Conflicts", href: "git-merge-conflict-guide.html", icon: "GIT", description: "Read conflict markers, choose changes, test the result and finish merges safely.", keywords: "git merge conflict guide resolve conflict markers git status" },
-        { label: "Git Rebase Workflow", href: "git-rebase-workflow-guide.html", icon: "BASE", description: "Update branches, resolve conflicts, continue safely and avoid history surprises.", keywords: "git rebase workflow resolve conflicts rebase continue abort" }
+        { label: "Git Rebase Workflow", href: "git-rebase-workflow-guide.html", icon: "BASE", description: "Update branches, resolve conflicts, continue safely and avoid history surprises.", keywords: "git rebase workflow resolve conflicts rebase continue abort" },
+        { label: "PowerShell curl vs Invoke-WebRequest", href: "powershell-curl-invoke-webrequest-guide.html", icon: "PS", description: "Avoid Windows shell surprises while testing APIs.", keywords: "powershell curl invoke-webrequest invoke-restmethod api debugging windows" },
+        { label: "Linux journalctl for Developers and DBAs", href: "linux-journalctl-guide.html", icon: "JNL", description: "Turn Linux service logs into ordered incident evidence.", keywords: "journalctl guide linux service logs systemd dba incident debugging" },
+        { label: "Docker Container Logs", href: "docker-container-logs-guide.html", icon: "LOGS", description: "Read container logs without losing service context.", keywords: "docker logs container logs docker compose logs tail timestamps debugging guide" }
       ]
     },
     {
@@ -227,7 +239,12 @@
         { label: "SQL Formatter", href: "sql-formatter.html", icon: "SQL", description: "Make long queries readable before review or debugging.", keywords: "sql formatter sql beautifier sql format" },
         { label: "PostgreSQL Locks", href: "postgresql-lock-debugging-guide.html", icon: "LOCK", description: "Debug blocked sessions, pg_stat_activity, pg_locks, transactions and incidents.", keywords: "postgresql lock debugging pg_locks pg_stat_activity blocked sessions" },
         { label: "PostgreSQL Indexes", href: "postgresql-index-debugging-guide.html", icon: "IDX", description: "Review EXPLAIN, missing indexes, unused indexes, row estimates and query evidence.", keywords: "postgresql index debugging explain analyze missing unused indexes" },
-        { label: "MySQL Slow Queries", href: "mysql-slow-query-debugging-guide.html", icon: "SLOW", description: "Use slow query log, EXPLAIN, indexes, lock time and rows examined evidence.", keywords: "mysql slow query debugging slow query log explain rows examined indexes" }
+        { label: "MySQL Slow Queries", href: "mysql-slow-query-debugging-guide.html", icon: "SLOW", description: "Use slow query log, EXPLAIN, indexes, lock time and rows examined evidence.", keywords: "mysql slow query debugging slow query log explain rows examined indexes" },
+        { label: "Redis Memory Debugging", href: "redis-memory-debugging-guide.html", icon: "RAM", description: "Find Redis memory pressure before deleting keys in a hurry.", keywords: "redis memory debugging info memory maxmemory policy big keys cache incident" },
+        { label: "MySQL Index Debugging", href: "mysql-index-debugging-guide.html", icon: "MYI", description: "Use evidence before adding another index.", keywords: "mysql index debugging explain composite index rows examined slow query guide" },
+        { label: "PostgreSQL VACUUM and ANALYZE", href: "postgresql-vacuum-analyze-guide.html", icon: "VAC", description: "Read PostgreSQL maintenance symptoms before tuning blindly.", keywords: "postgresql vacuum analyze guide table bloat autovacuum planner statistics dba" },
+        { label: "SQL WHERE Clause Debugging", href: "sql-where-clause-debugging.html", icon: "WHERE", description: "Stop tiny WHERE mistakes from becoming wrong reports.", keywords: "sql where clause debugging and or precedence null date range query filter" },
+        { label: "SQL JOIN Debugging", href: "sql-join-debugging-guide.html", icon: "JOIN", description: "Find why a JOIN returns too many, too few or duplicated rows.", keywords: "sql join debugging inner join left join duplicate rows missing rows query guide" }
       ]
     },
     {
@@ -250,7 +267,11 @@
         { label: "Node.js Runtime Guide", href: "nodejs-runtime-guide.html", icon: "NODE", description: "Check Node, npm, npx, package managers, build scripts, ports and process managers.", keywords: "nodejs runtime guide node npm npx pnpm yarn pm2 vite next express install debug" },
         { label: "npm Dependency Debugging", href: "nodejs-npm-dependency-debugging.html", icon: "NPM", description: "Debug package-lock, npm install, npm ci, scripts, engines and module resolution.", keywords: "nodejs npm dependency debugging package lock npm install npm ci module not found" },
         { label: "PHP Composer Autoload", href: "php-composer-autoload-guide.html", icon: "CMP", description: "Debug vendor files, namespaces, class maps, optimized autoload and deployments.", keywords: "php composer autoload debugging class not found vendor dump autoload" },
-        { label: "Java Memory Debugging", href: "java-memory-debugging-guide.html", icon: "HEAP", description: "Check heap settings, OutOfMemoryError, container limits, GC logs and JVM evidence.", keywords: "java memory debugging heap outofmemoryerror xmx gc logs container" }
+        { label: "Java Memory Debugging", href: "java-memory-debugging-guide.html", icon: "HEAP", description: "Check heap settings, OutOfMemoryError, container limits, GC logs and JVM evidence.", keywords: "java memory debugging heap outofmemoryerror xmx gc logs container" },
+        { label: "Node.js Environment Variable Debugging", href: "nodejs-env-debugging-guide.html", icon: "ENV", description: "Find where an environment variable disappears.", keywords: "nodejs env debugging environment variables npm scripts docker pm2 vite next" },
+        { label: "Python Virtualenv Debugging", href: "python-virtualenv-debugging-guide.html", icon: "VENV", description: "Find why Python works in one shell but fails in the service.", keywords: "python virtualenv debugging venv pip import module not found service deployment" },
+        { label: "Java Thread Dump Debugging", href: "java-thread-dump-guide.html", icon: "THD", description: "Capture JVM evidence before restarting the service.", keywords: "java thread dump debugging jstack deadlock blocked threads high cpu jvm" },
+        { label: "PHP-FPM and Nginx Debugging", href: "php-fpm-nginx-debugging-guide.html", icon: "FPM", description: "Find whether the failure belongs to Nginx, PHP-FPM or application code.", keywords: "php-fpm nginx debugging 502 socket pool permissions php runtime guide" }
       ]
     },
     {

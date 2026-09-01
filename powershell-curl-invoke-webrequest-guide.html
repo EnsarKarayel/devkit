@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>PowerShell curl vs Invoke-WebRequest Guide | Formalint</title>
+    <meta name="description" content="Understand curl.exe, Invoke-WebRequest and Invoke-RestMethod differences when debugging APIs on Windows.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/powershell-curl-invoke-webrequest-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-124">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/powershell-curl-invoke-webrequest-guide.html#article","headline":"PowerShell curl vs Invoke-WebRequest Guide","description":"Understand curl.exe, Invoke-WebRequest and Invoke-RestMethod differences when debugging APIs on Windows.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/powershell-curl-invoke-webrequest-guide.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>PowerShell curl vs Invoke-WebRequest Guide</h1>
+      <p class="guide-meta">Avoid Windows shell surprises while testing APIs. Last updated September 1, 2026.</p>
+      <p>Understand curl.exe, Invoke-WebRequest and Invoke-RestMethod differences when debugging APIs on Windows. This Formalint reference is written for working developers, DBAs and support engineers who need a repeatable debugging path instead of a one-line snippet with no context.</p>
+      <p>Use the notes below as a practical review order: understand the input, capture evidence, make one small change and verify the result before moving to the next assumption.</p>
+
+      <h2>When to use this page</h2>
+      <p>Avoid Windows shell surprises while testing APIs. It is most useful when a small validation or debugging mistake can create noisy tickets, misleading logs or hard-to-review production changes.</p>
+
+      <h2>Practical workflow</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>What to confirm</th></tr></thead>
+        <tbody><tr><td>Use curl.exe explicitly</td><td>On Windows, typing curl may resolve differently depending on shell and version.</td></tr><tr><td>Choose the PowerShell cmdlet</td><td>Invoke-WebRequest is useful for response details; Invoke-RestMethod parses API bodies.</td></tr><tr><td>Keep command evidence</td><td>Copy the exact shell and command into the ticket.</td></tr></tbody>
+      </table>
+
+      <h2>Windows API checks</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl.exe -i https://api.example.com/health
+Invoke-WebRequest -Uri &quot;https://api.example.com/health&quot;
+Invoke-RestMethod -Uri &quot;https://api.example.com/health&quot; -Headers @{ Accept = &quot;application/json&quot; }</code></pre></div>
+
+      <h2>Review checklist</h2>
+      <ol><li>Write curl.exe when you want real curl behavior.</li><li>Check status code, headers and body separately.</li><li>Avoid hiding errors behind aliases.</li><li>Use Test-NetConnection for port reachability.</li><li>Mask bearer tokens before sharing commands.</li></ol>
+
+      <h2>Common mistake</h2>
+      <p>A command that works in Git Bash can fail in PowerShell because quoting, aliases and object output differ.</p>
+      <p class="guide-callout">Formalint is strongest when the page helps the developer decide what the tool cannot prove. Treat every formatter, regex and command as one layer of evidence, not the whole truth.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Should I use curl or Invoke-RestMethod?</summary><p>Use curl.exe for portable raw HTTP evidence, and Invoke-RestMethod when PowerShell object output helps.</p></details><details><summary>Why does JSON quoting break?</summary><p>PowerShell, CMD and Bash treat quotes differently. Match examples to the shell you are using.</p></details></div>
+
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="powershell-network-debugging-guide.html">PowerShell Network Debugging</a>, <a href="curl-api-debugging-cheatsheet.html">curl API Debugging Cheatsheet</a>, <a href="terminal-workflows-for-developers.html">Terminal Workflows</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

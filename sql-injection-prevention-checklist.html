@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>SQL Injection Prevention Checklist | Formalint</title>
+    <meta name="description" content="Review parameterized queries, escaping boundaries, ORM raw SQL, logging and testing habits that reduce SQL injection risk.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/sql-injection-prevention-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-124">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/sql-injection-prevention-checklist.html#article","headline":"SQL Injection Prevention Checklist","description":"Review parameterized queries, escaping boundaries, ORM raw SQL, logging and testing habits that reduce SQL injection risk.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/sql-injection-prevention-checklist.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>SQL Injection Prevention Checklist</h1>
+      <p class="guide-meta">Keep SQL cleanup separate from SQL injection prevention. Last updated September 1, 2026.</p>
+      <p>Review parameterized queries, escaping boundaries, ORM raw SQL, logging and testing habits that reduce SQL injection risk. This Formalint reference is written for working developers, DBAs and support engineers who need a repeatable debugging path instead of a one-line snippet with no context.</p>
+      <p>Use the notes below as a practical review order: understand the input, capture evidence, make one small change and verify the result before moving to the next assumption.</p>
+
+      <h2>When to use this page</h2>
+      <p>Keep SQL cleanup separate from SQL injection prevention. It is most useful when a small validation or debugging mistake can create noisy tickets, misleading logs or hard-to-review production changes.</p>
+
+      <h2>Practical workflow</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>What to confirm</th></tr></thead>
+        <tbody><tr><td>Bind values</td><td>Use prepared statements or framework parameters instead of string concatenation.</td></tr><tr><td>Review raw SQL</td><td>ORM escape hatches deserve the same attention as hand-written queries.</td></tr><tr><td>Keep logs safe</td><td>Do not log secrets or full user-provided payloads while debugging security cases.</td></tr></tbody>
+      </table>
+
+      <h2>Parameterized query shape</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>-- Good shape: values are bound, not concatenated
+SELECT id, email
+FROM users
+WHERE email = ?;</code></pre></div>
+
+      <h2>Review checklist</h2>
+      <ol><li>Never build WHERE clauses by concatenating user input.</li><li>Validate identifiers separately from values.</li><li>Use least-privilege database accounts.</li><li>Add tests for quotes, comments and unexpected operators.</li><li>Treat formatting tools as readability helpers, not security controls.</li></ol>
+
+      <h2>Common mistake</h2>
+      <p>A formatted SQL string can still be injectable. Formatting improves review; parameter binding changes execution safety.</p>
+      <p class="guide-callout">Formalint is strongest when the page helps the developer decide what the tool cannot prove. Treat every formatter, regex and command as one layer of evidence, not the whole truth.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Can escaping alone prevent SQL injection?</summary><p>Escaping is easy to get wrong. Parameterized queries are the normal safer default.</p></details><details><summary>Are ORMs always safe?</summary><p>No. Raw query APIs and dynamic identifiers still need careful review.</p></details></div>
+
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="sql-cleanup.html">SQL Cleanup</a>, <a href="http-security-headers-checklist.html">HTTP Security Headers Checklist</a>, <a href="developer-data-validation-guide.html">Developer Data Validation</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

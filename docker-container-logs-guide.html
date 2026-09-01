@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Docker Container Logs Guide | Formalint</title>
+    <meta name="description" content="Use docker logs, timestamps, tailing, service names and Compose context to debug containerized applications safely.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/docker-container-logs-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-124">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/docker-container-logs-guide.html#article","headline":"Docker Container Logs Guide","description":"Use docker logs, timestamps, tailing, service names and Compose context to debug containerized applications safely.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/docker-container-logs-guide.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>Docker Container Logs Guide</h1>
+      <p class="guide-meta">Read container logs without losing service context. Last updated September 1, 2026.</p>
+      <p>Use docker logs, timestamps, tailing, service names and Compose context to debug containerized applications safely. This Formalint reference is written for working developers, DBAs and support engineers who need a repeatable debugging path instead of a one-line snippet with no context.</p>
+      <p>Use the notes below as a practical review order: understand the input, capture evidence, make one small change and verify the result before moving to the next assumption.</p>
+
+      <h2>When to use this page</h2>
+      <p>Read container logs without losing service context. It is most useful when a small validation or debugging mistake can create noisy tickets, misleading logs or hard-to-review production changes.</p>
+
+      <h2>Practical workflow</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>What to confirm</th></tr></thead>
+        <tbody><tr><td>Identify the container</td><td>Use names, status and ports before opening logs.</td></tr><tr><td>Limit output</td><td>Start with tail and since filters to avoid drowning in old noise.</td></tr><tr><td>Correlate timestamps</td><td>Compare container logs with API client, proxy and database timestamps.</td></tr></tbody>
+      </table>
+
+      <h2>Log commands</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>docker ps --format &quot;table {{.Names}}\t{{.Status}}\t{{.Ports}}&quot;
+docker logs --tail 100 --timestamps container-name
+docker logs -f --since 10m container-name
+docker compose logs --tail 120 api</code></pre></div>
+
+      <h2>Review checklist</h2>
+      <ol><li>Check whether the container is restarting.</li><li>Use compose service names when the project is Compose-managed.</li><li>Keep secrets out of copied logs.</li><li>Capture the command you used beside the output.</li><li>Inspect healthchecks and exit codes when logs are empty.</li></ol>
+
+      <h2>Common mistake</h2>
+      <p>A log line without container name, timestamp and service context is easy to misread during an incident.</p>
+      <p class="guide-callout">Formalint is strongest when the page helps the developer decide what the tool cannot prove. Treat every formatter, regex and command as one layer of evidence, not the whole truth.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Why are docker logs empty?</summary><p>The process may log to a file, exit early, use another logging driver or never start.</p></details><details><summary>Should I follow logs forever?</summary><p>No. Follow long enough to reproduce, then stop and save focused evidence.</p></details></div>
+
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="docker-compose-debugging-guide.html">Docker Compose Debugging</a>, <a href="docker-env-file-guide.html">Docker Env Files</a>, <a href="nginx-502-504-debugging-guide.html">Nginx 502 504 Debugging</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

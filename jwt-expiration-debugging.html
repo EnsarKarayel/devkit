@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>JWT Expiration Debugging Guide | Formalint</title>
+    <meta name="description" content="Debug JWT exp, iat and nbf claims, clock skew, refresh-token behavior and safe token inspection practices.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/jwt-expiration-debugging.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-124">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/jwt-expiration-debugging.html#article","headline":"JWT Expiration Debugging Guide","description":"Debug JWT exp, iat and nbf claims, clock skew, refresh-token behavior and safe token inspection practices.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/jwt-expiration-debugging.html","proficiencyLevel":"Beginner"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <h1>JWT Expiration Debugging Guide</h1>
+      <p class="guide-meta">Understand token time claims without exposing real credentials. Last updated September 1, 2026.</p>
+      <p>Debug JWT exp, iat and nbf claims, clock skew, refresh-token behavior and safe token inspection practices. This Formalint reference is written for working developers, DBAs and support engineers who need a repeatable debugging path instead of a one-line snippet with no context.</p>
+      <p>Use the notes below as a practical review order: understand the input, capture evidence, make one small change and verify the result before moving to the next assumption.</p>
+
+      <h2>When to use this page</h2>
+      <p>Understand token time claims without exposing real credentials. It is most useful when a small validation or debugging mistake can create noisy tickets, misleading logs or hard-to-review production changes.</p>
+
+      <h2>Practical workflow</h2>
+      <table class="workflow-table">
+        <thead><tr><th>Step</th><th>What to confirm</th></tr></thead>
+        <tbody><tr><td>Decode only safe samples</td><td>Use redacted or development tokens when inspecting claims.</td></tr><tr><td>Convert timestamps</td><td>Translate exp, iat and nbf into the same timezone as your logs.</td></tr><tr><td>Check refresh behavior</td><td>An access token expiring normally should trigger a documented refresh flow.</td></tr></tbody>
+      </table>
+
+      <h2>Claims to inspect</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>{
+  &quot;iat&quot;: 1798790400,
+  &quot;nbf&quot;: 1798790400,
+  &quot;exp&quot;: 1798794000,
+  &quot;iss&quot;: &quot;https://auth.example.com&quot;,
+  &quot;aud&quot;: &quot;formalint-api&quot;
+}</code></pre></div>
+
+      <h2>Review checklist</h2>
+      <ol><li>Compare browser time, server time and identity-provider time.</li><li>Check whether nbf is in the future.</li><li>Verify issuer and audience before blaming expiration.</li><li>Look for cached expired tokens in local storage, cookies or memory.</li><li>Never log complete production JWTs.</li></ol>
+
+      <h2>Common mistake</h2>
+      <p>JWT expiration bugs often look random because one server has clock skew or a frontend keeps using an old token after refresh fails.</p>
+      <p class="guide-callout">Formalint is strongest when the page helps the developer decide what the tool cannot prove. Treat every formatter, regex and command as one layer of evidence, not the whole truth.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>What does exp mean?</summary><p>It is the timestamp after which the token should not be accepted.</p></details><details><summary>Can I extend exp on the client?</summary><p>No. Token lifetime is signed by the issuer and must be changed in the identity system.</p></details></div>
+
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="jwt-decoder.html">JWT Decoder</a>, <a href="timestamp-converter.html">Timestamp Converter</a>, <a href="oauth-jwt-debugging-checklist.html">OAuth JWT Debugging Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

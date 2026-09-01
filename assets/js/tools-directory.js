@@ -16,11 +16,11 @@
 
   var topicMatchers = {
     formatter: ["formatter", "format", "lint", "linter", "indent", "cleanup", "schema", "csv", "json", "xml", "yaml", "sql", "python"],
-    regex: ["regex", "regular expression", "lookahead", "lookbehind", "email", "uuid", "url", "date", "log parser", "javascript regex"],
-    api: ["api", "http", "jwt", "oauth", "cors", "webhook", "graphql", "cookie", "samesite", "rate limit", "cache-control", "status", "headers"],
-    ops: ["dba", "database", "postgresql", "mysql", "redis", "docker", "kubernetes", "nginx", "linux", "windows", "powershell", "git", "dns", "tls", "cockpit"],
-    runtime: ["runtime", "node", "node.js", "npm", "php", "composer", "java", "jdk", "python", "fastapi", "django", "flask"],
-    security: ["security", "jwt", "oauth", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "safe", "privacy", "secret"]
+    regex: ["regex", "regular expression", "lookahead", "lookbehind", "email", "phone", "password", "ip address", "slug", "hex", "uuid", "url", "date", "log parser", "javascript regex"],
+    api: ["api", "http", "jwt", "expiration", "401", "403", "timeout", "oauth", "cors", "webhook", "graphql", "cookie", "samesite", "rate limit", "cache-control", "status", "headers"],
+    ops: ["dba", "database", "postgresql", "mysql", "redis", "docker", "kubernetes", "nginx", "linux", "journalctl", "windows", "powershell", "git", "dns", "tls", "cockpit"],
+    runtime: ["runtime", "node", "node.js", "npm", "environment", "php", "composer", "fpm", "java", "jdk", "thread dump", "python", "virtualenv", "fastapi", "django", "flask"],
+    security: ["security", "injection", "jwt", "oauth", "password", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "safe", "privacy", "secret"]
   };
 
   function normalize(value) {
