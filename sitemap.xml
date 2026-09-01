@@ -13,6 +13,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/api-correlation-id-logging-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/api-debugging-checklist.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -49,6 +55,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/api-request-body-validation-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/api-timeout-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -58,7 +70,7 @@
     <loc>https://formalint.com/api-versioning-strategy-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/base64-encoder-decoder.html</loc>
@@ -112,7 +124,7 @@
     <loc>https://formalint.com/csv-cleanup-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/csv-to-json.html</loc>
@@ -121,16 +133,34 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/csv-utf8-encoding-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/curl-api-debugging-cheatsheet.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://formalint.com/curl-post-json-guide.html</loc>
+    <loc>https://formalint.com/curl-bearer-token-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/curl-headers-debugging-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/curl-post-json-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/data-formats-guide.html</loc>
@@ -178,7 +208,7 @@
     <loc>https://formalint.com/docker-volume-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/editorial-policy.html</loc>
@@ -193,6 +223,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/email-regex-php-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/email-regex-python-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/formatter-linter-validator-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -202,7 +244,7 @@
     <loc>https://formalint.com/git-branch-cleanup-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/git-merge-conflict-guide.html</loc>
@@ -226,7 +268,7 @@
     <loc>https://formalint.com/guides.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/hardware-diagnostics-guide.html</loc>
@@ -262,7 +304,7 @@
     <loc>https://formalint.com/http-request-methods-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/http-security-headers-checklist.html</loc>
@@ -283,10 +325,16 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://formalint.com/java-maven-dependency-debugging.html</loc>
+    <loc>https://formalint.com/java-classpath-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/java-maven-dependency-debugging.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/java-memory-debugging-guide.html</loc>
@@ -322,7 +370,7 @@
     <loc>https://formalint.com/json-array-filtering-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/json-diff.html</loc>
@@ -352,6 +400,18 @@
     <loc>https://formalint.com/json-merge-patch-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/json-null-vs-undefined-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/json-path-query-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.72</priority>
   </url>
   <url>
@@ -379,10 +439,16 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://formalint.com/kubernetes-crashloopbackoff-guide.html</loc>
+    <loc>https://formalint.com/jwt-signature-verification-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/kubernetes-crashloopbackoff-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/kubernetes-pod-debugging-guide.html</loc>
@@ -403,6 +469,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/linux-disk-space-debugging-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/linux-journalctl-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -412,13 +484,19 @@
     <loc>https://formalint.com/linux-systemctl-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/mysql-dba-checklist.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/mysql-deadlock-debugging-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://formalint.com/mysql-index-debugging-guide.html</loc>
@@ -430,7 +508,7 @@
     <loc>https://formalint.com/mysql-processlist-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/mysql-slow-query-debugging-guide.html</loc>
@@ -443,6 +521,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/nginx-access-log-analysis-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://formalint.com/nginx-reverse-proxy-checklist.html</loc>
@@ -463,6 +547,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/nodejs-package-json-scripts-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/nodejs-runtime-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -478,7 +568,7 @@
     <loc>https://formalint.com/oauth-refresh-token-debugging.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/openapi-contract-checklist.html</loc>
@@ -496,7 +586,7 @@
     <loc>https://formalint.com/php-composer-dependency-conflict-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/php-fpm-nginx-debugging-guide.html</loc>
@@ -505,10 +595,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/php-ini-configuration-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/php-runtime-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/postgresql-connection-limit-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://formalint.com/postgresql-dba-checklist.html</loc>
@@ -520,7 +622,7 @@
     <loc>https://formalint.com/postgresql-explain-analyze-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/postgresql-index-debugging-guide.html</loc>
@@ -539,6 +641,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/postman-to-curl-debugging-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://formalint.com/powershell-curl-invoke-webrequest-guide.html</loc>
@@ -571,6 +679,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/python-pip-requirements-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/python-runtime-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -589,6 +703,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/redis-key-naming-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/redis-memory-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -598,13 +718,13 @@
     <loc>https://formalint.com/redis-slowlog-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/regex-capture-groups-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/regex-date-validator.html</loc>
@@ -628,7 +748,7 @@
     <loc>https://formalint.com/regex-extract-numbers-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/regex-hex-color-validator.html</loc>
@@ -661,6 +781,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/regex-multiline-anchors-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/regex-password-validation-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -682,7 +808,7 @@
     <loc>https://formalint.com/regex-remove-duplicate-lines.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/regex-replace-guide.html</loc>
@@ -703,6 +829,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://formalint.com/regex-url-extraction-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
     <loc>https://formalint.com/regex-url-validator.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -718,13 +850,19 @@
     <loc>https://formalint.com/regex-whitespace-normalization.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/regex-word-boundary-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.72</priority>
   </url>
   <url>
     <loc>https://formalint.com/rest-api-error-response-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/safe-online-dev-tools.html</loc>
@@ -742,7 +880,7 @@
     <loc>https://formalint.com/sql-date-range-debugging.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/sql-formatter.html</loc>
@@ -760,7 +898,7 @@
     <loc>https://formalint.com/sql-group-by-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/sql-injection-prevention-checklist.html</loc>
@@ -808,7 +946,7 @@
     <loc>https://formalint.com/tools.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/url-encoder-decoder.html</loc>
@@ -832,7 +970,7 @@
     <loc>https://formalint.com/webhook-signature-verification-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/windows-admin-command-guide.html</loc>
@@ -856,7 +994,7 @@
     <loc>https://formalint.com/xml-namespace-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.72</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/xml-schema-xsd-guide.html</loc>
@@ -871,10 +1009,22 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://formalint.com/yaml-docker-compose-guide.html</loc>
+    <loc>https://formalint.com/xml-xpath-debugging-guide.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/yaml-anchors-aliases-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://formalint.com/yaml-docker-compose-guide.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://formalint.com/yaml-formatter.html</loc>

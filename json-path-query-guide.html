@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>JSON Path Query Guide | Formalint</title>
+    <meta name="description" content="Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/json-path-query-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-175">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/json-path-query-guide.html#article","headline":"JSON Path Query Guide","description":"Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/json-path-query-guide.html","proficiencyLevel":"Intermediate"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Data Formatting</p>
+      <h1>JSON Path Query Guide</h1>
+      <p class="guide-meta">Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data. Last updated September 1, 2026.</p>
+      <p>Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data. This page is written as a practical engineering reference: it starts with evidence, keeps risky assumptions visible and links the next useful Formalint checks.</p>
+      <p>Use it when a ticket, incident or pull request needs a repeatable explanation rather than a quick guess. Keep secrets, customer data and production tokens out of browser tools and shared notes.</p>
+      <h2>When this page is useful</h2>
+      <ul><li>You need a small, shareable diagnostic sequence.</li><li>You want to compare shell output, payload shape or parser behavior before changing code.</li><li>You are preparing notes for another developer, DBA or support engineer.</li></ul>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to verify</th></tr></thead><tbody><tr><td>Reduce the sample</td><td>Create the smallest payload that still shows the parser, schema or conversion problem.</td></tr><tr><td>Name the ambiguity</td><td>Mark missing fields, null values, namespaces, encodings or indentation before transforming the data.</td></tr><tr><td>Validate after cleanup</td><td>Run formatting and linting first, then compare behavior against the receiving system.</td></tr></tbody></table>
+      <h2>Command or pattern to start with</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>$.orders[*].items[*].sku</code></pre></div>
+      <h2>Review checklist</h2>
+      <ol><li>Confirm the environment where the symptom happens.</li><li>Use a redacted sample that is still realistic enough to reproduce the behavior.</li><li>Keep request headers, payloads, logs and timestamps together.</li><li>Change one variable at a time so the result stays explainable.</li><li>Link the final note to a related Formalint reference for the next person.</li></ol>
+      <h2>Common mistake</h2>
+      <p>The common trap is formatting a sample without preserving the exact parser error and receiving-system context.</p>
+      <p class="guide-callout">Formalint is strongest when it becomes part of the incident rhythm: reduce the sample, format the evidence, verify the assumption and only then change the system.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="json-formatting-guide.html">Json Formatting Guide</a>, <a href="xml-linter.html">Xml Linter</a>, <a href="yaml-lint-checklist.html">Yaml Lint Checklist</a>.</p>
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Can I paste production data into this workflow?</summary><p>No. Use redacted or synthetic examples. The workflow is about evidence order, not copying sensitive systems into a browser.</p></details><details><summary>Is this a replacement for logs and tests?</summary><p>No. Treat it as a field guide that helps you decide which logs, tests and commands matter first.</p></details></div>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

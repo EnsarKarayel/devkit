@@ -136,7 +136,12 @@
         { label: "XML Namespace Debugging", href: "xml-namespace-debugging-guide.html", icon: "NS", description: "Debug XML namespace prefixes, default namespaces and XPath surprises in integration payloads.", keywords: "xml namespace debugging default namespace prefix xpath integration" },
         { label: "CSV Cleanup", href: "csv-cleanup-guide.html", icon: "CSV", description: "Clean CSV headers, delimiters, quotes, blank rows and encoding issues before conversion to JSON.", keywords: "csv cleanup guide headers delimiter quotes encoding convert json" },
         { label: "JSON Array Filtering", href: "json-array-filtering-guide.html", icon: "ARR", description: "Inspect JSON arrays, missing fields, duplicates and filter assumptions before transforming data.", keywords: "json array filtering duplicate fields api response" },
-        { label: "JSON Merge Patch", href: "json-merge-patch-guide.html", icon: "PATCH", description: "Understand partial JSON updates, null semantics and safer API PATCH request review.", keywords: "json merge patch api patch partial update null semantics" }
+        { label: "JSON Merge Patch", href: "json-merge-patch-guide.html", icon: "PATCH", description: "Understand partial JSON updates, null semantics and safer API PATCH request review.", keywords: "json merge patch api patch partial update null semantics" },
+        { label: "JSON Path Query", href: "json-path-query-guide.html", icon: "PATH", description: "Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data.", keywords: "json path query nested arrays" },
+        { label: "JSON null vs undefined", href: "json-null-vs-undefined-guide.html", icon: "NULL", description: "Separate JSON null, missing fields and JavaScript undefined before debugging PATCH and schema behavior.", keywords: "json null vs undefined missing fields" },
+        { label: "XML XPath Debugging", href: "xml-xpath-debugging-guide.html", icon: "XP", description: "Debug XPath selectors, namespaces, attributes and text nodes in XML integrations.", keywords: "xml xpath debugging namespace attribute" },
+        { label: "YAML Anchors and Aliases", href: "yaml-anchors-aliases-guide.html", icon: "Y&A", description: "Use YAML anchors, aliases and merge keys carefully in CI, Docker and infrastructure configuration.", keywords: "yaml anchors aliases merge keys" },
+        { label: "CSV UTF-8 Encoding", href: "csv-utf8-encoding-guide.html", icon: "UTF8", description: "Debug CSV encoding, delimiters, byte order marks and broken characters before imports.", keywords: "csv utf8 encoding bom delimiter" }
       ]
     },
     {
@@ -166,7 +171,12 @@
         { label: "Regex Capture Groups", href: "regex-capture-groups-guide.html", icon: "CAP", description: "Use numbered groups, named groups and non-capturing groups without making extraction code fragile.", keywords: "regex capture groups named groups non capturing javascript" },
         { label: "Regex Whitespace Normalization", href: "regex-whitespace-normalization.html", icon: "WS", description: "Normalize spaces, tabs, blank lines and pasted text safely before validation or import.", keywords: "regex whitespace normalization spaces tabs blank lines trim" },
         { label: "Regex Remove Duplicate Lines", href: "regex-remove-duplicate-lines.html", icon: "DUP", description: "Clean repeated lines in logs, lists and copied text with regex-aware review notes.", keywords: "regex remove duplicate lines duplicated text log cleanup" },
-        { label: "Regex Extract Numbers", href: "regex-extract-numbers-guide.html", icon: "123", description: "Extract integers, decimals, negative values and IDs from text while keeping parsing limits clear.", keywords: "regex extract numbers integers decimals negative javascript" }
+        { label: "Regex Extract Numbers", href: "regex-extract-numbers-guide.html", icon: "123", description: "Extract integers, decimals, negative values and IDs from text while keeping parsing limits clear.", keywords: "regex extract numbers integers decimals negative javascript" },
+        { label: "Email Regex Python", href: "email-regex-python-guide.html", icon: "PY@", description: "Validate email-shaped strings in Python while keeping deliverability and account rules outside regex.", keywords: "email regex python re fullmatch validation" },
+        { label: "Email Regex PHP", href: "email-regex-php-guide.html", icon: "PHP@", description: "Use PHP email validation, regex checks and filter_var without turning format checks into business truth.", keywords: "email regex php filter_var validation" },
+        { label: "Regex Word Boundary", href: "regex-word-boundary-guide.html", icon: "\b", description: "Use word boundaries for tokens, IDs and search terms without surprising Unicode or punctuation behavior.", keywords: "regex word boundary javascript tokens" },
+        { label: "Regex Multiline Anchors", href: "regex-multiline-anchors-guide.html", icon: "^$", description: "Understand anchors, multiline flags and line-by-line matching before parsing copied logs.", keywords: "regex multiline anchors flag javascript" },
+        { label: "Regex URL Extraction", href: "regex-url-extraction-guide.html", icon: "URL", description: "Extract URLs from logs, Markdown and pasted text while knowing when a real URL parser is safer.", keywords: "regex url extraction link parser" }
       ]
     },
     {
@@ -215,7 +225,13 @@
         { label: "API Versioning Strategy", href: "api-versioning-strategy-guide.html", icon: "VER", description: "Plan URL, header and media-type API versioning so client integrations do not break quietly.", keywords: "api versioning strategy url header media type backward compatibility" },
         { label: "REST API Error Response", href: "rest-api-error-response-guide.html", icon: "ERR", description: "Design and debug consistent REST API error responses with status, code, message, details and correlation IDs.", keywords: "rest api error response format status code correlation id problem details" },
         { label: "HTTP Request Methods", href: "http-request-methods-guide.html", icon: "HTTP", description: "Understand GET, POST, PUT, PATCH, DELETE, HEAD and OPTIONS before debugging API behavior.", keywords: "http request methods get post put patch delete options api" },
-        { label: "curl POST JSON Request", href: "curl-post-json-guide.html", icon: "POST", description: "Build repeatable curl POST requests for JSON APIs without losing headers, body shape or auth context.", keywords: "curl post json request api debugging content-type bearer token" }
+        { label: "curl POST JSON Request", href: "curl-post-json-guide.html", icon: "POST", description: "Build repeatable curl POST requests for JSON APIs without losing headers, body shape or auth context.", keywords: "curl post json request api debugging content-type bearer token" },
+        { label: "curl Headers Debugging", href: "curl-headers-debugging-guide.html", icon: "HDR", description: "Inspect request and response headers with curl before changing API clients, proxies or CORS settings.", keywords: "curl headers debugging response request" },
+        { label: "curl Bearer Token", href: "curl-bearer-token-guide.html", icon: "AUTH", description: "Test bearer-token APIs with curl while redacting secrets and separating auth from payload errors.", keywords: "curl bearer token authorization header api" },
+        { label: "Postman to curl Debugging", href: "postman-to-curl-debugging-guide.html", icon: "PM", description: "Turn a Postman request into a repeatable curl command for tickets, terminals and CI evidence.", keywords: "postman to curl debugging api" },
+        { label: "API Request Body Validation", href: "api-request-body-validation-guide.html", icon: "BODY", description: "Debug JSON request-body validation, content types, required fields and schema mismatch errors.", keywords: "api request body validation json schema" },
+        { label: "API Correlation ID Logging", href: "api-correlation-id-logging-guide.html", icon: "CID", description: "Use correlation IDs to connect frontend errors, gateway logs, service logs and database evidence.", keywords: "api correlation id logging request id" },
+        { label: "JWT Signature Verification", href: "jwt-signature-verification-guide.html", icon: "JWS", description: "Verify JWT algorithms, keys and signatures without exposing real tokens or trusting decoded claims blindly.", keywords: "jwt signature verification jwks algorithm" }
       ]
     },
     {
@@ -242,7 +258,9 @@
         { label: "Git Branch Cleanup", href: "git-branch-cleanup-guide.html", icon: "BR", description: "Clean local and remote Git branches safely after merges, releases and abandoned experiments.", keywords: "git branch cleanup delete local remote merged branches" },
         { label: "Linux systemctl Debugging", href: "linux-systemctl-debugging-guide.html", icon: "SYS", description: "Use systemctl status, restart history, unit files and journal evidence during service incidents.", keywords: "linux systemctl debugging service status unit file journalctl" },
         { label: "Kubernetes CrashLoopBackOff", href: "kubernetes-crashloopbackoff-guide.html", icon: "K8S", description: "Investigate CrashLoopBackOff with logs, events, probes, env vars and container exit codes.", keywords: "kubernetes crashloopbackoff guide pod logs events probes exit code" },
-        { label: "Docker Volume Debugging", href: "docker-volume-debugging-guide.html", icon: "VOL", description: "Debug Docker volumes, bind mounts, permissions, persistence and missing files.", keywords: "docker volume debugging bind mount permissions persistence" }
+        { label: "Docker Volume Debugging", href: "docker-volume-debugging-guide.html", icon: "VOL", description: "Debug Docker volumes, bind mounts, permissions, persistence and missing files.", keywords: "docker volume debugging bind mount permissions persistence" },
+        { label: "Linux Disk Space Debugging", href: "linux-disk-space-debugging-guide.html", icon: "DISK", description: "Find which filesystem, directory, container or log stream is consuming Linux disk space.", keywords: "linux disk space debugging df du journal" },
+        { label: "Nginx Access Log Analysis", href: "nginx-access-log-analysis-guide.html", icon: "LOG", description: "Use access logs to inspect status codes, latency, upstream behavior and suspicious traffic.", keywords: "nginx access log analysis status latency" }
       ]
     },
     {
@@ -268,7 +286,10 @@
         { label: "MySQL Processlist Debugging", href: "mysql-processlist-debugging-guide.html", icon: "PROC", description: "Use MySQL processlist evidence to inspect active queries, locks, sleep sessions and incidents.", keywords: "mysql processlist debugging show full processlist active queries locks" },
         { label: "PostgreSQL EXPLAIN ANALYZE", href: "postgresql-explain-analyze-guide.html", icon: "PLAN", description: "Read PostgreSQL query plans, row estimates, loops, timing and index usage safely.", keywords: "postgresql explain analyze guide query plan index scan seq scan" },
         { label: "SQL Date Range Debugging", href: "sql-date-range-debugging.html", icon: "DATE", description: "Review SQL date ranges, inclusive boundaries, timezones and index-friendly filters.", keywords: "sql date range debugging timezone inclusive boundary timestamp" },
-        { label: "SQL GROUP BY Debugging", href: "sql-group-by-debugging-guide.html", icon: "GRP", description: "Debug grouped SQL reports, aggregates, HAVING filters and missing dimensions.", keywords: "sql group by debugging aggregate having count sum report" }
+        { label: "SQL GROUP BY Debugging", href: "sql-group-by-debugging-guide.html", icon: "GRP", description: "Debug grouped SQL reports, aggregates, HAVING filters and missing dimensions.", keywords: "sql group by debugging aggregate having count sum report" },
+        { label: "PostgreSQL Connection Limit", href: "postgresql-connection-limit-guide.html", icon: "CONN", description: "Inspect active PostgreSQL sessions, pool pressure and connection limits before restarting services.", keywords: "postgresql connection limit pg_stat_activity" },
+        { label: "MySQL Deadlock Debugging", href: "mysql-deadlock-debugging-guide.html", icon: "DEAD", description: "Read InnoDB deadlock evidence and transaction patterns before changing indexes or retry logic.", keywords: "mysql deadlock debugging innodb status" },
+        { label: "Redis Key Naming", href: "redis-key-naming-guide.html", icon: "KEY", description: "Design Redis key names that are searchable, safe to expire and easier to debug during incidents.", keywords: "redis key naming convention cache" }
       ]
     },
     {
@@ -297,7 +318,11 @@
         { label: "Java Thread Dump Debugging", href: "java-thread-dump-guide.html", icon: "THD", description: "Capture JVM evidence before restarting the service.", keywords: "java thread dump debugging jstack deadlock blocked threads high cpu jvm" },
         { label: "PHP-FPM and Nginx Debugging", href: "php-fpm-nginx-debugging-guide.html", icon: "FPM", description: "Find whether the failure belongs to Nginx, PHP-FPM or application code.", keywords: "php-fpm nginx debugging 502 socket pool permissions php runtime guide" },
         { label: "Java Maven Dependency Debugging", href: "java-maven-dependency-debugging.html", icon: "MVN", description: "Debug Maven dependency trees, version conflicts, exclusions and build-classpath surprises.", keywords: "java maven dependency debugging tree conflict exclusion" },
-        { label: "PHP Composer Dependency Conflict", href: "php-composer-dependency-conflict-guide.html", icon: "CMP", description: "Debug Composer version conflicts, platform requirements, lock files and package constraints.", keywords: "php composer dependency conflict lock file platform requirements" }
+        { label: "PHP Composer Dependency Conflict", href: "php-composer-dependency-conflict-guide.html", icon: "CMP", description: "Debug Composer version conflicts, platform requirements, lock files and package constraints.", keywords: "php composer dependency conflict lock file platform requirements" },
+        { label: "Python pip Requirements", href: "python-pip-requirements-guide.html", icon: "PIP", description: "Debug requirements.txt, pip installs, package versions and virtual environment mismatches.", keywords: "python pip requirements debugging" },
+        { label: "PHP ini Configuration", href: "php-ini-configuration-guide.html", icon: "INI", description: "Find which php.ini file is active for CLI, FPM and web requests before changing settings.", keywords: "php ini configuration cli fpm" },
+        { label: "Java Classpath Debugging", href: "java-classpath-debugging-guide.html", icon: "CP", description: "Debug classpath, missing classes, duplicate jars and service runtime differences in Java apps.", keywords: "java classpath debugging classnotfound" },
+        { label: "Node.js package.json Scripts", href: "nodejs-package-json-scripts-guide.html", icon: "NPM", description: "Read npm scripts, environment variables and build commands before debugging Node.js deployments.", keywords: "nodejs package json scripts npm" }
       ]
     },
     {

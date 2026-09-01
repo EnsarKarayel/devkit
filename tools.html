@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-150">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-175">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 150 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 175 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -92,7 +92,7 @@
           <button type="button" data-tools-query="postgresql" data-tools-topic-jump="ops">postgresql</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 150 resources</span>
+          <span id="toolsDirectoryCount">Showing 175 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -302,6 +302,31 @@
           <a class="tool-card" href="git-branch-cleanup-guide.html"><span>Git Branch Cleanup</span><small>Clean local and remote Git branches safely after merges, releases and abandoned experiments.</small></a>
           <a class="tool-card" href="php-composer-dependency-conflict-guide.html"><span>PHP Composer Dependency Conflict</span><small>Debug Composer version conflicts, platform requirements, lock files and package constraints.</small></a>
           <a class="tool-card" href="java-maven-dependency-debugging.html"><span>Java Maven Dependency Debugging</span><small>Debug Maven dependency trees, version conflicts, exclusions and build-classpath surprises.</small></a>
+          <a class="tool-card" href="email-regex-python-guide.html"><span>Email Regex Python</span><small>Validate email-shaped strings in Python while keeping deliverability and account rules outside regex.</small></a>
+          <a class="tool-card" href="email-regex-php-guide.html"><span>Email Regex PHP</span><small>Use PHP email validation, regex checks and filter_var without turning format checks into business truth.</small></a>
+          <a class="tool-card" href="regex-word-boundary-guide.html"><span>Regex Word Boundary</span><small>Use word boundaries for tokens, IDs and search terms without surprising Unicode or punctuation behavior.</small></a>
+          <a class="tool-card" href="regex-multiline-anchors-guide.html"><span>Regex Multiline Anchors</span><small>Understand anchors, multiline flags and line-by-line matching before parsing copied logs.</small></a>
+          <a class="tool-card" href="regex-url-extraction-guide.html"><span>Regex URL Extraction</span><small>Extract URLs from logs, Markdown and pasted text while knowing when a real URL parser is safer.</small></a>
+          <a class="tool-card" href="curl-headers-debugging-guide.html"><span>curl Headers Debugging</span><small>Inspect request and response headers with curl before changing API clients, proxies or CORS settings.</small></a>
+          <a class="tool-card" href="curl-bearer-token-guide.html"><span>curl Bearer Token</span><small>Test bearer-token APIs with curl while redacting secrets and separating auth from payload errors.</small></a>
+          <a class="tool-card" href="postman-to-curl-debugging-guide.html"><span>Postman to curl Debugging</span><small>Turn a Postman request into a repeatable curl command for tickets, terminals and CI evidence.</small></a>
+          <a class="tool-card" href="api-request-body-validation-guide.html"><span>API Request Body Validation</span><small>Debug JSON request-body validation, content types, required fields and schema mismatch errors.</small></a>
+          <a class="tool-card" href="api-correlation-id-logging-guide.html"><span>API Correlation ID Logging</span><small>Use correlation IDs to connect frontend errors, gateway logs, service logs and database evidence.</small></a>
+          <a class="tool-card" href="jwt-signature-verification-guide.html"><span>JWT Signature Verification</span><small>Verify JWT algorithms, keys and signatures without exposing real tokens or trusting decoded claims blindly.</small></a>
+          <a class="tool-card" href="json-path-query-guide.html"><span>JSON Path Query</span><small>Use JSON path thinking to inspect nested payloads, arrays and optional fields before transforming data.</small></a>
+          <a class="tool-card" href="json-null-vs-undefined-guide.html"><span>JSON null vs undefined</span><small>Separate JSON null, missing fields and JavaScript undefined before debugging PATCH and schema behavior.</small></a>
+          <a class="tool-card" href="xml-xpath-debugging-guide.html"><span>XML XPath Debugging</span><small>Debug XPath selectors, namespaces, attributes and text nodes in XML integrations.</small></a>
+          <a class="tool-card" href="yaml-anchors-aliases-guide.html"><span>YAML Anchors and Aliases</span><small>Use YAML anchors, aliases and merge keys carefully in CI, Docker and infrastructure configuration.</small></a>
+          <a class="tool-card" href="csv-utf8-encoding-guide.html"><span>CSV UTF-8 Encoding</span><small>Debug CSV encoding, delimiters, byte order marks and broken characters before imports.</small></a>
+          <a class="tool-card" href="postgresql-connection-limit-guide.html"><span>PostgreSQL Connection Limit</span><small>Inspect active PostgreSQL sessions, pool pressure and connection limits before restarting services.</small></a>
+          <a class="tool-card" href="mysql-deadlock-debugging-guide.html"><span>MySQL Deadlock Debugging</span><small>Read InnoDB deadlock evidence and transaction patterns before changing indexes or retry logic.</small></a>
+          <a class="tool-card" href="redis-key-naming-guide.html"><span>Redis Key Naming</span><small>Design Redis key names that are searchable, safe to expire and easier to debug during incidents.</small></a>
+          <a class="tool-card" href="linux-disk-space-debugging-guide.html"><span>Linux Disk Space Debugging</span><small>Find which filesystem, directory, container or log stream is consuming Linux disk space.</small></a>
+          <a class="tool-card" href="nginx-access-log-analysis-guide.html"><span>Nginx Access Log Analysis</span><small>Use access logs to inspect status codes, latency, upstream behavior and suspicious traffic.</small></a>
+          <a class="tool-card" href="python-pip-requirements-guide.html"><span>Python pip Requirements</span><small>Debug requirements.txt, pip installs, package versions and virtual environment mismatches.</small></a>
+          <a class="tool-card" href="php-ini-configuration-guide.html"><span>PHP ini Configuration</span><small>Find which php.ini file is active for CLI, FPM and web requests before changing settings.</small></a>
+          <a class="tool-card" href="java-classpath-debugging-guide.html"><span>Java Classpath Debugging</span><small>Debug classpath, missing classes, duplicate jars and service runtime differences in Java apps.</small></a>
+          <a class="tool-card" href="nodejs-package-json-scripts-guide.html"><span>Node.js package.json Scripts</span><small>Read npm scripts, environment variables and build commands before debugging Node.js deployments.</small></a>
         </div>
       </section>
 
