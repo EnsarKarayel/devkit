@@ -1124,7 +1124,24 @@ button.secondary:hover,
   gap: 8px;
 }
 
+.directory-popular-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid rgba(140, 203, 255, 0.12);
+  padding-top: 14px;
+}
+
+.directory-popular-row span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .directory-topic-row button,
+.directory-popular-row button,
 .directory-filter-footer button {
   min-height: 34px;
   border: 1px solid rgba(140, 203, 255, 0.18);
@@ -1140,6 +1157,8 @@ button.secondary:hover,
 
 .directory-topic-row button:hover,
 .directory-topic-row button:focus-visible,
+.directory-popular-row button:hover,
+.directory-popular-row button:focus-visible,
 .directory-filter-footer button:hover,
 .directory-filter-footer button:focus-visible {
   border-color: rgba(70, 163, 255, 0.58);

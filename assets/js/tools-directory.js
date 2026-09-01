@@ -10,6 +10,7 @@
   var count = document.getElementById("toolsDirectoryCount");
   var clear = controls.querySelector("[data-clear-tools]");
   var buttons = Array.prototype.slice.call(controls.querySelectorAll("[data-tools-topic]"));
+  var quickQueries = Array.prototype.slice.call(controls.querySelectorAll("[data-tools-query]"));
   var sections = Array.prototype.slice.call(document.querySelectorAll("[data-tools-section]"));
   var activeTopic = "all";
 
@@ -43,9 +44,44 @@
     });
   }
 
+  function readStateFromUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var topic = params.get("topic");
+    var query = params.get("q");
+
+    if (topic && topicMatchers[topic]) {
+      activeTopic = topic;
+    }
+
+    if (query && input) {
+      input.value = query.slice(0, 80);
+    }
+
+    setActiveButton(activeTopic);
+  }
+
+  function writeStateToUrl() {
+    if (!window.history || !window.history.replaceState) {
+      return;
+    }
+
+    var query = normalize(input && input.value).trim();
+    var params = new URLSearchParams();
+    if (query) {
+      params.set("q", query);
+    }
+    if (activeTopic !== "all") {
+      params.set("topic", activeTopic);
+    }
+
+    var next = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+    window.history.replaceState(null, "", next);
+  }
+
   function update() {
     var query = normalize(input && input.value).trim();
     var visibleCount = 0;
+    var uniqueVisible = {};
 
     sections.forEach(function (section) {
       var sectionVisible = 0;
@@ -60,7 +96,7 @@
         card.hidden = !visible;
         if (visible) {
           sectionVisible += 1;
-          visibleCount += 1;
+          uniqueVisible[card.getAttribute("href")] = true;
         }
       });
 
@@ -68,12 +104,14 @@
     });
 
     if (count) {
+      visibleCount = Object.keys(uniqueVisible).length;
       count.textContent = visibleCount
         ? "Showing " + visibleCount + " resource" + (visibleCount === 1 ? "" : "s")
         : "No matching resources";
     }
 
     controls.classList.toggle("has-filter", Boolean(query) || activeTopic !== "all");
+    writeStateToUrl();
   }
 
   buttons.forEach(function (button) {
@@ -100,5 +138,17 @@
     });
   }
 
+  quickQueries.forEach(function (button) {
+    button.addEventListener("click", function () {
+      if (input) {
+        input.value = button.getAttribute("data-tools-query") || "";
+      }
+      activeTopic = button.getAttribute("data-tools-topic-jump") || "all";
+      setActiveButton(activeTopic);
+      update();
+    });
+  });
+
+  readStateFromUrl();
   update();
 })();

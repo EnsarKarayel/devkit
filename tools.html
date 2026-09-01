@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260831-directory-search">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-directory-deeplinks">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -81,6 +81,15 @@
           <button type="button" data-tools-topic="ops" aria-pressed="false">Ops and DBA</button>
           <button type="button" data-tools-topic="runtime" aria-pressed="false">Runtime</button>
           <button type="button" data-tools-topic="security" aria-pressed="false">Security</button>
+        </div>
+        <div class="directory-popular-row" aria-label="Popular searches">
+          <span>Popular:</span>
+          <button type="button" data-tools-query="email regex" data-tools-topic-jump="regex">email regex</button>
+          <button type="button" data-tools-query="xml linter" data-tools-topic-jump="formatter">xml linter</button>
+          <button type="button" data-tools-query="sql cleanup" data-tools-topic-jump="formatter">sql cleanup</button>
+          <button type="button" data-tools-query="jwt" data-tools-topic-jump="api">jwt</button>
+          <button type="button" data-tools-query="docker" data-tools-topic-jump="ops">docker</button>
+          <button type="button" data-tools-query="postgresql" data-tools-topic-jump="ops">postgresql</button>
         </div>
         <div class="directory-filter-footer">
           <span id="toolsDirectoryCount">Showing 100 resources</span>
@@ -233,6 +242,25 @@
           <a class="tool-card" href="python-runtime-guide.html"><span>Python Runtime Checklist</span><small>Check Python, pip, virtual environments, package paths, FastAPI, Django and worker services.</small></a>
           <a class="tool-card" href="nodejs-runtime-guide.html"><span>Node.js Runtime Checklist</span><small>Check Node, npm, lockfiles, package scripts, environment variables, ports and PM2.</small></a>
           <a class="tool-card" href="hardware-diagnostics-guide.html"><span>Hardware Diagnostics</span><small>Connect CPU, memory, disk, IO and network symptoms to app and database incidents.</small></a>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="trust-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Site trust</p>
+          <h2 id="trust-title">Policies, maintenance and editorial references</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="tools.html"><span>Developer Tools Directory</span><small>Search and filter the complete Formalint library by formatters, regex, API, operations, runtime and security.</small></a>
+          <a class="tool-card" href="json-formatting-guide.html"><span>JSON Formatting Guide</span><small>Learn how to read, validate and safely share JSON payloads before relying on formatter output.</small></a>
+          <a class="tool-card" href="yaml-formatting-guide.html"><span>YAML Formatting Guide</span><small>Review YAML indentation, quoting, nested blocks and configuration safety before deployment.</small></a>
+          <a class="tool-card" href="how-formalint-works.html"><span>How Formalint Works</span><small>Read how local-first processing, analytics, ads and safe sample rules fit together.</small></a>
+          <a class="tool-card" href="editorial-policy.html"><span>Editorial Policy</span><small>Review how Formalint writes, updates and separates original reference content from advertising.</small></a>
+          <a class="tool-card" href="changelog.html"><span>Changelog</span><small>Track newly added tools, guide expansions, quality updates and site maintenance.</small></a>
+          <a class="tool-card" href="about.html"><span>About Formalint</span><small>Learn the purpose of Formalint, the owner identity and the local-first developer tools direction.</small></a>
+          <a class="tool-card" href="contact.html"><span>Contact</span><small>Reach Ensar Karayel for Formalint feedback, corrections, advertising questions and collaboration notes.</small></a>
+          <a class="tool-card" href="privacy.html"><span>Privacy Policy</span><small>Understand analytics, ads, local processing and privacy preferences for Formalint visitors.</small></a>
+          <a class="tool-card" href="terms.html"><span>Terms</span><small>Read the usage terms, limitations and acceptable use notes for the Formalint static site.</small></a>
         </div>
       </section>
     </main>
