@@ -25,7 +25,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-175">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-200">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <meta name="google-site-verification" content="900qdF_ULyPBSsmWQTF476EULUhK2YzDm-iLiA5l49A" />
@@ -276,7 +276,7 @@
 
       <section class="institution-strip" aria-label="Formalint quality signals">
         <div>
-          <strong>175 public pages</strong>
+          <strong>200 public pages</strong>
           <span>Tool pages, API references, DBA checks, runtime guides, privacy notes and editorial documentation are linked in the open.</span>
         </div>
         <div>
@@ -358,6 +358,31 @@
           <a class="tool-card" href="php-ini-configuration-guide.html"><span>PHP ini Configuration</span><small>Find which php.ini file is active for CLI, FPM and web requests before changing settings.</small></a>
           <a class="tool-card" href="java-classpath-debugging-guide.html"><span>Java Classpath Debugging</span><small>Debug classpath, missing classes, duplicate jars and service runtime differences in Java apps.</small></a>
           <a class="tool-card" href="nodejs-package-json-scripts-guide.html"><span>Node.js package.json Scripts</span><small>Read npm scripts, environment variables and build commands before debugging Node.js deployments.</small></a>
+          <a class="tool-card" href="csp-debugging-guide.html"><span>Content Security Policy Debugging</span><small>Debug CSP violations, script sources, nonce usage, reports and safe rollout steps without weakening browser security.</small></a>
+          <a class="tool-card" href="hsts-preload-guide.html"><span>HSTS Preload</span><small>Review HSTS headers, preload requirements, subdomain risk and HTTPS rollout checks before submitting a domain.</small></a>
+          <a class="tool-card" href="csrf-token-debugging-guide.html"><span>CSRF Token Debugging</span><small>Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows.</small></a>
+          <a class="tool-card" href="api-key-rotation-guide.html"><span>API Key Rotation</span><small>Rotate API keys with inventory, staged rollout, logging, rollback and safe secret handling.</small></a>
+          <a class="tool-card" href="secrets-redaction-checklist.html"><span>Secrets Redaction Checklist</span><small>Redact tokens, passwords, connection strings and customer identifiers before sharing logs or payloads.</small></a>
+          <a class="tool-card" href="dependency-vulnerability-triage-guide.html"><span>Dependency Vulnerability Triage</span><small>Triage dependency vulnerabilities by reachability, exploitability, version constraints and release risk.</small></a>
+          <a class="tool-card" href="secure-cookie-checklist.html"><span>Secure Cookie Checklist</span><small>Review Secure, HttpOnly, SameSite, domain, path and expiration choices for web session cookies.</small></a>
+          <a class="tool-card" href="github-actions-debugging-guide.html"><span>GitHub Actions Debugging</span><small>Debug failed GitHub Actions jobs with logs, runners, checkout state, caches, secrets and matrix values.</small></a>
+          <a class="tool-card" href="github-actions-env-secrets-guide.html"><span>GitHub Actions Environment Secrets</span><small>Use GitHub Actions secrets, variables and environments without leaking values into logs or builds.</small></a>
+          <a class="tool-card" href="docker-build-cache-debugging-guide.html"><span>Docker Build Cache Debugging</span><small>Debug Docker build cache, layers, build args, context size and stale images in CI pipelines.</small></a>
+          <a class="tool-card" href="ci-failing-tests-debugging-guide.html"><span>CI Failing Tests Debugging</span><small>Separate flaky tests, missing services, env drift, dependency changes and timeout failures in CI.</small></a>
+          <a class="tool-card" href="deployment-rollback-checklist.html"><span>Deployment Rollback Checklist</span><small>Prepare rollback evidence, database compatibility, feature flags and release notes before production deploys.</small></a>
+          <a class="tool-card" href="release-checklist-for-developers.html"><span>Release Checklist for Developers</span><small>Ship safer releases with version notes, migrations, monitoring, smoke tests and support handoff.</small></a>
+          <a class="tool-card" href="log-levels-guide.html"><span>Log Levels</span><small>Choose debug, info, warn and error levels so production logs stay useful during incidents.</small></a>
+          <a class="tool-card" href="structured-logging-guide.html"><span>Structured Logging</span><small>Design JSON logs with correlation IDs, event names, user-safe fields and searchable incident context.</small></a>
+          <a class="tool-card" href="application-health-check-guide.html"><span>Application Health Check</span><small>Design health endpoints that separate liveness, readiness, dependencies and degraded service states.</small></a>
+          <a class="tool-card" href="uptime-monitoring-checklist.html"><span>Uptime Monitoring Checklist</span><small>Monitor public endpoints, APIs, certificates and user-visible flows without creating noisy alerts.</small></a>
+          <a class="tool-card" href="error-budget-slo-guide.html"><span>Error Budget and SLO</span><small>Use SLOs and error budgets to explain reliability work, incidents and release risk.</small></a>
+          <a class="tool-card" href="cloudflare-dns-deployment-guide.html"><span>Cloudflare DNS Deployment</span><small>Prepare Cloudflare DNS, proxy mode, SSL settings, redirects and verification before launching a site.</small></a>
+          <a class="tool-card" href="vercel-environment-variables-guide.html"><span>Vercel Environment Variables</span><small>Debug Vercel environment variables across preview, production and local development builds.</small></a>
+          <a class="tool-card" href="static-site-deployment-checklist.html"><span>Static Site Deployment Checklist</span><small>Launch static sites with canonical URLs, sitemap, robots, HTTPS, analytics and cache checks.</small></a>
+          <a class="tool-card" href="github-pages-custom-domain-guide.html"><span>GitHub Pages Custom Domain</span><small>Connect a custom domain to GitHub Pages with A records, CNAME, HTTPS and DNS propagation checks.</small></a>
+          <a class="tool-card" href="ssl-renewal-debugging-guide.html"><span>SSL Renewal Debugging</span><small>Debug SSL renewal, certificate chains, DNS validation, rate limits and expired HTTPS endpoints.</small></a>
+          <a class="tool-card" href="cdn-cache-purge-guide.html"><span>CDN Cache Purge</span><small>Purge CDN cache safely while preserving user performance, asset versioning and rollout evidence.</small></a>
+          <a class="tool-card" href="robots-txt-sitemap-launch-guide.html"><span>Robots.txt and Sitemap Launch</span><small>Review robots.txt, sitemap URLs, canonical targets and indexing signals before a public launch.</small></a>
                     <a class="tool-card" href="complete-regex-guide.html"><span>Regex Toolkit</span><small>Learn regex fundamentals, then test email, URL, UUID, date and log patterns in the matcher.</small></a>
           <a class="tool-card" href="data-formats-guide.html"><span>Data Format Tools</span><small>Compare JSON, XML and YAML, then format or lint the payload you are working with.</small></a>
           <a class="tool-card" href="api-debugging-handbook.html"><span>API Debugging</span><small>Use status codes, headers, payload checks and incident notes to reduce guesswork.</small></a>
@@ -618,7 +643,7 @@
           <h2 id="site-depth-title">Built to look maintained because it is maintained</h2>
         </div>
         <div class="proof-grid">
-          <div class="proof-card"><strong>175</strong><span>Public HTML targets in the current site structure.</span></div>
+          <div class="proof-card"><strong>200</strong><span>Public HTML targets in the current site structure.</span></div>
           <div class="proof-card"><strong>50+</strong><span>Dedicated guide and reference pages beyond the core tools.</span></div>
           <div class="proof-card"><strong>0</strong><span>Account walls, upload gates or forced sign-in flows in the static release.</span></div>
           <div class="proof-card"><strong>1</strong><span>Clear owner and contact path: Ensar Karayel, linked in the footer and About page.</span></div>

@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-175">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-200">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 175 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 200 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -81,6 +81,9 @@
           <button type="button" data-tools-topic="ops" aria-pressed="false">Ops and DBA</button>
           <button type="button" data-tools-topic="runtime" aria-pressed="false">Runtime</button>
           <button type="button" data-tools-topic="security" aria-pressed="false">Security</button>
+          <button type="button" data-tools-topic="delivery" aria-pressed="false">CI/CD</button>
+          <button type="button" data-tools-topic="observe" aria-pressed="false">Observability</button>
+          <button type="button" data-tools-topic="cloud" aria-pressed="false">Cloud</button>
         </div>
         <div class="directory-popular-row" aria-label="Popular searches">
           <span>Popular:</span>
@@ -90,9 +93,13 @@
           <button type="button" data-tools-query="jwt" data-tools-topic-jump="api">jwt</button>
           <button type="button" data-tools-query="docker" data-tools-topic-jump="ops">docker</button>
           <button type="button" data-tools-query="postgresql" data-tools-topic-jump="ops">postgresql</button>
+          <button type="button" data-tools-query="github actions" data-tools-topic-jump="delivery">github actions</button>
+          <button type="button" data-tools-query="csp" data-tools-topic-jump="security">csp</button>
+          <button type="button" data-tools-query="cloudflare" data-tools-topic-jump="cloud">cloudflare</button>
+          <button type="button" data-tools-query="logs" data-tools-topic-jump="observe">logs</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 175 resources</span>
+          <span id="toolsDirectoryCount">Showing 200 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -245,6 +252,70 @@
         </div>
       </section>
 
+
+      <!-- Formalint expanded domain sections start -->
+      <section class="directory-section" aria-labelledby="security-compliance-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Security & compliance</p>
+          <h2 id="security-compliance-title">Policies, secrets, cookies and browser security</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="csp-debugging-guide.html"><span>Content Security Policy Debugging</span><small>Debug CSP violations, script sources, nonce usage, reports and safe rollout steps without weakening browser security.</small></a>
+          <a class="tool-card" href="hsts-preload-guide.html"><span>HSTS Preload</span><small>Review HSTS headers, preload requirements, subdomain risk and HTTPS rollout checks before submitting a domain.</small></a>
+          <a class="tool-card" href="csrf-token-debugging-guide.html"><span>CSRF Token Debugging</span><small>Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows.</small></a>
+          <a class="tool-card" href="api-key-rotation-guide.html"><span>API Key Rotation</span><small>Rotate API keys with inventory, staged rollout, logging, rollback and safe secret handling.</small></a>
+          <a class="tool-card" href="secrets-redaction-checklist.html"><span>Secrets Redaction Checklist</span><small>Redact tokens, passwords, connection strings and customer identifiers before sharing logs or payloads.</small></a>
+          <a class="tool-card" href="dependency-vulnerability-triage-guide.html"><span>Dependency Vulnerability Triage</span><small>Triage dependency vulnerabilities by reachability, exploitability, version constraints and release risk.</small></a>
+          <a class="tool-card" href="secure-cookie-checklist.html"><span>Secure Cookie Checklist</span><small>Review Secure, HttpOnly, SameSite, domain, path and expiration choices for web session cookies.</small></a>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="delivery-release-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">CI/CD & release</p>
+          <h2 id="delivery-release-title">Builds, tests, releases and rollback evidence</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="github-actions-debugging-guide.html"><span>GitHub Actions Debugging</span><small>Debug failed GitHub Actions jobs with logs, runners, checkout state, caches, secrets and matrix values.</small></a>
+          <a class="tool-card" href="github-actions-env-secrets-guide.html"><span>GitHub Actions Environment Secrets</span><small>Use GitHub Actions secrets, variables and environments without leaking values into logs or builds.</small></a>
+          <a class="tool-card" href="docker-build-cache-debugging-guide.html"><span>Docker Build Cache Debugging</span><small>Debug Docker build cache, layers, build args, context size and stale images in CI pipelines.</small></a>
+          <a class="tool-card" href="ci-failing-tests-debugging-guide.html"><span>CI Failing Tests Debugging</span><small>Separate flaky tests, missing services, env drift, dependency changes and timeout failures in CI.</small></a>
+          <a class="tool-card" href="deployment-rollback-checklist.html"><span>Deployment Rollback Checklist</span><small>Prepare rollback evidence, database compatibility, feature flags and release notes before production deploys.</small></a>
+          <a class="tool-card" href="release-checklist-for-developers.html"><span>Release Checklist for Developers</span><small>Ship safer releases with version notes, migrations, monitoring, smoke tests and support handoff.</small></a>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="observability-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Observability</p>
+          <h2 id="observability-title">Logs, health checks, monitoring and reliability signals</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="log-levels-guide.html"><span>Log Levels</span><small>Choose debug, info, warn and error levels so production logs stay useful during incidents.</small></a>
+          <a class="tool-card" href="structured-logging-guide.html"><span>Structured Logging</span><small>Design JSON logs with correlation IDs, event names, user-safe fields and searchable incident context.</small></a>
+          <a class="tool-card" href="application-health-check-guide.html"><span>Application Health Check</span><small>Design health endpoints that separate liveness, readiness, dependencies and degraded service states.</small></a>
+          <a class="tool-card" href="uptime-monitoring-checklist.html"><span>Uptime Monitoring Checklist</span><small>Monitor public endpoints, APIs, certificates and user-visible flows without creating noisy alerts.</small></a>
+          <a class="tool-card" href="error-budget-slo-guide.html"><span>Error Budget and SLO</span><small>Use SLOs and error budgets to explain reliability work, incidents and release risk.</small></a>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="cloud-deployment-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Cloud deployment</p>
+          <h2 id="cloud-deployment-title">DNS, HTTPS, static hosting and CDN launch checks</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="cloudflare-dns-deployment-guide.html"><span>Cloudflare DNS Deployment</span><small>Prepare Cloudflare DNS, proxy mode, SSL settings, redirects and verification before launching a site.</small></a>
+          <a class="tool-card" href="vercel-environment-variables-guide.html"><span>Vercel Environment Variables</span><small>Debug Vercel environment variables across preview, production and local development builds.</small></a>
+          <a class="tool-card" href="static-site-deployment-checklist.html"><span>Static Site Deployment Checklist</span><small>Launch static sites with canonical URLs, sitemap, robots, HTTPS, analytics and cache checks.</small></a>
+          <a class="tool-card" href="github-pages-custom-domain-guide.html"><span>GitHub Pages Custom Domain</span><small>Connect a custom domain to GitHub Pages with A records, CNAME, HTTPS and DNS propagation checks.</small></a>
+          <a class="tool-card" href="ssl-renewal-debugging-guide.html"><span>SSL Renewal Debugging</span><small>Debug SSL renewal, certificate chains, DNS validation, rate limits and expired HTTPS endpoints.</small></a>
+          <a class="tool-card" href="cdn-cache-purge-guide.html"><span>CDN Cache Purge</span><small>Purge CDN cache safely while preserving user performance, asset versioning and rollout evidence.</small></a>
+          <a class="tool-card" href="robots-txt-sitemap-launch-guide.html"><span>Robots.txt and Sitemap Launch</span><small>Review robots.txt, sitemap URLs, canonical targets and indexing signals before a public launch.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint expanded domain sections end -->
 
       <section class="directory-section" aria-labelledby="advanced-reference-title" data-tools-section>
         <div class="section-heading">

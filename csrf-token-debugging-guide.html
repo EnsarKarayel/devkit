@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>CSRF Token Debugging Guide | Formalint</title>
+    <meta name="description" content="Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/csrf-token-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-200">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/csrf-token-debugging-guide.html#article","headline":"CSRF Token Debugging Guide","description":"Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows.","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/csrf-token-debugging-guide.html","proficiencyLevel":"Intermediate"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Security &amp; Compliance</p>
+      <h1>CSRF Token Debugging Guide</h1>
+      <p class="guide-meta">Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows. Last updated September 1, 2026.</p>
+      <p>Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows. This Formalint reference is designed for developers, DBAs, platform engineers and support teams who need an ordered troubleshooting path.</p>
+      <p>The page keeps the work practical: collect evidence, avoid leaking secrets, make the smallest safe change and leave a note another engineer can repeat.</p>
+      <h2>When to use it</h2>
+      <ul><li>A deployment, policy, incident or integration behaves differently than expected.</li><li>You need a repeatable command or checklist before changing production behavior.</li><li>You want to keep the debugging note understandable for another engineer.</li></ul>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to verify</th></tr></thead><tbody><tr><td>Inventory the boundary</td><td>Name the browser, API, cookie, token, dependency or domain boundary that is affected.</td></tr><tr><td>Collect safe evidence</td><td>Redact secrets before sharing headers, logs, payloads or dependency output.</td></tr><tr><td>Roll out gradually</td><td>Prefer report-only, staged keys, feature flags or small blast-radius changes before enforcement.</td></tr></tbody></table>
+      <h2>Command or evidence sample</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>curl -i -X POST https://app.example.com/form \
+  -H &quot;X-CSRF-Token: REDACTED&quot; \
+  -b &quot;session=REDACTED&quot;</code></pre></div>
+      <h2>Review checklist</h2>
+      <ol><li>Write down the affected host, endpoint, job, service or browser context.</li><li>Redact tokens, session cookies, passwords and customer identifiers.</li><li>Capture timestamps, headers, logs or command output before changing settings.</li><li>Prefer staged rollout, report-only mode, preview checks or single-URL cache purges where possible.</li><li>Link the final note to a related Formalint page so the next step is obvious.</li></ol>
+      <h2>Common mistake</h2>
+      <p>The common mistake is weakening a policy permanently to fix one symptom instead of collecting the violation and narrowing the exception.</p>
+      <p class="guide-callout">Formalint's rule for these areas is simple: make the hidden system boundary visible before you tune it.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="http-security-headers-checklist.html">Http Security Headers Checklist</a>, <a href="cookie-samesite-debugging.html">Cookie Samesite Debugging</a>, <a href="safe-online-dev-tools.html">Safe Online Dev Tools</a>.</p>
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Is this page enough for production approval?</summary><p>No. Use it as a diagnostic and review aid, then follow your team's release, security and compliance process.</p></details><details><summary>Can I paste real secrets or logs here?</summary><p>No. Keep secrets and customer data out of browser tools. Use redacted examples and preserve sensitive evidence only in approved internal systems.</p></details></div>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

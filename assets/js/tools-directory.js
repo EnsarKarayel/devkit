@@ -20,7 +20,10 @@
     api: ["api", "http", "method", "post", "json request", "headers", "bearer token", "authorization", "postman", "request body", "versioning", "error response", "correlation id", "jwt", "signature", "jwks", "expiration", "401", "403", "timeout", "oauth", "refresh token", "cors", "webhook", "graphql", "cookie", "samesite", "rate limit", "cache-control", "status"],
     ops: ["dba", "database", "postgresql", "connection limit", "mysql", "deadlock", "redis", "key naming", "docker", "volume", "kubernetes", "crashloopbackoff", "nginx", "access log", "linux", "disk space", "systemctl", "journalctl", "windows", "powershell", "git", "branch", "dns", "tls", "cockpit"],
     runtime: ["runtime", "node", "node.js", "npm", "package.json", "scripts", "environment", "php", "composer", "php.ini", "dependency", "fpm", "java", "jdk", "maven", "classpath", "thread dump", "python", "pip", "requirements", "virtualenv", "fastapi", "django", "flask"],
-    security: ["security", "injection", "jwt", "oauth", "password", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "safe", "privacy", "secret"]
+    security: ["security", "injection", "jwt", "oauth", "password", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "csrf", "secret", "redaction", "api key", "vulnerability", "dependency", "compliance", "privacy"],
+    delivery: ["ci", "cd", "github actions", "workflow", "runner", "secrets", "docker build", "cache", "tests", "flaky", "deployment", "release", "rollback"],
+    observe: ["observability", "logs", "log levels", "structured logging", "health check", "uptime", "monitoring", "slo", "error budget", "alert"],
+    cloud: ["cloud", "cloudflare", "vercel", "github pages", "static site", "custom domain", "dns", "ssl", "cdn", "cache purge", "robots", "sitemap"]
   };
 
   function normalize(value) {

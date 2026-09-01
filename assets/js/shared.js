@@ -325,6 +325,61 @@
         { label: "Node.js package.json Scripts", href: "nodejs-package-json-scripts-guide.html", icon: "NPM", description: "Read npm scripts, environment variables and build commands before debugging Node.js deployments.", keywords: "nodejs package json scripts npm" }
       ]
     },
+    // Formalint expanded domain groups start
+    {
+      title: "Security & Compliance",
+      mode: "security",
+      description: "Review browser security, secrets, cookies, API keys and dependency risk before release.",
+      links: [
+        { label: "Content Security Policy Debugging", href: "csp-debugging-guide.html", icon: "CSP", description: "Debug CSP violations, script sources, nonce usage, reports and safe rollout steps without weakening browser security.", keywords: "csp debugging content security policy nonce script-src" },
+        { label: "HSTS Preload", href: "hsts-preload-guide.html", icon: "HSTS", description: "Review HSTS headers, preload requirements, subdomain risk and HTTPS rollout checks before submitting a domain.", keywords: "hsts preload guide strict transport security" },
+        { label: "CSRF Token Debugging", href: "csrf-token-debugging-guide.html", icon: "CSRF", description: "Debug CSRF token mismatches, SameSite cookies, forms, headers and cross-origin session flows.", keywords: "csrf token debugging samesite cookie header" },
+        { label: "API Key Rotation", href: "api-key-rotation-guide.html", icon: "KEY", description: "Rotate API keys with inventory, staged rollout, logging, rollback and safe secret handling.", keywords: "api key rotation secrets rollback" },
+        { label: "Secrets Redaction Checklist", href: "secrets-redaction-checklist.html", icon: "MASK", description: "Redact tokens, passwords, connection strings and customer identifiers before sharing logs or payloads.", keywords: "secrets redaction checklist token password log" },
+        { label: "Dependency Vulnerability Triage", href: "dependency-vulnerability-triage-guide.html", icon: "CVE", description: "Triage dependency vulnerabilities by reachability, exploitability, version constraints and release risk.", keywords: "dependency vulnerability triage cve npm composer maven pip" },
+        { label: "Secure Cookie Checklist", href: "secure-cookie-checklist.html", icon: "CK", description: "Review Secure, HttpOnly, SameSite, domain, path and expiration choices for web session cookies.", keywords: "secure cookie checklist httponly samesite" }
+      ]
+    },
+    {
+      title: "CI/CD & Release",
+      mode: "delivery",
+      description: "Debug build pipelines, release checks, failing tests, secrets and rollback paths.",
+      links: [
+        { label: "GitHub Actions Debugging", href: "github-actions-debugging-guide.html", icon: "GHA", description: "Debug failed GitHub Actions jobs with logs, runners, checkout state, caches, secrets and matrix values.", keywords: "github actions debugging workflow logs runner" },
+        { label: "GitHub Actions Environment Secrets", href: "github-actions-env-secrets-guide.html", icon: "ENV", description: "Use GitHub Actions secrets, variables and environments without leaking values into logs or builds.", keywords: "github actions secrets environment variables" },
+        { label: "Docker Build Cache Debugging", href: "docker-build-cache-debugging-guide.html", icon: "BUILD", description: "Debug Docker build cache, layers, build args, context size and stale images in CI pipelines.", keywords: "docker build cache debugging buildkit layers" },
+        { label: "CI Failing Tests Debugging", href: "ci-failing-tests-debugging-guide.html", icon: "TEST", description: "Separate flaky tests, missing services, env drift, dependency changes and timeout failures in CI.", keywords: "ci failing tests debugging flaky env timeout" },
+        { label: "Deployment Rollback Checklist", href: "deployment-rollback-checklist.html", icon: "ROLL", description: "Prepare rollback evidence, database compatibility, feature flags and release notes before production deploys.", keywords: "deployment rollback checklist release" },
+        { label: "Release Checklist for Developers", href: "release-checklist-for-developers.html", icon: "REL", description: "Ship safer releases with version notes, migrations, monitoring, smoke tests and support handoff.", keywords: "release checklist developers deployment" }
+      ]
+    },
+    {
+      title: "Observability",
+      mode: "observe",
+      description: "Keep logs, health checks, uptime monitors and reliability signals actionable.",
+      links: [
+        { label: "Log Levels", href: "log-levels-guide.html", icon: "LOG", description: "Choose debug, info, warn and error levels so production logs stay useful during incidents.", keywords: "log levels guide debug info warn error" },
+        { label: "Structured Logging", href: "structured-logging-guide.html", icon: "JSON", description: "Design JSON logs with correlation IDs, event names, user-safe fields and searchable incident context.", keywords: "structured logging json correlation id" },
+        { label: "Application Health Check", href: "application-health-check-guide.html", icon: "HEALTH", description: "Design health endpoints that separate liveness, readiness, dependencies and degraded service states.", keywords: "application health check liveness readiness" },
+        { label: "Uptime Monitoring Checklist", href: "uptime-monitoring-checklist.html", icon: "UP", description: "Monitor public endpoints, APIs, certificates and user-visible flows without creating noisy alerts.", keywords: "uptime monitoring checklist api certificate" },
+        { label: "Error Budget and SLO", href: "error-budget-slo-guide.html", icon: "SLO", description: "Use SLOs and error budgets to explain reliability work, incidents and release risk.", keywords: "error budget slo guide reliability" }
+      ]
+    },
+    {
+      title: "Cloud Deployment",
+      mode: "cloud",
+      description: "Prepare DNS, HTTPS, static hosting, platform environment variables and CDN cache changes.",
+      links: [
+        { label: "Cloudflare DNS Deployment", href: "cloudflare-dns-deployment-guide.html", icon: "CF", description: "Prepare Cloudflare DNS, proxy mode, SSL settings, redirects and verification before launching a site.", keywords: "cloudflare dns deployment ssl proxy" },
+        { label: "Vercel Environment Variables", href: "vercel-environment-variables-guide.html", icon: "VC", description: "Debug Vercel environment variables across preview, production and local development builds.", keywords: "vercel environment variables production preview" },
+        { label: "Static Site Deployment Checklist", href: "static-site-deployment-checklist.html", icon: "STATIC", description: "Launch static sites with canonical URLs, sitemap, robots, HTTPS, analytics and cache checks.", keywords: "static site deployment checklist sitemap https" },
+        { label: "GitHub Pages Custom Domain", href: "github-pages-custom-domain-guide.html", icon: "PAGES", description: "Connect a custom domain to GitHub Pages with A records, CNAME, HTTPS and DNS propagation checks.", keywords: "github pages custom domain cname a record https" },
+        { label: "SSL Renewal Debugging", href: "ssl-renewal-debugging-guide.html", icon: "SSL", description: "Debug SSL renewal, certificate chains, DNS validation, rate limits and expired HTTPS endpoints.", keywords: "ssl renewal debugging certificate dns validation" },
+        { label: "CDN Cache Purge", href: "cdn-cache-purge-guide.html", icon: "CDN", description: "Purge CDN cache safely while preserving user performance, asset versioning and rollout evidence.", keywords: "cdn cache purge guide asset versioning" },
+        { label: "Robots.txt and Sitemap Launch", href: "robots-txt-sitemap-launch-guide.html", icon: "BOT", description: "Review robots.txt, sitemap URLs, canonical targets and indexing signals before a public launch.", keywords: "robots txt sitemap launch canonical indexing" }
+      ]
+    },
+    // Formalint expanded domain groups end
     {
       title: "Hardware & Capacity",
       mode: "hardware",
