@@ -23,7 +23,9 @@
     security: ["security", "injection", "jwt", "oauth", "password", "cookie", "samesite", "tls", "https", "headers", "csp", "hsts", "csrf", "secret", "redaction", "api key", "vulnerability", "dependency", "compliance", "privacy"],
     delivery: ["ci", "cd", "github actions", "workflow", "runner", "secrets", "docker build", "cache", "tests", "flaky", "deployment", "release", "rollback"],
     observe: ["observability", "logs", "log levels", "structured logging", "health check", "uptime", "monitoring", "slo", "error budget", "alert"],
-    cloud: ["cloud", "cloudflare", "vercel", "github pages", "static site", "custom domain", "dns", "ssl", "cdn", "cache purge", "robots", "sitemap"]
+    cloud: ["cloud", "cloudflare", "vercel", "github pages", "static site", "custom domain", "dns", "ssl", "cdn", "cache purge", "robots", "sitemap"],
+    seo: ["seo", "search console", "indexing", "sitemap", "lastmod", "canonical", "robots", "ads.txt", "adsense", "github pages", "deployment"],
+    browser: ["browser", "devtools", "console", "network tab", "source map", "core web vitals", "lighthouse", "javascript error", "stack trace"]
   };
 
   function normalize(value) {

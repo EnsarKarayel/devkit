@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260901-library-200">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-212">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 200 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 212 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -84,6 +84,8 @@
           <button type="button" data-tools-topic="delivery" aria-pressed="false">CI/CD</button>
           <button type="button" data-tools-topic="observe" aria-pressed="false">Observability</button>
           <button type="button" data-tools-topic="cloud" aria-pressed="false">Cloud</button>
+          <button type="button" data-tools-topic="seo" aria-pressed="false">SEO</button>
+          <button type="button" data-tools-topic="browser" aria-pressed="false">Browser</button>
         </div>
         <div class="directory-popular-row" aria-label="Popular searches">
           <span>Popular:</span>
@@ -97,9 +99,13 @@
           <button type="button" data-tools-query="csp" data-tools-topic-jump="security">csp</button>
           <button type="button" data-tools-query="cloudflare" data-tools-topic-jump="cloud">cloudflare</button>
           <button type="button" data-tools-query="logs" data-tools-topic-jump="observe">logs</button>
+          <button type="button" data-tools-query="search console" data-tools-topic-jump="seo">search console</button>
+          <button type="button" data-tools-query="sitemap" data-tools-topic-jump="seo">sitemap</button>
+          <button type="button" data-tools-query="lighthouse" data-tools-topic-jump="browser">lighthouse</button>
+          <button type="button" data-tools-query="devtools" data-tools-topic-jump="browser">devtools</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 200 resources</span>
+          <span id="toolsDirectoryCount">Showing 212 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -252,6 +258,39 @@
         </div>
       </section>
 
+
+      <!-- Formalint living index sections start -->
+      <section class="directory-section" aria-labelledby="seo-indexing-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">SEO & indexing</p>
+          <h2 id="seo-indexing-title">Search Console, sitemap, canonical and AdSense readiness checks</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="search-console-indexing-checklist.html"><span>Google Search Console Indexing</span><small>Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review.</small></a>
+          <a class="tool-card" href="sitemap-lastmod-strategy-guide.html"><span>Sitemap Lastmod Strategy</span><small>Use sitemap lastmod dates honestly so crawlers can separate real content updates from unchanged static pages.</small></a>
+          <a class="tool-card" href="canonical-url-debugging-guide.html"><span>Canonical URL Debugging</span><small>Debug canonical tags, duplicate URLs, index.html variants, trailing slash behavior and Search Console canonical mismatches.</small></a>
+          <a class="tool-card" href="robots-meta-debugging-guide.html"><span>Robots Meta Tag Debugging</span><small>Check robots meta tags, robots.txt rules and crawl directives before assuming Google ignored a new developer page.</small></a>
+          <a class="tool-card" href="ads-txt-debugging-guide.html"><span>ads.txt Debugging</span><small>Verify ads.txt placement, publisher ID, HTTPS access, redirects and cache state before an AdSense site review.</small></a>
+          <a class="tool-card" href="github-pages-deployment-log-guide.html"><span>GitHub Pages Deployment Log</span><small>Use GitHub Pages deployment evidence to verify what Google and users can actually reach after a static-site update.</small></a>
+        </div>
+      </section>
+
+      <section class="directory-section" aria-labelledby="browser-debugging-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Browser debugging</p>
+          <h2 id="browser-debugging-title">DevTools, network, Lighthouse and JavaScript evidence</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="browser-console-debugging-guide.html"><span>Browser Console Debugging</span><small>Use the browser console to capture JavaScript errors, CSP messages, failed resources and runtime context without guessing.</small></a>
+          <a class="tool-card" href="network-tab-debugging-guide.html"><span>DevTools Network Tab Debugging</span><small>Read request URLs, status codes, response headers, payloads and cache behavior from the browser Network tab.</small></a>
+          <a class="tool-card" href="source-map-debugging-guide.html"><span>Source Map Debugging</span><small>Use source maps to connect minified production JavaScript errors back to readable files, functions and release commits.</small></a>
+          <a class="tool-card" href="core-web-vitals-debugging-guide.html"><span>Core Web Vitals Debugging</span><small>Debug LCP, CLS, INP and page responsiveness with browser evidence instead of guessing from a single score.</small></a>
+          <a class="tool-card" href="lighthouse-audit-checklist.html"><span>Lighthouse Audit</span><small>Turn a Lighthouse report into practical fixes for performance, accessibility, SEO, best practices and static-site quality.</small></a>
+          <a class="tool-card" href="javascript-error-stack-trace-guide.html"><span>JavaScript Error Stack Trace</span><small>Read JavaScript stack traces by message, call order, async boundary, source file and release context.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint living index sections end -->
 
       <!-- Formalint expanded domain sections start -->
       <section class="directory-section" aria-labelledby="security-compliance-title" data-tools-section>

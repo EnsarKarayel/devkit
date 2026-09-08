@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Google Search Console Indexing Checklist | Formalint</title>
+    <meta name="description" content="Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/search-console-indexing-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-212">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/search-console-indexing-checklist.html#article","headline":"Google Search Console Indexing Checklist","description":"Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review.","datePublished":"2026-09-08","dateModified":"2026-09-08","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/search-console-indexing-checklist.html","proficiencyLevel":"Intermediate"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a class="active" href="tools.html">All Tools</a><a href="guides.html">Guides</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">SEO &amp; Indexing</p>
+      <h1>Google Search Console Indexing Checklist</h1>
+      <p class="guide-meta">Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review. Last updated September 8, 2026.</p>
+      <p>Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review. This reference is written as a practical operating note for developers, DBAs and platform teams who need to make the next troubleshooting step visible.</p>
+      <p>Use it with the live Formalint tools, then keep the final finding in a ticket, release note or runbook so the next person can repeat the same checks.</p>
+      <h2>Good fit for</h2>
+      <ul><li>A new page is published but not appearing in Search Console yet.</li><li>Google shows impressions for a query but the page is not earning clicks.</li><li>A sitemap was resubmitted and you need a repeatable verification checklist.</li></ul>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to verify</th></tr></thead><tbody><tr><td>Confirm the canonical URL</td><td>Open URL Inspection and compare the inspected URL, user-declared canonical and Google-selected canonical.</td></tr><tr><td>Check sitemap coverage</td><td>Verify the URL exists in sitemap.xml with the correct HTTPS host and a current lastmod when the content changed.</td></tr><tr><td>Review page value</td><td>Make sure the page answers one focused developer task with original examples, not thin repeated copy.</td></tr><tr><td>Request indexing carefully</td><td>Use request indexing after a meaningful content update, not after cosmetic churn.</td></tr></tbody></table>
+      <h2>Command or evidence sample</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>site:formalint.com regex matcher
+site:formalint.com xml linter
+site:formalint.com email regex</code></pre></div>
+      <h2>Quality checklist</h2>
+      <ol><li>Confirm the public URL, browser, terminal, deployment or Search Console context.</li><li>Capture the first useful error, header, status, sitemap entry or metric before editing.</li><li>Keep secrets, tokens, cookies and private user data out of copied examples.</li><li>Make one meaningful fix, publish it, then verify the live page rather than the local preview.</li><li>Link the page to related Formalint references so visitors and crawlers can understand the topic cluster.</li></ol>
+      <h2>Common mistake</h2>
+      <p>The common mistake is resubmitting the same weak page repeatedly instead of improving title intent, examples, internal links and page usefulness.</p>
+      <p class="guide-callout">Formalint's rule for this topic: improve the page because it helps a real developer, then let Search Console observe the improvement naturally.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="sitemap-lastmod-strategy-guide.html">Sitemap Lastmod Strategy</a>, <a href="canonical-url-debugging-guide.html">Canonical URL Debugging</a>, <a href="tools.html">Tools</a>.</p>
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list"><details><summary>Should this be checked after every release?</summary><p>Check it whenever the related page, deployment path, crawler signal, browser behavior or user-facing workflow changes in a meaningful way.</p></details><details><summary>Can I use sensitive production data in examples?</summary><p>No. Redact secrets and personal data before copying commands, URLs, payloads, logs or screenshots into a public tool or support note.</p></details></div>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

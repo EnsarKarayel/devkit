@@ -325,6 +325,35 @@
         { label: "Node.js package.json Scripts", href: "nodejs-package-json-scripts-guide.html", icon: "NPM", description: "Read npm scripts, environment variables and build commands before debugging Node.js deployments.", keywords: "nodejs package json scripts npm" }
       ]
     },
+    // Formalint living index groups start
+    {
+      title: "SEO & Indexing",
+      mode: "seo",
+      description: "Use Search Console, sitemap, canonical, robots and ads.txt evidence to keep public pages crawlable.",
+      links: [
+        { label: "Google Search Console Indexing", href: "search-console-indexing-checklist.html", icon: "GSC", description: "Review indexing status, submitted sitemaps, canonical signals, crawl errors and page quality before requesting another Google review.", keywords: "search console indexing checklist google indexing sitemap canonical" },
+        { label: "Sitemap Lastmod Strategy", href: "sitemap-lastmod-strategy-guide.html", icon: "MAP", description: "Use sitemap lastmod dates honestly so crawlers can separate real content updates from unchanged static pages.", keywords: "sitemap lastmod strategy xml sitemap google search console" },
+        { label: "Canonical URL Debugging", href: "canonical-url-debugging-guide.html", icon: "CAN", description: "Debug canonical tags, duplicate URLs, index.html variants, trailing slash behavior and Search Console canonical mismatches.", keywords: "canonical url debugging google selected canonical duplicate urls" },
+        { label: "Robots Meta Tag Debugging", href: "robots-meta-debugging-guide.html", icon: "BOT", description: "Check robots meta tags, robots.txt rules and crawl directives before assuming Google ignored a new developer page.", keywords: "robots meta debugging noindex robots txt indexing" },
+        { label: "ads.txt Debugging", href: "ads-txt-debugging-guide.html", icon: "ADS", description: "Verify ads.txt placement, publisher ID, HTTPS access, redirects and cache state before an AdSense site review.", keywords: "ads txt debugging adsense publisher id github pages" },
+        { label: "GitHub Pages Deployment Log", href: "github-pages-deployment-log-guide.html", icon: "GH", description: "Use GitHub Pages deployment evidence to verify what Google and users can actually reach after a static-site update.", keywords: "github pages deployment log guide static site deploy google pages" }
+      ]
+    },
+    {
+      title: "Browser Debugging",
+      mode: "browser",
+      description: "Capture console, network, source map, Lighthouse and JavaScript error evidence from the browser.",
+      links: [
+        { label: "Browser Console Debugging", href: "browser-console-debugging-guide.html", icon: "CON", description: "Use the browser console to capture JavaScript errors, CSP messages, failed resources and runtime context without guessing.", keywords: "browser console debugging javascript error devtools csp" },
+        { label: "DevTools Network Tab Debugging", href: "network-tab-debugging-guide.html", icon: "NET", description: "Read request URLs, status codes, response headers, payloads and cache behavior from the browser Network tab.", keywords: "devtools network tab debugging request headers cache status code" },
+        { label: "Source Map Debugging", href: "source-map-debugging-guide.html", icon: "MAP", description: "Use source maps to connect minified production JavaScript errors back to readable files, functions and release commits.", keywords: "source map debugging minified javascript production error" },
+        { label: "Core Web Vitals Debugging", href: "core-web-vitals-debugging-guide.html", icon: "CWV", description: "Debug LCP, CLS, INP and page responsiveness with browser evidence instead of guessing from a single score.", keywords: "core web vitals debugging lcp cls inp lighthouse" },
+        { label: "Lighthouse Audit", href: "lighthouse-audit-checklist.html", icon: "LHS", description: "Turn a Lighthouse report into practical fixes for performance, accessibility, SEO, best practices and static-site quality.", keywords: "lighthouse audit checklist performance seo accessibility devtools" },
+        { label: "JavaScript Error Stack Trace", href: "javascript-error-stack-trace-guide.html", icon: "ERR", description: "Read JavaScript stack traces by message, call order, async boundary, source file and release context.", keywords: "javascript error stack trace debugging browser console" }
+      ]
+    },
+    // Formalint living index groups end
+
     // Formalint expanded domain groups start
     {
       title: "Security & Compliance",
