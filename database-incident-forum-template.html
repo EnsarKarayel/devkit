@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Database Incident Forum Template | Formalint</title>
+    <meta name="description" content="Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/database-incident-forum-template.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-220">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/database-incident-forum-template.html#article","headline":"Database Incident Forum Template","description":"Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps.","datePublished":"2026-09-08","dateModified":"2026-09-08","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/database-incident-forum-template.html"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Community Forum</p>
+      <h1>Database Incident Forum Template</h1>
+      <p class="guide-meta">Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps. Last updated September 8, 2026.</p>
+      <p>Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps. It helps developers ask better questions, preserve useful evidence and keep public examples safe enough to share.</p>
+      <h2>Use this when</h2>
+      <ul><li>You want another developer to understand the issue without guessing.</li><li>You need to remove secrets and private data before sharing evidence.</li><li>You want the final answer to become a reusable Formalint-style reference.</li></ul>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to include</th></tr></thead><tbody><tr><td>Start read-only</td><td>Use safe diagnostic SQL and avoid destructive fixes while the incident is unclear.</td></tr><tr><td>Capture time windows</td><td>Database symptoms need timestamps to match API logs, jobs and user reports.</td></tr><tr><td>Separate query from host</td><td>Slow pages can come from SQL, connection pools, disk IO, Redis or network pressure.</td></tr><tr><td>Share only safe samples</td><td>Hash IDs, remove customer data and redact connection strings.</td></tr></tbody></table>
+      <h2>Template</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>Database:
+Version:
+Symptom window:
+Read-only checks:
+Slow query sample:
+Lock/session evidence:
+Recent deployment:</code></pre></div>
+      <h2>Safety checklist</h2>
+      <ol><li>Remove passwords, tokens, cookies, private keys and connection strings.</li><li>Replace customer records with tiny synthetic examples.</li><li>Keep exact error text, versions, command output and timestamps when safe.</li><li>Say what changed after the fix so the answer helps future readers.</li></ol>
+      <p class="guide-callout">Good forum content is not long by default. It is specific, safe, reproducible and useful after the first reader leaves.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="postgresql-dba-checklist.html">Postgresql Dba Checklist</a>, <a href="mysql-slow-query-debugging-guide.html">Mysql Slow Query Debugging Guide</a>, <a href="forum.html">Formalint Developer Forum</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

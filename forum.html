@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Formalint Developer Forum - Softest Debugging Lounge</title>
+    <meta name="description" content="A local-first developer forum workspace for drafting debugging questions, collecting safe examples and sharing Formalint notes without account tracking.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/forum.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-220">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"CollectionPage","@id":"https://formalint.com/forum.html#webpage","name":"Formalint Developer Forum","description":"A local-first developer forum workspace for drafting debugging questions, collecting safe examples and sharing Formalint notes without account tracking.","url":"https://formalint.com/forum.html","datePublished":"2026-09-08","dateModified":"2026-09-08","publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"}}
+    </script>
+    <script defer src="assets/js/forum.js"></script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a href="guides.html">Guides</a><a class="active" href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="forum-page" data-forum-board>
+      <section class="forum-hero">
+        <div>
+          <p class="eyebrow">Community workspace</p>
+          <h1>Formalint Developer Forum</h1>
+          <p class="hero-copy">Draft debugging questions, keep safe local notes and prepare shareable developer threads with a playful Softest handle. No account, no username tracking, no server-side storage in this static release.</p>
+        </div>
+        <aside class="forum-identity-card" aria-label="Local forum identity">
+          <span class="eyebrow">Your local handle</span>
+          <strong class="forum-handle" data-forum-handle>Softest-0000</strong>
+          <p class="forum-note">This name is generated in your browser. It is only for fun and can be changed anytime.</p>
+          <button type="button" class="secondary-action" data-regenerate-handle>Generate another Softest</button>
+        </aside>
+      </section>
+      <section class="forum-board">
+        <form class="forum-composer" data-forum-form>
+          <h2>Write a debugging note</h2>
+          <label for="forumTopic">Topic<select id="forumTopic"><option>General</option><option>Regex</option><option>JSON</option><option>API</option><option>DBA</option><option>Linux</option><option>Frontend</option><option>AdSense and SEO</option></select></label>
+          <label for="forumTitle">Title<input id="forumTitle" maxlength="120" placeholder="Example: Regex works locally but fails in JavaScript"></label>
+          <label for="forumBody">Details<textarea id="forumBody" maxlength="1200" placeholder="What did you expect, what happened, what did you try, and what safe sample can someone inspect?"></textarea></label>
+          <p class="forum-note">Posts in this version stay in this browser. Do not paste secrets, tokens, cookies, private keys or customer data.</p>
+          <div class="forum-actions">
+            <button type="submit" class="primary-action">Save local post</button>
+            <button type="button" class="secondary-action" data-copy-forum-draft>Copy draft</button>
+            <button type="button" class="secondary-action" data-clear-forum-posts>Clear local posts</button>
+          </div>
+          <p class="forum-status" data-forum-status aria-live="polite"></p>
+        </form>
+        <section class="forum-panel" aria-labelledby="forumThreadsTitle">
+          <div class="section-heading">
+            <p class="eyebrow">Threads</p>
+            <h2 id="forumThreadsTitle">Softest debugging lounge</h2>
+          </div>
+          <div class="forum-list" data-forum-list></div>
+          <p class="forum-note" data-forum-empty hidden>No local notes yet. Start with one safe debugging question.</p>
+        </section>
+      </section>
+      <section class="directory-section" aria-labelledby="forumGuideTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Better threads</p>
+          <h2 id="forumGuideTitle">Write questions developers can answer</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="developer-forum-question-guide.html"><span>Developer Forum Question</span><small>Write developer forum questions with context, expected behavior, actual behavior, safe samples and a clear next step.</small></a>
+          <a class="tool-card" href="minimal-reproduction-guide.html"><span>Minimal Reproduction</span><small>Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect.</small></a>
+          <a class="tool-card" href="bug-report-template-guide.html"><span>Bug Report</span><small>Use a concise bug report structure for browser, API, database, formatter and deployment problems without leaking sensitive data.</small></a>
+          <a class="tool-card" href="code-review-question-guide.html"><span>Code Review Question</span><small>Ask code review questions that focus on behavior, risk, tests, edge cases and maintainability instead of personal preference.</small></a>
+          <a class="tool-card" href="api-debugging-forum-template.html"><span>API Debugging Forum</span><small>Share API debugging questions with method, endpoint, status, headers, safe payload shape and correlation evidence.</small></a>
+          <a class="tool-card" href="database-incident-forum-template.html"><span>Database Incident Forum</span><small>Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps.</small></a>
+          <a class="tool-card" href="community-moderation-policy.html"><span>Community Moderation Policy</span><small>Define Formalint forum rules for safe samples, respectful technical discussion, no secrets, no spam and practical developer help.</small></a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

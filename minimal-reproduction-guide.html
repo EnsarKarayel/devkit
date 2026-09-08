@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Minimal Reproduction Guide | Formalint</title>
+    <meta name="description" content="Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/minimal-reproduction-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-220">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/minimal-reproduction-guide.html#article","headline":"Minimal Reproduction Guide","description":"Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect.","datePublished":"2026-09-08","dateModified":"2026-09-08","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/minimal-reproduction-guide.html"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Community Forum</p>
+      <h1>Minimal Reproduction Guide</h1>
+      <p class="guide-meta">Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect. Last updated September 8, 2026.</p>
+      <p>Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect. It helps developers ask better questions, preserve useful evidence and keep public examples safe enough to share.</p>
+      <h2>Use this when</h2>
+      <ul><li>You want another developer to understand the issue without guessing.</li><li>You need to remove secrets and private data before sharing evidence.</li><li>You want the final answer to become a reusable Formalint-style reference.</li></ul>
+      <h2>Practical workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>What to include</th></tr></thead><tbody><tr><td>Remove unrelated systems</td><td>Cut the example down until only the failing parser, request, query or runtime behavior remains.</td></tr><tr><td>Keep the failing input</td><td>Do not simplify away the exact value that triggers the bug.</td></tr><tr><td>Add versions</td><td>Runtime, browser, package, database and operating-system versions often decide the answer.</td></tr><tr><td>Make it runnable</td><td>A pasted sample, command or short file should let another developer reproduce the issue.</td></tr></tbody></table>
+      <h2>Template</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>1. Remove private data
+2. Keep the failing input
+3. Keep the exact error
+4. Add versions
+5. Describe one expected result</code></pre></div>
+      <h2>Safety checklist</h2>
+      <ol><li>Remove passwords, tokens, cookies, private keys and connection strings.</li><li>Replace customer records with tiny synthetic examples.</li><li>Keep exact error text, versions, command output and timestamps when safe.</li><li>Say what changed after the fix so the answer helps future readers.</li></ol>
+      <p class="guide-callout">Good forum content is not long by default. It is specific, safe, reproducible and useful after the first reader leaves.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="forum.html">Formalint Developer Forum</a>, <a href="developer-forum-question-guide.html">Developer Forum Question</a>, <a href="browser-console-debugging-guide.html">Browser Console Debugging Guide</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

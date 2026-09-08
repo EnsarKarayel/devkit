@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-212">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260908-library-220">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -56,7 +56,7 @@
         <a href="sql-formatter.html">SQL</a>
         <a href="python-formatter.html">Python</a>
         <a class="active" href="tools.html">All Tools</a>
-        <a href="guides.html">Guides</a>
+        <a href="guides.html">Guides</a><a href="forum.html">Forum</a>
         <a href="about.html">About</a>
       </nav>
     </header>
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 212 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 220 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -86,6 +86,7 @@
           <button type="button" data-tools-topic="cloud" aria-pressed="false">Cloud</button>
           <button type="button" data-tools-topic="seo" aria-pressed="false">SEO</button>
           <button type="button" data-tools-topic="browser" aria-pressed="false">Browser</button>
+          <button type="button" data-tools-topic="community" aria-pressed="false">Community</button>
         </div>
         <div class="directory-popular-row" aria-label="Popular searches">
           <span>Popular:</span>
@@ -103,9 +104,11 @@
           <button type="button" data-tools-query="sitemap" data-tools-topic-jump="seo">sitemap</button>
           <button type="button" data-tools-query="lighthouse" data-tools-topic-jump="browser">lighthouse</button>
           <button type="button" data-tools-query="devtools" data-tools-topic-jump="browser">devtools</button>
+          <button type="button" data-tools-query="softest" data-tools-topic-jump="community">softest</button>
+          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 212 resources</span>
+          <span id="toolsDirectoryCount">Showing 220 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -258,6 +261,26 @@
         </div>
       </section>
 
+
+      <!-- Formalint community sections start -->
+      <section class="directory-section" aria-labelledby="community-forum-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Community forum</p>
+          <h2 id="community-forum-title">Forum, question templates and safe debugging threads</h2>
+        </div>
+        <div class="directory-grid">
+                    <a class="tool-card" href="forum.html"><span>Formalint Developer Forum</span><small>A local-first developer forum workspace for drafting debugging questions, collecting safe examples and sharing Formalint notes without account tracking.</small></a>
+          <a class="tool-card" href="developer-forum-question-guide.html"><span>Developer Forum Question</span><small>Write developer forum questions with context, expected behavior, actual behavior, safe samples and a clear next step.</small></a>
+          <a class="tool-card" href="minimal-reproduction-guide.html"><span>Minimal Reproduction</span><small>Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect.</small></a>
+          <a class="tool-card" href="bug-report-template-guide.html"><span>Bug Report</span><small>Use a concise bug report structure for browser, API, database, formatter and deployment problems without leaking sensitive data.</small></a>
+          <a class="tool-card" href="code-review-question-guide.html"><span>Code Review Question</span><small>Ask code review questions that focus on behavior, risk, tests, edge cases and maintainability instead of personal preference.</small></a>
+          <a class="tool-card" href="api-debugging-forum-template.html"><span>API Debugging Forum</span><small>Share API debugging questions with method, endpoint, status, headers, safe payload shape and correlation evidence.</small></a>
+          <a class="tool-card" href="database-incident-forum-template.html"><span>Database Incident Forum</span><small>Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps.</small></a>
+          <a class="tool-card" href="community-moderation-policy.html"><span>Community Moderation Policy</span><small>Define Formalint forum rules for safe samples, respectful technical discussion, no secrets, no spam and practical developer help.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint community sections end -->
 
       <!-- Formalint living index sections start -->
       <section class="directory-section" aria-labelledby="seo-indexing-title" data-tools-section>
@@ -469,7 +492,7 @@
         <a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a>
       </div>
       <nav aria-label="Footer navigation">
-        <button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+        <button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
       </nav>
     </footer>
     <script src="assets/js/shared.js"></script>

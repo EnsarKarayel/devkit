@@ -325,6 +325,24 @@
         { label: "Node.js package.json Scripts", href: "nodejs-package-json-scripts-guide.html", icon: "NPM", description: "Read npm scripts, environment variables and build commands before debugging Node.js deployments.", keywords: "nodejs package json scripts npm" }
       ]
     },
+    // Formalint community groups start
+    {
+      title: "Community Forum",
+      mode: "community",
+      description: "Draft safe debugging questions, local Softest posts and reusable community templates.",
+      links: [
+        { label: "Formalint Developer Forum", href: "forum.html", icon: "CHAT", description: "A local-first developer forum workspace for drafting debugging questions, collecting safe examples and sharing Formalint notes without account tracking.", keywords: "forum softest developer questions community debugging" },
+        { label: "Developer Forum Question", href: "developer-forum-question-guide.html", icon: "Q", description: "Write developer forum questions with context, expected behavior, actual behavior, safe samples and a clear next step.", keywords: "developer forum question guide programming help debugging question" },
+        { label: "Minimal Reproduction", href: "minimal-reproduction-guide.html", icon: "MIN", description: "Reduce a bug report to the smallest safe example that still proves the behavior another developer needs to inspect.", keywords: "minimal reproduction guide debugging example bug report" },
+        { label: "Bug Report", href: "bug-report-template-guide.html", icon: "BUG", description: "Use a concise bug report structure for browser, API, database, formatter and deployment problems without leaking sensitive data.", keywords: "bug report template guide developer debugging report" },
+        { label: "Code Review Question", href: "code-review-question-guide.html", icon: "CR", description: "Ask code review questions that focus on behavior, risk, tests, edge cases and maintainability instead of personal preference.", keywords: "code review question guide developer review checklist" },
+        { label: "API Debugging Forum", href: "api-debugging-forum-template.html", icon: "API", description: "Share API debugging questions with method, endpoint, status, headers, safe payload shape and correlation evidence.", keywords: "api debugging forum template curl status headers correlation id" },
+        { label: "Database Incident Forum", href: "database-incident-forum-template.html", icon: "DB", description: "Ask database incident questions with read-only evidence for sessions, locks, slow queries, storage, cache and timestamps.", keywords: "database incident forum template dba slow query locks sessions" },
+        { label: "Community Moderation Policy", href: "community-moderation-policy.html", icon: "MOD", description: "Define Formalint forum rules for safe samples, respectful technical discussion, no secrets, no spam and practical developer help.", keywords: "community moderation policy developer forum rules safe samples" }
+      ]
+    },
+    // Formalint community groups end
+
     // Formalint living index groups start
     {
       title: "SEO & Indexing",
@@ -424,6 +442,7 @@
       links: [
         { label: "All Tools", href: "tools.html", icon: "ALL", description: "Browse the complete Formalint tool directory." },
         { label: "Guides", href: "guides.html", icon: "DOC", description: "Start from the full reference library." },
+        { label: "Forum", href: "forum.html", icon: "CHAT", description: "Open the local-first Formalint developer forum." },
         { label: "Complete Regex Guide", href: "complete-regex-guide.html", icon: "RX", description: "Learn regex fundamentals and testing discipline." },
         { label: "Data Formats Guide", href: "data-formats-guide.html", icon: "FMT", description: "Compare JSON, XML and YAML tradeoffs." },
         { label: "API Handbook", href: "api-debugging-handbook.html", icon: "API", description: "Follow a repeatable API debugging process." },
@@ -547,6 +566,20 @@
         "Confirm package manager state, extensions and environment variables.",
         "Separate CLI behavior from service behavior for PHP, Java, Python and Node.js jobs.",
         "Write the exact runtime evidence beside the failing request or deployment."
+      ]
+    },
+    {
+      mode: "community",
+      icon: "CHAT",
+      label: "Forum",
+      description: "Open the Softest developer forum workspace.",
+      tip: "Use this mode to draft safe questions, bug reports and minimal reproductions without account tracking.",
+      href: "forum.html",
+      workflow: [
+        "Use a local Softest handle instead of a real username.",
+        "Remove secrets, customer data, tokens and private URLs before writing.",
+        "Turn the question into a minimal reproduction or template when possible.",
+        "Copy the final note into your team system or future public forum backend."
       ]
     },
     {
