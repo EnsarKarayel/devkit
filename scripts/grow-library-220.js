@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260908-library-220";
-const LIBRARY_COUNT = 220;
-const TODAY = "2026-09-08";
-const HUMAN_DATE = "September 8, 2026";
+const CACHE_VERSION = "20260914-email-validation";
+const LIBRARY_COUNT = 228;
+const TODAY = "2026-09-14";
+const HUMAN_DATE = "September 14, 2026";
 
 const guidePages = [
   {
@@ -91,6 +91,121 @@ const guidePages = [
     command: "No secrets\nNo personal data\nNo spam\nNo harassment\nUse safe examples\nKeep answers technical and reproducible",
     workflow: [["Protect private data", "Remove credentials, tokens, cookies, personal data and customer records from every example."], ["Keep it technical", "Threads should help someone debug, validate, format, deploy or understand a developer workflow."], ["Reject spam", "Thin promotional content and unrelated links reduce trust for users and crawlers."], ["Prefer closure", "Good threads end with the fix, limitation or next safe diagnostic step."]],
     related: ["forum.html", "privacy.html", "editorial-policy.html"]
+  }
+];
+
+const emailValidationPages = [
+  {
+    file: "email-regex-cheatsheet.html",
+    category: "Email Validation",
+    mode: "regex",
+    icon: "@",
+    h1: "Email Regex Cheatsheet",
+    summary: "Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports.",
+    keywords: "email regex cheatsheet email validation regex examples",
+    command: "Basic pattern: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\nUse for: quick client hints\nDo not use for: final deliverability proof",
+    workflow: [["Start permissive", "Reject obvious mistakes while keeping valid real-world addresses such as plus tags and subdomains."], ["Test edge cases", "Check empty strings, missing domains, double at signs, whitespace and long addresses."], ["Separate syntax from delivery", "A regex can check shape, but it cannot prove that a mailbox exists."], ["Mirror server logic", "Client and server validation should disagree as little as possible."]],
+    checks: ["Accept plus addressing such as name+tag@example.com.", "Reject spaces and missing domain dots.", "Keep the pattern readable enough for code review.", "Document whether internationalized domains are supported."],
+    mistakes: ["Using a pattern so strict that valid addresses are rejected.", "Treating regex success as proof of deliverability.", "Running a catastrophic backtracking pattern on untrusted bulk input."],
+    related: ["regex-email-validator.html", "email-regex-javascript-guide.html", "email-regex-test-cases.html"]
+  },
+  {
+    file: "email-regex-test-cases.html",
+    category: "Email Validation",
+    mode: "regex",
+    icon: "TST",
+    h1: "Email Regex Test Cases",
+    summary: "Use a focused list of valid and invalid email samples to review regex behavior before shipping a form or API validator.",
+    keywords: "email regex test cases valid invalid email examples",
+    command: "valid: dev@example.com, name+tag@example.co.uk\ninvalid: dev@, @example.com, dev example.com, dev@@example.com",
+    workflow: [["Build a tiny matrix", "Keep a table of accepted, rejected and intentionally unsupported addresses."], ["Run the same samples everywhere", "Browser, API, import jobs and tests should use the same fixtures."], ["Add regression cases", "Every production validation bug should become one new sample."], ["Keep private data out", "Use synthetic examples instead of real user addresses."]],
+    checks: ["Include uppercase, plus tags, subdomains and long but reasonable domains.", "Include common typing mistakes and copy-paste whitespace.", "Record intentional product limits so support can explain them.", "Use automated tests rather than manual form clicks only."],
+    mistakes: ["Only testing happy-path addresses.", "Copying real customer emails into docs or public examples.", "Changing the regex without updating fixtures."],
+    related: ["email-regex-cheatsheet.html", "developer-data-validation-guide.html", "regex-examples.html"]
+  },
+  {
+    file: "email-validation-javascript-guide.html",
+    category: "Email Validation",
+    mode: "javascript",
+    icon: "JS",
+    h1: "Email Validation in JavaScript",
+    summary: "Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries.",
+    keywords: "email validation javascript regex guide form validation",
+    command: "const email = input.value.trim();\nconst looksLikeEmail = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);",
+    workflow: [["Trim before checking", "Whitespace around a copied address should not become a mysterious form failure."], ["Show helpful errors", "Tell the user what is missing without exposing internal rules."], ["Keep the server authoritative", "Browser validation improves UX, but server validation protects data quality."], ["Measure failures", "Unexpected validation drop-offs can reveal a bad pattern."]],
+    checks: ["Use input type email as a hint, not the only rule.", "Avoid blocking paste, plus tags or normal subdomains.", "Keep validation messages short and specific.", "Store normalized values consistently."],
+    mistakes: ["Depending only on HTML5 validation for API data.", "Mutating the user's address silently.", "Logging full email addresses in analytics events."],
+    related: ["email-regex-cheatsheet.html", "javascript-regex-cheatsheet.html", "regex-email-validator.html"]
+  },
+  {
+    file: "email-validation-typescript-guide.html",
+    category: "Email Validation",
+    mode: "javascript",
+    icon: "TS",
+    h1: "Email Validation in TypeScript",
+    summary: "Model email validation in TypeScript with typed results, reusable helpers and safe error messages for frontend and API code.",
+    keywords: "email validation typescript regex typed validator",
+    command: "type EmailCheck = { ok: true; value: string } | { ok: false; reason: string };",
+    workflow: [["Return structured results", "Avoid boolean-only helpers when the UI needs a reason."], ["Share fixtures", "Use the same test cases in frontend packages and API tests."], ["Keep types honest", "A string branded as email still needs runtime validation at boundaries."], ["Document normalization", "Lowercasing domains is different from changing the local part."]],
+    checks: ["Separate parsing, normalization and business rules.", "Use narrow error reasons such as empty, missing-at or invalid-domain.", "Keep regex constants named and reviewed.", "Use tests for both accepted and rejected samples."],
+    mistakes: ["Assuming TypeScript types validate runtime input.", "Branding an email before boundary checks finish.", "Throwing generic errors that the UI cannot translate."],
+    related: ["email-validation-javascript-guide.html", "email-regex-test-cases.html", "javascript-regex-match-vs-test.html"]
+  },
+  {
+    file: "email-regex-php-validation-guide.html",
+    category: "Email Validation",
+    mode: "php",
+    icon: "PHP",
+    h1: "Email Validation in PHP",
+    summary: "Validate email addresses in PHP with filter_var, regex fallback rules and safe handling for forms, imports and logs.",
+    keywords: "email validation php regex filter_var guide",
+    command: "$email = trim($_POST['email'] ?? '');\n$isValid = filter_var($email, FILTER_VALIDATE_EMAIL) !== false;",
+    workflow: [["Prefer built-ins first", "PHP's email filter is a safer baseline than a copied pattern for most apps."], ["Add product rules after syntax", "Blocked domains, disposable checks and uniqueness belong in separate steps."], ["Redact logs", "Validation failures can be counted without storing every submitted address."], ["Test imports separately", "Bulk CSV input needs memory, encoding and duplicate handling too."]],
+    checks: ["Trim input before validation.", "Keep database uniqueness rules case-aware and documented.", "Return user-safe messages instead of regex internals.", "Do not send verification email until syntax and rate limits pass."],
+    mistakes: ["Using a complex regex when filter_var is enough.", "Logging raw POST bodies on validation failure.", "Mixing disposable-domain policy with syntax checks."],
+    related: ["email-regex-php-guide.html", "php-runtime-guide.html", "csv-utf8-encoding-guide.html"]
+  },
+  {
+    file: "email-validation-python-guide.html",
+    category: "Email Validation",
+    mode: "python",
+    icon: "PY",
+    h1: "Email Validation in Python",
+    summary: "Validate email input in Python services with simple syntax checks, normalization notes and batch import safeguards.",
+    keywords: "email validation python regex guide data import",
+    command: "import re\npattern = re.compile(r\"^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$\")\nok = bool(pattern.match(email.strip()))",
+    workflow: [["Validate at boundaries", "Check API input, CSV rows and admin forms before data reaches deeper workflows."], ["Keep fixtures in tests", "Use shared valid and invalid samples across services."], ["Normalize deliberately", "Trim whitespace, but avoid changing local-part semantics without a clear rule."], ["Report row-level errors", "Bulk imports should tell the operator which rows failed and why."]],
+    checks: ["Compile reused regex patterns.", "Cap input length before expensive checks.", "Separate syntax errors from duplicate-account errors.", "Use synthetic addresses in test logs."],
+    mistakes: ["Accepting whitespace because only the database constraint caught it.", "Letting one invalid CSV row fail the whole import without a report.", "Treating regex as mailbox verification."],
+    related: ["email-regex-python-guide.html", "python-runtime-guide.html", "csv-to-json.html"]
+  },
+  {
+    file: "email-domain-dns-validation-guide.html",
+    category: "Email Validation",
+    mode: "network",
+    icon: "DNS",
+    h1: "Email Domain DNS Validation Guide",
+    summary: "Check email domains with DNS-aware validation boundaries, MX expectations and safe fallback behavior for signup flows.",
+    keywords: "email domain dns validation mx records guide",
+    command: "Syntax valid -> domain present -> optional MX lookup -> verification email",
+    workflow: [["Do syntax first", "Avoid DNS lookups for obviously invalid strings."], ["Treat DNS as signal", "A temporary DNS failure should not always become a permanent user rejection."], ["Queue verification", "Email confirmation proves more than a regex or MX lookup alone."], ["Rate limit checks", "DNS validation at scale can become slow or noisy without caching."]],
+    checks: ["Document whether MX, A or AAAA fallback is allowed.", "Cache domain lookup results for a short, safe window.", "Handle DNS timeouts gracefully.", "Keep domain checks separate from personal data logging."],
+    mistakes: ["Blocking users during transient DNS outages.", "Running live DNS checks on every keypress.", "Calling MX presence proof that a specific mailbox exists."],
+    related: ["dns-debugging-guide.html", "email-regex-cheatsheet.html", "api-timeout-debugging-guide.html"]
+  },
+  {
+    file: "disposable-email-detection-guide.html",
+    category: "Email Validation",
+    mode: "security",
+    icon: "MAIL",
+    h1: "Disposable Email Detection Guide",
+    summary: "Plan disposable email checks as a product policy layer instead of confusing them with basic email regex validation.",
+    keywords: "disposable email detection guide validation security",
+    command: "email syntax -> normalize domain -> policy list check -> verification -> risk review",
+    workflow: [["Separate policy from syntax", "Disposable-domain blocking is a business rule, not an email format rule."], ["Use reviewable lists", "Domain deny lists need source, date and a rollback path."], ["Avoid silent rejection", "Tell legitimate users what changed and how to contact support."], ["Watch false positives", "Shared domains, aliases and privacy services can be legitimate."]],
+    checks: ["Keep allowlist overrides for trusted partners.", "Version domain lists so support can explain decisions.", "Do not expose internal risk scores to the browser.", "Review conversion impact after policy changes."],
+    mistakes: ["Blocking whole providers without measuring legitimate usage.", "Mixing anti-abuse logic into a reusable regex helper.", "Using copied domain lists with no maintenance owner."],
+    related: ["email-domain-dns-validation-guide.html", "secure-cookie-checklist.html", "secrets-redaction-checklist.html"]
   }
 ];
 
@@ -198,6 +313,53 @@ function guidePage(page) {
 `;
 }
 
+function referencePage(page) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `https://formalint.com/${page.file}#article`,
+    headline: page.h1,
+    description: page.summary,
+    datePublished: TODAY,
+    dateModified: TODAY,
+    author: { "@type": "Person", name: "Ensar Karayel", email: "karayelensar@gmail.com" },
+    publisher: { "@type": "Organization", name: "Formalint", url: "https://formalint.com/" },
+    mainEntityOfPage: `https://formalint.com/${page.file}`,
+    keywords: page.keywords
+  };
+  const workflowRows = page.workflow.map(([step, detail]) => `<tr><td>${htmlEscape(step)}</td><td>${htmlEscape(detail)}</td></tr>`).join("");
+  const checks = page.checks.map((item) => `<li>${htmlEscape(item)}</li>`).join("");
+  const mistakes = page.mistakes.map((item) => `<li>${htmlEscape(item)}</li>`).join("");
+  const relatedLinks = page.related.map((href) => `<a href="${href}">${htmlEscape(titleFromFile(href))}</a>`).join(", ");
+  return `<!doctype html>
+<html lang="en">
+  ${head(`${page.h1} | Formalint`, page.summary, page.file, schema)}
+  <body>
+    ${header("guides.html")}
+    <main class="document-page">
+      <p class="eyebrow">${htmlEscape(page.category)}</p>
+      <h1>${htmlEscape(page.h1)}</h1>
+      <p class="guide-meta">${htmlEscape(page.summary)} Last updated ${HUMAN_DATE}.</p>
+      <p>${htmlEscape(page.summary)} This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody>${workflowRows}</tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>${htmlEscape(page.command)}</code></pre></div>
+      <h2>Review checks</h2>
+      <ul>${checks}</ul>
+      <h2>Common mistakes</h2>
+      <ul>${mistakes}</ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with ${relatedLinks}.</p>
+    </main>
+    ${footer()}
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
+`;
+}
+
 function forumHtml() {
   const schema = {
     "@context": "https://schema.org",
@@ -212,7 +374,7 @@ function forumHtml() {
   };
   return `<!doctype html>
 <html lang="en">
-  ${head("Formalint Developer Forum - Softest Debugging Lounge", forumPage.summary, "forum.html", schema, '\n    <script defer src="assets/js/forum.js"></script>')}
+  ${head("Formalint Developer Forum - Softest Debugging Lounge", forumPage.summary, "forum.html", schema, `\n    <script defer src="assets/js/forum.js?v=${CACHE_VERSION}"></script>`)}
   <body>
     ${header("forum.html")}
     <main class="forum-page" data-forum-board>
@@ -235,6 +397,15 @@ function forumHtml() {
           <label for="forumTopic">Topic<select id="forumTopic"><option>General</option><option>Regex</option><option>JSON</option><option>API</option><option>DBA</option><option>Linux</option><option>Frontend</option><option>AdSense and SEO</option></select></label>
           <label for="forumTitle">Title<input id="forumTitle" maxlength="120" placeholder="Example: Regex works locally but fails in JavaScript"></label>
           <label for="forumBody">Details<textarea id="forumBody" maxlength="1200" placeholder="What did you expect, what happened, what did you try, and what safe sample can someone inspect?"></textarea></label>
+          <div class="forum-emoji-row" aria-label="Add tone to your note">
+            <span>Tone:</span>
+            <button type="button" data-forum-emoji="🙂" aria-label="Add friendly emoji">🙂</button>
+            <button type="button" data-forum-emoji="👍" aria-label="Add thumbs up emoji">👍</button>
+            <button type="button" data-forum-emoji="✅" aria-label="Add check emoji">✅</button>
+            <button type="button" data-forum-emoji="⚠️" aria-label="Add warning emoji">⚠️</button>
+            <button type="button" data-forum-emoji="💡" aria-label="Add idea emoji">💡</button>
+            <button type="button" data-forum-emoji="🙏" aria-label="Add thanks emoji">🙏</button>
+          </div>
           <p class="forum-note">Posts in this version stay in this browser. Do not paste secrets, tokens, cookies, private keys or customer data.</p>
           <div class="forum-actions">
             <button type="submit" class="primary-action">Save local post</button>
@@ -270,7 +441,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -325,15 +496,15 @@ function normalizeToolCard(markup) {
   return markup.trim().split("\n").map((line) => `          ${line.trim()}`).join("\n");
 }
 
-function sectionMarkup(id, eyebrow, h2, pages) {
+function sectionMarkup(id, eyebrow, h2, pages, includeForum = false) {
+  const cards = includeForum ? [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(pages) : pages;
   return `      <section class="directory-section" aria-labelledby="${id}" data-tools-section>
         <div class="section-heading">
           <p class="eyebrow">${eyebrow}</p>
           <h2 id="${id}">${h2}</h2>
         </div>
         <div class="directory-grid">
-          ${normalizeToolCard(`<a class="tool-card" href="${forumPage.file}"><span>${forumPage.h1}</span><small>${forumPage.summary}</small></a>`)}
-${pages.map((page) => normalizeToolCard(card(page))).join("\n")}
+${cards.map((page) => normalizeToolCard(card(page))).join("\n")}
         </div>
       </section>
 
@@ -349,7 +520,10 @@ function updateToolsPage() {
   if (!html.includes('data-tools-query="softest"')) {
     html = html.replace('          <button type="button" data-tools-query="devtools" data-tools-topic-jump="browser">devtools</button>', '          <button type="button" data-tools-query="devtools" data-tools-topic-jump="browser">devtools</button>\n          <button type="button" data-tools-query="softest" data-tools-topic-jump="community">softest</button>\n          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>');
   }
-  const content = sectionMarkup("community-forum-title", "Community forum", "Forum, question templates and safe debugging threads", guidePages);
+  if (!html.includes('data-tools-query="email regex"')) {
+    html = html.replace('          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>', '          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>\n          <button type="button" data-tools-query="email regex" data-tools-topic-jump="regex">email regex</button>\n          <button type="button" data-tools-query="email validation" data-tools-topic-jump="regex">email validation</button>');
+  }
+  const content = sectionMarkup("community-forum-title", "Community forum", "Forum, question templates and safe debugging threads", guidePages, true);
   html = replaceOrInsertManagedBlock(
     html,
     "      <!-- Formalint community sections start -->",
@@ -357,13 +531,21 @@ function updateToolsPage() {
     content,
     "      <!-- Formalint living index sections start -->"
   );
+  const emailContent = sectionMarkup("email-validation-title", "Email validation", "Email regex, syntax checks and validation workflows", emailValidationPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint email validation sections start -->",
+    "      <!-- Formalint email validation sections end -->",
+    emailContent,
+    "      <!-- Formalint community sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages);
+  const additions = [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -401,11 +583,27 @@ ${links.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", hr
       ]
     },
 `;
+  const emailLinks = emailValidationPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const emailGroup = `    {
+      title: "Email Validation",
+      mode: "regex",
+      description: "Review email regex patterns, validation test cases and language-specific implementation notes.",
+      links: [
+${emailLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group,
+    group + emailGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -447,18 +645,30 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("228 Page Email Validation Update")) {
+    const entry = `      <h2>September 14, 2026 - 228 Page Email Validation Update</h2>
+      <p>Expanded Formalint to 228 public pages with a focused email validation cluster covering email regex cheatsheets, test cases, JavaScript, TypeScript, PHP, Python, DNS domain checks and disposable email policy. The update keeps the forum emoji composer, refreshes cache versions, updates the tools directory, sidebar discovery, sitemap lastmod values and changelog for the daily maintained release.</p>
+`;
+    html = html.replace("      <h2>September 9, 2026 - Forum Emoji Composer Update</h2>", entry + "      <h2>September 9, 2026 - Forum Emoji Composer Update</h2>");
+  }
   if (!html.includes("220 Page Community Forum Update")) {
     const entry = `      <h2>September 8, 2026 - 220 Page Community Forum Update</h2>
       <p>Expanded Formalint to 220 public pages and added the local-first Formalint Developer Forum. The forum creates playful Softest handles in the browser, lets visitors draft safe debugging posts locally and links to new guides for forum questions, minimal reproductions, bug reports, code review questions, API debugging threads, database incident posts and community moderation. Updated tools discovery, sidebar navigation, cache version and sitemap for the daily maintained release.</p>
 `;
     html = html.replace("      <h2>September 8, 2026 - 212 Page Living Index Update</h2>", entry + "      <h2>September 8, 2026 - 212 Page Living Index Update</h2>");
-    fs.writeFileSync(file, html, "utf8");
   }
+  if (!html.includes("Forum Emoji Composer Update")) {
+    const entry = `      <h2>September 9, 2026 - Forum Emoji Composer Update</h2>
+      <p>Added an emoji tone bar to the local-first Formalint Developer Forum so visitors can make short technical notes warmer and clearer without creating accounts or sharing personal identity. Updated forum JavaScript, forum styling, cache version and sitemap lastmod values for the daily maintained release.</p>
+`;
+    html = html.replace("      <h2>September 8, 2026 - 220 Page Community Forum Update</h2>", entry + "      <h2>September 8, 2026 - 220 Page Community Forum Update</h2>");
+  }
+  fs.writeFileSync(file, html, "utf8");
 }
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set([forumPage.file].concat(guidePages.map((page) => page.file)));
+  const newPageFiles = new Set([forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -477,6 +687,7 @@ ${body}
 }
 
 guidePages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), guidePage(page), "utf8"));
+emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

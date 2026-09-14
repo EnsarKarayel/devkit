@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Email Validation in JavaScript | Formalint</title>
+    <meta name="description" content="Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/email-validation-javascript-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260914-email-validation">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/email-validation-javascript-guide.html#article","headline":"Email Validation in JavaScript","description":"Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries.","datePublished":"2026-09-14","dateModified":"2026-09-14","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/email-validation-javascript-guide.html","keywords":"email validation javascript regex guide form validation"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Email Validation</p>
+      <h1>Email Validation in JavaScript</h1>
+      <p class="guide-meta">Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries. Last updated September 14, 2026.</p>
+      <p>Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Trim before checking</td><td>Whitespace around a copied address should not become a mysterious form failure.</td></tr><tr><td>Show helpful errors</td><td>Tell the user what is missing without exposing internal rules.</td></tr><tr><td>Keep the server authoritative</td><td>Browser validation improves UX, but server validation protects data quality.</td></tr><tr><td>Measure failures</td><td>Unexpected validation drop-offs can reveal a bad pattern.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>const email = input.value.trim();
+const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Use input type email as a hint, not the only rule.</li><li>Avoid blocking paste, plus tags or normal subdomains.</li><li>Keep validation messages short and specific.</li><li>Store normalized values consistently.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Depending only on HTML5 validation for API data.</li><li>Mutating the user&#39;s address silently.</li><li>Logging full email addresses in analytics events.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="email-regex-cheatsheet.html">Email Regex Cheatsheet</a>, <a href="javascript-regex-cheatsheet.html">Javascript Regex Cheatsheet</a>, <a href="regex-email-validator.html">Regex Email Validator</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

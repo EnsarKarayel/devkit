@@ -2778,6 +2778,43 @@ body.with-app-sidebar .consent-banner {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+.forum-emoji-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #28313c;
+  border-radius: 8px;
+  background: #111821;
+}
+
+.forum-emoji-row span {
+  color: #93a5b7;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.forum-emoji-row button {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #303844;
+  border-radius: 8px;
+  background: #1b222c;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.forum-emoji-row button:hover,
+.forum-emoji-row button:focus-visible {
+  border-color: rgba(76, 166, 255, 0.66);
+  background: #202b38;
+  transform: translateY(-1px);
+}
+
 .forum-actions {
   display: flex;
   flex-wrap: wrap;

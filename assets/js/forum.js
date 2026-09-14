@@ -19,6 +19,7 @@
   var titleInput = root.querySelector("#forumTitle");
   var bodyInput = root.querySelector("#forumBody");
   var topicInput = root.querySelector("#forumTopic");
+  var emojiButtons = Array.prototype.slice.call(root.querySelectorAll("[data-forum-emoji]"));
 
   var seedPosts = [
     {
@@ -180,6 +181,23 @@
     }
   }
 
+  function insertAtCursor(input, value) {
+    if (!input || !value) {
+      return;
+    }
+    var start = typeof input.selectionStart === "number" ? input.selectionStart : input.value.length;
+    var end = typeof input.selectionEnd === "number" ? input.selectionEnd : input.value.length;
+    var prefix = input.value.slice(0, start);
+    var suffix = input.value.slice(end);
+    var next = prefix + value + suffix;
+    input.value = next.slice(0, Number(input.getAttribute("maxlength")) || next.length);
+    var cursor = Math.min(prefix.length + value.length, input.value.length);
+    input.focus();
+    if (input.setSelectionRange) {
+      input.setSelectionRange(cursor, cursor);
+    }
+  }
+
   updateHandle();
   render();
 
@@ -229,6 +247,13 @@
       copyText(draftText());
     });
   }
+
+  emojiButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      insertAtCursor(bodyInput, button.getAttribute("data-forum-emoji") || "");
+      setStatus("Emoji added to your note.");
+    });
+  });
 
   if (clear) {
     clear.addEventListener("click", function () {

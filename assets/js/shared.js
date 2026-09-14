@@ -341,6 +341,21 @@
         { label: "Community Moderation Policy", href: "community-moderation-policy.html", icon: "MOD", description: "Define Formalint forum rules for safe samples, respectful technical discussion, no secrets, no spam and practical developer help.", keywords: "community moderation policy developer forum rules safe samples" }
       ]
     },
+    {
+      title: "Email Validation",
+      mode: "regex",
+      description: "Review email regex patterns, validation test cases and language-specific implementation notes.",
+      links: [
+        { label: "Email Regex Cheatsheet", href: "email-regex-cheatsheet.html", icon: "@", description: "Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports.", keywords: "email regex cheatsheet email validation regex examples" },
+        { label: "Email Regex Test Cases", href: "email-regex-test-cases.html", icon: "TST", description: "Use a focused list of valid and invalid email samples to review regex behavior before shipping a form or API validator.", keywords: "email regex test cases valid invalid email examples" },
+        { label: "Email Validation in JavaScript", href: "email-validation-javascript-guide.html", icon: "JS", description: "Validate email input in JavaScript with clear client-side hints, safe trimming and server-side verification boundaries.", keywords: "email validation javascript regex guide form validation" },
+        { label: "Email Validation in TypeScript", href: "email-validation-typescript-guide.html", icon: "TS", description: "Model email validation in TypeScript with typed results, reusable helpers and safe error messages for frontend and API code.", keywords: "email validation typescript regex typed validator" },
+        { label: "Email Validation in PHP", href: "email-regex-php-validation-guide.html", icon: "PHP", description: "Validate email addresses in PHP with filter_var, regex fallback rules and safe handling for forms, imports and logs.", keywords: "email validation php regex filter_var guide" },
+        { label: "Email Validation in Python", href: "email-validation-python-guide.html", icon: "PY", description: "Validate email input in Python services with simple syntax checks, normalization notes and batch import safeguards.", keywords: "email validation python regex guide data import" },
+        { label: "Email Domain DNS Validation Guide", href: "email-domain-dns-validation-guide.html", icon: "DNS", description: "Check email domains with DNS-aware validation boundaries, MX expectations and safe fallback behavior for signup flows.", keywords: "email domain dns validation mx records guide" },
+        { label: "Disposable Email Detection Guide", href: "disposable-email-detection-guide.html", icon: "MAIL", description: "Plan disposable email checks as a product policy layer instead of confusing them with basic email regex validation.", keywords: "disposable email detection guide validation security" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start
