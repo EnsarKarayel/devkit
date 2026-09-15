@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260914-email-validation">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260915-lint-cleanup">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 228 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 236 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -92,6 +92,7 @@
           <span>Popular:</span>
           <button type="button" data-tools-query="email regex" data-tools-topic-jump="regex">email regex</button>
           <button type="button" data-tools-query="xml linter" data-tools-topic-jump="formatter">xml linter</button>
+          <button type="button" data-tools-query="yaml lint" data-tools-topic-jump="formatter">yaml lint</button>
           <button type="button" data-tools-query="sql cleanup" data-tools-topic-jump="formatter">sql cleanup</button>
           <button type="button" data-tools-query="jwt" data-tools-topic-jump="api">jwt</button>
           <button type="button" data-tools-query="docker" data-tools-topic-jump="ops">docker</button>
@@ -108,7 +109,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 228 resources</span>
+          <span id="toolsDirectoryCount">Showing 236 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -261,6 +262,26 @@
         </div>
       </section>
 
+
+      <!-- Formalint lint cleanup sections start -->
+      <section class="directory-section" aria-labelledby="lint-cleanup-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Lint and cleanup</p>
+          <h2 id="lint-cleanup-title">XML, YAML, SQL and JSON cleanup references</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="xml-lint-error-guide.html"><span>XML Lint Error</span><small>Decode common XML lint errors, line-column messages, malformed tags, escaping mistakes and namespace problems before fixing production payloads.</small></a>
+          <a class="tool-card" href="xml-well-formed-vs-valid-guide.html"><span>XML Well-Formed vs Valid</span><small>Understand the difference between well-formed XML syntax and schema-valid XML before debugging integrations, feeds or SOAP messages.</small></a>
+          <a class="tool-card" href="yaml-lint-error-guide.html"><span>YAML Lint Error</span><small>Fix YAML lint errors caused by indentation, list nesting, tabs, duplicate keys and confusing scalar values in config files.</small></a>
+          <a class="tool-card" href="yaml-ci-linting-guide.html"><span>YAML CI Linting</span><small>Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration.</small></a>
+          <a class="tool-card" href="sql-cleanup-checklist.html"><span>SQL Cleanup Checklist</span><small>Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes.</small></a>
+          <a class="tool-card" href="sql-query-formatting-review-guide.html"><span>SQL Query Formatting Review</span><small>Review formatted SQL by checking readability, data scope, execution risk and safe examples instead of only whitespace style.</small></a>
+          <a class="tool-card" href="json-lint-error-guide.html"><span>JSON Lint Error</span><small>Fix JSON lint errors around trailing commas, invalid quotes, comments, escaping, arrays and object shape before API debugging.</small></a>
+          <a class="tool-card" href="config-file-validation-guide.html"><span>Config File Validation</span><small>Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint lint cleanup sections end -->
 
       <!-- Formalint email validation sections start -->
       <section class="directory-section" aria-labelledby="email-validation-title" data-tools-section>

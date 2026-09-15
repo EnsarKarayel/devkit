@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260914-email-validation";
-const LIBRARY_COUNT = 228;
-const TODAY = "2026-09-14";
-const HUMAN_DATE = "September 14, 2026";
+const CACHE_VERSION = "20260915-lint-cleanup";
+const LIBRARY_COUNT = 236;
+const TODAY = "2026-09-15";
+const HUMAN_DATE = "September 15, 2026";
 
 const guidePages = [
   {
@@ -206,6 +206,121 @@ const emailValidationPages = [
     checks: ["Keep allowlist overrides for trusted partners.", "Version domain lists so support can explain decisions.", "Do not expose internal risk scores to the browser.", "Review conversion impact after policy changes."],
     mistakes: ["Blocking whole providers without measuring legitimate usage.", "Mixing anti-abuse logic into a reusable regex helper.", "Using copied domain lists with no maintenance owner."],
     related: ["email-domain-dns-validation-guide.html", "secure-cookie-checklist.html", "secrets-redaction-checklist.html"]
+  }
+];
+
+const lintCleanupPages = [
+  {
+    file: "xml-lint-error-guide.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "XML",
+    h1: "XML Lint Error Guide",
+    summary: "Decode common XML lint errors, line-column messages, malformed tags, escaping mistakes and namespace problems before fixing production payloads.",
+    keywords: "xml lint error guide xmllint xml linter malformed xml",
+    command: "xmllint --noout payload.xml\n# Check the first reported line, then validate again after each fix.",
+    workflow: [["Read the first error first", "Later XML errors are often side effects of one missing bracket, quote or closing tag."], ["Check escaping", "Raw ampersands and angle brackets inside text nodes are common payload failures."], ["Verify namespaces", "A valid-looking tag can fail when the namespace declaration is missing or mismatched."], ["Retest after each fix", "One small XML repair can change the next reported line number."]],
+    checks: ["Confirm every opening tag has the intended closing tag.", "Escape text values before pasting examples into public tools.", "Keep sample XML small enough to inspect manually.", "Separate well-formedness errors from schema validation errors."],
+    mistakes: ["Starting with schema rules before the document is well formed.", "Sharing private XML payloads without redaction.", "Fixing all reported lines at once and losing the original root cause."],
+    related: ["xml-linter.html", "xml-namespace-debugging-guide.html", "xml-schema-xsd-guide.html"]
+  },
+  {
+    file: "xml-well-formed-vs-valid-guide.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "XSD",
+    h1: "XML Well-Formed vs Valid Guide",
+    summary: "Understand the difference between well-formed XML syntax and schema-valid XML before debugging integrations, feeds or SOAP messages.",
+    keywords: "xml well formed vs valid xsd validation guide",
+    command: "Well-formed: parser can read the XML\nValid: XML also satisfies DTD or XSD rules",
+    workflow: [["Parse first", "A schema validator cannot help until the document is readable XML."], ["Validate second", "Only after parsing should you check XSD-required elements, attributes and types."], ["Compare contracts", "Integration bugs often come from using an old schema or undocumented partner change."], ["Document unsupported cases", "Record which optional fields your system intentionally ignores."]],
+    checks: ["Run a no-schema lint before an XSD validation.", "Keep example payloads synthetic and minimal.", "Version schemas next to integration code.", "Link validation failures to the owning contract or partner spec."],
+    mistakes: ["Calling XML valid just because it opens in a formatter.", "Assuming pretty printed XML means contract compliance.", "Mixing partner-specific rules into a generic XML cleanup function."],
+    related: ["xml-lint-error-guide.html", "xml-schema-xsd-guide.html", "api-request-body-validation-guide.html"]
+  },
+  {
+    file: "yaml-lint-error-guide.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "YML",
+    h1: "YAML Lint Error Guide",
+    summary: "Fix YAML lint errors caused by indentation, list nesting, tabs, duplicate keys and confusing scalar values in config files.",
+    keywords: "yaml lint error guide yaml linter indentation duplicate keys",
+    command: "yamllint config.yml\n# Fix indentation before changing application settings.",
+    workflow: [["Look at indentation", "Most YAML failures start with a list item or map key aligned one level too far."], ["Remove tabs", "Tabs are hard to see and many parsers reject them."], ["Check duplicate keys", "Some parsers silently keep the last value, which makes reviews dangerous."], ["Retest with the app", "YAML can be syntactically valid while still wrong for Docker, CI or Kubernetes."]],
+    checks: ["Use spaces consistently.", "Quote values that look like booleans, dates or version numbers when meaning matters.", "Keep environment secrets out of public examples.", "Validate with the target platform after generic linting."],
+    mistakes: ["Changing indentation and semantic values in the same edit.", "Trusting a formatter to understand product-specific schema rules.", "Copying production secrets into troubleshooting samples."],
+    related: ["yaml-lint-checklist.html", "yaml-indentation.html", "yaml-docker-compose-guide.html"]
+  },
+  {
+    file: "yaml-ci-linting-guide.html",
+    category: "Lint and Cleanup",
+    mode: "delivery",
+    icon: "CI",
+    h1: "YAML CI Linting Guide",
+    summary: "Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration.",
+    keywords: "yaml ci linting guide github actions yamllint pipeline",
+    command: "yamllint .github/workflows docker-compose.yml k8s/\n# Fail on syntax and risky structure first.",
+    workflow: [["Start with safety rules", "Syntax errors, duplicate keys and tabs should fail before style preferences."], ["Scope the paths", "Lint workflow, Docker, Kubernetes and config folders separately."], ["Use examples in reviews", "A failing lint message should point to a small, teachable config pattern."], ["Tune gradually", "Strict style rules are easier to adopt after the team trusts the signal."]],
+    checks: ["Keep CI lint output short enough to read.", "Document suppressions and why they exist.", "Avoid printing secret-expanded config.", "Run product-specific validation after generic YAML linting."],
+    mistakes: ["Failing builds on cosmetic style before syntax safety is stable.", "Linting generated files that developers cannot edit.", "Using one config for every repository without context."],
+    related: ["github-actions-debugging-guide.html", "yaml-lint-error-guide.html", "ci-failing-tests-debugging-guide.html"]
+  },
+  {
+    file: "sql-cleanup-checklist.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "SQL",
+    h1: "SQL Cleanup Checklist",
+    summary: "Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes.",
+    keywords: "sql cleanup checklist clean sql formatter query review",
+    command: "1. Format\n2. Name aliases\n3. Check joins\n4. Check WHERE\n5. Run EXPLAIN when behavior changes",
+    workflow: [["Format without changing logic", "The first pass should make the query readable while preserving behavior."], ["Name every alias", "Meaningful aliases make joins and selected fields easier to review."], ["Inspect filters", "WHERE clauses decide data scope, security and performance."], ["Review plans after edits", "A readable query can still become slower if predicates or joins change."]],
+    checks: ["Keep formatting commits separate from behavior changes when possible.", "Avoid SELECT star in shared reports and API queries.", "Use parameters rather than string-built values.", "Compare row counts before and after cleanup."],
+    mistakes: ["Mixing a cosmetic cleanup with a logic rewrite.", "Changing join type to make the result look right.", "Removing parentheses from complex boolean filters without tests."],
+    related: ["sql-cleanup.html", "sql-join-debugging-guide.html", "postgresql-explain-analyze-guide.html"]
+  },
+  {
+    file: "sql-query-formatting-review-guide.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "QRY",
+    h1: "SQL Query Formatting Review Guide",
+    summary: "Review formatted SQL by checking readability, data scope, execution risk and safe examples instead of only whitespace style.",
+    keywords: "sql query formatting review guide sql formatter lint",
+    command: "Review order: selected columns -> joins -> filters -> grouping -> ordering -> limits",
+    workflow: [["Read the query top down", "A reviewer should understand selected fields before digging into filters."], ["Verify data ownership", "Team, tenant, account and permission filters deserve explicit attention."], ["Check aggregation", "GROUP BY mistakes often look like formatting changes until totals are wrong."], ["Keep a rollback note", "Production SQL changes need an easy way back."]],
+    checks: ["Confirm aliases match business meaning.", "Check ORDER BY and LIMIT when pagination is involved.", "Run read-only verification queries for changed reports.", "Redact real IDs before asking for help."],
+    mistakes: ["Approving a formatted query because it looks neat.", "Forgetting tenant or team scope during cleanup.", "Comparing only one example row after a rewrite."],
+    related: ["sql-cleanup-checklist.html", "sql-group-by-debugging-guide.html", "database-incident-forum-template.html"]
+  },
+  {
+    file: "json-lint-error-guide.html",
+    category: "Lint and Cleanup",
+    mode: "formatter",
+    icon: "JSON",
+    h1: "JSON Lint Error Guide",
+    summary: "Fix JSON lint errors around trailing commas, invalid quotes, comments, escaping, arrays and object shape before API debugging.",
+    keywords: "json lint error guide json linter parse error trailing comma",
+    command: "JSON.parse(payload)\n# Fix the first syntax error, then validate shape separately.",
+    workflow: [["Fix syntax first", "A parser error is different from an API contract error."], ["Look for JavaScript habits", "Single quotes, comments and trailing commas are not valid JSON."], ["Check escaping", "Newlines, quotes and backslashes inside strings need careful handling."], ["Validate shape second", "After parsing, compare required fields, types and arrays against the API contract."]],
+    checks: ["Use double quotes for keys and strings.", "Remove trailing commas before sending payloads.", "Keep examples tiny and synthetic.", "Separate parse errors from schema errors in UI messages."],
+    mistakes: ["Calling a JavaScript object literal JSON.", "Pasting secrets into public formatters.", "Trying to debug server validation before the payload parses."],
+    related: ["json-formatting-guide.html", "json-schema-guide.html", "api-request-body-validation-guide.html"]
+  },
+  {
+    file: "config-file-validation-guide.html",
+    category: "Lint and Cleanup",
+    mode: "ops",
+    icon: "CFG",
+    h1: "Config File Validation Guide",
+    summary: "Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.",
+    keywords: "config file validation guide json yaml xml env ini lint",
+    command: "syntax check -> schema check -> secret scan -> environment review -> deploy dry run",
+    workflow: [["Start with syntax", "A malformed file should fail before deployment-specific checks begin."], ["Apply schema rules", "Product schemas catch missing keys and wrong value types."], ["Scan for secrets", "Config reviews must prevent tokens and passwords from entering public repos."], ["Test in a safe environment", "The best config validation ends with a dry run or staging deploy."]],
+    checks: ["Choose the parser that matches the real runtime.", "Keep environment-specific values documented.", "Avoid committing generated config snapshots.", "Record who owns each critical setting."],
+    mistakes: ["Using one generic linter as proof that deployment is safe.", "Mixing sample config and live secrets.", "Skipping rollback notes for config-only changes."],
+    related: ["json-lint-error-guide.html", "yaml-lint-error-guide.html", "xml-lint-error-guide.html"]
   }
 ];
 
@@ -441,7 +556,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -523,6 +638,12 @@ function updateToolsPage() {
   if (!html.includes('data-tools-query="email regex"')) {
     html = html.replace('          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>', '          <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>\n          <button type="button" data-tools-query="email regex" data-tools-topic-jump="regex">email regex</button>\n          <button type="button" data-tools-query="email validation" data-tools-topic-jump="regex">email validation</button>');
   }
+  if (!html.includes('data-tools-query="xml linter"')) {
+    html = html.replace('          <button type="button" data-tools-query="email validation" data-tools-topic-jump="regex">email validation</button>', '          <button type="button" data-tools-query="email validation" data-tools-topic-jump="regex">email validation</button>\n          <button type="button" data-tools-query="xml linter" data-tools-topic-jump="formatter">xml linter</button>\n          <button type="button" data-tools-query="yaml lint" data-tools-topic-jump="formatter">yaml lint</button>\n          <button type="button" data-tools-query="sql cleanup" data-tools-topic-jump="formatter">sql cleanup</button>');
+  }
+  if (!html.includes('data-tools-query="yaml lint"')) {
+    html = html.replace('          <button type="button" data-tools-query="xml linter" data-tools-topic-jump="formatter">xml linter</button>', '          <button type="button" data-tools-query="xml linter" data-tools-topic-jump="formatter">xml linter</button>\n          <button type="button" data-tools-query="yaml lint" data-tools-topic-jump="formatter">yaml lint</button>');
+  }
   const content = sectionMarkup("community-forum-title", "Community forum", "Forum, question templates and safe debugging threads", guidePages, true);
   html = replaceOrInsertManagedBlock(
     html,
@@ -539,13 +660,21 @@ function updateToolsPage() {
     emailContent,
     "      <!-- Formalint community sections start -->"
   );
+  const lintContent = sectionMarkup("lint-cleanup-title", "Lint and cleanup", "XML, YAML, SQL and JSON cleanup references", lintCleanupPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint lint cleanup sections start -->",
+    "      <!-- Formalint lint cleanup sections end -->",
+    lintContent,
+    "      <!-- Formalint email validation sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages);
+  const additions = [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -599,11 +728,27 @@ ${emailLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}
       ]
     },
 `;
+  const lintLinks = lintCleanupPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const lintGroup = `    {
+      title: "Lint and Cleanup",
+      mode: "formatter",
+      description: "Fix XML, YAML, SQL and JSON lint errors with reviewable cleanup workflows.",
+      links: [
+${lintLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup,
+    group + emailGroup + lintGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -645,6 +790,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("236 Page Lint and Cleanup Update")) {
+    const entry = `      <h2>September 15, 2026 - 236 Page Lint and Cleanup Update</h2>
+      <p>Expanded Formalint to 236 public pages with a lint and cleanup cluster for XML lint errors, XML well-formed versus valid checks, YAML lint errors, YAML CI linting, SQL cleanup, SQL formatting review, JSON lint errors and config file validation. Updated the tools directory, quick search chips, sidebar discovery, cache version, sitemap lastmod values and changelog for the daily maintained release.</p>
+`;
+    html = html.replace("      <h2>September 14, 2026 - 228 Page Email Validation Update</h2>", entry + "      <h2>September 14, 2026 - 228 Page Email Validation Update</h2>");
+  }
   if (!html.includes("228 Page Email Validation Update")) {
     const entry = `      <h2>September 14, 2026 - 228 Page Email Validation Update</h2>
       <p>Expanded Formalint to 228 public pages with a focused email validation cluster covering email regex cheatsheets, test cases, JavaScript, TypeScript, PHP, Python, DNS domain checks and disposable email policy. The update keeps the forum emoji composer, refreshes cache versions, updates the tools directory, sidebar discovery, sitemap lastmod values and changelog for the daily maintained release.</p>
@@ -668,7 +819,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set([forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file)));
+  const newPageFiles = new Set([forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -688,6 +839,7 @@ ${body}
 
 guidePages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), guidePage(page), "utf8"));
 emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

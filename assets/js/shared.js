@@ -356,6 +356,21 @@
         { label: "Disposable Email Detection Guide", href: "disposable-email-detection-guide.html", icon: "MAIL", description: "Plan disposable email checks as a product policy layer instead of confusing them with basic email regex validation.", keywords: "disposable email detection guide validation security" }
       ]
     },
+    {
+      title: "Lint and Cleanup",
+      mode: "formatter",
+      description: "Fix XML, YAML, SQL and JSON lint errors with reviewable cleanup workflows.",
+      links: [
+        { label: "XML Lint Error Guide", href: "xml-lint-error-guide.html", icon: "XML", description: "Decode common XML lint errors, line-column messages, malformed tags, escaping mistakes and namespace problems before fixing production payloads.", keywords: "xml lint error guide xmllint xml linter malformed xml" },
+        { label: "XML Well-Formed vs Valid Guide", href: "xml-well-formed-vs-valid-guide.html", icon: "XSD", description: "Understand the difference between well-formed XML syntax and schema-valid XML before debugging integrations, feeds or SOAP messages.", keywords: "xml well formed vs valid xsd validation guide" },
+        { label: "YAML Lint Error Guide", href: "yaml-lint-error-guide.html", icon: "YML", description: "Fix YAML lint errors caused by indentation, list nesting, tabs, duplicate keys and confusing scalar values in config files.", keywords: "yaml lint error guide yaml linter indentation duplicate keys" },
+        { label: "YAML CI Linting Guide", href: "yaml-ci-linting-guide.html", icon: "CI", description: "Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration.", keywords: "yaml ci linting guide github actions yamllint pipeline" },
+        { label: "SQL Cleanup Checklist", href: "sql-cleanup-checklist.html", icon: "SQL", description: "Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes.", keywords: "sql cleanup checklist clean sql formatter query review" },
+        { label: "SQL Query Formatting Review Guide", href: "sql-query-formatting-review-guide.html", icon: "QRY", description: "Review formatted SQL by checking readability, data scope, execution risk and safe examples instead of only whitespace style.", keywords: "sql query formatting review guide sql formatter lint" },
+        { label: "JSON Lint Error Guide", href: "json-lint-error-guide.html", icon: "JSON", description: "Fix JSON lint errors around trailing commas, invalid quotes, comments, escaping, arrays and object shape before API debugging.", keywords: "json lint error guide json linter parse error trailing comma" },
+        { label: "Config File Validation Guide", href: "config-file-validation-guide.html", icon: "CFG", description: "Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.", keywords: "config file validation guide json yaml xml env ini lint" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start
