@@ -120,6 +120,7 @@
       mode: "data",
       description: "Format, lint and clean the payload or code sample you are actively debugging.",
       links: [
+        { label: "All-in-One Workspace", href: "workspace.html", icon: "{+}", description: "Keep JSON inspection, transforms and instant developer utilities in one local-first workstation.", keywords: "developer workspace json formatter tree regex epoch url sha256" },
         { label: "JSON Formatter", href: "index.html", icon: "{ }", description: "Format, minify, validate and inspect JSON tree output.", keywords: "json formatter json validator json beautifier json lint" },
         { label: "XML Formatter", href: "xml-formatter.html", icon: "</>", description: "Beautify XML and catch malformed structure before integration tests.", keywords: "xml formatter xml beautifier xml validator" },
         { label: "XML Linter", href: "xml-linter.html", icon: "XML", description: "Lint XML structure, parser errors and common document mistakes.", keywords: "xml lint xml linter xmllint xml validator" },

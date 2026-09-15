@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260915-lint-cleanup";
-const LIBRARY_COUNT = 236;
+const CACHE_VERSION = "20260915-workspace";
+const LIBRARY_COUNT = 237;
 const TODAY = "2026-09-15";
 const HUMAN_DATE = "September 15, 2026";
 
@@ -348,6 +348,7 @@ function header(activeHref) {
     ["yaml-formatter.html", "YAML"],
     ["sql-formatter.html", "SQL"],
     ["python-formatter.html", "Python"],
+    ["workspace.html", "Workspace"],
     ["tools.html", "All Tools"],
     ["guides.html", "Guides"],
     ["forum.html", "Forum"],
@@ -629,6 +630,18 @@ ${cards.map((page) => normalizeToolCard(card(page))).join("\n")}
 function updateToolsPage() {
   const file = path.join(ROOT, "tools.html");
   let html = fs.readFileSync(file, "utf8");
+  const workspaceContent = sectionMarkup("workspace-title", "Developer workspace", "A local-first multi-tool workstation for active debugging", [{
+    file: "workspace.html",
+    h1: "All-in-One Developer Workspace",
+    summary: "Format and inspect JSON, generate TypeScript and XML, test regex, convert timestamps, encode URLs and compute SHA-256 hashes without leaving the page."
+  }]);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint workspace section start -->",
+    "      <!-- Formalint workspace section end -->",
+    workspaceContent,
+    '      <section class="directory-section" aria-labelledby="formatters-title" data-tools-section>'
+  );
   if (!html.includes('data-tools-topic="community"')) {
     html = html.replace('          <button type="button" data-tools-topic="browser" aria-pressed="false">Browser</button>', '          <button type="button" data-tools-topic="browser" aria-pressed="false">Browser</button>\n          <button type="button" data-tools-topic="community" aria-pressed="false">Community</button>');
   }
@@ -674,7 +687,7 @@ function updateToolsPage() {
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -694,6 +707,12 @@ function updateHomeAndGuides() {
 function updateSharedSidebar() {
   const file = path.join(ROOT, "assets", "js", "shared.js");
   let js = fs.readFileSync(file, "utf8");
+  if (!js.includes('{ label: "All-in-One Workspace", href: "workspace.html"')) {
+    js = js.replace(
+      '      links: [\n        { label: "JSON Formatter", href: "index.html"',
+      '      links: [\n        { label: "All-in-One Workspace", href: "workspace.html", icon: "{+}", description: "Keep JSON inspection, transforms and instant developer utilities in one local-first workstation.", keywords: "developer workspace json formatter tree regex epoch url sha256" },\n        { label: "JSON Formatter", href: "index.html"'
+    );
+  }
   const links = [
     { label: "Formalint Developer Forum", href: "forum.html", icon: "CHAT", description: forumPage.summary, keywords: "forum softest developer questions community debugging" }
   ].concat(guidePages.map((page) => ({
@@ -790,6 +809,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("All-in-One Developer Workspace Update")) {
+    const entry = `      <h2>September 15, 2026 - All-in-One Developer Workspace Update</h2>
+      <p>Added a dense local-first workstation that combines JSON formatting, validation, interactive tree inspection, JSONPath selection, TypeScript and schema generation, YAML and XML transforms, regex matching, epoch conversion, URL encoding and SHA-256 hashing. Added keyboard commands, file loading, exports, privacy documentation links, tools discovery, sidebar navigation and sitemap coverage.</p>
+`;
+    html = html.replace("      <h2>September 15, 2026 - 236 Page Lint and Cleanup Update</h2>", entry + "      <h2>September 15, 2026 - 236 Page Lint and Cleanup Update</h2>");
+  }
   if (!html.includes("236 Page Lint and Cleanup Update")) {
     const entry = `      <h2>September 15, 2026 - 236 Page Lint and Cleanup Update</h2>
       <p>Expanded Formalint to 236 public pages with a lint and cleanup cluster for XML lint errors, XML well-formed versus valid checks, YAML lint errors, YAML CI linting, SQL cleanup, SQL formatting review, JSON lint errors and config file validation. Updated the tools directory, quick search chips, sidebar discovery, cache version, sitemap lastmod values and changelog for the daily maintained release.</p>
@@ -819,7 +844,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set([forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";

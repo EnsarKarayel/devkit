@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>JSON Formatter & Developer Workspace | Formalint</title>
+    <meta name="description" content="Format and inspect JSON, generate TypeScript and XML, test regex, convert timestamps, encode URLs and compute SHA-256 hashes locally in one browser workspace.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/workspace.html">
+    <meta property="og:title" content="Formalint All-in-One Developer Workspace">
+    <meta property="og:description" content="A private, local-first JSON workbench with instant developer utilities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://formalint.com/workspace.html">
+    <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#090d16">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260915-workspace">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Formalint Developer Workspace","url":"https://formalint.com/workspace.html","applicationCategory":"DeveloperApplication","operatingSystem":"Any modern browser","description":"A local-first JSON formatter, tree inspector and instant developer utility workspace.","isAccessibleForFree":true,"author":{"@type":"Person","name":"Ensar Karayel"},"featureList":["JSON formatting and validation","Interactive JSON tree","TypeScript and XML generation","Regex matcher","Epoch converter","URL codec","SHA-256 digest"]}</script>
+    <script defer src="assets/js/workspace.js?v=20260915-workspace"></script>
+  </head>
+  <body class="workspace-page">
+    <header class="workspace-topbar">
+      <a class="workspace-brand" href="index.html" aria-label="Formalint home"><span class="workspace-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="local-badge"><i></i>Local-first (Zero-Server)</span></a>
+      <button class="command-trigger" type="button" data-command-open><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button>
+      <div class="workspace-top-actions"><span class="sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><button class="icon-button" type="button" title="Workspace preferences" data-command-open aria-label="Workspace preferences">&#9881;</button></div>
+    </header>
+
+    <div class="workspace-layout">
+      <aside class="workspace-sidebar" aria-label="Workspace tools">
+        <div class="workspace-sidebar-scroll">
+          <p class="workspace-nav-label">Transform tools</p>
+          <nav class="workspace-nav">
+            <button class="active" type="button" data-tool="json"><span>{ }</span>JSON Studio</button>
+            <a href="yaml-formatter.html"><span>Y</span>YAML Toolkit</a>
+            <button type="button" data-focus-widget="regex"><span>.*</span>Regex Laboratory</button>
+            <a href="json-diff.html"><span>+/-</span>Diff Checker</a>
+            <a href="jwt-decoder.html"><span>JWT</span>JWT Inspector</a>
+            <a href="base64-encoder-decoder.html"><span>64</span>Base64 Codec</a>
+          </nav>
+          <p class="workspace-nav-label">Diagnostics</p>
+          <nav class="workspace-nav">
+            <button type="button" data-view="schema"><span>AST</span>Structure Telemetry</button>
+            <button type="button" data-command-open><span>&gt;_</span>Runtime Sandbox</button>
+            <button type="button" data-command-open><span>CFG</span>Preferences</button>
+          </nav>
+          <section class="privacy-note"><strong>Your payload stays here</strong><p>Formatting, parsing, hashing and conversion run in this tab. Formalint does not upload editor content.</p><a href="how-formalint-works.html">Read the processing model</a></section>
+        </div>
+        <div class="workspace-runtime"><span><i></i>Browser engines active</span><code>v2.4.0</code></div>
+      </aside>
+
+      <main class="workspace-main">
+        <section class="workspace-subhead">
+          <div><p class="workspace-breadcrumb">Workspace <span>/</span> JSON Formatter &amp; Inspector</p><h1>JSON Studio</h1></div>
+          <div class="workspace-presets" aria-label="Sample payloads"><span>Quick load</span><button type="button" data-preset="user">User API</button><button type="button" data-preset="commerce">E-Commerce</button><button type="button" data-preset="kubernetes">Kubernetes Pod</button><button type="button" data-paste>Paste Clipboard</button></div>
+          <div class="workspace-actions"><button type="button" data-transform="yaml">JSON to YAML</button><button type="button" data-transform="typescript">TS Interface</button><button type="button" data-transform="xml">XML</button><button type="button" data-transform="minify">Minify</button><div class="segmented"><button class="active" type="button" data-layout="split">Split</button><button type="button" data-layout="unified">Unified Tree</button></div></div>
+        </section>
+
+        <section class="editor-workspace" data-editor-workspace>
+          <article class="editor-pane input-pane">
+            <div class="pane-toolbar"><strong>Input payload</strong><span>UTF-8</span><span>JSON Strict</span><button type="button" data-clear>Clear</button><button type="button" data-sort>Sort Keys</button><label class="file-button">Load file<input type="file" accept=".json,application/json,text/plain" data-load-file></label><button class="primary-action" type="button" data-format>Prettify (2 sp)</button></div>
+            <div class="code-editor"><pre class="line-numbers" aria-hidden="true" data-line-numbers>1</pre><textarea spellcheck="false" aria-label="JSON input payload" data-json-input></textarea></div>
+            <div class="editor-status status-ok" data-json-status><span>No errors detected. RFC 8259 compliant.</span><span data-editor-position>Ln 1, Col 1</span><span>Tab Size: 2</span></div>
+          </article>
+
+          <article class="editor-pane inspector-pane">
+            <div class="pane-toolbar inspector-tabs"><div><button type="button" data-view="code">Code View</button><button class="active" type="button" data-view="tree">Interactive Tree</button><button type="button" data-view="typescript">TS Types</button><button type="button" data-view="schema">JSON Schema</button></div><div><button type="button" data-copy-output>Copy</button><button type="button" data-export>Export</button></div></div>
+            <div class="inspector-output" data-inspector-output></div>
+            <div class="jsonpath-bar"><span>Active Path: <code data-active-path>$</code></span><button type="button" data-copy-path>Copy JSONPath</button></div>
+          </article>
+        </section>
+
+        <section class="sandbox-dock" aria-labelledby="sandbox-title">
+          <div class="sandbox-heading"><div><p>Instant sandbox</p><h2 id="sandbox-title">Micro-tools that stay in context</h2></div><span>All values remain in memory</span></div>
+          <div class="sandbox-grid">
+            <article class="micro-tool" data-widget="regex"><header><strong>Regex matcher</strong><span data-regex-count>0 matches</span></header><label>Pattern<input type="text" value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" data-regex-pattern></label><label>Test target<textarea rows="2" data-regex-text>engineer@formalint.com and invalid@host</textarea></label><small data-regex-result>Enter a JavaScript-compatible pattern.</small></article>
+            <article class="micro-tool"><header><strong>Epoch to ISO-8601</strong><span data-relative-time>Ready</span></header><label>Unix timestamp<input type="text" value="1726402450" inputmode="numeric" data-epoch-input></label><label>ISO result<input type="text" readonly data-iso-output></label><small>Seconds and milliseconds are detected automatically.</small></article>
+            <article class="micro-tool"><header><strong>URL codec</strong><span data-url-safety>UTF-8 safe</span></header><label>URL or component<textarea rows="2" data-url-input>https://formalint.com/tools.html?q=json formatter</textarea></label><div class="micro-actions"><button type="button" data-url-action="encode">Encode</button><button type="button" data-url-action="decode">Decode</button></div><small data-url-breakdown>Path and query details appear here.</small></article>
+            <article class="micro-tool"><header><strong>SHA-256 digest</strong><button type="button" data-copy-hash>Copy</button></header><label>Text<input type="text" value="Formalint local-first workspace" data-hash-input></label><output data-hash-output>Calculating...</output><small>Computed with the browser Web Crypto API.</small></article>
+          </div>
+          <footer class="shortcut-bar"><span><kbd>Ctrl Enter</kbd> Format</span><span><kbd>Ctrl K</kbd> Command menu</span><span><kbd>Ctrl Shift C</kbd> Copy active path</span><span><kbd>Esc</kbd> Close menu</span><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></footer>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="command-palette" data-command-dialog><form method="dialog"><header><input type="search" placeholder="Search workspace commands..." aria-label="Search commands" data-command-search><button type="submit" aria-label="Close command palette">Esc</button></header><div data-command-list><button type="button" data-command="format"><span>Format current JSON</span><kbd>Ctrl Enter</kbd></button><button type="button" data-command="minify"><span>Minify current JSON</span></button><button type="button" data-command="tree"><span>Open interactive tree</span></button><button type="button" data-command="typescript"><span>Generate TypeScript types</span></button><button type="button" data-command="schema"><span>Infer JSON Schema</span></button><button type="button" data-command="regex"><span>Focus regex sandbox</span></button></div></form></dialog>
+  </body>
+</html>
