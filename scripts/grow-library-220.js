@@ -948,6 +948,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("Workspace Interaction Update")) {
+    const entry = `      <h2>September 16, 2026 - Workspace Interaction Update</h2>
+      <p>Improved the all-in-one developer workspace with JSON syntax highlighting, padded line numbers, automatic bracket and quote pairing, bidirectional Epoch and ISO-8601 conversion, a collapsible locally remembered sidebar and a corrected keyboard shortcut for copying inspector output. Payload values remain in browser memory and are never added to analytics events, URLs or server requests.</p>
+`;
+    html = html.replace("      <h2>September 16, 2026 - 245 Page API Reliability Update</h2>", entry + "      <h2>September 16, 2026 - 245 Page API Reliability Update</h2>");
+  }
   if (!html.includes("245 Page API Reliability Update")) {
     const entry = `      <h2>September 16, 2026 - 245 Page API Reliability Update</h2>
       <p>Expanded Formalint to 245 public pages with eight production-focused API references covering schema drift, retry and exponential backoff, rate-limit headers, webhook replay, HMAC request signing, cURL TLS troubleshooting, OpenAPI breaking changes and stable API error response design. Updated internal discovery, tools directory, sidebar navigation, cache version, sitemap and structured metadata checks.</p>

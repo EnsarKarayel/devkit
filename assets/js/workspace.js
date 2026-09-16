@@ -104,8 +104,22 @@
   }
 
   function updateLines() {
-    var count = Math.max(1, input.value.split("\n").length); document.querySelector("[data-line-numbers]").textContent = Array.from({ length: count }, function (_, index) { return index + 1; }).join("\n");
+    var count = Math.max(1, input.value.split("\n").length); document.querySelector("[data-line-numbers]").textContent = Array.from({ length: count }, function (_, index) { return String(index + 1).padStart(2, "0"); }).join("\n");
     var before = input.value.slice(0, input.selectionStart).split("\n"); document.querySelector("[data-editor-position]").textContent = "Ln " + before.length + ", Col " + (before[before.length - 1].length + 1);
+    updateHighlight();
+  }
+
+  function updateHighlight() {
+    var source = input.value || " "; var highlighted = ""; var lastIndex = 0;
+    var tokenPattern = /("(?:\\.|[^"\\])*"\s*:)|("(?:\\.|[^"\\])*")|\b(true|false|null)\b|(-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b)/gi; var match;
+    while ((match = tokenPattern.exec(source))) {
+      highlighted += escapeHtml(source.slice(lastIndex, match.index));
+      var className = match[1] ? "json-key" : match[2] ? "json-string" : match[3] ? "json-literal" : "json-number";
+      highlighted += '<span class="' + className + '">' + escapeHtml(match[0]) + "</span>";
+      lastIndex = tokenPattern.lastIndex;
+    }
+    highlighted += escapeHtml(source.slice(lastIndex));
+    document.querySelector("[data-code-highlight]").innerHTML = highlighted + (input.value.endsWith("\n") ? "\n " : "");
   }
 
   function formatJson() { var data = parseInput(); if (data !== null) { input.value = JSON.stringify(data, null, 2); updateLines(); render(); } }
@@ -150,7 +164,14 @@
   });
 
   input.addEventListener("input", function () { updateLines(); window.clearTimeout(input._timer); input._timer = window.setTimeout(function () { render(); }, 180); });
-  input.addEventListener("keyup", updateLines); input.addEventListener("click", updateLines); input.addEventListener("scroll", function () { document.querySelector("[data-line-numbers]").scrollTop = input.scrollTop; });
+  input.addEventListener("keydown", function (event) {
+    var pairs = { "{": "}", "[": "]", '"': '"' };
+    if (!pairs[event.key]) return;
+    var start = input.selectionStart; var end = input.selectionEnd; var selected = input.value.slice(start, end);
+    if (event.key === '"' && input.value.charAt(start) === '"' && start === end) { event.preventDefault(); input.setSelectionRange(start + 1, start + 1); return; }
+    event.preventDefault(); input.setRangeText(event.key + selected + pairs[event.key], start, end, "end"); input.setSelectionRange(start + 1, start + 1 + selected.length); input.dispatchEvent(new Event("input"));
+  });
+  input.addEventListener("keyup", updateLines); input.addEventListener("click", updateLines); input.addEventListener("scroll", function () { document.querySelector("[data-line-numbers]").scrollTop = input.scrollTop; var highlight = document.querySelector("[data-code-highlight]"); highlight.scrollTop = input.scrollTop; highlight.scrollLeft = input.scrollLeft; });
   document.querySelector("[data-load-file]").addEventListener("change", function (event) { var file = event.target.files[0]; if (!file || file.size > 2 * 1024 * 1024) return; file.text().then(function (text) { input.value = text; formatJson(); }); });
   document.querySelector("[data-paste]").addEventListener("click", function () { if (navigator.clipboard) navigator.clipboard.readText().then(function (text) { input.value = text; formatJson(); }); });
 
@@ -158,9 +179,12 @@
   function runRegex() { try { var expression = new RegExp(regexPattern.value, "gi"); var matches = Array.from(regexText.value.matchAll(expression)); document.querySelector("[data-regex-count]").textContent = matches.length + (matches.length === 1 ? " match" : " matches"); document.querySelector("[data-regex-result]").textContent = matches.length ? matches.slice(0, 4).map(function (match) { return match[0]; }).join(" | ") : "No matches in the current target."; } catch (error) { document.querySelector("[data-regex-result]").textContent = error.message; } }
   regexPattern.addEventListener("input", runRegex); regexText.addEventListener("input", runRegex);
 
-  var epochInput = document.querySelector("[data-epoch-input]");
-  function convertEpoch() { var value = Number(epochInput.value.trim()); var date = new Date(value < 100000000000 ? value * 1000 : value); if (isNaN(date.getTime())) { document.querySelector("[data-iso-output]").value = "Invalid timestamp"; return; } document.querySelector("[data-iso-output]").value = date.toISOString(); var days = Math.round((date.getTime() - Date.now()) / 86400000); document.querySelector("[data-relative-time]").textContent = days === 0 ? "Today" : Math.abs(days) + " days " + (days < 0 ? "ago" : "from now"); }
+  var epochInput = document.querySelector("[data-epoch-input]"); var isoInput = document.querySelector("[data-iso-input]");
+  function setRelativeTime(date) { var days = Math.round((date.getTime() - Date.now()) / 86400000); document.querySelector("[data-relative-time]").textContent = days === 0 ? "Today" : Math.abs(days) + " days " + (days < 0 ? "ago" : "from now"); }
+  function convertEpoch() { var value = Number(epochInput.value.trim()); var date = new Date(value < 100000000000 ? value * 1000 : value); if (isNaN(date.getTime())) { isoInput.value = "Invalid timestamp"; return; } isoInput.value = date.toISOString(); setRelativeTime(date); }
+  function convertIso() { var date = new Date(isoInput.value.trim()); if (isNaN(date.getTime())) { document.querySelector("[data-relative-time]").textContent = "Invalid ISO date"; return; } epochInput.value = String(Math.floor(date.getTime() / 1000)); setRelativeTime(date); }
   epochInput.addEventListener("input", convertEpoch);
+  isoInput.addEventListener("change", convertIso);
 
   var urlInput = document.querySelector("[data-url-input]");
   function inspectUrl() { try { var url = new URL(urlInput.value); document.querySelector("[data-url-breakdown]").textContent = "Host: " + url.host + " | Path: " + url.pathname + " | Query keys: " + Array.from(url.searchParams.keys()).join(", "); } catch (_) { document.querySelector("[data-url-breakdown]").textContent = "Component mode: encode or decode selected text."; } }
@@ -173,7 +197,9 @@
   var dialog = document.querySelector("[data-command-dialog]"); var commandSearch = document.querySelector("[data-command-search]");
   commandSearch.addEventListener("input", function () { dialog.querySelectorAll("[data-command]").forEach(function (button) { button.hidden = !button.textContent.toLowerCase().includes(commandSearch.value.toLowerCase()); }); });
   dialog.addEventListener("click", function (event) { var command = event.target.closest("[data-command]"); if (!command) return; dialog.close(); if (command.dataset.command === "format") formatJson(); if (command.dataset.command === "minify") document.querySelector('[data-transform="minify"]').click(); if (["tree", "typescript", "schema"].includes(command.dataset.command)) render(command.dataset.command); if (command.dataset.command === "regex") document.querySelector('[data-widget="regex"]').scrollIntoView({ behavior: "smooth" }); });
-  document.addEventListener("keydown", function (event) { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); dialog.showModal(); commandSearch.focus(); } if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); formatJson(); } if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "c") { event.preventDefault(); copyText(activePath.textContent); } });
+  document.querySelector("[data-sidebar-toggle]").addEventListener("click", function () { var layout = document.querySelector(".workspace-layout"); var collapsed = layout.classList.toggle("sidebar-collapsed"); this.setAttribute("aria-expanded", String(!collapsed)); this.setAttribute("aria-label", collapsed ? "Expand tool navigation" : "Collapse tool navigation"); this.title = this.getAttribute("aria-label"); this.innerHTML = collapsed ? "&rsaquo;" : "&lsaquo;"; localStorage.setItem("formalint-workspace-sidebar", collapsed ? "collapsed" : "expanded"); });
+  if (localStorage.getItem("formalint-workspace-sidebar") === "collapsed") document.querySelector("[data-sidebar-toggle]").click();
+  document.addEventListener("keydown", function (event) { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); dialog.showModal(); commandSearch.focus(); } if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); formatJson(); } if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "c") { event.preventDefault(); copyText(output.textContent); } });
 
   input.value = JSON.stringify(samples.commerce, null, 2); updateLines(); render("tree"); runRegex(); convertEpoch(); inspectUrl(); updateHash();
 })();

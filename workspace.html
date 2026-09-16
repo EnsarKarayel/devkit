@@ -25,7 +25,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Formalint Developer Workspace","url":"https://formalint.com/workspace.html","applicationCategory":"DeveloperApplication","operatingSystem":"Any modern browser","description":"A local-first JSON formatter, tree inspector and instant developer utility workspace.","isAccessibleForFree":true,"author":{"@type":"Person","name":"Ensar Karayel"},"featureList":["JSON formatting and validation","Interactive JSON tree","TypeScript and XML generation","Regex matcher","Epoch converter","URL codec","SHA-256 digest"]}</script>
-    <script defer src="assets/js/workspace.js?v=20260915-workspace"></script>
+    <script defer src="assets/js/workspace.js?v=20260916-workspace-v2"></script>
   </head>
   <body class="workspace-page">
     <header class="workspace-topbar">
@@ -36,6 +36,7 @@
 
     <div class="workspace-layout">
       <aside class="workspace-sidebar" aria-label="Workspace tools">
+        <button class="sidebar-collapse" type="button" data-sidebar-toggle aria-label="Collapse tool navigation" aria-expanded="true" title="Collapse tool navigation">&lsaquo;</button>
         <div class="workspace-sidebar-scroll">
           <p class="workspace-nav-label">Transform tools</p>
           <nav class="workspace-nav">
@@ -67,7 +68,7 @@
         <section class="editor-workspace" data-editor-workspace>
           <article class="editor-pane input-pane">
             <div class="pane-toolbar"><strong>Input payload</strong><span>UTF-8</span><span>JSON Strict</span><button type="button" data-clear>Clear</button><button type="button" data-sort>Sort Keys</button><label class="file-button">Load file<input type="file" accept=".json,application/json,text/plain" data-load-file></label><button class="primary-action" type="button" data-format>Prettify (2 sp)</button></div>
-            <div class="code-editor"><pre class="line-numbers" aria-hidden="true" data-line-numbers>1</pre><textarea spellcheck="false" aria-label="JSON input payload" data-json-input></textarea></div>
+            <div class="code-editor"><pre class="line-numbers" aria-hidden="true" data-line-numbers>01</pre><div class="code-input-stack"><pre class="code-highlight" aria-hidden="true" data-code-highlight></pre><textarea spellcheck="false" aria-label="JSON input payload" data-json-input></textarea></div></div>
             <div class="editor-status status-ok" data-json-status><span>No errors detected. RFC 8259 compliant.</span><span data-editor-position>Ln 1, Col 1</span><span>Tab Size: 2</span></div>
           </article>
 
@@ -82,11 +83,11 @@
           <div class="sandbox-heading"><div><p>Instant sandbox</p><h2 id="sandbox-title">Micro-tools that stay in context</h2></div><span>All values remain in memory</span></div>
           <div class="sandbox-grid">
             <article class="micro-tool" data-widget="regex"><header><strong>Regex matcher</strong><span data-regex-count>0 matches</span></header><label>Pattern<input type="text" value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" data-regex-pattern></label><label>Test target<textarea rows="2" data-regex-text>engineer@formalint.com and invalid@host</textarea></label><small data-regex-result>Enter a JavaScript-compatible pattern.</small></article>
-            <article class="micro-tool"><header><strong>Epoch to ISO-8601</strong><span data-relative-time>Ready</span></header><label>Unix timestamp<input type="text" value="1726402450" inputmode="numeric" data-epoch-input></label><label>ISO result<input type="text" readonly data-iso-output></label><small>Seconds and milliseconds are detected automatically.</small></article>
+            <article class="micro-tool"><header><strong>Epoch &#8644; ISO-8601</strong><span data-relative-time>Ready</span></header><label>Unix timestamp<input type="text" value="1726402450" inputmode="numeric" data-epoch-input></label><label>ISO date<input type="text" data-iso-input aria-label="ISO-8601 date"></label><small>Edit either field. Seconds and milliseconds are detected automatically.</small></article>
             <article class="micro-tool"><header><strong>URL codec</strong><span data-url-safety>UTF-8 safe</span></header><label>URL or component<textarea rows="2" data-url-input>https://formalint.com/tools.html?q=json formatter</textarea></label><div class="micro-actions"><button type="button" data-url-action="encode">Encode</button><button type="button" data-url-action="decode">Decode</button></div><small data-url-breakdown>Path and query details appear here.</small></article>
             <article class="micro-tool"><header><strong>SHA-256 digest</strong><button type="button" data-copy-hash>Copy</button></header><label>Text<input type="text" value="Formalint local-first workspace" data-hash-input></label><output data-hash-output>Calculating...</output><small>Computed with the browser Web Crypto API.</small></article>
           </div>
-          <footer class="shortcut-bar"><span><kbd>Ctrl Enter</kbd> Format</span><span><kbd>Ctrl K</kbd> Command menu</span><span><kbd>Ctrl Shift C</kbd> Copy active path</span><span><kbd>Esc</kbd> Close menu</span><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></footer>
+          <footer class="shortcut-bar"><span><kbd>Ctrl Enter</kbd> Format</span><span><kbd>Ctrl K</kbd> Command menu</span><span><kbd>Ctrl Shift C</kbd> Copy output</span><span><kbd>Esc</kbd> Close menu</span><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></footer>
         </section>
       </main>
     </div>
