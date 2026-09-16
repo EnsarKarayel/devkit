@@ -372,6 +372,21 @@
         { label: "Config File Validation Guide", href: "config-file-validation-guide.html", icon: "CFG", description: "Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.", keywords: "config file validation guide json yaml xml env ini lint" }
       ]
     },
+    {
+      title: "API Reliability",
+      mode: "api",
+      description: "Debug API contracts, retries, limits, signatures, webhook delivery and TLS failures.",
+      links: [
+        { label: "API Schema Drift Debugging Guide", href: "api-schema-drift-debugging-guide.html", icon: "DRIFT", description: "Detect API schema drift when fields, types, nullability or nested response shapes change without a coordinated client release.", keywords: "api schema drift debugging response contract json schema" },
+        { label: "API Retry and Exponential Backoff Guide", href: "api-retry-exponential-backoff-guide.html", icon: "RETRY", description: "Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage.", keywords: "api retry exponential backoff jitter idempotency guide" },
+        { label: "API Rate Limit Headers Guide", href: "api-rate-limit-headers-guide.html", icon: "429", description: "Interpret 429 responses, Retry-After and common rate-limit headers while keeping client throttling observable and predictable.", keywords: "api rate limit headers retry-after 429 x-ratelimit guide" },
+        { label: "Webhook Replay Debugging Guide", href: "webhook-replay-debugging-guide.html", icon: "HOOK", description: "Replay webhooks safely with captured metadata, idempotent handlers, signature-aware fixtures and observable delivery outcomes.", keywords: "webhook replay debugging duplicate delivery idempotency" },
+        { label: "API HMAC Request Signing Guide", href: "api-hmac-request-signing-guide.html", icon: "HMAC", description: "Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.", keywords: "api hmac request signing signature verification canonical string" },
+        { label: "cURL TLS Debugging Guide", href: "curl-tls-debugging-guide.html", icon: "TLS", description: "Use cURL verbose output to separate DNS, TCP, certificate chain, hostname, protocol and proxy failures without disabling verification.", keywords: "curl tls debugging ssl certificate verbose api" },
+        { label: "OpenAPI Breaking Change Checklist", href: "openapi-breaking-change-checklist.html", icon: "OAS", description: "Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.", keywords: "openapi breaking change checklist api contract diff" },
+        { label: "API Error Response Design Guide", href: "api-error-response-design-guide.html", icon: "ERR", description: "Design stable API error responses with machine-readable codes, safe messages, field details, correlation IDs and retry guidance.", keywords: "api error response design problem details correlation id" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

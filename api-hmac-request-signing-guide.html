@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>API HMAC Request Signing Guide | Formalint</title>
+    <meta name="description" content="Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/api-hmac-request-signing-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-api-reliability">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/api-hmac-request-signing-guide.html#article","headline":"API HMAC Request Signing Guide","description":"Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/api-hmac-request-signing-guide.html","keywords":"api hmac request signing signature verification canonical string"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="workspace.html">Workspace</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">API Reliability</p>
+      <h1>API HMAC Request Signing Guide</h1>
+      <p class="guide-meta">Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit. Last updated September 16, 2026.</p>
+      <p>Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Write the signing contract</td><td>Document encoding, separators, header names, timestamp units and the exact body representation.</td></tr><tr><td>Log safe intermediates</td><td>Compare hashes and canonical string length without printing the shared secret.</td></tr><tr><td>Verify freshness</td><td>Reject requests outside a small clock-skew window before accepting a valid old signature.</td></tr><tr><td>Rotate secrets</td><td>Support overlapping keys briefly and identify which key verified the request.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>signature = HMAC-SHA256(secret, timestamp + &#39;.&#39; + raw_body)
+compare decoded bytes in constant time</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Use raw request bytes, not reserialized JSON.</li><li>Decode expected and actual signatures before constant-time comparison.</li><li>Reject missing timestamps and delivery identifiers.</li><li>Keep signing secrets out of browser code.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Comparing hexadecimal strings with ordinary equality.</li><li>Trimming or normalizing the body before hashing.</li><li>Accepting valid signatures forever.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="webhook-signature-verification-guide.html">Webhook Signature Verification Guide</a>, <a href="secrets-redaction-checklist.html">Secrets Redaction Checklist</a>, <a href="api-key-rotation-guide.html">Api Key Rotation Guide</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

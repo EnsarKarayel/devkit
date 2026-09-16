@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>OpenAPI Breaking Change Checklist | Formalint</title>
+    <meta name="description" content="Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/openapi-breaking-change-checklist.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-api-reliability">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/openapi-breaking-change-checklist.html#article","headline":"OpenAPI Breaking Change Checklist","description":"Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/openapi-breaking-change-checklist.html","keywords":"openapi breaking change checklist api contract diff"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation"><a href="index.html">JSON</a><a href="json-diff.html">JSON Diff</a><a href="xml-formatter.html">XML</a><a href="yaml-formatter.html">YAML</a><a href="sql-formatter.html">SQL</a><a href="python-formatter.html">Python</a><a href="workspace.html">Workspace</a><a href="tools.html">All Tools</a><a class="active" href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="about.html">About</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">API Reliability</p>
+      <h1>OpenAPI Breaking Change Checklist</h1>
+      <p class="guide-meta">Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release. Last updated September 16, 2026.</p>
+      <p>Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Diff parsed specifications</td><td>Compare operations, parameters, schemas and response codes structurally rather than line by line.</td></tr><tr><td>Check stricter inputs</td><td>A new required field, narrower enum or smaller limit can break existing callers.</td></tr><tr><td>Check response compatibility</td><td>Removed fields, changed types and newly nullable values affect generated and handwritten clients.</td></tr><tr><td>Prove the migration</td><td>Run consumer tests and publish examples before deploying the producer change.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>baseline spec -&gt; structural diff -&gt; classify client impact -&gt; run contract tests -&gt; publish migration note</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Resolve references before comparing schemas.</li><li>Review default and nullable semantics.</li><li>Include authentication and server URL changes.</li><li>Version generated SDKs with the contract.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Calling every additive schema change safe.</li><li>Reviewing only endpoint paths.</li><li>Publishing a changed spec after code is already live.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="openapi-contract-checklist.html">Openapi Contract Checklist</a>, <a href="api-schema-drift-debugging-guide.html">API Schema Drift Debugging</a>, <a href="api-versioning-strategy-guide.html">Api Versioning Strategy Guide</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

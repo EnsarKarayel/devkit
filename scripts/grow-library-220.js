@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260915-workspace";
-const LIBRARY_COUNT = 237;
-const TODAY = "2026-09-15";
-const HUMAN_DATE = "September 15, 2026";
+const CACHE_VERSION = "20260916-api-reliability";
+const LIBRARY_COUNT = 245;
+const TODAY = "2026-09-16";
+const HUMAN_DATE = "September 16, 2026";
 
 const guidePages = [
   {
@@ -324,6 +324,121 @@ const lintCleanupPages = [
   }
 ];
 
+const apiReliabilityPages = [
+  {
+    file: "api-schema-drift-debugging-guide.html",
+    category: "API Reliability",
+    mode: "api",
+    icon: "DRIFT",
+    h1: "API Schema Drift Debugging Guide",
+    summary: "Detect API schema drift when fields, types, nullability or nested response shapes change without a coordinated client release.",
+    keywords: "api schema drift debugging response contract json schema",
+    command: "capture known-good response -> compare current shape -> classify breaking change -> update contract test",
+    workflow: [["Preserve both payloads", "Keep small redacted examples from the last known-good response and the failing response."], ["Compare structure", "Look for renamed fields, number-to-string changes, new null values and arrays that became objects."], ["Find the contract owner", "Confirm whether the producer changed intentionally or the consumer relied on undocumented behavior."], ["Add a regression check", "Turn the resolved difference into a schema or consumer contract test."]],
+    checks: ["Compare field presence separately from field value.", "Review nullable and optional fields explicitly.", "Keep real customer data out of captured payloads.", "Version schema changes with release notes."],
+    mistakes: ["Comparing only pretty-printed text instead of parsed structure.", "Treating every added field as a breaking change.", "Silently coercing changed types in multiple clients."],
+    related: ["json-diff.html", "json-schema-guide.html", "api-versioning-strategy-guide.html"]
+  },
+  {
+    file: "api-retry-exponential-backoff-guide.html",
+    category: "API Reliability",
+    mode: "api",
+    icon: "RETRY",
+    h1: "API Retry and Exponential Backoff Guide",
+    summary: "Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage.",
+    keywords: "api retry exponential backoff jitter idempotency guide",
+    command: "delay = min(cap, base * 2^attempt) + random_jitter\nretry only transient failures",
+    workflow: [["Classify the failure", "Retry connection resets, selected timeouts and documented 429 or 5xx responses, not every error."], ["Protect writes", "Use idempotency keys or operation identifiers before retrying create and payment requests."], ["Add jitter", "Randomized delay prevents many clients from retrying at the same instant."], ["Stop predictably", "Set attempt, elapsed-time and caller-deadline limits."]],
+    checks: ["Honor Retry-After when the API sends it.", "Record attempt number and final outcome in logs.", "Keep retries below the parent request deadline.", "Test duplicate-write behavior deliberately."],
+    mistakes: ["Retrying validation and authentication failures.", "Stacking library retries behind proxy retries.", "Using fixed delays across a large fleet."],
+    related: ["api-idempotency-retry-guide.html", "api-timeout-debugging-guide.html", "api-rate-limit-debugging.html"]
+  },
+  {
+    file: "api-rate-limit-headers-guide.html",
+    category: "API Reliability",
+    mode: "api",
+    icon: "429",
+    h1: "API Rate Limit Headers Guide",
+    summary: "Interpret 429 responses, Retry-After and common rate-limit headers while keeping client throttling observable and predictable.",
+    keywords: "api rate limit headers retry-after 429 x-ratelimit guide",
+    command: "curl -i https://api.example.test/resource\n# Inspect status, Retry-After, remaining quota and reset time.",
+    workflow: [["Read the status and body", "A 429 body often identifies the quota scope or operation that was limited."], ["Honor server timing", "Retry-After can be seconds or an HTTP date, so parse both forms."], ["Throttle before exhaustion", "Remaining and reset hints can smooth traffic before requests fail."], ["Measure by caller", "Separate user, token, tenant and global quota metrics."]],
+    checks: ["Treat undocumented X-RateLimit headers as provider-specific.", "Use a monotonic wait timer after parsing reset time.", "Avoid logging full authorization tokens.", "Expose final rate-limit failure to callers clearly."],
+    mistakes: ["Immediately retrying every 429 response.", "Assuming reset timestamps use local time.", "Sharing one client quota bucket across unrelated tenants."],
+    related: ["api-rate-limit-debugging.html", "curl-headers-debugging-guide.html", "api-retry-exponential-backoff-guide.html"]
+  },
+  {
+    file: "webhook-replay-debugging-guide.html",
+    category: "API Reliability",
+    mode: "api",
+    icon: "HOOK",
+    h1: "Webhook Replay Debugging Guide",
+    summary: "Replay webhooks safely with captured metadata, idempotent handlers, signature-aware fixtures and observable delivery outcomes.",
+    keywords: "webhook replay debugging duplicate delivery idempotency",
+    command: "store redacted fixture -> preserve event id -> replay in staging -> verify one durable side effect",
+    workflow: [["Capture a safe fixture", "Keep event type, delivery ID, timestamp and redacted body without retaining secrets."], ["Choose the verification mode", "Use a test secret and regenerated signature when validating the full HTTP handler."], ["Replay in isolation", "Point at staging or a local endpoint with outbound side effects disabled."], ["Verify deduplication", "The same delivery ID should not create a second durable action."]],
+    checks: ["Preserve the raw body when signature verification depends on bytes.", "Record replay origin separately from live delivery.", "Expire stored fixtures according to data policy.", "Test retry ordering as well as duplicates."],
+    mistakes: ["Replaying a production event against production.", "Changing JSON whitespace before checking the original signature.", "Using timestamps that the verifier correctly considers expired."],
+    related: ["webhook-debugging-guide.html", "webhook-signature-verification-guide.html", "api-idempotency-retry-guide.html"]
+  },
+  {
+    file: "api-hmac-request-signing-guide.html",
+    category: "API Reliability",
+    mode: "security",
+    icon: "HMAC",
+    h1: "API HMAC Request Signing Guide",
+    summary: "Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.",
+    keywords: "api hmac request signing signature verification canonical string",
+    command: "signature = HMAC-SHA256(secret, timestamp + '.' + raw_body)\ncompare decoded bytes in constant time",
+    workflow: [["Write the signing contract", "Document encoding, separators, header names, timestamp units and the exact body representation."], ["Log safe intermediates", "Compare hashes and canonical string length without printing the shared secret."], ["Verify freshness", "Reject requests outside a small clock-skew window before accepting a valid old signature."], ["Rotate secrets", "Support overlapping keys briefly and identify which key verified the request."]],
+    checks: ["Use raw request bytes, not reserialized JSON.", "Decode expected and actual signatures before constant-time comparison.", "Reject missing timestamps and delivery identifiers.", "Keep signing secrets out of browser code."],
+    mistakes: ["Comparing hexadecimal strings with ordinary equality.", "Trimming or normalizing the body before hashing.", "Accepting valid signatures forever."],
+    related: ["webhook-signature-verification-guide.html", "secrets-redaction-checklist.html", "api-key-rotation-guide.html"]
+  },
+  {
+    file: "curl-tls-debugging-guide.html",
+    category: "API Reliability",
+    mode: "network",
+    icon: "TLS",
+    h1: "cURL TLS Debugging Guide",
+    summary: "Use cURL verbose output to separate DNS, TCP, certificate chain, hostname, protocol and proxy failures without disabling verification.",
+    keywords: "curl tls debugging ssl certificate verbose api",
+    command: "curl --verbose --connect-timeout 5 https://api.example.test/health\nopenssl s_client -connect api.example.test:443 -servername api.example.test",
+    workflow: [["Confirm the hostname", "Check DNS results and ensure the requested hostname matches the certificate identity."], ["Read the TLS phase", "Verbose output shows protocol negotiation, certificate verification and proxy behavior."], ["Inspect the chain", "Use an SNI-aware certificate check to find missing intermediates or an unexpected issuer."], ["Fix trust deliberately", "Update the server chain or trusted CA bundle instead of reaching for insecure mode."]],
+    checks: ["Keep system time accurate.", "Test through the same proxy path as the failing client.", "Redact authorization headers from verbose output.", "Verify IPv4 and IPv6 paths when results differ."],
+    mistakes: ["Using curl -k as the final fix.", "Testing an IP address while expecting hostname verification to pass.", "Blaming TLS when a corporate proxy replaced the certificate."],
+    related: ["tls-certificate-debugging-guide.html", "ssl-renewal-debugging-guide.html", "curl-api-debugging-cheatsheet.html"]
+  },
+  {
+    file: "openapi-breaking-change-checklist.html",
+    category: "API Reliability",
+    mode: "delivery",
+    icon: "OAS",
+    h1: "OpenAPI Breaking Change Checklist",
+    summary: "Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.",
+    keywords: "openapi breaking change checklist api contract diff",
+    command: "baseline spec -> structural diff -> classify client impact -> run contract tests -> publish migration note",
+    workflow: [["Diff parsed specifications", "Compare operations, parameters, schemas and response codes structurally rather than line by line."], ["Check stricter inputs", "A new required field, narrower enum or smaller limit can break existing callers."], ["Check response compatibility", "Removed fields, changed types and newly nullable values affect generated and handwritten clients."], ["Prove the migration", "Run consumer tests and publish examples before deploying the producer change."]],
+    checks: ["Resolve references before comparing schemas.", "Review default and nullable semantics.", "Include authentication and server URL changes.", "Version generated SDKs with the contract."],
+    mistakes: ["Calling every additive schema change safe.", "Reviewing only endpoint paths.", "Publishing a changed spec after code is already live."],
+    related: ["openapi-contract-checklist.html", "api-schema-drift-debugging-guide.html", "api-versioning-strategy-guide.html"]
+  },
+  {
+    file: "api-error-response-design-guide.html",
+    category: "API Reliability",
+    mode: "api",
+    icon: "ERR",
+    h1: "API Error Response Design Guide",
+    summary: "Design stable API error responses with machine-readable codes, safe messages, field details, correlation IDs and retry guidance.",
+    keywords: "api error response design problem details correlation id",
+    command: "status + stable code + safe message + field details + correlation id + retry hint",
+    workflow: [["Choose the HTTP status", "Use transport semantics to separate invalid input, authentication, conflicts, limits and server failures."], ["Add a stable code", "Clients should branch on a documented code, not a translated human message."], ["Include safe context", "Field-level details and correlation IDs help debugging without exposing stack traces."], ["Document recovery", "Say whether callers should fix input, refresh credentials, retry later or contact support."]],
+    checks: ["Keep the envelope consistent across services.", "Do not expose SQL, filesystem paths or internal exceptions.", "Return correlation IDs in both body and logs.", "Document which errors are safe to retry."],
+    mistakes: ["Returning HTTP 200 with an error flag.", "Using one generic message for every validation field.", "Changing public error codes during copy edits."],
+    related: ["rest-api-error-response-guide.html", "api-correlation-id-logging-guide.html", "api-request-body-validation-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -557,7 +672,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -681,13 +796,21 @@ function updateToolsPage() {
     lintContent,
     "      <!-- Formalint email validation sections start -->"
   );
+  const apiReliabilityContent = sectionMarkup("api-reliability-title", "API reliability", "Production API contracts, retries, signatures and delivery troubleshooting", apiReliabilityPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint API reliability sections start -->",
+    "      <!-- Formalint API reliability sections end -->",
+    apiReliabilityContent,
+    "      <!-- Formalint lint cleanup sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -763,11 +886,27 @@ ${lintLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}"
       ]
     },
 `;
+  const apiReliabilityLinks = apiReliabilityPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const apiReliabilityGroup = `    {
+      title: "API Reliability",
+      mode: "api",
+      description: "Debug API contracts, retries, limits, signatures, webhook delivery and TLS failures.",
+      links: [
+${apiReliabilityLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -809,6 +948,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("245 Page API Reliability Update")) {
+    const entry = `      <h2>September 16, 2026 - 245 Page API Reliability Update</h2>
+      <p>Expanded Formalint to 245 public pages with eight production-focused API references covering schema drift, retry and exponential backoff, rate-limit headers, webhook replay, HMAC request signing, cURL TLS troubleshooting, OpenAPI breaking changes and stable API error response design. Updated internal discovery, tools directory, sidebar navigation, cache version, sitemap and structured metadata checks.</p>
+`;
+    html = html.replace("      <h2>September 15, 2026 - All-in-One Developer Workspace Update</h2>", entry + "      <h2>September 15, 2026 - All-in-One Developer Workspace Update</h2>");
+  }
   if (!html.includes("All-in-One Developer Workspace Update")) {
     const entry = `      <h2>September 15, 2026 - All-in-One Developer Workspace Update</h2>
       <p>Added a dense local-first workstation that combines JSON formatting, validation, interactive tree inspection, JSONPath selection, TypeScript and schema generation, YAML and XML transforms, regex matching, epoch conversion, URL encoding and SHA-256 hashing. Added keyboard commands, file loading, exports, privacy documentation links, tools discovery, sidebar navigation and sitemap coverage.</p>
@@ -844,7 +989,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -865,6 +1010,7 @@ ${body}
 guidePages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), guidePage(page), "utf8"));
 emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

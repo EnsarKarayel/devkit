@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260915-workspace">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-api-reliability">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -65,7 +65,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 237 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 245 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -109,7 +109,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 237 resources</span>
+          <span id="toolsDirectoryCount">Showing 245 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -275,6 +275,26 @@
         </div>
       </section>
 
+
+      <!-- Formalint API reliability sections start -->
+      <section class="directory-section" aria-labelledby="api-reliability-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">API reliability</p>
+          <h2 id="api-reliability-title">Production API contracts, retries, signatures and delivery troubleshooting</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="api-schema-drift-debugging-guide.html"><span>API Schema Drift Debugging</span><small>Detect API schema drift when fields, types, nullability or nested response shapes change without a coordinated client release.</small></a>
+          <a class="tool-card" href="api-retry-exponential-backoff-guide.html"><span>API Retry and Exponential Backoff</span><small>Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage.</small></a>
+          <a class="tool-card" href="api-rate-limit-headers-guide.html"><span>API Rate Limit Headers</span><small>Interpret 429 responses, Retry-After and common rate-limit headers while keeping client throttling observable and predictable.</small></a>
+          <a class="tool-card" href="webhook-replay-debugging-guide.html"><span>Webhook Replay Debugging</span><small>Replay webhooks safely with captured metadata, idempotent handlers, signature-aware fixtures and observable delivery outcomes.</small></a>
+          <a class="tool-card" href="api-hmac-request-signing-guide.html"><span>API HMAC Request Signing</span><small>Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.</small></a>
+          <a class="tool-card" href="curl-tls-debugging-guide.html"><span>cURL TLS Debugging</span><small>Use cURL verbose output to separate DNS, TCP, certificate chain, hostname, protocol and proxy failures without disabling verification.</small></a>
+          <a class="tool-card" href="openapi-breaking-change-checklist.html"><span>OpenAPI Breaking Change Checklist</span><small>Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.</small></a>
+          <a class="tool-card" href="api-error-response-design-guide.html"><span>API Error Response Design</span><small>Design stable API error responses with machine-readable codes, safe messages, field details, correlation IDs and retry guidance.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint API reliability sections end -->
 
       <!-- Formalint lint cleanup sections start -->
       <section class="directory-section" aria-labelledby="lint-cleanup-title" data-tools-section>
