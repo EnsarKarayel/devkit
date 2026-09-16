@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260916-unified-topbar";
+const CACHE_VERSION = "20260916-dialog-fix";
 const LIBRARY_COUNT = 245;
 const TODAY = "2026-09-16";
 const HUMAN_DATE = "September 16, 2026";
@@ -456,7 +456,7 @@ function htmlEscape(value) {
 }
 
 function header(activeHref) {
-  return `<header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Tools, Guides...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="workspace.html">Workspace</a><a href="guides.html">Guides</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>`;
+  return `<header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>`;
 }
 
 function footer() {
