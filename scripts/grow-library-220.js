@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260916-api-reliability";
+const CACHE_VERSION = "20260916-unified-topbar";
 const LIBRARY_COUNT = 245;
 const TODAY = "2026-09-16";
 const HUMAN_DATE = "September 16, 2026";
@@ -456,20 +456,7 @@ function htmlEscape(value) {
 }
 
 function header(activeHref) {
-  const items = [
-    ["index.html", "JSON"],
-    ["json-diff.html", "JSON Diff"],
-    ["xml-formatter.html", "XML"],
-    ["yaml-formatter.html", "YAML"],
-    ["sql-formatter.html", "SQL"],
-    ["python-formatter.html", "Python"],
-    ["workspace.html", "Workspace"],
-    ["tools.html", "All Tools"],
-    ["guides.html", "Guides"],
-    ["forum.html", "Forum"],
-    ["about.html", "About"]
-  ];
-  return `<header class="site-header"><a class="brand" href="index.html" aria-label="Formalint home"><img src="assets/img/favicon.svg" alt="" width="34" height="34"><span>Formalint</span></a><nav class="main-nav" aria-label="Main navigation">${items.map(([href, label]) => `<a${href === activeHref ? ' class="active"' : ""} href="${href}">${label}</a>`).join("")}</nav></header>`;
+  return `<header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Tools, Guides...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="workspace.html">Workspace</a><a href="guides.html">Guides</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>`;
 }
 
 function footer() {
@@ -691,6 +678,9 @@ function replaceCacheAndNav() {
     const file = path.join(ROOT, name);
     let html = fs.readFileSync(file, "utf8");
     html = html.replace(/styles\.css\?v=[0-9a-z-]+/g, `styles.css?v=${CACHE_VERSION}`);
+    if (name !== "workspace.html") {
+      html = html.replace(/<header class="site-header(?: global-topbar)?">[\s\S]*?<\/header>/, header(""));
+    }
     if (!html.includes('href="forum.html"')) {
       html = html.replace(/(<a(?: class="active")? href="guides\.html">Guides<\/a>)/g, '$1<a href="forum.html">Forum</a>');
       html = html.replace(/(<a href="changelog\.html">Changelog<\/a>)/g, '$1<a href="forum.html">Forum</a>');
@@ -948,6 +938,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("Unified Product Navigation Update")) {
+    const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
+      <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
+`;
+    html = html.replace("      <h2>September 16, 2026 - Workspace Interaction Update</h2>", entry + "      <h2>September 16, 2026 - Workspace Interaction Update</h2>");
+  }
   if (!html.includes("Workspace Interaction Update")) {
     const entry = `      <h2>September 16, 2026 - Workspace Interaction Update</h2>
       <p>Improved the all-in-one developer workspace with JSON syntax highlighting, padded line numbers, automatic bracket and quote pairing, bidirectional Epoch and ISO-8601 conversion, a collapsible locally remembered sidebar and a corrected keyboard shortcut for copying inspector output. Payload values remain in browser memory and are never added to analytics events, URLs or server requests.</p>
