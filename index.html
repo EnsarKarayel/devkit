@@ -25,7 +25,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-dialog-fix">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-observability">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <meta name="google-site-verification" content="900qdF_ULyPBSsmWQTF476EULUhK2YzDm-iLiA5l49A" />
@@ -220,7 +220,7 @@
 
       <section class="institution-strip" aria-label="Formalint quality signals">
         <div>
-          <strong>245 public pages</strong>
+          <strong>253 public pages</strong>
           <span>Tool pages, API references, DBA checks, runtime guides, privacy notes and editorial documentation are linked in the open.</span>
         </div>
         <div>
@@ -371,6 +371,14 @@
           <a class="tool-card" href="curl-tls-debugging-guide.html"><span>cURL TLS Debugging</span><small>Use cURL verbose output to separate DNS, TCP, certificate chain, hostname, protocol and proxy failures without disabling verification.</small></a>
           <a class="tool-card" href="openapi-breaking-change-checklist.html"><span>OpenAPI Breaking Change Checklist</span><small>Review OpenAPI changes for removed operations, stricter inputs, response shape drift and generated-client impact before release.</small></a>
           <a class="tool-card" href="api-error-response-design-guide.html"><span>API Error Response Design</span><small>Design stable API error responses with machine-readable codes, safe messages, field details, correlation IDs and retry guidance.</small></a>
+          <a class="tool-card" href="opentelemetry-trace-debugging-guide.html"><span>OpenTelemetry Trace Debugging</span><small>Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.</small></a>
+          <a class="tool-card" href="opentelemetry-collector-pipeline-guide.html"><span>OpenTelemetry Collector Pipeline</span><small>Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.</small></a>
+          <a class="tool-card" href="prometheus-high-cardinality-guide.html"><span>Prometheus High Cardinality</span><small>Find and reduce high-cardinality Prometheus metrics caused by unbounded labels, identifiers and accidental dimensions.</small></a>
+          <a class="tool-card" href="prometheus-alert-rule-debugging-guide.html"><span>Prometheus Alert Rule Debugging</span><small>Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.</small></a>
+          <a class="tool-card" href="grafana-dashboard-debugging-guide.html"><span>Grafana Dashboard Debugging</span><small>Fix empty or misleading Grafana panels by checking time range, variables, data source queries, units and aggregation semantics.</small></a>
+          <a class="tool-card" href="log-correlation-id-guide.html"><span>Log Correlation ID</span><small>Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.</small></a>
+          <a class="tool-card" href="slo-burn-rate-alerting-guide.html"><span>SLO Burn Rate Alerting</span><small>Design multi-window burn-rate alerts that detect fast outages and slow error-budget exhaustion without paging on every fluctuation.</small></a>
+          <a class="tool-card" href="incident-timeline-template-guide.html"><span>Incident Timeline</span><small>Build an evidence-based incident timeline from alerts, deploys, logs, traces and decisions without turning it into a blame document.</small></a>
                     <a class="tool-card" href="complete-regex-guide.html"><span>Regex Toolkit</span><small>Learn regex fundamentals, then test email, URL, UUID, date and log patterns in the matcher.</small></a>
           <a class="tool-card" href="data-formats-guide.html"><span>Data Format Tools</span><small>Compare JSON, XML and YAML, then format or lint the payload you are working with.</small></a>
           <a class="tool-card" href="api-debugging-handbook.html"><span>API Debugging</span><small>Use status codes, headers, payload checks and incident notes to reduce guesswork.</small></a>
@@ -631,7 +639,7 @@
           <h2 id="site-depth-title">Built to look maintained because it is maintained</h2>
         </div>
         <div class="proof-grid">
-          <div class="proof-card"><strong>245</strong><span>Public HTML targets in the current site structure.</span></div>
+          <div class="proof-card"><strong>253</strong><span>Public HTML targets in the current site structure.</span></div>
           <div class="proof-card"><strong>50+</strong><span>Dedicated guide and reference pages beyond the core tools.</span></div>
           <div class="proof-card"><strong>0</strong><span>Account walls, upload gates or forced sign-in flows in the static release.</span></div>
           <div class="proof-card"><strong>1</strong><span>Clear owner and contact path: Ensar Karayel, linked in the footer and About page.</span></div>

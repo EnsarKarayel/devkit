@@ -387,6 +387,21 @@
         { label: "API Error Response Design Guide", href: "api-error-response-design-guide.html", icon: "ERR", description: "Design stable API error responses with machine-readable codes, safe messages, field details, correlation IDs and retry guidance.", keywords: "api error response design problem details correlation id" }
       ]
     },
+    {
+      title: "Telemetry Engineering",
+      mode: "observe",
+      description: "Connect traces, metrics, logs, alerts and incident evidence without leaking production data.",
+      links: [
+        { label: "OpenTelemetry Trace Debugging Guide", href: "opentelemetry-trace-debugging-guide.html", icon: "OTEL", description: "Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.", keywords: "opentelemetry trace debugging context propagation exporter sampling" },
+        { label: "OpenTelemetry Collector Pipeline Guide", href: "opentelemetry-collector-pipeline-guide.html", icon: "COL", description: "Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.", keywords: "opentelemetry collector pipeline receiver processor exporter" },
+        { label: "Prometheus High Cardinality Guide", href: "prometheus-high-cardinality-guide.html", icon: "PROM", description: "Find and reduce high-cardinality Prometheus metrics caused by unbounded labels, identifiers and accidental dimensions.", keywords: "prometheus high cardinality labels metrics debugging" },
+        { label: "Prometheus Alert Rule Debugging Guide", href: "prometheus-alert-rule-debugging-guide.html", icon: "ALRT", description: "Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.", keywords: "prometheus alert rule debugging promql for pending alertmanager" },
+        { label: "Grafana Dashboard Debugging Guide", href: "grafana-dashboard-debugging-guide.html", icon: "GRAF", description: "Fix empty or misleading Grafana panels by checking time range, variables, data source queries, units and aggregation semantics.", keywords: "grafana dashboard debugging empty panel variables datasource" },
+        { label: "Log Correlation ID Guide", href: "log-correlation-id-guide.html", icon: "CID", description: "Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.", keywords: "log correlation id trace id request logging guide" },
+        { label: "SLO Burn Rate Alerting Guide", href: "slo-burn-rate-alerting-guide.html", icon: "SLO", description: "Design multi-window burn-rate alerts that detect fast outages and slow error-budget exhaustion without paging on every fluctuation.", keywords: "slo burn rate alerting error budget multi window" },
+        { label: "Incident Timeline Template Guide", href: "incident-timeline-template-guide.html", icon: "TIME", description: "Build an evidence-based incident timeline from alerts, deploys, logs, traces and decisions without turning it into a blame document.", keywords: "incident timeline template observability postmortem guide" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

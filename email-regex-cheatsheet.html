@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-dialog-fix">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-observability">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/email-regex-cheatsheet.html#article","headline":"Email Regex Cheatsheet","description":"Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports.","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/email-regex-cheatsheet.html","keywords":"email regex cheatsheet email validation regex examples"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/email-regex-cheatsheet.html#article","headline":"Email Regex Cheatsheet","description":"Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports.","datePublished":"2026-09-17","dateModified":"2026-09-17","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/email-regex-cheatsheet.html","keywords":"email regex cheatsheet email validation regex examples"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Email Validation</p>
       <h1>Email Regex Cheatsheet</h1>
-      <p class="guide-meta">Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports. Last updated September 16, 2026.</p>
+      <p class="guide-meta">Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports. Last updated September 17, 2026.</p>
       <p>Compare practical email regex patterns, test cases and validation limits before using a pattern in forms, APIs or imports. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Start permissive</td><td>Reject obvious mistakes while keeping valid real-world addresses such as plus tags and subdomains.</td></tr><tr><td>Test edge cases</td><td>Check empty strings, missing domains, double at signs, whitespace and long addresses.</td></tr><tr><td>Separate syntax from delivery</td><td>A regex can check shape, but it cannot prove that a mailbox exists.</td></tr><tr><td>Mirror server logic</td><td>Client and server validation should disagree as little as possible.</td></tr></tbody></table>

@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-dialog-fix">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-observability">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/api-retry-exponential-backoff-guide.html#article","headline":"API Retry and Exponential Backoff Guide","description":"Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage.","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/api-retry-exponential-backoff-guide.html","keywords":"api retry exponential backoff jitter idempotency guide"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/api-retry-exponential-backoff-guide.html#article","headline":"API Retry and Exponential Backoff Guide","description":"Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage.","datePublished":"2026-09-17","dateModified":"2026-09-17","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/api-retry-exponential-backoff-guide.html","keywords":"api retry exponential backoff jitter idempotency guide"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">API Reliability</p>
       <h1>API Retry and Exponential Backoff Guide</h1>
-      <p class="guide-meta">Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage. Last updated September 16, 2026.</p>
+      <p class="guide-meta">Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage. Last updated September 17, 2026.</p>
       <p>Design API retries with exponential backoff, jitter, attempt limits and idempotency boundaries instead of multiplying an outage. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Classify the failure</td><td>Retry connection resets, selected timeouts and documented 429 or 5xx responses, not every error.</td></tr><tr><td>Protect writes</td><td>Use idempotency keys or operation identifiers before retrying create and payment requests.</td></tr><tr><td>Add jitter</td><td>Randomized delay prevents many clients from retrying at the same instant.</td></tr><tr><td>Stop predictably</td><td>Set attempt, elapsed-time and caller-deadline limits.</td></tr></tbody></table>

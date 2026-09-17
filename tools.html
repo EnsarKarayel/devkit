@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260916-dialog-fix">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-observability">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 245 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 253 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 245 resources</span>
+          <span id="toolsDirectoryCount">Showing 253 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,26 @@
         </div>
       </section>
 
+
+      <!-- Formalint observability sections start -->
+      <section class="directory-section" aria-labelledby="telemetry-engineering-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Telemetry Engineering</p>
+          <h2 id="telemetry-engineering-title">Tracing, metrics, dashboards, alerting and incident evidence</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="opentelemetry-trace-debugging-guide.html"><span>OpenTelemetry Trace Debugging</span><small>Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.</small></a>
+          <a class="tool-card" href="opentelemetry-collector-pipeline-guide.html"><span>OpenTelemetry Collector Pipeline</span><small>Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.</small></a>
+          <a class="tool-card" href="prometheus-high-cardinality-guide.html"><span>Prometheus High Cardinality</span><small>Find and reduce high-cardinality Prometheus metrics caused by unbounded labels, identifiers and accidental dimensions.</small></a>
+          <a class="tool-card" href="prometheus-alert-rule-debugging-guide.html"><span>Prometheus Alert Rule Debugging</span><small>Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.</small></a>
+          <a class="tool-card" href="grafana-dashboard-debugging-guide.html"><span>Grafana Dashboard Debugging</span><small>Fix empty or misleading Grafana panels by checking time range, variables, data source queries, units and aggregation semantics.</small></a>
+          <a class="tool-card" href="log-correlation-id-guide.html"><span>Log Correlation ID</span><small>Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.</small></a>
+          <a class="tool-card" href="slo-burn-rate-alerting-guide.html"><span>SLO Burn Rate Alerting</span><small>Design multi-window burn-rate alerts that detect fast outages and slow error-budget exhaustion without paging on every fluctuation.</small></a>
+          <a class="tool-card" href="incident-timeline-template-guide.html"><span>Incident Timeline</span><small>Build an evidence-based incident timeline from alerts, deploys, logs, traces and decisions without turning it into a blame document.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint observability sections end -->
 
       <!-- Formalint API reliability sections start -->
       <section class="directory-section" aria-labelledby="api-reliability-title" data-tools-section>

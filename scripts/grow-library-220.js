@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260916-dialog-fix";
-const LIBRARY_COUNT = 245;
-const TODAY = "2026-09-16";
-const HUMAN_DATE = "September 16, 2026";
+const CACHE_VERSION = "20260917-observability";
+const LIBRARY_COUNT = 253;
+const TODAY = "2026-09-17";
+const HUMAN_DATE = "September 17, 2026";
 
 const guidePages = [
   {
@@ -439,6 +439,121 @@ const apiReliabilityPages = [
   }
 ];
 
+const observabilityPages = [
+  {
+    file: "opentelemetry-trace-debugging-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "OTEL",
+    h1: "OpenTelemetry Trace Debugging Guide",
+    summary: "Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.",
+    keywords: "opentelemetry trace debugging context propagation exporter sampling",
+    command: "request -> trace context -> child spans -> collector -> exporter -> backend",
+    workflow: [["Verify trace headers", "Confirm traceparent reaches every HTTP, queue and worker boundary."], ["Inspect span creation", "Check parent-child relationships, status and end timestamps before blaming the backend."], ["Check sampling", "Head and tail sampling can intentionally remove traces or partial paths."], ["Follow the export path", "Review SDK queues, collector logs and backend ingestion errors separately."]],
+    checks: ["Keep service.name stable across deploys.", "Propagate context through async jobs explicitly.", "Redact secrets from span attributes.", "Measure dropped spans and exporter queue pressure."],
+    mistakes: ["Creating a new root span at every service.", "Recording full request bodies as attributes.", "Assuming a visible root span proves every child was exported."],
+    related: ["structured-logging-guide.html", "api-correlation-id-logging-guide.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "opentelemetry-collector-pipeline-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "COL",
+    h1: "OpenTelemetry Collector Pipeline Guide",
+    summary: "Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.",
+    keywords: "opentelemetry collector pipeline receiver processor exporter",
+    command: "receivers -> memory_limiter -> batch -> redaction -> exporters",
+    workflow: [["Start with one signal", "Prove a small traces or metrics pipeline before combining every receiver."], ["Order processors", "Memory limits, filtering, enrichment and batching have different failure effects."], ["Expose collector metrics", "Queue size, refused items and exporter failures reveal pressure early."], ["Test failure behavior", "Disconnect the backend and confirm retry, queue and data-loss expectations."]],
+    checks: ["Set memory limits below the container limit.", "Use bounded sending queues.", "Keep credentials in environment-backed secrets.", "Validate configuration before deployment."],
+    mistakes: ["Adding retries without queue limits.", "Filtering telemetry before measuring what was removed.", "Running one collector pipeline with no health endpoint."],
+    related: ["opentelemetry-trace-debugging-guide.html", "docker-container-logs-guide.html", "kubernetes-pod-debugging-guide.html"]
+  },
+  {
+    file: "prometheus-high-cardinality-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "PROM",
+    h1: "Prometheus High Cardinality Guide",
+    summary: "Find and reduce high-cardinality Prometheus metrics caused by unbounded labels, identifiers and accidental dimensions.",
+    keywords: "prometheus high cardinality labels metrics debugging",
+    command: "series growth -> metric family -> label cardinality -> source instrumentation -> bounded replacement",
+    workflow: [["Measure series growth", "Identify when active series and memory use changed."], ["Rank label values", "Look for user IDs, request IDs, raw URLs and error messages in labels."], ["Fix instrumentation", "Replace unbounded labels with routes, classes or controlled buckets."], ["Verify after rollout", "Confirm new series growth slows while useful aggregation remains."]],
+    checks: ["Keep IDs in logs or traces, not metric labels.", "Normalize URL paths to route templates.", "Review histogram bucket counts.", "Set ownership for custom metrics."],
+    mistakes: ["Deleting historical data before fixing the producer.", "Using exception messages as labels.", "Adding a tenant label without estimating tenant count."],
+    related: ["structured-logging-guide.html", "error-budget-slo-guide.html", "uptime-monitoring-checklist.html"]
+  },
+  {
+    file: "prometheus-alert-rule-debugging-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "ALRT",
+    h1: "Prometheus Alert Rule Debugging Guide",
+    summary: "Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.",
+    keywords: "prometheus alert rule debugging promql for pending alertmanager",
+    command: "PromQL result -> rule evaluation -> pending for -> firing -> Alertmanager route",
+    workflow: [["Run the expression", "Evaluate the exact PromQL at the rule timestamp and inspect returned labels."], ["Check rule state", "A true query remains pending until the for duration completes."], ["Inspect label stability", "Changing labels create new alert identities and reset pending time."], ["Trace notification routing", "After firing, verify inhibition, silence, grouping and receiver delivery."]],
+    checks: ["Test rules against recorded fixtures.", "Include runbook and owner annotations.", "Use severity labels consistently.", "Alert on user impact rather than raw noise."],
+    mistakes: ["Changing the query while investigating historical behavior.", "Using volatile labels in alert identity.", "Testing Alertmanager before proving the rule is firing."],
+    related: ["prometheus-high-cardinality-guide.html", "error-budget-slo-guide.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "grafana-dashboard-debugging-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "GRAF",
+    h1: "Grafana Dashboard Debugging Guide",
+    summary: "Fix empty or misleading Grafana panels by checking time range, variables, data source queries, units and aggregation semantics.",
+    keywords: "grafana dashboard debugging empty panel variables datasource",
+    command: "time range -> datasource -> variables -> raw query -> transformations -> visualization",
+    workflow: [["Freeze the time range", "Use an absolute interval that includes known data."], ["Inspect variables", "Resolve template variables and compare their final values with label names."], ["Run the raw query", "Use query inspection to separate data-source results from panel transformations."], ["Review presentation", "Units, null handling and stacked series can change the story without changing data."]],
+    checks: ["Show dashboard timezone clearly.", "Document variable defaults.", "Use rate functions for counters.", "Link panels to logs or traces when possible."],
+    mistakes: ["Treating no-data and zero as the same state.", "Using an instant query for a time-series panel accidentally.", "Sharing dashboards with hidden environment filters."],
+    related: ["prometheus-high-cardinality-guide.html", "structured-logging-guide.html", "opentelemetry-trace-debugging-guide.html"]
+  },
+  {
+    file: "log-correlation-id-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "CID",
+    h1: "Log Correlation ID Guide",
+    summary: "Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.",
+    keywords: "log correlation id trace id request logging guide",
+    command: "accept safe request id -> create when absent -> propagate -> log structured field -> return response header",
+    workflow: [["Choose identifiers", "Use trace IDs for distributed work and a separate business operation ID when needed."], ["Validate inbound values", "Bound length and characters before copying caller IDs into logs."], ["Propagate every boundary", "Forward context through HTTP clients, messages, scheduled jobs and retries."], ["Query consistently", "Keep one field name and format across services."]],
+    checks: ["Do not use session tokens as correlation IDs.", "Return a safe identifier to support teams.", "Keep IDs searchable in structured logs.", "Preserve the original ID across retries."],
+    mistakes: ["Generating a new ID after every hop.", "Embedding user email or account data in IDs.", "Logging IDs only in error paths."],
+    related: ["api-correlation-id-logging-guide.html", "structured-logging-guide.html", "opentelemetry-trace-debugging-guide.html"]
+  },
+  {
+    file: "slo-burn-rate-alerting-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "SLO",
+    h1: "SLO Burn Rate Alerting Guide",
+    summary: "Design multi-window burn-rate alerts that detect fast outages and slow error-budget exhaustion without paging on every fluctuation.",
+    keywords: "slo burn rate alerting error budget multi window",
+    command: "burn rate = observed error ratio / allowed error ratio",
+    workflow: [["Define the SLI", "Use a measurable good-event ratio tied to user experience."], ["Set the objective", "The SLO determines the allowed error ratio and budget."], ["Pair windows", "Combine short and long windows to require both urgency and sustained impact."], ["Tune with incidents", "Backtest thresholds against known outages and harmless spikes."]],
+    checks: ["Exclude planned traffic only with documented policy.", "Use enough request volume for stable ratios.", "Link every page to a runbook.", "Track remaining budget outside alert state."],
+    mistakes: ["Alerting directly on monthly budget remaining.", "Using availability SLOs for latency failures.", "Paging on a short window with no confirmation window."],
+    related: ["error-budget-slo-guide.html", "prometheus-alert-rule-debugging-guide.html", "uptime-monitoring-checklist.html"]
+  },
+  {
+    file: "incident-timeline-template-guide.html",
+    category: "Observability",
+    mode: "observe",
+    icon: "TIME",
+    h1: "Incident Timeline Template Guide",
+    summary: "Build an evidence-based incident timeline from alerts, deploys, logs, traces and decisions without turning it into a blame document.",
+    keywords: "incident timeline template observability postmortem guide",
+    command: "UTC time | signal or action | source | observed impact | owner | result",
+    workflow: [["Choose one clock", "Normalize evidence to UTC while preserving original timestamps when useful."], ["Separate facts and inference", "Record what the system showed separately from the team's hypothesis."], ["Link source evidence", "Attach safe alert, deploy, log and trace references rather than copying secrets."], ["Mark decision points", "Explain why mitigation changed and what result followed."]],
+    checks: ["Record detection and recovery separately.", "Include customer-impact start and end estimates.", "Redact personal and customer data.", "Convert follow-ups into owned actions."],
+    mistakes: ["Writing the timeline from memory days later.", "Listing chat messages without operational meaning.", "Using the document to assign blame instead of improve controls."],
+    related: ["database-incident-forum-template.html", "deployment-rollback-checklist.html", "log-correlation-id-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -659,7 +774,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -794,13 +909,21 @@ function updateToolsPage() {
     apiReliabilityContent,
     "      <!-- Formalint lint cleanup sections start -->"
   );
+  const observabilityContent = sectionMarkup("telemetry-engineering-title", "Telemetry Engineering", "Tracing, metrics, dashboards, alerting and incident evidence", observabilityPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint observability sections start -->",
+    "      <!-- Formalint observability sections end -->",
+    observabilityContent,
+    "      <!-- Formalint API reliability sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -892,11 +1015,27 @@ ${apiReliabilityLinks.map((link) => `        { label: "${link.label.replace(/"/g
       ]
     },
 `;
+  const observabilityLinks = observabilityPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const observabilityGroup = `    {
+      title: "Telemetry Engineering",
+      mode: "observe",
+      description: "Connect traces, metrics, logs, alerts and incident evidence without leaking production data.",
+      links: [
+${observabilityLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -938,6 +1077,12 @@ function updateToolMatchers() {
 function updateChangelog() {
   const file = path.join(ROOT, "changelog.html");
   let html = fs.readFileSync(file, "utf8");
+  if (!html.includes("253 Page Observability Update")) {
+    const entry = `      <h2>September 17, 2026 - 253 Page Observability Update</h2>
+      <p>Expanded Formalint to 253 public pages with eight production observability references covering OpenTelemetry trace debugging, Collector pipelines, Prometheus cardinality and alert rules, Grafana dashboards, log correlation IDs, SLO burn-rate alerting and evidence-based incident timelines. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata validation.</p>
+`;
+    html = html.replace("      <h2>September 16, 2026 - Unified Product Navigation Update</h2>", entry + "      <h2>September 16, 2026 - Unified Product Navigation Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -991,7 +1136,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1013,6 +1158,7 @@ guidePages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), guideP
 emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();
