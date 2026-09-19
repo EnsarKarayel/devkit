@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-observability">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 253 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 259 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 253 resources</span>
+          <span id="toolsDirectoryCount">Showing 259 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint production security sections start -->
+      <section class="directory-section" aria-labelledby="production-security-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Production Security</p>
+          <h2 id="production-security-title">SSH, firewall, TLS, container, Kubernetes and deployment identity troubleshooting</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="ssh-permission-denied-debugging-guide.html"><span>SSH Permission Denied Debugging</span><small>Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.</small></a>
+          <a class="tool-card" href="linux-firewall-debugging-guide.html"><span>Linux Firewall Debugging</span><small>Troubleshoot blocked Linux traffic across listening sockets, host firewalls, cloud rules and return paths without opening broad production access.</small></a>
+          <a class="tool-card" href="tls-certificate-chain-debugging-guide.html"><span>TLS Certificate Chain Debugging</span><small>Diagnose incomplete TLS chains, wrong virtual hosts and trust-store failures using reproducible client and server evidence.</small></a>
+          <a class="tool-card" href="docker-image-vulnerability-triage-guide.html"><span>Docker Image Vulnerability Triage</span><small>Triage container image findings by proving package reachability, base-image ownership, available fixes and deployment exposure.</small></a>
+          <a class="tool-card" href="kubernetes-secret-debugging-guide.html"><span>Kubernetes Secret Debugging</span><small>Debug Kubernetes Secret references, mounts and rollout behavior without printing credentials into terminals, logs or support tickets.</small></a>
+          <a class="tool-card" href="github-actions-oidc-deployment-guide.html"><span>GitHub Actions OIDC Deployment</span><small>Replace long-lived deployment keys with short-lived GitHub Actions OIDC credentials and tightly scoped trust conditions.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint production security sections end -->
 
       <!-- Formalint observability sections start -->
       <section class="directory-section" aria-labelledby="telemetry-engineering-title" data-tools-section>

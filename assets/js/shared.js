@@ -402,6 +402,19 @@
         { label: "Incident Timeline Template Guide", href: "incident-timeline-template-guide.html", icon: "TIME", description: "Build an evidence-based incident timeline from alerts, deploys, logs, traces and decisions without turning it into a blame document.", keywords: "incident timeline template observability postmortem guide" }
       ]
     },
+    {
+      title: "Production Security",
+      mode: "secure",
+      description: "Troubleshoot access, network, certificate, container and deployment identity failures without weakening production controls.",
+      links: [
+        { label: "SSH Permission Denied Debugging Guide", href: "ssh-permission-denied-debugging-guide.html", icon: "SSH", description: "Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.", keywords: "ssh permission denied publickey debugging authorized keys" },
+        { label: "Linux Firewall Debugging Guide", href: "linux-firewall-debugging-guide.html", icon: "FW", description: "Troubleshoot blocked Linux traffic across listening sockets, host firewalls, cloud rules and return paths without opening broad production access.", keywords: "linux firewall debugging nftables ufw firewalld port" },
+        { label: "TLS Certificate Chain Debugging Guide", href: "tls-certificate-chain-debugging-guide.html", icon: "TLS", description: "Diagnose incomplete TLS chains, wrong virtual hosts and trust-store failures using reproducible client and server evidence.", keywords: "tls certificate chain debugging openssl intermediate certificate" },
+        { label: "Docker Image Vulnerability Triage Guide", href: "docker-image-vulnerability-triage-guide.html", icon: "CVE", description: "Triage container image findings by proving package reachability, base-image ownership, available fixes and deployment exposure.", keywords: "docker image vulnerability triage container cve remediation" },
+        { label: "Kubernetes Secret Debugging Guide", href: "kubernetes-secret-debugging-guide.html", icon: "K8S", description: "Debug Kubernetes Secret references, mounts and rollout behavior without printing credentials into terminals, logs or support tickets.", keywords: "kubernetes secret debugging secretKeyRef volume mount rollout" },
+        { label: "GitHub Actions OIDC Deployment Guide", href: "github-actions-oidc-deployment-guide.html", icon: "OIDC", description: "Replace long-lived deployment keys with short-lived GitHub Actions OIDC credentials and tightly scoped trust conditions.", keywords: "github actions oidc deployment short lived credentials security" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

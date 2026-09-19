@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>SSH Permission Denied Debugging Guide | Formalint</title>
+    <meta name="description" content="Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/ssh-permission-denied-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/ssh-permission-denied-debugging-guide.html#article","headline":"SSH Permission Denied Debugging Guide","description":"Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/ssh-permission-denied-debugging-guide.html","keywords":"ssh permission denied publickey debugging authorized keys"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Production Security</p>
+      <h1>SSH Permission Denied Debugging Guide</h1>
+      <p class="guide-meta">Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order. Last updated September 19, 2026.</p>
+      <p>Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Confirm the target</td><td>Verify hostname, port and remote username before changing keys.</td></tr><tr><td>Inspect client selection</td><td>Use verbose output to see which identities the client offers and which configuration block applies.</td></tr><tr><td>Check server authorization</td><td>Review authorized_keys ownership, permissions and key restrictions from an existing trusted session.</td></tr><tr><td>Read authentication logs</td><td>Use the server log to distinguish rejected algorithms, policy failures and unreadable key files.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>ssh -vvv user@host</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Keep a working administrative session open while testing.</li><li>Prefer dedicated keys per automation boundary.</li><li>Verify the host key before accepting changes.</li><li>Remove obsolete authorized keys after recovery.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Regenerating every key before reading verbose output.</li><li>Disabling host-key verification to hide a mismatch.</li><li>Making .ssh writable by unrelated users.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="linux-admin-command-guide.html">Linux Admin Command Guide</a>, <a href="linux-journalctl-guide.html">Linux Journalctl Guide</a>, <a href="secrets-redaction-checklist.html">Secrets Redaction Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

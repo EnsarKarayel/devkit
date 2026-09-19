@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260917-observability";
-const LIBRARY_COUNT = 253;
-const TODAY = "2026-09-17";
-const HUMAN_DATE = "September 17, 2026";
+const CACHE_VERSION = "20260919-production-security";
+const LIBRARY_COUNT = 259;
+const TODAY = "2026-09-19";
+const HUMAN_DATE = "September 19, 2026";
 
 const guidePages = [
   {
@@ -554,6 +554,75 @@ const observabilityPages = [
   }
 ];
 
+const productionSecurityPages = [
+  {
+    file: "ssh-permission-denied-debugging-guide.html", category: "Production Security", mode: "secure", icon: "SSH",
+    h1: "SSH Permission Denied Debugging Guide",
+    summary: "Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.",
+    keywords: "ssh permission denied publickey debugging authorized keys",
+    command: "ssh -vvv user@host",
+    workflow: [["Confirm the target", "Verify hostname, port and remote username before changing keys."], ["Inspect client selection", "Use verbose output to see which identities the client offers and which configuration block applies."], ["Check server authorization", "Review authorized_keys ownership, permissions and key restrictions from an existing trusted session."], ["Read authentication logs", "Use the server log to distinguish rejected algorithms, policy failures and unreadable key files."]],
+    checks: ["Keep a working administrative session open while testing.", "Prefer dedicated keys per automation boundary.", "Verify the host key before accepting changes.", "Remove obsolete authorized keys after recovery."],
+    mistakes: ["Regenerating every key before reading verbose output.", "Disabling host-key verification to hide a mismatch.", "Making .ssh writable by unrelated users."],
+    related: ["linux-admin-command-guide.html", "linux-journalctl-guide.html", "secrets-redaction-checklist.html"]
+  },
+  {
+    file: "linux-firewall-debugging-guide.html", category: "Production Security", mode: "secure", icon: "FW",
+    h1: "Linux Firewall Debugging Guide",
+    summary: "Troubleshoot blocked Linux traffic across listening sockets, host firewalls, cloud rules and return paths without opening broad production access.",
+    keywords: "linux firewall debugging nftables ufw firewalld port",
+    command: "ss -lntup && sudo nft list ruleset",
+    workflow: [["Prove the listener", "Confirm the process is bound to the expected address and port."], ["Test locally", "Separate application failure from packet filtering with a loopback or host-local request."], ["Trace policy layers", "Review nftables, firewalld or UFW before checking cloud security groups and network ACLs."], ["Verify both directions", "Routing, state tracking and asymmetric return paths can look like an inbound block."]],
+    checks: ["Record the exact source, destination, protocol and port.", "Add the narrowest temporary rule with an expiry plan.", "Preserve console access before changing remote rules.", "Capture counters before and after the test."],
+    mistakes: ["Opening all ports to prove one service works.", "Editing multiple firewall layers at once.", "Testing a TCP service with an unrelated UDP probe."],
+    related: ["powershell-network-debugging-guide.html", "nginx-reverse-proxy-checklist.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "tls-certificate-chain-debugging-guide.html", category: "Production Security", mode: "secure", icon: "TLS",
+    h1: "TLS Certificate Chain Debugging Guide",
+    summary: "Diagnose incomplete TLS chains, wrong virtual hosts and trust-store failures using reproducible client and server evidence.",
+    keywords: "tls certificate chain debugging openssl intermediate certificate",
+    command: "openssl s_client -connect example.com:443 -servername example.com -showcerts",
+    workflow: [["Send the server name", "Use SNI so the endpoint returns the certificate for the intended virtual host."], ["Inspect the served chain", "Check leaf, intermediate order, issuer relationships and unexpected duplicates."], ["Verify identity and time", "Match SAN names and validity dates against the client clock."], ["Compare trust contexts", "Browser, container, JVM and operating-system stores may trust different roots."]],
+    checks: ["Serve intermediates but not the root certificate.", "Test from outside the origin network.", "Document renewal ownership and expiry monitoring.", "Keep private keys out of diagnostic output."],
+    mistakes: ["Testing by IP without SNI.", "Assuming one successful browser proves every client trusts the chain.", "Appending certificates without checking order."],
+    related: ["tls-certificate-debugging-guide.html", "ssl-renewal-debugging-guide.html", "curl-tls-debugging-guide.html"]
+  },
+  {
+    file: "docker-image-vulnerability-triage-guide.html", category: "Production Security", mode: "secure", icon: "CVE",
+    h1: "Docker Image Vulnerability Triage Guide",
+    summary: "Triage container image findings by proving package reachability, base-image ownership, available fixes and deployment exposure.",
+    keywords: "docker image vulnerability triage container cve remediation",
+    command: "scanner result -> package origin -> reachable use -> fixed version -> rebuilt digest",
+    workflow: [["Pin the artifact", "Record the immutable image digest and scanner database time."], ["Identify package origin", "Separate operating-system packages, language dependencies and copied binaries."], ["Assess practical exposure", "Check whether the affected component is loaded, reachable and enabled in the deployed runtime."], ["Rebuild and verify", "Update the smallest owning layer, rebuild from clean inputs and scan the resulting digest."]],
+    checks: ["Prefer maintained minimal base images.", "Generate an SBOM during the build.", "Track accepted risk with owner and expiry.", "Redeploy by digest after remediation."],
+    mistakes: ["Ignoring every finding marked unfixed.", "Patching a running container instead of its build source.", "Comparing scans from different database dates without noting it."],
+    related: ["dependency-vulnerability-triage-guide.html", "docker-build-cache-debugging-guide.html", "secrets-redaction-checklist.html"]
+  },
+  {
+    file: "kubernetes-secret-debugging-guide.html", category: "Production Security", mode: "secure", icon: "K8S",
+    h1: "Kubernetes Secret Debugging Guide",
+    summary: "Debug Kubernetes Secret references, mounts and rollout behavior without printing credentials into terminals, logs or support tickets.",
+    keywords: "kubernetes secret debugging secretKeyRef volume mount rollout",
+    command: "kubectl describe pod <pod>  # inspect references and events, not secret values",
+    workflow: [["Confirm the reference", "Check namespace, Secret name, key and optional flags in the workload specification."], ["Inspect delivery mode", "Environment variables and projected volumes update with different timing and restart behavior."], ["Review pod events", "Missing objects, keys and mount failures appear without decoding secret data."], ["Roll out safely", "After rotation, verify new pods consume the new version before revoking the old credential."]],
+    checks: ["Use metadata and hashes for comparison instead of plaintext.", "Restrict RBAC get and list permissions.", "Redact terminal history and CI output.", "Document rotation and rollback order."],
+    mistakes: ["Decoding secrets into shared chat.", "Expecting existing environment variables to refresh in place.", "Granting cluster-wide Secret access for troubleshooting."],
+    related: ["kubernetes-pod-debugging-guide.html", "github-actions-env-secrets-guide.html", "api-key-rotation-guide.html"]
+  },
+  {
+    file: "github-actions-oidc-deployment-guide.html", category: "Production Security", mode: "secure", icon: "OIDC",
+    h1: "GitHub Actions OIDC Deployment Guide",
+    summary: "Replace long-lived deployment keys with short-lived GitHub Actions OIDC credentials and tightly scoped trust conditions.",
+    keywords: "github actions oidc deployment short lived credentials security",
+    command: "workflow identity -> OIDC token -> cloud trust policy -> short-lived role session",
+    workflow: [["Define the workload identity", "Choose the repository, branch, environment and workflow conditions that may deploy."], ["Create narrow trust", "Bind token issuer, audience and subject claims to one deployment role."], ["Request minimum permissions", "Grant id-token write only to the job that exchanges the token."], ["Prove denial paths", "Test forks, pull requests and unapproved environments cannot assume the role."]],
+    checks: ["Use protected environments for production.", "Limit cloud permissions independently of token trust.", "Log role sessions and deployment provenance.", "Remove the old static secret after a verified migration."],
+    mistakes: ["Trusting every branch in a repository.", "Granting id-token write at workflow scope without need.", "Keeping permanent credentials as an undocumented fallback."],
+    related: ["github-actions-env-secrets-guide.html", "static-site-deployment-checklist.html", "deployment-rollback-checklist.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -774,7 +843,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -917,13 +986,21 @@ function updateToolsPage() {
     observabilityContent,
     "      <!-- Formalint API reliability sections start -->"
   );
+  const productionSecurityContent = sectionMarkup("production-security-title", "Production Security", "SSH, firewall, TLS, container, Kubernetes and deployment identity troubleshooting", productionSecurityPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint production security sections start -->",
+    "      <!-- Formalint production security sections end -->",
+    productionSecurityContent,
+    "      <!-- Formalint observability sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1031,11 +1108,27 @@ ${observabilityLinks.map((link) => `        { label: "${link.label.replace(/"/g,
       ]
     },
 `;
+  const productionSecurityLinks = productionSecurityPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const productionSecurityGroup = `    {
+      title: "Production Security",
+      mode: "secure",
+      description: "Troubleshoot access, network, certificate, container and deployment identity failures without weakening production controls.",
+      links: [
+${productionSecurityLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1082,6 +1175,12 @@ function updateChangelog() {
       <p>Expanded Formalint to 253 public pages with eight production observability references covering OpenTelemetry trace debugging, Collector pipelines, Prometheus cardinality and alert rules, Grafana dashboards, log correlation IDs, SLO burn-rate alerting and evidence-based incident timelines. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata validation.</p>
 `;
     html = html.replace("      <h2>September 16, 2026 - Unified Product Navigation Update</h2>", entry + "      <h2>September 16, 2026 - Unified Product Navigation Update</h2>");
+  }
+  if (!html.includes("259 Page Production Security Update")) {
+    const entry = `      <h2>September 19, 2026 - 259 Page Production Security Update</h2>
+      <p>Expanded Formalint to 259 public pages with six practical production security guides covering SSH authentication, Linux firewall diagnosis, TLS certificate chains, container vulnerability triage, Kubernetes Secret delivery and GitHub Actions OIDC deployments. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata validation while preserving the local-first forum and emoji workflow.</p>
+`;
+    html = html.replace("      <h2>September 17, 2026 - 253 Page Observability Update</h2>", entry + "      <h2>September 17, 2026 - 253 Page Observability Update</h2>");
   }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
@@ -1136,7 +1235,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1159,6 +1258,7 @@ emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.fil
 lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+productionSecurityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();
