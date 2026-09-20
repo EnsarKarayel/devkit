@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Maven Test Failure Debugging Guide | Formalint</title>
+    <meta name="description" content="Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/java-maven-test-failure-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/java-maven-test-failure-debugging-guide.html#article","headline":"Maven Test Failure Debugging Guide","description":"Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/java-maven-test-failure-debugging-guide.html","keywords":"maven surefire failsafe test failure debugging forked jvm"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Runtime Diagnostics</p>
+      <h1>Maven Test Failure Debugging Guide</h1>
+      <p class="guide-meta">Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues. Last updated September 20, 2026.</p>
+      <p>Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Classify the phase</td><td>Confirm whether Surefire unit tests or Failsafe integration tests are failing.</td></tr><tr><td>Run one test</td><td>Reproduce the smallest class or method while preserving the same profile and JVM options.</td></tr><tr><td>Inspect reports</td><td>Read XML, text reports and dump files before relying on the final Maven summary.</td></tr><tr><td>Compare environments</td><td>Check JDK, locale, timezone, ports, services and parallel execution between local and CI runs.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>mvn -e -X -Dtest=ClassName#method test</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Keep plugin versions explicit.</li><li>Capture forked-process exit codes.</li><li>Avoid shared mutable test data.</li><li>Run integration verification through the verify phase.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Adding unlimited retries to flaky tests.</li><li>Running failsafe tests with only the test phase.</li><li>Deleting reports before examining JVM dump files.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="java-maven-dependency-debugging.html">Java Maven Dependency Debugging</a>, <a href="ci-failing-tests-debugging-guide.html">Ci Failing Tests Debugging Guide</a>, <a href="java-thread-dump-guide.html">Java Thread Dump Guide</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

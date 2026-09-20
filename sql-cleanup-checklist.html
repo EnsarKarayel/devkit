@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/sql-cleanup-checklist.html#article","headline":"SQL Cleanup Checklist","description":"Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/sql-cleanup-checklist.html","keywords":"sql cleanup checklist clean sql formatter query review"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/sql-cleanup-checklist.html#article","headline":"SQL Cleanup Checklist","description":"Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/sql-cleanup-checklist.html","keywords":"sql cleanup checklist clean sql formatter query review"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Lint and Cleanup</p>
       <h1>SQL Cleanup Checklist</h1>
-      <p class="guide-meta">Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes. Last updated September 19, 2026.</p>
+      <p class="guide-meta">Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes. Last updated September 20, 2026.</p>
       <p>Clean messy SQL before review by separating formatting, joins, filters, aliases, parameters and performance-sensitive changes. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Format without changing logic</td><td>The first pass should make the query readable while preserving behavior.</td></tr><tr><td>Name every alias</td><td>Meaningful aliases make joins and selected fields easier to review.</td></tr><tr><td>Inspect filters</td><td>WHERE clauses decide data scope, security and performance.</td></tr><tr><td>Review plans after edits</td><td>A readable query can still become slower if predicates or joins change.</td></tr></tbody></table>

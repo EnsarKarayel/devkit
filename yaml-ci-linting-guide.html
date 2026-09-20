@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/yaml-ci-linting-guide.html#article","headline":"YAML CI Linting Guide","description":"Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/yaml-ci-linting-guide.html","keywords":"yaml ci linting guide github actions yamllint pipeline"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/yaml-ci-linting-guide.html#article","headline":"YAML CI Linting Guide","description":"Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/yaml-ci-linting-guide.html","keywords":"yaml ci linting guide github actions yamllint pipeline"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Lint and Cleanup</p>
       <h1>YAML CI Linting Guide</h1>
-      <p class="guide-meta">Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration. Last updated September 19, 2026.</p>
+      <p class="guide-meta">Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration. Last updated September 20, 2026.</p>
       <p>Add YAML lint checks to CI without blocking teams on noisy style rules or leaking environment configuration. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Start with safety rules</td><td>Syntax errors, duplicate keys and tabs should fail before style preferences.</td></tr><tr><td>Scope the paths</td><td>Lint workflow, Docker, Kubernetes and config folders separately.</td></tr><tr><td>Use examples in reviews</td><td>A failing lint message should point to a small, teachable config pattern.</td></tr><tr><td>Tune gradually</td><td>Strict style rules are easier to adopt after the team trusts the signal.</td></tr></tbody></table>

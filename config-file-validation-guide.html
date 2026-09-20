@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/config-file-validation-guide.html#article","headline":"Config File Validation Guide","description":"Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/config-file-validation-guide.html","keywords":"config file validation guide json yaml xml env ini lint"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/config-file-validation-guide.html#article","headline":"Config File Validation Guide","description":"Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/config-file-validation-guide.html","keywords":"config file validation guide json yaml xml env ini lint"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Lint and Cleanup</p>
       <h1>Config File Validation Guide</h1>
-      <p class="guide-meta">Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps. Last updated September 19, 2026.</p>
+      <p class="guide-meta">Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps. Last updated September 20, 2026.</p>
       <p>Validate JSON, YAML, XML, env and INI-style configuration files with syntax checks, schema rules and deployment-safe review steps. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Start with syntax</td><td>A malformed file should fail before deployment-specific checks begin.</td></tr><tr><td>Apply schema rules</td><td>Product schemas catch missing keys and wrong value types.</td></tr><tr><td>Scan for secrets</td><td>Config reviews must prevent tokens and passwords from entering public repos.</td></tr><tr><td>Test in a safe environment</td><td>The best config validation ends with a dry run or staging deploy.</td></tr></tbody></table>

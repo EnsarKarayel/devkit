@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Python ModuleNotFoundError Debugging Guide | Formalint</title>
+    <meta name="description" content="Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/python-module-not-found-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/python-module-not-found-debugging-guide.html#article","headline":"Python ModuleNotFoundError Debugging Guide","description":"Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/python-module-not-found-debugging-guide.html","keywords":"python modulenotfounderror debugging import path virtual environment"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Runtime Diagnostics</p>
+      <h1>Python ModuleNotFoundError Debugging Guide</h1>
+      <p class="guide-meta">Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies. Last updated September 20, 2026.</p>
+      <p>Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Identify the interpreter</td><td>Compare the executable used by the shell, IDE, test runner and service.</td></tr><tr><td>Check package presence</td><td>Query the same interpreter with python -m pip rather than a separate pip command.</td></tr><tr><td>Inspect import resolution</td><td>Review sys.path, package directories and working directory without adding broad path hacks.</td></tr><tr><td>Validate project packaging</td><td>Confirm package markers, editable installs and module names match the repository layout.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>python -c &quot;import sys; print(sys.executable); print(*sys.path, sep=&#39;\n&#39;)&quot;</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Reproduce in a fresh virtual environment.</li><li>Use python -m pip for installs and inspection.</li><li>Check case-sensitive file names on Linux.</li><li>Keep application modules distinct from dependency names.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Installing globally until the import works.</li><li>Appending repository paths in production code.</li><li>Naming a local file after a standard or third-party module.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="python-virtualenv-debugging-guide.html">Python Virtualenv Debugging Guide</a>, <a href="python-pip-requirements-guide.html">Python Pip Requirements Guide</a>, <a href="python-runtime-guide.html">Python Runtime Guide</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/log-correlation-id-guide.html#article","headline":"Log Correlation ID Guide","description":"Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/log-correlation-id-guide.html","keywords":"log correlation id trace id request logging guide"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/log-correlation-id-guide.html#article","headline":"Log Correlation ID Guide","description":"Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/log-correlation-id-guide.html","keywords":"log correlation id trace id request logging guide"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Observability</p>
       <h1>Log Correlation ID Guide</h1>
-      <p class="guide-meta">Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads. Last updated September 19, 2026.</p>
+      <p class="guide-meta">Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads. Last updated September 20, 2026.</p>
       <p>Carry correlation and trace identifiers across APIs, queues and workers so one incident can be followed without logging sensitive payloads. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Choose identifiers</td><td>Use trace IDs for distributed work and a separate business operation ID when needed.</td></tr><tr><td>Validate inbound values</td><td>Bound length and characters before copying caller IDs into logs.</td></tr><tr><td>Propagate every boundary</td><td>Forward context through HTTP clients, messages, scheduled jobs and retries.</td></tr><tr><td>Query consistently</td><td>Keep one field name and format across services.</td></tr></tbody></table>

@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 259 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 265 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 259 resources</span>
+          <span id="toolsDirectoryCount">Showing 265 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint runtime diagnostics sections start -->
+      <section class="directory-section" aria-labelledby="runtime-diagnostics-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Runtime Diagnostics</p>
+          <h2 id="runtime-diagnostics-title">Python, Java and PHP runtime, dependency and test failures</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="python-module-not-found-debugging-guide.html"><span>Python ModuleNotFoundError Debugging</span><small>Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies.</small></a>
+          <a class="tool-card" href="python-pip-dependency-conflict-guide.html"><span>Python pip Dependency Conflict</span><small>Debug pip dependency conflicts with isolated resolution, dependency ownership, compatible constraints and reproducible lock evidence.</small></a>
+          <a class="tool-card" href="java-ssl-handshake-debugging-guide.html"><span>Java SSLHandshakeException Debugging</span><small>Diagnose Java SSLHandshakeException failures across certificate chains, hostnames, protocols, trust stores and mutual TLS without disabling verification.</small></a>
+          <a class="tool-card" href="java-maven-test-failure-debugging-guide.html"><span>Maven Test Failure Debugging</span><small>Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.</small></a>
+          <a class="tool-card" href="php-500-error-debugging-guide.html"><span>PHP 500 Error Debugging</span><small>Trace PHP HTTP 500 responses through the reverse proxy, PHP-FPM pool, application logs, runtime configuration and failing request context.</small></a>
+          <a class="tool-card" href="php-composer-memory-debugging-guide.html"><span>Composer Memory and Process Debugging</span><small>Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint runtime diagnostics sections end -->
 
       <!-- Formalint production security sections start -->
       <section class="directory-section" aria-labelledby="production-security-title" data-tools-section>

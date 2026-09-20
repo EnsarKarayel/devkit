@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260919-production-security";
-const LIBRARY_COUNT = 259;
-const TODAY = "2026-09-19";
-const HUMAN_DATE = "September 19, 2026";
+const CACHE_VERSION = "20260920-runtime-diagnostics";
+const LIBRARY_COUNT = 265;
+const TODAY = "2026-09-20";
+const HUMAN_DATE = "September 20, 2026";
 
 const guidePages = [
   {
@@ -623,6 +623,75 @@ const productionSecurityPages = [
   }
 ];
 
+const runtimeDiagnosticsPages = [
+  {
+    file: "python-module-not-found-debugging-guide.html", category: "Runtime Diagnostics", mode: "python", icon: "PY",
+    h1: "Python ModuleNotFoundError Debugging Guide",
+    summary: "Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies.",
+    keywords: "python modulenotfounderror debugging import path virtual environment",
+    command: "python -c \"import sys; print(sys.executable); print(*sys.path, sep='\\n')\"",
+    workflow: [["Identify the interpreter", "Compare the executable used by the shell, IDE, test runner and service."], ["Check package presence", "Query the same interpreter with python -m pip rather than a separate pip command."], ["Inspect import resolution", "Review sys.path, package directories and working directory without adding broad path hacks."], ["Validate project packaging", "Confirm package markers, editable installs and module names match the repository layout."]],
+    checks: ["Reproduce in a fresh virtual environment.", "Use python -m pip for installs and inspection.", "Check case-sensitive file names on Linux.", "Keep application modules distinct from dependency names."],
+    mistakes: ["Installing globally until the import works.", "Appending repository paths in production code.", "Naming a local file after a standard or third-party module."],
+    related: ["python-virtualenv-debugging-guide.html", "python-pip-requirements-guide.html", "python-runtime-guide.html"]
+  },
+  {
+    file: "python-pip-dependency-conflict-guide.html", category: "Runtime Diagnostics", mode: "python", icon: "PIP",
+    h1: "Python pip Dependency Conflict Guide",
+    summary: "Debug pip dependency conflicts with isolated resolution, dependency ownership, compatible constraints and reproducible lock evidence.",
+    keywords: "python pip dependency conflict resolver requirements debugging",
+    command: "python -m pip check && python -m pip inspect",
+    workflow: [["Start clean", "Reproduce resolution in an empty environment so stale packages cannot satisfy hidden constraints."], ["Find the owning constraints", "Trace which direct dependency requires each incompatible transitive version."], ["Choose a compatible range", "Upgrade, constrain or replace the smallest direct dependency rather than pinning every transitive package."], ["Verify the artifact", "Install from the resolved file in CI and run import plus behavioral tests."]],
+    checks: ["Record Python and platform versions.", "Separate application constraints from library metadata.", "Review yanked and pre-release versions explicitly.", "Run pip check after installation."],
+    mistakes: ["Using --no-deps as a permanent fix.", "Copying a lock file across incompatible Python versions blindly.", "Adding arbitrary pins without documenting ownership."],
+    related: ["python-pip-requirements-guide.html", "dependency-vulnerability-triage-guide.html", "python-module-not-found-debugging-guide.html"]
+  },
+  {
+    file: "java-ssl-handshake-debugging-guide.html", category: "Runtime Diagnostics", mode: "java", icon: "TLS",
+    h1: "Java SSLHandshakeException Debugging Guide",
+    summary: "Diagnose Java SSLHandshakeException failures across certificate chains, hostnames, protocols, trust stores and mutual TLS without disabling verification.",
+    keywords: "java sslhandshakeexception debugging truststore certificate chain",
+    command: "java -Djavax.net.debug=ssl,handshake -jar app.jar",
+    workflow: [["Capture the exact cause", "Separate certificate-path, hostname, protocol, cipher and client-certificate failures."], ["Inspect the endpoint", "Use SNI-aware certificate checks and compare the served chain with the Java error."], ["Confirm the runtime trust store", "Identify the exact JDK, configured trustStore and container image used by the failing process."], ["Test the narrow fix", "Add the required CA or correct the server chain, then retest with verification enabled."]],
+    checks: ["Redact tokens and session data from SSL debug logs.", "Check JVM and system clocks.", "Prefer public or managed CA chains when possible.", "Document custom trust-store ownership and rotation."],
+    mistakes: ["Installing a permissive TrustManager.", "Importing the leaf certificate as a permanent trust anchor.", "Testing with a different JDK than production."],
+    related: ["tls-certificate-chain-debugging-guide.html", "java-runtime-guide.html", "java-classpath-debugging-guide.html"]
+  },
+  {
+    file: "java-maven-test-failure-debugging-guide.html", category: "Runtime Diagnostics", mode: "java", icon: "MVN",
+    h1: "Maven Test Failure Debugging Guide",
+    summary: "Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.",
+    keywords: "maven surefire failsafe test failure debugging forked jvm",
+    command: "mvn -e -X -Dtest=ClassName#method test",
+    workflow: [["Classify the phase", "Confirm whether Surefire unit tests or Failsafe integration tests are failing."], ["Run one test", "Reproduce the smallest class or method while preserving the same profile and JVM options."], ["Inspect reports", "Read XML, text reports and dump files before relying on the final Maven summary."], ["Compare environments", "Check JDK, locale, timezone, ports, services and parallel execution between local and CI runs."]],
+    checks: ["Keep plugin versions explicit.", "Capture forked-process exit codes.", "Avoid shared mutable test data.", "Run integration verification through the verify phase."],
+    mistakes: ["Adding unlimited retries to flaky tests.", "Running failsafe tests with only the test phase.", "Deleting reports before examining JVM dump files."],
+    related: ["java-maven-dependency-debugging.html", "ci-failing-tests-debugging-guide.html", "java-thread-dump-guide.html"]
+  },
+  {
+    file: "php-500-error-debugging-guide.html", category: "Runtime Diagnostics", mode: "php", icon: "PHP",
+    h1: "PHP 500 Error Debugging Guide",
+    summary: "Trace PHP HTTP 500 responses through the reverse proxy, PHP-FPM pool, application logs, runtime configuration and failing request context.",
+    keywords: "php 500 error debugging php-fpm nginx logs",
+    command: "request id -> web server log -> PHP-FPM log -> application exception",
+    workflow: [["Preserve the failing request", "Record route, method, timestamp and correlation ID without copying credentials or personal data."], ["Check the proxy layer", "Separate upstream connection failures from application-generated 500 responses."], ["Follow PHP-FPM", "Review pool logs, worker limits, timeouts and the effective php.ini for the serving process."], ["Reproduce safely", "Use a non-production request with the same code path and controlled input."]],
+    checks: ["Keep display_errors off in production.", "Log a safe correlation ID in every layer.", "Check disk space and file permissions.", "Verify opcache state after deployment."],
+    mistakes: ["Showing stack traces to public clients.", "Editing CLI php.ini while PHP-FPM uses another file.", "Restarting every service before collecting evidence."],
+    related: ["php-fpm-nginx-debugging-guide.html", "nginx-502-504-debugging-guide.html", "php-ini-configuration-guide.html"]
+  },
+  {
+    file: "php-composer-memory-debugging-guide.html", category: "Runtime Diagnostics", mode: "php", icon: "CMP",
+    h1: "Composer Memory and Process Debugging Guide",
+    summary: "Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.",
+    keywords: "composer memory limit debugging dependency solver php",
+    command: "php --ini && php -r \"echo ini_get('memory_limit'), PHP_EOL;\" && composer diagnose",
+    workflow: [["Confirm the runtime", "Identify the CLI PHP binary, configuration files and Composer version used by the failing command."], ["Measure the operation", "Use verbose output to distinguish downloads, plugins, scripts and dependency solving."], ["Reduce solver pressure", "Review broad constraints, stale locks and unnecessary platform variation before increasing memory."], ["Fix the build environment", "Give CI a documented bounded resource allocation and reuse verified package caches."]],
+    checks: ["Commit composer.lock for applications.", "Audit plugins and scripts before running them in CI.", "Use production install flags only after resolution.", "Record platform requirements explicitly."],
+    mistakes: ["Setting memory_limit to unlimited everywhere.", "Deleting the lock file as the first response.", "Running Composer as root with unreviewed plugins."],
+    related: ["php-composer-dependency-conflict-guide.html", "php-composer-autoload-guide.html", "php-runtime-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -843,7 +912,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -994,13 +1063,21 @@ function updateToolsPage() {
     productionSecurityContent,
     "      <!-- Formalint observability sections start -->"
   );
+  const runtimeDiagnosticsContent = sectionMarkup("runtime-diagnostics-title", "Runtime Diagnostics", "Python, Java and PHP runtime, dependency and test failures", runtimeDiagnosticsPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint runtime diagnostics sections start -->",
+    "      <!-- Formalint runtime diagnostics sections end -->",
+    runtimeDiagnosticsContent,
+    "      <!-- Formalint production security sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1124,11 +1201,27 @@ ${productionSecurityLinks.map((link) => `        { label: "${link.label.replace(
       ]
     },
 `;
+  const runtimeDiagnosticsLinks = runtimeDiagnosticsPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const runtimeDiagnosticsGroup = `    {
+      title: "Runtime Diagnostics",
+      mode: "runtime",
+      description: "Debug Python imports and dependencies, Java TLS and tests, and PHP web and Composer failures.",
+      links: [
+${runtimeDiagnosticsLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1181,6 +1274,12 @@ function updateChangelog() {
       <p>Expanded Formalint to 259 public pages with six practical production security guides covering SSH authentication, Linux firewall diagnosis, TLS certificate chains, container vulnerability triage, Kubernetes Secret delivery and GitHub Actions OIDC deployments. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata validation while preserving the local-first forum and emoji workflow.</p>
 `;
     html = html.replace("      <h2>September 17, 2026 - 253 Page Observability Update</h2>", entry + "      <h2>September 17, 2026 - 253 Page Observability Update</h2>");
+  }
+  if (!html.includes("265 Page Runtime Diagnostics Update")) {
+    const entry = `      <h2>September 20, 2026 - 265 Page Runtime Diagnostics Update</h2>
+      <p>Expanded Formalint to 265 public pages with six focused runtime troubleshooting guides for Python import and pip conflicts, Java TLS handshakes and Maven tests, and PHP 500 responses and Composer memory failures. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while retaining the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 19, 2026 - 259 Page Production Security Update</h2>", entry + "      <h2>September 19, 2026 - 259 Page Production Security Update</h2>");
   }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
@@ -1235,7 +1334,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1259,6 +1358,7 @@ lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), 
 apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 productionSecurityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+runtimeDiagnosticsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

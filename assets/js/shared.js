@@ -415,6 +415,19 @@
         { label: "GitHub Actions OIDC Deployment Guide", href: "github-actions-oidc-deployment-guide.html", icon: "OIDC", description: "Replace long-lived deployment keys with short-lived GitHub Actions OIDC credentials and tightly scoped trust conditions.", keywords: "github actions oidc deployment short lived credentials security" }
       ]
     },
+    {
+      title: "Runtime Diagnostics",
+      mode: "runtime",
+      description: "Debug Python imports and dependencies, Java TLS and tests, and PHP web and Composer failures.",
+      links: [
+        { label: "Python ModuleNotFoundError Debugging Guide", href: "python-module-not-found-debugging-guide.html", icon: "PY", description: "Resolve Python ModuleNotFoundError by proving the active interpreter, environment, import path, package name and project layout before reinstalling dependencies.", keywords: "python modulenotfounderror debugging import path virtual environment" },
+        { label: "Python pip Dependency Conflict Guide", href: "python-pip-dependency-conflict-guide.html", icon: "PIP", description: "Debug pip dependency conflicts with isolated resolution, dependency ownership, compatible constraints and reproducible lock evidence.", keywords: "python pip dependency conflict resolver requirements debugging" },
+        { label: "Java SSLHandshakeException Debugging Guide", href: "java-ssl-handshake-debugging-guide.html", icon: "TLS", description: "Diagnose Java SSLHandshakeException failures across certificate chains, hostnames, protocols, trust stores and mutual TLS without disabling verification.", keywords: "java sslhandshakeexception debugging truststore certificate chain" },
+        { label: "Maven Test Failure Debugging Guide", href: "java-maven-test-failure-debugging-guide.html", icon: "MVN", description: "Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.", keywords: "maven surefire failsafe test failure debugging forked jvm" },
+        { label: "PHP 500 Error Debugging Guide", href: "php-500-error-debugging-guide.html", icon: "PHP", description: "Trace PHP HTTP 500 responses through the reverse proxy, PHP-FPM pool, application logs, runtime configuration and failing request context.", keywords: "php 500 error debugging php-fpm nginx logs" },
+        { label: "Composer Memory and Process Debugging Guide", href: "php-composer-memory-debugging-guide.html", icon: "CMP", description: "Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.", keywords: "composer memory limit debugging dependency solver php" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

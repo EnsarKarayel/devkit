@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260919-production-security">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/api-hmac-request-signing-guide.html#article","headline":"API HMAC Request Signing Guide","description":"Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.","datePublished":"2026-09-19","dateModified":"2026-09-19","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/api-hmac-request-signing-guide.html","keywords":"api hmac request signing signature verification canonical string"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/api-hmac-request-signing-guide.html#article","headline":"API HMAC Request Signing Guide","description":"Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/api-hmac-request-signing-guide.html","keywords":"api hmac request signing signature verification canonical string"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">API Reliability</p>
       <h1>API HMAC Request Signing Guide</h1>
-      <p class="guide-meta">Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit. Last updated September 19, 2026.</p>
+      <p class="guide-meta">Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit. Last updated September 20, 2026.</p>
       <p>Debug HMAC request signatures by making canonical input, body bytes, timestamps and constant-time verification explicit. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Write the signing contract</td><td>Document encoding, separators, header names, timestamp units and the exact body representation.</td></tr><tr><td>Log safe intermediates</td><td>Compare hashes and canonical string length without printing the shared secret.</td></tr><tr><td>Verify freshness</td><td>Reject requests outside a small clock-skew window before accepting a valid old signature.</td></tr><tr><td>Rotate secrets</td><td>Support overlapping keys briefly and identify which key verified the request.</td></tr></tbody></table>
