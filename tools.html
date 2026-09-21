@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260921-database-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 265 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 271 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 265 resources</span>
+          <span id="toolsDirectoryCount">Showing 271 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint database operations sections start -->
+      <section class="directory-section" aria-labelledby="database-operations-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Database Operations</p>
+          <h2 id="database-operations-title">Replication, connectivity, recovery, migrations and connection capacity</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="postgresql-replication-lag-debugging-guide.html"><span>PostgreSQL Replication Lag Debugging</span><small>Diagnose PostgreSQL replication lag by separating WAL generation, transport, replay, slot retention and standby resource pressure.</small></a>
+          <a class="tool-card" href="postgresql-connection-refused-debugging-guide.html"><span>PostgreSQL Connection Refused Debugging</span><small>Troubleshoot PostgreSQL connection refused errors across service state, listening addresses, ports, containers, firewalls and client routing.</small></a>
+          <a class="tool-card" href="mysql-replication-lag-debugging-guide.html"><span>MySQL Replication Lag Debugging</span><small>Debug MySQL replication lag by checking source throughput, relay log delivery, SQL applier workers, locks and replica hardware pressure.</small></a>
+          <a class="tool-card" href="database-backup-restore-verification-guide.html"><span>Database Backup Restore Verification</span><small>Prove database backups are recoverable with isolated restores, integrity checks, application smoke tests and measured recovery objectives.</small></a>
+          <a class="tool-card" href="database-migration-rollback-guide.html"><span>Database Migration Rollback</span><small>Plan database migration rollback with expand-contract changes, compatibility windows, data backfills, evidence gates and forward-fix options.</small></a>
+          <a class="tool-card" href="database-connection-pool-debugging-guide.html"><span>Database Connection Pool Debugging</span><small>Diagnose database connection pool exhaustion using wait time, checkout duration, transaction boundaries, leaks and server capacity evidence.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint database operations sections end -->
 
       <!-- Formalint runtime diagnostics sections start -->
       <section class="directory-section" aria-labelledby="runtime-diagnostics-title" data-tools-section>

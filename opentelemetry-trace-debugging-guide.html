@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260921-database-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/opentelemetry-trace-debugging-guide.html#article","headline":"OpenTelemetry Trace Debugging Guide","description":"Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/opentelemetry-trace-debugging-guide.html","keywords":"opentelemetry trace debugging context propagation exporter sampling"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/opentelemetry-trace-debugging-guide.html#article","headline":"OpenTelemetry Trace Debugging Guide","description":"Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order.","datePublished":"2026-09-21","dateModified":"2026-09-21","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/opentelemetry-trace-debugging-guide.html","keywords":"opentelemetry trace debugging context propagation exporter sampling"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Observability</p>
       <h1>OpenTelemetry Trace Debugging Guide</h1>
-      <p class="guide-meta">Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order. Last updated September 20, 2026.</p>
+      <p class="guide-meta">Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order. Last updated September 21, 2026.</p>
       <p>Debug missing or incomplete OpenTelemetry traces by checking context propagation, sampling, exporters and service boundaries in order. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Verify trace headers</td><td>Confirm traceparent reaches every HTTP, queue and worker boundary.</td></tr><tr><td>Inspect span creation</td><td>Check parent-child relationships, status and end timestamps before blaming the backend.</td></tr><tr><td>Check sampling</td><td>Head and tail sampling can intentionally remove traces or partial paths.</td></tr><tr><td>Follow the export path</td><td>Review SDK queues, collector logs and backend ingestion errors separately.</td></tr></tbody></table>

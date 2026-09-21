@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260920-runtime-diagnostics">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260921-database-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/php-composer-memory-debugging-guide.html#article","headline":"Composer Memory and Process Debugging Guide","description":"Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.","datePublished":"2026-09-20","dateModified":"2026-09-20","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/php-composer-memory-debugging-guide.html","keywords":"composer memory limit debugging dependency solver php"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/php-composer-memory-debugging-guide.html#article","headline":"Composer Memory and Process Debugging Guide","description":"Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.","datePublished":"2026-09-21","dateModified":"2026-09-21","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/php-composer-memory-debugging-guide.html","keywords":"composer memory limit debugging dependency solver php"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Runtime Diagnostics</p>
       <h1>Composer Memory and Process Debugging Guide</h1>
-      <p class="guide-meta">Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments. Last updated September 20, 2026.</p>
+      <p class="guide-meta">Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments. Last updated September 21, 2026.</p>
       <p>Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Confirm the runtime</td><td>Identify the CLI PHP binary, configuration files and Composer version used by the failing command.</td></tr><tr><td>Measure the operation</td><td>Use verbose output to distinguish downloads, plugins, scripts and dependency solving.</td></tr><tr><td>Reduce solver pressure</td><td>Review broad constraints, stale locks and unnecessary platform variation before increasing memory.</td></tr><tr><td>Fix the build environment</td><td>Give CI a documented bounded resource allocation and reuse verified package caches.</td></tr></tbody></table>

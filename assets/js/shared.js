@@ -428,6 +428,19 @@
         { label: "Composer Memory and Process Debugging Guide", href: "php-composer-memory-debugging-guide.html", icon: "CMP", description: "Troubleshoot Composer memory exhaustion and stalled dependency operations by checking PHP limits, solver pressure, plugins and constrained build environments.", keywords: "composer memory limit debugging dependency solver php" }
       ]
     },
+    {
+      title: "Database Operations",
+      mode: "database",
+      description: "Diagnose replication, connectivity, restore readiness, schema rollouts and connection capacity with operational evidence.",
+      links: [
+        { label: "PostgreSQL Replication Lag Debugging Guide", href: "postgresql-replication-lag-debugging-guide.html", icon: "PG", description: "Diagnose PostgreSQL replication lag by separating WAL generation, transport, replay, slot retention and standby resource pressure.", keywords: "postgresql replication lag debugging wal standby replay" },
+        { label: "PostgreSQL Connection Refused Debugging Guide", href: "postgresql-connection-refused-debugging-guide.html", icon: "PG", description: "Troubleshoot PostgreSQL connection refused errors across service state, listening addresses, ports, containers, firewalls and client routing.", keywords: "postgresql connection refused debugging listen addresses port" },
+        { label: "MySQL Replication Lag Debugging Guide", href: "mysql-replication-lag-debugging-guide.html", icon: "MY", description: "Debug MySQL replication lag by checking source throughput, relay log delivery, SQL applier workers, locks and replica hardware pressure.", keywords: "mysql replication lag debugging replica sql thread relay log" },
+        { label: "Database Backup Restore Verification Guide", href: "database-backup-restore-verification-guide.html", icon: "BAK", description: "Prove database backups are recoverable with isolated restores, integrity checks, application smoke tests and measured recovery objectives.", keywords: "database backup restore verification checklist rpo rto" },
+        { label: "Database Migration Rollback Guide", href: "database-migration-rollback-guide.html", icon: "DDL", description: "Plan database migration rollback with expand-contract changes, compatibility windows, data backfills, evidence gates and forward-fix options.", keywords: "database migration rollback guide schema expand contract" },
+        { label: "Database Connection Pool Debugging Guide", href: "database-connection-pool-debugging-guide.html", icon: "POOL", description: "Diagnose database connection pool exhaustion using wait time, checkout duration, transaction boundaries, leaks and server capacity evidence.", keywords: "database connection pool exhaustion debugging timeout leak" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

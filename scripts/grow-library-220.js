@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260920-runtime-diagnostics";
-const LIBRARY_COUNT = 265;
-const TODAY = "2026-09-20";
-const HUMAN_DATE = "September 20, 2026";
+const CACHE_VERSION = "20260921-database-operations";
+const LIBRARY_COUNT = 271;
+const TODAY = "2026-09-21";
+const HUMAN_DATE = "September 21, 2026";
 
 const guidePages = [
   {
@@ -692,6 +692,75 @@ const runtimeDiagnosticsPages = [
   }
 ];
 
+const databaseOperationsPages = [
+  {
+    file: "postgresql-replication-lag-debugging-guide.html", category: "Database Operations", mode: "database", icon: "PG",
+    h1: "PostgreSQL Replication Lag Debugging Guide",
+    summary: "Diagnose PostgreSQL replication lag by separating WAL generation, transport, replay, slot retention and standby resource pressure.",
+    keywords: "postgresql replication lag debugging wal standby replay",
+    command: "SELECT application_name, state, sent_lsn, write_lsn, flush_lsn, replay_lsn FROM pg_stat_replication;",
+    workflow: [["Measure each stage", "Compare sent, written, flushed and replayed positions instead of relying on one lag number."], ["Check WAL transport", "Inspect network stability, sender state and receiver logs for interruptions."], ["Inspect replay pressure", "Long queries, recovery conflicts, storage latency and CPU saturation can delay apply."], ["Review retention", "Replication slots and archive failures can grow storage while a standby is unavailable."]],
+    checks: ["Record byte lag and time lag together.", "Monitor slot retained WAL volume.", "Test failover readiness separately from streaming state.", "Keep clocks synchronized across nodes."],
+    mistakes: ["Restarting the standby before collecting LSN evidence.", "Treating an idle primary as proof replication recovered.", "Dropping a slot without confirming consumer ownership."],
+    related: ["postgresql-dba-checklist.html", "postgresql-connection-limit-guide.html", "postgresql-lock-debugging-guide.html"]
+  },
+  {
+    file: "postgresql-connection-refused-debugging-guide.html", category: "Database Operations", mode: "database", icon: "PG",
+    h1: "PostgreSQL Connection Refused Debugging Guide",
+    summary: "Troubleshoot PostgreSQL connection refused errors across service state, listening addresses, ports, containers, firewalls and client routing.",
+    keywords: "postgresql connection refused debugging listen addresses port",
+    command: "pg_isready -h host -p 5432 && ss -lntp",
+    workflow: [["Resolve the endpoint", "Confirm DNS, address family, port and container or service boundary used by the client."], ["Prove the listener", "Check PostgreSQL service state and the exact addresses bound by the server."], ["Test network layers", "Separate local socket access, host TCP, firewall and cloud policy one hop at a time."], ["Move to authentication", "Only inspect pg_hba.conf after a TCP connection reaches PostgreSQL."]],
+    checks: ["Compare IPv4 and IPv6 resolution.", "Verify container port publication and service discovery.", "Preserve server logs around startup.", "Avoid exposing PostgreSQL publicly for a quick test."],
+    mistakes: ["Editing pg_hba.conf for a refused TCP connection.", "Testing localhost from the wrong container.", "Opening port 5432 to the internet."],
+    related: ["linux-firewall-debugging-guide.html", "docker-compose-debugging-guide.html", "postgresql-dba-checklist.html"]
+  },
+  {
+    file: "mysql-replication-lag-debugging-guide.html", category: "Database Operations", mode: "database", icon: "MY",
+    h1: "MySQL Replication Lag Debugging Guide",
+    summary: "Debug MySQL replication lag by checking source throughput, relay log delivery, SQL applier workers, locks and replica hardware pressure.",
+    keywords: "mysql replication lag debugging replica sql thread relay log",
+    command: "SHOW REPLICA STATUS\\G",
+    workflow: [["Validate thread state", "Confirm receiver and applier status plus the last IO and SQL errors."], ["Measure backlog", "Use executed positions and relay log growth rather than Seconds_Behind_Source alone."], ["Inspect apply blockers", "Long transactions, metadata locks and single-threaded work can stall progress."], ["Compare capacity", "Check replica storage latency, CPU and configuration against source write volume."]],
+    checks: ["Monitor GTID progress and relay log size.", "Keep replica clocks synchronized.", "Test read consistency requirements explicitly.", "Document safe skip and rebuild procedures."],
+    mistakes: ["Using only Seconds_Behind_Source.", "Skipping a transaction without understanding data impact.", "Running heavy reports on the only failover replica."],
+    related: ["mysql-dba-checklist.html", "mysql-processlist-debugging-guide.html", "mysql-deadlock-debugging-guide.html"]
+  },
+  {
+    file: "database-backup-restore-verification-guide.html", category: "Database Operations", mode: "database", icon: "BAK",
+    h1: "Database Backup Restore Verification Guide",
+    summary: "Prove database backups are recoverable with isolated restores, integrity checks, application smoke tests and measured recovery objectives.",
+    keywords: "database backup restore verification checklist rpo rto",
+    command: "backup artifact -> checksum -> isolated restore -> integrity query -> application smoke test",
+    workflow: [["Select a real artifact", "Use the same encrypted backup and retrieval path intended for an incident."], ["Restore in isolation", "Prevent accidental writes, callbacks and external integrations from the restored environment."], ["Verify integrity", "Check schemas, row counts, constraints, recent business records and required extensions."], ["Measure recovery", "Record retrieval, restore, replay and validation times against RPO and RTO targets."]],
+    checks: ["Test encryption-key recovery.", "Verify point-in-time replay boundaries.", "Automate safe smoke queries.", "Record evidence without copying production data."],
+    mistakes: ["Calling a successful backup job a restore test.", "Restoring over a shared database.", "Checking only that the server starts."],
+    related: ["dba-admin-roadmap.html", "database-incident-forum-template.html", "deployment-rollback-checklist.html"]
+  },
+  {
+    file: "database-migration-rollback-guide.html", category: "Database Operations", mode: "database", icon: "DDL",
+    h1: "Database Migration Rollback Guide",
+    summary: "Plan database migration rollback with expand-contract changes, compatibility windows, data backfills, evidence gates and forward-fix options.",
+    keywords: "database migration rollback guide schema expand contract",
+    command: "expand -> dual-compatible deploy -> backfill -> verify -> contract",
+    workflow: [["Classify reversibility", "Separate additive schema changes from destructive data transformations and one-way backfills."], ["Create a compatibility window", "Keep old and new application versions functional during rollout and rollback."], ["Define evidence gates", "Use row counts, constraints, latency and error rates before advancing phases."], ["Choose rollback or forward fix", "Document when restoring code is safer than reversing data changes."]],
+    checks: ["Back up affected data before destructive steps.", "Test lock duration on production-like volume.", "Make backfills resumable and observable.", "Assign an explicit stop decision owner."],
+    mistakes: ["Combining column removal with the first code deploy.", "Assuming down migrations restore deleted data.", "Running an unbounded update in one transaction."],
+    related: ["deployment-rollback-checklist.html", "release-checklist-for-developers.html", "database-backup-restore-verification-guide.html"]
+  },
+  {
+    file: "database-connection-pool-debugging-guide.html", category: "Database Operations", mode: "database", icon: "POOL",
+    h1: "Database Connection Pool Debugging Guide",
+    summary: "Diagnose database connection pool exhaustion using wait time, checkout duration, transaction boundaries, leaks and server capacity evidence.",
+    keywords: "database connection pool exhaustion debugging timeout leak",
+    command: "pool wait -> checkout duration -> active transaction -> server sessions -> capacity budget",
+    workflow: [["Confirm pool pressure", "Measure active, idle, pending and timeout counts from the application pool."], ["Find long checkouts", "Trace requests holding connections across slow calls, streaming work or missing cleanup."], ["Inspect database sessions", "Correlate application owners with active, idle-in-transaction and blocked sessions."], ["Set a capacity budget", "Divide server connection limits across replicas, workers, jobs and administrative access."]],
+    checks: ["Always release connections in finally or scoped constructs.", "Set statement and transaction timeouts.", "Reserve emergency DBA capacity.", "Load test queueing behavior before raising pool size."],
+    mistakes: ["Increasing every pool until the database refuses connections.", "Treating idle-in-transaction as harmless idle.", "Retrying pool timeouts without backoff."],
+    related: ["postgresql-connection-limit-guide.html", "mysql-processlist-debugging-guide.html", "api-timeout-debugging-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -912,7 +981,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1071,13 +1140,21 @@ function updateToolsPage() {
     runtimeDiagnosticsContent,
     "      <!-- Formalint production security sections start -->"
   );
+  const databaseOperationsContent = sectionMarkup("database-operations-title", "Database Operations", "Replication, connectivity, recovery, migrations and connection capacity", databaseOperationsPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint database operations sections start -->",
+    "      <!-- Formalint database operations sections end -->",
+    databaseOperationsContent,
+    "      <!-- Formalint runtime diagnostics sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1217,11 +1294,27 @@ ${runtimeDiagnosticsLinks.map((link) => `        { label: "${link.label.replace(
       ]
     },
 `;
+  const databaseOperationsLinks = databaseOperationsPages.map((page) => ({
+    label: page.h1,
+    href: page.file,
+    icon: page.icon,
+    description: page.summary,
+    keywords: page.keywords
+  }));
+  const databaseOperationsGroup = `    {
+      title: "Database Operations",
+      mode: "database",
+      description: "Diagnose replication, connectivity, restore readiness, schema rollouts and connection capacity with operational evidence.",
+      links: [
+${databaseOperationsLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1281,6 +1374,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 19, 2026 - 259 Page Production Security Update</h2>", entry + "      <h2>September 19, 2026 - 259 Page Production Security Update</h2>");
   }
+  if (!html.includes("271 Page Database Operations Update")) {
+    const entry = `      <h2>September 21, 2026 - 271 Page Database Operations Update</h2>
+      <p>Expanded Formalint to 271 public pages with six evidence-driven database operations guides covering PostgreSQL and MySQL replication lag, PostgreSQL connection refusal, backup restore verification, migration rollback planning and connection pool exhaustion. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 20, 2026 - 265 Page Runtime Diagnostics Update</h2>", entry + "      <h2>September 20, 2026 - 265 Page Runtime Diagnostics Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1334,7 +1433,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1359,6 +1458,7 @@ apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file
 observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 productionSecurityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 runtimeDiagnosticsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+databaseOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();
