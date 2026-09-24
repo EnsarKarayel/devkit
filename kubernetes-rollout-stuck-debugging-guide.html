@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Kubernetes Rollout Stuck Debugging Guide | Formalint</title>
+    <meta name="description" content="Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html#article","headline":"Kubernetes Rollout Stuck Debugging Guide","description":"Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html","keywords":"kubernetes rollout stuck debugging deployment progress deadline"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Safe Deployments</p>
+      <h1>Kubernetes Rollout Stuck Debugging Guide</h1>
+      <p class="guide-meta">Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets. Last updated September 24, 2026.</p>
+      <p>Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Read Deployment conditions</td><td>Identify progress deadline, unavailable replica and minimum availability signals.</td></tr><tr><td>Find the active ReplicaSet</td><td>Compare desired, current, ready and available counts across revisions.</td></tr><tr><td>Inspect the newest pods</td><td>Use events and container state to separate scheduling, image, configuration and probe failures.</td></tr><tr><td>Check rollout constraints</td><td>Review surge, unavailable limits, quotas and disruption budgets before changing strategy.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>kubectl rollout status deployment/&lt;name&gt; &amp;&amp; kubectl describe deployment &lt;name&gt;</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Record the intended image digest.</li><li>Keep previous ReplicaSet evidence before rollback.</li><li>Validate Secret and ConfigMap references.</li><li>Confirm service endpoints include new ready pods.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Restarting all pods before reading events.</li><li>Raising progress deadlines to hide a broken probe.</li><li>Deleting the old ReplicaSet during investigation.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="kubernetes-pod-debugging-guide.html">Kubernetes Pod Debugging Guide</a>, <a href="kubernetes-crashloopbackoff-guide.html">Kubernetes Crashloopbackoff Guide</a>, <a href="deployment-rollback-checklist.html">Deployment Rollback Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

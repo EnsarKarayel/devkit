@@ -441,6 +441,19 @@
         { label: "Database Connection Pool Debugging Guide", href: "database-connection-pool-debugging-guide.html", icon: "POOL", description: "Diagnose database connection pool exhaustion using wait time, checkout duration, transaction boundaries, leaks and server capacity evidence.", keywords: "database connection pool exhaustion debugging timeout leak" }
       ]
     },
+    {
+      title: "Safe Deployments",
+      mode: "deploy",
+      description: "Debug rollout health and choose observable release strategies with explicit rollback gates.",
+      links: [
+        { label: "Docker Healthcheck Debugging Guide", href: "docker-healthcheck-debugging-guide.html", icon: "HC", description: "Debug Docker healthcheck failures by reproducing the probe inside the image and separating command, timing, dependency and application-readiness problems.", keywords: "docker healthcheck debugging unhealthy container start period" },
+        { label: "Kubernetes Rollout Stuck Debugging Guide", href: "kubernetes-rollout-stuck-debugging-guide.html", icon: "K8S", description: "Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.", keywords: "kubernetes rollout stuck debugging deployment progress deadline" },
+        { label: "Blue-Green Deployment Checklist", href: "blue-green-deployment-checklist.html", icon: "BG", description: "Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence.", keywords: "blue green deployment checklist rollback traffic switch" },
+        { label: "Canary Deployment Observability Guide", href: "canary-deployment-observability-guide.html", icon: "CAN", description: "Evaluate canary releases with comparable traffic, version-labelled telemetry, guardrail metrics and explicit promotion or rollback decisions.", keywords: "canary deployment observability metrics rollback guide" },
+        { label: "GitHub Environment Protection Guide", href: "github-environment-protection-guide.html", icon: "GH", description: "Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls.", keywords: "github environment protection deployment reviewers secrets concurrency" },
+        { label: "Zero-Downtime Deployment Guide", href: "zero-downtime-deployment-guide.html", icon: "0DT", description: "Design zero-downtime application releases with readiness gates, connection draining, backward-compatible data changes and observable rollback.", keywords: "zero downtime deployment guide readiness connection draining" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

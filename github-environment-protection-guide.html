@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>GitHub Environment Protection Guide | Formalint</title>
+    <meta name="description" content="Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls.">
+    <meta name="author" content="Ensar Karayel">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://formalint.com/github-environment-protection-guide.html">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <script src="assets/js/analytics-consent.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
+    <script type="application/ld+json" nonce="formalint-schema">
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/github-environment-protection-guide.html#article","headline":"GitHub Environment Protection Guide","description":"Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/github-environment-protection-guide.html","keywords":"github environment protection deployment reviewers secrets concurrency"}
+    </script>
+  </head>
+  <body>
+    <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
+    <main class="document-page">
+      <p class="eyebrow">Safe Deployments</p>
+      <h1>GitHub Environment Protection Guide</h1>
+      <p class="guide-meta">Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls. Last updated September 24, 2026.</p>
+      <p>Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h2>Recommended workflow</h2>
+      <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Create environment boundaries</td><td>Separate production from preview and staging credentials and policies.</td></tr><tr><td>Restrict deployment sources</td><td>Limit branches or tags that may target the protected environment.</td></tr><tr><td>Add human and automated gates</td><td>Use required reviewers alongside tests, provenance and policy checks.</td></tr><tr><td>Control concurrency</td><td>Prevent overlapping production deployments and define cancellation behavior.</td></tr></tbody></table>
+      <h2>Starter snippet</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>workflow job -&gt; protected environment -&gt; approval -&gt; scoped credentials -&gt; deployment record</code></pre></div>
+      <h2>Review checks</h2>
+      <ul><li>Keep environment secrets narrower than repository secrets.</li><li>Use OIDC for cloud credentials.</li><li>Audit approval and deployment history.</li><li>Document emergency access separately.</li></ul>
+      <h2>Common mistakes</h2>
+      <ul><li>Granting every workflow access to production secrets.</li><li>Using approvals instead of automated verification.</li><li>Allowing concurrent migrations from multiple runs.</li></ul>
+      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <h2>Related Formalint references</h2>
+      <p>Continue with <a href="github-actions-oidc-deployment-guide.html">GitHub Actions OIDC Deployment</a>, <a href="github-actions-env-secrets-guide.html">Github Actions Env Secrets Guide</a>, <a href="static-site-deployment-checklist.html">Static Site Deployment Checklist</a>.</p>
+    </main>
+    <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

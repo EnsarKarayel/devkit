@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260921-database-operations";
-const LIBRARY_COUNT = 271;
-const TODAY = "2026-09-21";
-const HUMAN_DATE = "September 21, 2026";
+const CACHE_VERSION = "20260924-safe-deployments";
+const LIBRARY_COUNT = 277;
+const TODAY = "2026-09-24";
+const HUMAN_DATE = "September 24, 2026";
 
 const guidePages = [
   {
@@ -761,6 +761,75 @@ const databaseOperationsPages = [
   }
 ];
 
+const safeDeploymentPages = [
+  {
+    file: "docker-healthcheck-debugging-guide.html", category: "Safe Deployments", mode: "deploy", icon: "HC",
+    h1: "Docker Healthcheck Debugging Guide",
+    summary: "Debug Docker healthcheck failures by reproducing the probe inside the image and separating command, timing, dependency and application-readiness problems.",
+    keywords: "docker healthcheck debugging unhealthy container start period",
+    command: "docker inspect --format '{{json .State.Health}}' <container>",
+    workflow: [["Read probe history", "Inspect exit codes and output for each recent healthcheck attempt."], ["Run the exact command", "Execute the probe inside the same image with the same user, path and environment."], ["Review timing", "Compare interval, timeout, retries and start period with realistic application startup."], ["Separate dependencies", "Make the probe represent this container's readiness rather than every remote service."]],
+    checks: ["Keep probe output short and non-sensitive.", "Use tools that actually exist in the runtime image.", "Test failure and recovery transitions.", "Distinguish liveness from readiness at the orchestrator layer."],
+    mistakes: ["Installing curl only for an oversized probe.", "Checking a public endpoint that bypasses the container.", "Using an aggressive timeout during cold startup."],
+    related: ["docker-container-logs-guide.html", "application-health-check-guide.html", "docker-compose-debugging-guide.html"]
+  },
+  {
+    file: "kubernetes-rollout-stuck-debugging-guide.html", category: "Safe Deployments", mode: "deploy", icon: "K8S",
+    h1: "Kubernetes Rollout Stuck Debugging Guide",
+    summary: "Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.",
+    keywords: "kubernetes rollout stuck debugging deployment progress deadline",
+    command: "kubectl rollout status deployment/<name> && kubectl describe deployment <name>",
+    workflow: [["Read Deployment conditions", "Identify progress deadline, unavailable replica and minimum availability signals."], ["Find the active ReplicaSet", "Compare desired, current, ready and available counts across revisions."], ["Inspect the newest pods", "Use events and container state to separate scheduling, image, configuration and probe failures."], ["Check rollout constraints", "Review surge, unavailable limits, quotas and disruption budgets before changing strategy."]],
+    checks: ["Record the intended image digest.", "Keep previous ReplicaSet evidence before rollback.", "Validate Secret and ConfigMap references.", "Confirm service endpoints include new ready pods."],
+    mistakes: ["Restarting all pods before reading events.", "Raising progress deadlines to hide a broken probe.", "Deleting the old ReplicaSet during investigation."],
+    related: ["kubernetes-pod-debugging-guide.html", "kubernetes-crashloopbackoff-guide.html", "deployment-rollback-checklist.html"]
+  },
+  {
+    file: "blue-green-deployment-checklist.html", category: "Safe Deployments", mode: "deploy", icon: "BG",
+    h1: "Blue-Green Deployment Checklist",
+    summary: "Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence.",
+    keywords: "blue green deployment checklist rollback traffic switch",
+    command: "deploy green -> verify privately -> shift traffic -> observe -> retire blue",
+    workflow: [["Build parity", "Keep configuration, dependencies and infrastructure differences explicit between blue and green."], ["Prove compatibility", "Validate database, queues, caches and external callbacks with both application versions."], ["Test the switch", "Exercise routing, connection draining, sessions and DNS or load-balancer propagation."], ["Hold rollback capacity", "Keep blue healthy until green passes a defined observation window."]],
+    checks: ["Use immutable release artifacts.", "Run synthetic and business smoke tests.", "Define a traffic-switch owner.", "Preserve logs and metrics for both colors."],
+    mistakes: ["Applying a destructive migration before the switch.", "Reusing stateful workers across colors blindly.", "Retiring blue immediately after one successful request."],
+    related: ["database-migration-rollback-guide.html", "release-checklist-for-developers.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "canary-deployment-observability-guide.html", category: "Safe Deployments", mode: "deploy", icon: "CAN",
+    h1: "Canary Deployment Observability Guide",
+    summary: "Evaluate canary releases with comparable traffic, version-labelled telemetry, guardrail metrics and explicit promotion or rollback decisions.",
+    keywords: "canary deployment observability metrics rollback guide",
+    command: "baseline vs canary: errors + latency + saturation + business outcome",
+    workflow: [["Define the cohort", "Choose representative traffic and document exclusions before deployment."], ["Label the release", "Attach stable version dimensions to metrics, logs and traces without adding unbounded cardinality."], ["Set guardrails", "Compare error rate, latency, resource pressure and one business signal against the baseline."], ["Make a timed decision", "Promote, pause or roll back using thresholds and a named owner rather than intuition."]],
+    checks: ["Account for low sample sizes.", "Keep alerts distinct from experiment analysis.", "Verify rollback removes canary traffic.", "Record decision evidence in the incident or release timeline."],
+    mistakes: ["Sending only internal users to the canary.", "Comparing different time windows without seasonality context.", "Promoting after infrastructure metrics alone look healthy."],
+    related: ["slo-burn-rate-alerting-guide.html", "grafana-dashboard-debugging-guide.html", "incident-timeline-template-guide.html"]
+  },
+  {
+    file: "github-environment-protection-guide.html", category: "Safe Deployments", mode: "deploy", icon: "GH",
+    h1: "GitHub Environment Protection Guide",
+    summary: "Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls.",
+    keywords: "github environment protection deployment reviewers secrets concurrency",
+    command: "workflow job -> protected environment -> approval -> scoped credentials -> deployment record",
+    workflow: [["Create environment boundaries", "Separate production from preview and staging credentials and policies."], ["Restrict deployment sources", "Limit branches or tags that may target the protected environment."], ["Add human and automated gates", "Use required reviewers alongside tests, provenance and policy checks."], ["Control concurrency", "Prevent overlapping production deployments and define cancellation behavior."]],
+    checks: ["Keep environment secrets narrower than repository secrets.", "Use OIDC for cloud credentials.", "Audit approval and deployment history.", "Document emergency access separately."],
+    mistakes: ["Granting every workflow access to production secrets.", "Using approvals instead of automated verification.", "Allowing concurrent migrations from multiple runs."],
+    related: ["github-actions-oidc-deployment-guide.html", "github-actions-env-secrets-guide.html", "static-site-deployment-checklist.html"]
+  },
+  {
+    file: "zero-downtime-deployment-guide.html", category: "Safe Deployments", mode: "deploy", icon: "0DT",
+    h1: "Zero-Downtime Deployment Guide",
+    summary: "Design zero-downtime application releases with readiness gates, connection draining, backward-compatible data changes and observable rollback.",
+    keywords: "zero downtime deployment guide readiness connection draining",
+    command: "compatible schema -> new instances ready -> drain old traffic -> verify -> retire old version",
+    workflow: [["Make state compatible", "Use expand-contract schemas and version-tolerant messages before replacing application instances."], ["Gate readiness", "Route traffic only after startup, dependency and warm-up checks pass."], ["Drain old instances", "Stop new work while allowing bounded requests, jobs and connections to finish."], ["Verify mixed-version behavior", "Observe errors, latency and data correctness while both versions are active."]],
+    checks: ["Set a finite termination grace period.", "Make background jobs idempotent.", "Preserve rollback-compatible configuration.", "Test long-lived connections and queues."],
+    mistakes: ["Using process started as readiness.", "Terminating old workers during active jobs.", "Deploying incompatible producers and consumers together."],
+    related: ["database-migration-rollback-guide.html", "blue-green-deployment-checklist.html", "application-health-check-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -981,7 +1050,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1148,13 +1217,21 @@ function updateToolsPage() {
     databaseOperationsContent,
     "      <!-- Formalint runtime diagnostics sections start -->"
   );
+  const safeDeploymentContent = sectionMarkup("safe-deployments-title", "Safe Deployments", "Container health, rollout diagnosis, release strategies and production gates", safeDeploymentPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint safe deployment sections start -->",
+    "      <!-- Formalint safe deployment sections end -->",
+    safeDeploymentContent,
+    "      <!-- Formalint database operations sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1310,11 +1387,21 @@ ${databaseOperationsLinks.map((link) => `        { label: "${link.label.replace(
       ]
     },
 `;
+  const safeDeploymentLinks = safeDeploymentPages.map((page) => ({ label: page.h1, href: page.file, icon: page.icon, description: page.summary, keywords: page.keywords }));
+  const safeDeploymentGroup = `    {
+      title: "Safe Deployments",
+      mode: "deploy",
+      description: "Debug rollout health and choose observable release strategies with explicit rollback gates.",
+      links: [
+${safeDeploymentLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1380,6 +1467,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 20, 2026 - 265 Page Runtime Diagnostics Update</h2>", entry + "      <h2>September 20, 2026 - 265 Page Runtime Diagnostics Update</h2>");
   }
+  if (!html.includes("277 Page Safe Deployments Update")) {
+    const entry = `      <h2>September 24, 2026 - 277 Page Safe Deployments Update</h2>
+      <p>Expanded Formalint to 277 public pages with six practical deployment references covering Docker healthchecks, stuck Kubernetes rollouts, blue-green and canary releases, GitHub environment protections and zero-downtime deployments. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 21, 2026 - 271 Page Database Operations Update</h2>", entry + "      <h2>September 21, 2026 - 271 Page Database Operations Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1433,7 +1526,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1459,6 +1552,7 @@ observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file)
 productionSecurityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 runtimeDiagnosticsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 databaseOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+safeDeploymentPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

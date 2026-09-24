@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260921-database-operations">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 271 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 277 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 271 resources</span>
+          <span id="toolsDirectoryCount">Showing 277 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint safe deployment sections start -->
+      <section class="directory-section" aria-labelledby="safe-deployments-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Safe Deployments</p>
+          <h2 id="safe-deployments-title">Container health, rollout diagnosis, release strategies and production gates</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="docker-healthcheck-debugging-guide.html"><span>Docker Healthcheck Debugging</span><small>Debug Docker healthcheck failures by reproducing the probe inside the image and separating command, timing, dependency and application-readiness problems.</small></a>
+          <a class="tool-card" href="kubernetes-rollout-stuck-debugging-guide.html"><span>Kubernetes Rollout Stuck Debugging</span><small>Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.</small></a>
+          <a class="tool-card" href="blue-green-deployment-checklist.html"><span>Blue-Green Deployment Checklist</span><small>Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence.</small></a>
+          <a class="tool-card" href="canary-deployment-observability-guide.html"><span>Canary Deployment Observability</span><small>Evaluate canary releases with comparable traffic, version-labelled telemetry, guardrail metrics and explicit promotion or rollback decisions.</small></a>
+          <a class="tool-card" href="github-environment-protection-guide.html"><span>GitHub Environment Protection</span><small>Protect production deployments with GitHub environments, scoped secrets, reviewers, branch rules and concurrency controls.</small></a>
+          <a class="tool-card" href="zero-downtime-deployment-guide.html"><span>Zero-Downtime Deployment</span><small>Design zero-downtime application releases with readiness gates, connection draining, backward-compatible data changes and observable rollback.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint safe deployment sections end -->
 
       <!-- Formalint database operations sections start -->
       <section class="directory-section" aria-labelledby="database-operations-title" data-tools-section>
