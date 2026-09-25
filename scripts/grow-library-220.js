@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260924-safe-deployments";
-const LIBRARY_COUNT = 277;
-const TODAY = "2026-09-24";
-const HUMAN_DATE = "September 24, 2026";
+const CACHE_VERSION = "20260925-windows-operations";
+const LIBRARY_COUNT = 283;
+const TODAY = "2026-09-25";
+const HUMAN_DATE = "September 25, 2026";
 
 const guidePages = [
   {
@@ -830,6 +830,75 @@ const safeDeploymentPages = [
   }
 ];
 
+const windowsOperationsPages = [
+  {
+    file: "powershell-execution-policy-debugging-guide.html", category: "Windows Operations", mode: "windows", icon: "PS",
+    h1: "PowerShell Execution Policy Debugging Guide",
+    summary: "Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally.",
+    keywords: "powershell execution policy script blocked debugging unblock file",
+    command: "Get-ExecutionPolicy -List; Get-AuthenticodeSignature .\\script.ps1",
+    workflow: [["Read every scope", "Compare MachinePolicy, UserPolicy, process, user and machine values before changing anything."], ["Inspect file origin", "Downloaded files may carry a Zone.Identifier even when local scripts run."], ["Verify signing", "Check signature status, certificate trust and script integrity for signed environments."], ["Choose the narrow fix", "Use a trusted signature, Unblock-File or a process-scoped policy only when policy permits."]],
+    checks: ["Preserve Group Policy ownership.", "Review script contents before unblocking.", "Avoid storing secrets in signed scripts.", "Document the effective scope used by automation."],
+    mistakes: ["Setting Unrestricted at LocalMachine scope.", "Confusing execution policy with antivirus blocking.", "Bypassing a managed policy instead of contacting its owner."],
+    related: ["windows-admin-command-guide.html", "powershell-network-debugging-guide.html", "github-actions-env-secrets-guide.html"]
+  },
+  {
+    file: "windows-service-start-failure-guide.html", category: "Windows Operations", mode: "windows", icon: "SVC",
+    h1: "Windows Service Start Failure Guide",
+    summary: "Troubleshoot Windows service start failures using service configuration, dependencies, identities, event logs and executable exit evidence.",
+    keywords: "windows service start failure debugging sc query event log",
+    command: "Get-Service <name>; sc.exe qc <name>; sc.exe queryex <name>",
+    workflow: [["Capture service state", "Record status, exit code, process ID and recent start attempts."], ["Inspect configuration", "Verify executable path, arguments, startup account and dependency names."], ["Read service events", "Correlate Service Control Manager entries with application-specific logs."], ["Test the runtime identity", "Check file, registry, network and certificate permissions under the configured account."]],
+    checks: ["Quote executable paths correctly.", "Keep recovery actions bounded.", "Confirm dependency readiness, not only running state.", "Preserve the original service account during diagnosis."],
+    mistakes: ["Granting LocalSystem to make the service start.", "Repeatedly restarting before reading exit codes.", "Testing the executable only as an administrator."],
+    related: ["windows-admin-command-guide.html", "application-health-check-guide.html", "log-correlation-id-guide.html"]
+  },
+  {
+    file: "windows-event-log-debugging-guide.html", category: "Windows Operations", mode: "windows", icon: "EVT",
+    h1: "Windows Event Log Debugging Guide",
+    summary: "Build a focused Windows Event Log investigation with time windows, provider names, event IDs, correlation fields and exportable evidence.",
+    keywords: "windows event log debugging powershell get winevent event id",
+    command: "Get-WinEvent -FilterHashtable @{LogName='System'; StartTime=(Get-Date).AddMinutes(-30)}",
+    workflow: [["Freeze the time window", "Use the failure timestamp and timezone to bound collection."], ["Select relevant logs", "Start with System and Application, then add provider-specific operational channels."], ["Filter structurally", "Use provider, event ID and level before free-text searches."], ["Correlate changes", "Place service events, deployments, reboots and authentication failures on one timeline."]],
+    checks: ["Export EVTX when fidelity matters.", "Record provider and event ID with the message.", "Redact usernames and endpoint details before sharing.", "Account for log rollover and retention."],
+    mistakes: ["Searching only the rendered message.", "Ignoring timezone differences.", "Clearing logs during troubleshooting."],
+    related: ["incident-timeline-template-guide.html", "windows-service-start-failure-guide.html", "structured-logging-guide.html"]
+  },
+  {
+    file: "powershell-module-not-found-guide.html", category: "Windows Operations", mode: "windows", icon: "MOD",
+    h1: "PowerShell Module Not Found Debugging Guide",
+    summary: "Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities.",
+    keywords: "powershell module not found import module psmodulepath debugging",
+    command: "Get-Module -ListAvailable; $env:PSModulePath -split [IO.Path]::PathSeparator",
+    workflow: [["Identify the host", "Record PowerShell edition, version, architecture and the identity running the command."], ["Inspect discovery paths", "Compare PSModulePath and installed locations in interactive, scheduled and service contexts."], ["Import verbosely", "Use the fully qualified module name to expose version and dependency errors."], ["Validate compatibility", "Check required editions, native binaries and dependent module constraints."]],
+    checks: ["Install modules for the intended scope.", "Pin automation dependencies explicitly.", "Avoid mixing Windows PowerShell and PowerShell paths blindly.", "Test under the production identity."],
+    mistakes: ["Copying modules into random PATH directories.", "Installing as admin while the job uses another profile.", "Assuming Import-Module errors always mean the module is absent."],
+    related: ["powershell-execution-policy-debugging-guide.html", "windows-admin-command-guide.html", "dependency-vulnerability-triage-guide.html"]
+  },
+  {
+    file: "windows-port-process-debugging-guide.html", category: "Windows Operations", mode: "windows", icon: "PORT",
+    h1: "Windows Port and Process Debugging Guide",
+    summary: "Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures.",
+    keywords: "windows find process using port netstat get nettcpconnection",
+    command: "Get-NetTCPConnection -State Listen | Sort-Object LocalPort",
+    workflow: [["Resolve the endpoint", "Record protocol, local address, port and whether the client is local or remote."], ["Find the owner", "Map the owning process ID to executable path, service and command line."], ["Inspect binding scope", "Distinguish loopback, specific-interface and wildcard listeners."], ["Test network policy", "After proving the listener, review Windows Firewall and upstream rules separately."]],
+    checks: ["Use elevated inspection only when required.", "Check IPv4 and IPv6 listeners.", "Verify the PID has not been reused.", "Do not terminate unknown system processes."],
+    mistakes: ["Assuming LISTEN means the application is healthy.", "Opening a firewall rule before proving a listener exists.", "Killing the PID without identifying its service owner."],
+    related: ["powershell-network-debugging-guide.html", "linux-firewall-debugging-guide.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "windows-scheduled-task-debugging-guide.html", category: "Windows Operations", mode: "windows", icon: "TASK",
+    h1: "Windows Scheduled Task Debugging Guide",
+    summary: "Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences.",
+    keywords: "windows scheduled task debugging last run result task scheduler",
+    command: "Get-ScheduledTask -TaskName <name> | Get-ScheduledTaskInfo",
+    workflow: [["Read task state", "Capture last run time, result code, next run and missed-trigger behavior."], ["Inspect the action", "Verify executable, arguments and Start in directory without relying on interactive PATH values."], ["Check the identity", "Compare logon type, privileges, profile availability and network access for the task account."], ["Enable focused history", "Use TaskScheduler operational events to trace launch and completion."]],
+    checks: ["Use absolute executable and file paths.", "Redirect safe diagnostic output.", "Store secrets outside task arguments.", "Test whether the task runs when no user is logged on."],
+    mistakes: ["Testing only with Run from an administrator session.", "Using mapped drive letters in a background task.", "Ignoring working-directory differences."],
+    related: ["powershell-module-not-found-guide.html", "windows-event-log-debugging-guide.html", "secrets-redaction-checklist.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -1050,7 +1119,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1225,13 +1294,21 @@ function updateToolsPage() {
     safeDeploymentContent,
     "      <!-- Formalint database operations sections start -->"
   );
+  const windowsOperationsContent = sectionMarkup("windows-operations-title", "Windows Operations", "PowerShell, services, event logs, ports and scheduled automation", windowsOperationsPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint Windows operations sections start -->",
+    "      <!-- Formalint Windows operations sections end -->",
+    windowsOperationsContent,
+    "      <!-- Formalint safe deployment sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1397,11 +1474,21 @@ ${safeDeploymentLinks.map((link) => `        { label: "${link.label.replace(/"/g
       ]
     },
 `;
+  const windowsOperationsLinks = windowsOperationsPages.map((page) => ({ label: page.h1, href: page.file, icon: page.icon, description: page.summary, keywords: page.keywords }));
+  const windowsOperationsGroup = `    {
+      title: "Windows Operations",
+      mode: "windows",
+      description: "Troubleshoot PowerShell policy and modules, Windows services, event logs, network listeners and scheduled tasks.",
+      links: [
+${windowsOperationsLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1473,6 +1560,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 21, 2026 - 271 Page Database Operations Update</h2>", entry + "      <h2>September 21, 2026 - 271 Page Database Operations Update</h2>");
   }
+  if (!html.includes("283 Page Windows Operations Update")) {
+    const entry = `      <h2>September 25, 2026 - 283 Page Windows Operations Update</h2>
+      <p>Expanded Formalint to 283 public pages with six practical Windows and PowerShell references covering execution policy, service startup failures, Event Log investigations, module discovery, port ownership and Scheduled Task diagnostics. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 24, 2026 - 277 Page Safe Deployments Update</h2>", entry + "      <h2>September 24, 2026 - 277 Page Safe Deployments Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1526,7 +1619,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1553,6 +1646,7 @@ productionSecurityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.
 runtimeDiagnosticsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 databaseOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 safeDeploymentPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+windowsOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

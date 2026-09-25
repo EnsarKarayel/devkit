@@ -454,6 +454,19 @@
         { label: "Zero-Downtime Deployment Guide", href: "zero-downtime-deployment-guide.html", icon: "0DT", description: "Design zero-downtime application releases with readiness gates, connection draining, backward-compatible data changes and observable rollback.", keywords: "zero downtime deployment guide readiness connection draining" }
       ]
     },
+    {
+      title: "Windows Operations",
+      mode: "windows",
+      description: "Troubleshoot PowerShell policy and modules, Windows services, event logs, network listeners and scheduled tasks.",
+      links: [
+        { label: "PowerShell Execution Policy Debugging Guide", href: "powershell-execution-policy-debugging-guide.html", icon: "PS", description: "Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally.", keywords: "powershell execution policy script blocked debugging unblock file" },
+        { label: "Windows Service Start Failure Guide", href: "windows-service-start-failure-guide.html", icon: "SVC", description: "Troubleshoot Windows service start failures using service configuration, dependencies, identities, event logs and executable exit evidence.", keywords: "windows service start failure debugging sc query event log" },
+        { label: "Windows Event Log Debugging Guide", href: "windows-event-log-debugging-guide.html", icon: "EVT", description: "Build a focused Windows Event Log investigation with time windows, provider names, event IDs, correlation fields and exportable evidence.", keywords: "windows event log debugging powershell get winevent event id" },
+        { label: "PowerShell Module Not Found Debugging Guide", href: "powershell-module-not-found-guide.html", icon: "MOD", description: "Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities.", keywords: "powershell module not found import module psmodulepath debugging" },
+        { label: "Windows Port and Process Debugging Guide", href: "windows-port-process-debugging-guide.html", icon: "PORT", description: "Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures.", keywords: "windows find process using port netstat get nettcpconnection" },
+        { label: "Windows Scheduled Task Debugging Guide", href: "windows-scheduled-task-debugging-guide.html", icon: "TASK", description: "Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences.", keywords: "windows scheduled task debugging last run result task scheduler" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

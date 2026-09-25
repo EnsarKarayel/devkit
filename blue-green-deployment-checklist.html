@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/blue-green-deployment-checklist.html#article","headline":"Blue-Green Deployment Checklist","description":"Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/blue-green-deployment-checklist.html","keywords":"blue green deployment checklist rollback traffic switch"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/blue-green-deployment-checklist.html#article","headline":"Blue-Green Deployment Checklist","description":"Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/blue-green-deployment-checklist.html","keywords":"blue green deployment checklist rollback traffic switch"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Safe Deployments</p>
       <h1>Blue-Green Deployment Checklist</h1>
-      <p class="guide-meta">Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence. Last updated September 25, 2026.</p>
       <p>Plan blue-green releases with environment parity, database compatibility, traffic switching, session behavior and tested rollback evidence. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Build parity</td><td>Keep configuration, dependencies and infrastructure differences explicit between blue and green.</td></tr><tr><td>Prove compatibility</td><td>Validate database, queues, caches and external callbacks with both application versions.</td></tr><tr><td>Test the switch</td><td>Exercise routing, connection draining, sessions and DNS or load-balancer propagation.</td></tr><tr><td>Hold rollback capacity</td><td>Keep blue healthy until green passes a defined observation window.</td></tr></tbody></table>

@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/opentelemetry-collector-pipeline-guide.html#article","headline":"OpenTelemetry Collector Pipeline Guide","description":"Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/opentelemetry-collector-pipeline-guide.html","keywords":"opentelemetry collector pipeline receiver processor exporter"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/opentelemetry-collector-pipeline-guide.html#article","headline":"OpenTelemetry Collector Pipeline Guide","description":"Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/opentelemetry-collector-pipeline-guide.html","keywords":"opentelemetry collector pipeline receiver processor exporter"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Observability</p>
       <h1>OpenTelemetry Collector Pipeline Guide</h1>
-      <p class="guide-meta">Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry. Last updated September 25, 2026.</p>
       <p>Build and troubleshoot OpenTelemetry Collector receiver, processor and exporter pipelines without hiding dropped telemetry. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Start with one signal</td><td>Prove a small traces or metrics pipeline before combining every receiver.</td></tr><tr><td>Order processors</td><td>Memory limits, filtering, enrichment and batching have different failure effects.</td></tr><tr><td>Expose collector metrics</td><td>Queue size, refused items and exporter failures reveal pressure early.</td></tr><tr><td>Test failure behavior</td><td>Disconnect the backend and confirm retry, queue and data-loss expectations.</td></tr></tbody></table>

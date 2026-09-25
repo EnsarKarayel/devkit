@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/ssh-permission-denied-debugging-guide.html#article","headline":"SSH Permission Denied Debugging Guide","description":"Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/ssh-permission-denied-debugging-guide.html","keywords":"ssh permission denied publickey debugging authorized keys"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/ssh-permission-denied-debugging-guide.html#article","headline":"SSH Permission Denied Debugging Guide","description":"Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/ssh-permission-denied-debugging-guide.html","keywords":"ssh permission denied publickey debugging authorized keys"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Production Security</p>
       <h1>SSH Permission Denied Debugging Guide</h1>
-      <p class="guide-meta">Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order. Last updated September 25, 2026.</p>
       <p>Debug SSH public-key authentication failures by checking the selected identity, server policy, file ownership and authorization logs in a safe order. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Confirm the target</td><td>Verify hostname, port and remote username before changing keys.</td></tr><tr><td>Inspect client selection</td><td>Use verbose output to see which identities the client offers and which configuration block applies.</td></tr><tr><td>Check server authorization</td><td>Review authorized_keys ownership, permissions and key restrictions from an existing trusted session.</td></tr><tr><td>Read authentication logs</td><td>Use the server log to distinguish rejected algorithms, policy failures and unreadable key files.</td></tr></tbody></table>

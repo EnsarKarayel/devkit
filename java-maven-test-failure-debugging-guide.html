@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/java-maven-test-failure-debugging-guide.html#article","headline":"Maven Test Failure Debugging Guide","description":"Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/java-maven-test-failure-debugging-guide.html","keywords":"maven surefire failsafe test failure debugging forked jvm"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/java-maven-test-failure-debugging-guide.html#article","headline":"Maven Test Failure Debugging Guide","description":"Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/java-maven-test-failure-debugging-guide.html","keywords":"maven surefire failsafe test failure debugging forked jvm"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Runtime Diagnostics</p>
       <h1>Maven Test Failure Debugging Guide</h1>
-      <p class="guide-meta">Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues. Last updated September 25, 2026.</p>
       <p>Debug Maven Surefire and Failsafe failures by separating test discovery, forked JVM crashes, environment drift and integration-test lifecycle issues. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Classify the phase</td><td>Confirm whether Surefire unit tests or Failsafe integration tests are failing.</td></tr><tr><td>Run one test</td><td>Reproduce the smallest class or method while preserving the same profile and JVM options.</td></tr><tr><td>Inspect reports</td><td>Read XML, text reports and dump files before relying on the final Maven summary.</td></tr><tr><td>Compare environments</td><td>Check JDK, locale, timezone, ports, services and parallel execution between local and CI runs.</td></tr></tbody></table>

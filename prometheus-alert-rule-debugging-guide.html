@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/prometheus-alert-rule-debugging-guide.html#article","headline":"Prometheus Alert Rule Debugging Guide","description":"Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/prometheus-alert-rule-debugging-guide.html","keywords":"prometheus alert rule debugging promql for pending alertmanager"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/prometheus-alert-rule-debugging-guide.html#article","headline":"Prometheus Alert Rule Debugging Guide","description":"Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/prometheus-alert-rule-debugging-guide.html","keywords":"prometheus alert rule debugging promql for pending alertmanager"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Observability</p>
       <h1>Prometheus Alert Rule Debugging Guide</h1>
-      <p class="guide-meta">Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery. Last updated September 25, 2026.</p>
       <p>Debug Prometheus alert rules by separating query results, evaluation timing, pending duration, labels and notification delivery. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Run the expression</td><td>Evaluate the exact PromQL at the rule timestamp and inspect returned labels.</td></tr><tr><td>Check rule state</td><td>A true query remains pending until the for duration completes.</td></tr><tr><td>Inspect label stability</td><td>Changing labels create new alert identities and reset pending time.</td></tr><tr><td>Trace notification routing</td><td>After firing, verify inhibition, silence, grouping and receiver delivery.</td></tr></tbody></table>

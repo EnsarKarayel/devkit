@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260924-safe-deployments">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html#article","headline":"Kubernetes Rollout Stuck Debugging Guide","description":"Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html","keywords":"kubernetes rollout stuck debugging deployment progress deadline"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html#article","headline":"Kubernetes Rollout Stuck Debugging Guide","description":"Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/kubernetes-rollout-stuck-debugging-guide.html","keywords":"kubernetes rollout stuck debugging deployment progress deadline"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Safe Deployments</p>
       <h1>Kubernetes Rollout Stuck Debugging Guide</h1>
-      <p class="guide-meta">Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets. Last updated September 24, 2026.</p>
+      <p class="guide-meta">Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets. Last updated September 25, 2026.</p>
       <p>Diagnose stuck Kubernetes rollouts through Deployment conditions, ReplicaSets, pod scheduling, image pulls, probes and availability budgets. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Read Deployment conditions</td><td>Identify progress deadline, unavailable replica and minimum availability signals.</td></tr><tr><td>Find the active ReplicaSet</td><td>Compare desired, current, ready and available counts across revisions.</td></tr><tr><td>Inspect the newest pods</td><td>Use events and container state to separate scheduling, image, configuration and probe failures.</td></tr><tr><td>Check rollout constraints</td><td>Review surge, unavailable limits, quotas and disruption budgets before changing strategy.</td></tr></tbody></table>
