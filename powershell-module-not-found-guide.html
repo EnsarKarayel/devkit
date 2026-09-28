@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260928-linux-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/powershell-module-not-found-guide.html#article","headline":"PowerShell Module Not Found Debugging Guide","description":"Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/powershell-module-not-found-guide.html","keywords":"powershell module not found import module psmodulepath debugging"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/powershell-module-not-found-guide.html#article","headline":"PowerShell Module Not Found Debugging Guide","description":"Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities.","datePublished":"2026-09-28","dateModified":"2026-09-28","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/powershell-module-not-found-guide.html","keywords":"powershell module not found import module psmodulepath debugging"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Windows Operations</p>
       <h1>PowerShell Module Not Found Debugging Guide</h1>
-      <p class="guide-meta">Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities. Last updated September 25, 2026.</p>
+      <p class="guide-meta">Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities. Last updated September 28, 2026.</p>
       <p>Resolve PowerShell module discovery and import failures across PSModulePath, editions, versions, dependencies and execution identities. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Identify the host</td><td>Record PowerShell edition, version, architecture and the identity running the command.</td></tr><tr><td>Inspect discovery paths</td><td>Compare PSModulePath and installed locations in interactive, scheduled and service contexts.</td></tr><tr><td>Import verbosely</td><td>Use the fully qualified module name to expose version and dependency errors.</td></tr><tr><td>Validate compatibility</td><td>Check required editions, native binaries and dependent module constraints.</td></tr></tbody></table>

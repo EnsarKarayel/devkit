@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260928-linux-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/windows-port-process-debugging-guide.html#article","headline":"Windows Port and Process Debugging Guide","description":"Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures.","datePublished":"2026-09-25","dateModified":"2026-09-25","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/windows-port-process-debugging-guide.html","keywords":"windows find process using port netstat get nettcpconnection"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/windows-port-process-debugging-guide.html#article","headline":"Windows Port and Process Debugging Guide","description":"Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures.","datePublished":"2026-09-28","dateModified":"2026-09-28","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/windows-port-process-debugging-guide.html","keywords":"windows find process using port netstat get nettcpconnection"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Windows Operations</p>
       <h1>Windows Port and Process Debugging Guide</h1>
-      <p class="guide-meta">Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures. Last updated September 25, 2026.</p>
+      <p class="guide-meta">Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures. Last updated September 28, 2026.</p>
       <p>Find which Windows process owns a TCP or UDP port and distinguish listening, firewall, binding and application-health failures. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Resolve the endpoint</td><td>Record protocol, local address, port and whether the client is local or remote.</td></tr><tr><td>Find the owner</td><td>Map the owning process ID to executable path, service and command line.</td></tr><tr><td>Inspect binding scope</td><td>Distinguish loopback, specific-interface and wildcard listeners.</td></tr><tr><td>Test network policy</td><td>After proving the listener, review Windows Firewall and upstream rules separately.</td></tr></tbody></table>

@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260925-windows-operations">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260928-linux-operations">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 283 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 289 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 283 resources</span>
+          <span id="toolsDirectoryCount">Showing 289 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint Linux operations sections start -->
+      <section class="directory-section" aria-labelledby="linux-operations-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">Linux Operations</p>
+          <h2 id="linux-operations-title">systemd, memory pressure, filesystems, load, permissions and DNS</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="systemd-service-failed-debugging-guide.html"><span>systemd Service Failed Debugging</span><small>Debug failed systemd units using status, journal evidence, unit dependencies, runtime identities and restart behavior before changing service files.</small></a>
+          <a class="tool-card" href="linux-oom-killer-debugging-guide.html"><span>Linux OOM Killer Debugging</span><small>Investigate Linux out-of-memory kills with kernel evidence, cgroup limits, working-set growth, swap behavior and application allocation signals.</small></a>
+          <a class="tool-card" href="linux-inode-exhaustion-guide.html"><span>Linux Inode Exhaustion Debugging</span><small>Diagnose no-space errors caused by inode exhaustion, locate high-file-count directories and clean safely without confusing bytes with filesystem metadata.</small></a>
+          <a class="tool-card" href="linux-high-load-debugging-guide.html"><span>Linux High Load Debugging</span><small>Interpret Linux load average with runnable tasks, uninterruptible I/O, CPU saturation and cgroup pressure instead of treating load as CPU percentage.</small></a>
+          <a class="tool-card" href="linux-permission-denied-debugging-guide.html"><span>Linux Permission Denied Debugging</span><small>Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls.</small></a>
+          <a class="tool-card" href="linux-dns-resolution-debugging-guide.html"><span>Linux DNS Resolution Debugging</span><small>Debug Linux name-resolution failures across application resolvers, NSS, systemd-resolved, search domains, containers and authoritative DNS evidence.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint Linux operations sections end -->
 
       <!-- Formalint Windows operations sections start -->
       <section class="directory-section" aria-labelledby="windows-operations-title" data-tools-section>

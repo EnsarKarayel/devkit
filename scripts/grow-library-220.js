@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260925-windows-operations";
-const LIBRARY_COUNT = 283;
-const TODAY = "2026-09-25";
-const HUMAN_DATE = "September 25, 2026";
+const CACHE_VERSION = "20260928-linux-operations";
+const LIBRARY_COUNT = 289;
+const TODAY = "2026-09-28";
+const HUMAN_DATE = "September 28, 2026";
 
 const guidePages = [
   {
@@ -899,6 +899,75 @@ const windowsOperationsPages = [
   }
 ];
 
+const linuxOperationsPages = [
+  {
+    file: "systemd-service-failed-debugging-guide.html", category: "Linux Operations", mode: "linux", icon: "SYS",
+    h1: "systemd Service Failed Debugging Guide",
+    summary: "Debug failed systemd units using status, journal evidence, unit dependencies, runtime identities and restart behavior before changing service files.",
+    keywords: "systemd service failed debugging journalctl unit dependency",
+    command: "systemctl status <unit> --no-pager; journalctl -u <unit> -b --no-pager",
+    workflow: [["Capture unit state", "Record result, exit status, restart count and the active unit file path."], ["Read the current boot journal", "Use unit and boot filters to avoid mixing failures from older configurations."], ["Inspect effective configuration", "Review drop-ins, environment files, dependencies and the runtime user with systemctl cat and show."], ["Reproduce narrowly", "Run validation or the executable under the service identity without bypassing sandbox controls."]],
+    checks: ["Run daemon-reload after unit changes.", "Use absolute paths in ExecStart.", "Check start limits before retrying.", "Preserve hardening directives during diagnosis."],
+    mistakes: ["Deleting restart limits instead of fixing the crash.", "Editing vendor unit files directly.", "Testing only as root."],
+    related: ["linux-systemctl-debugging-guide.html", "linux-journalctl-guide.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "linux-oom-killer-debugging-guide.html", category: "Linux Operations", mode: "linux", icon: "OOM",
+    h1: "Linux OOM Killer Debugging Guide",
+    summary: "Investigate Linux out-of-memory kills with kernel evidence, cgroup limits, working-set growth, swap behavior and application allocation signals.",
+    keywords: "linux oom killer debugging cgroup memory limit",
+    command: "journalctl -k -b | grep -Ei 'out of memory|killed process|oom'",
+    workflow: [["Prove the kill", "Use kernel messages and exit status to distinguish OOM from application termination."], ["Identify the boundary", "Check host memory, container cgroup limits and systemd MemoryMax separately."], ["Measure the working set", "Compare resident memory, cache, anonymous pages and growth over time."], ["Connect to application behavior", "Correlate deploys, load, queues and allocation profiles with the pressure window."]],
+    checks: ["Record memory.current and memory.events for cgroups.", "Keep emergency operating-system headroom.", "Set bounded queues and caches.", "Validate alerting before the kill threshold."],
+    mistakes: ["Adding swap as the only fix.", "Looking only at free memory after the process died.", "Raising limits without finding unbounded growth."],
+    related: ["docker-container-logs-guide.html", "java-memory-debugging-guide.html", "prometheus-alert-rule-debugging-guide.html"]
+  },
+  {
+    file: "linux-inode-exhaustion-guide.html", category: "Linux Operations", mode: "linux", icon: "INO",
+    h1: "Linux Inode Exhaustion Debugging Guide",
+    summary: "Diagnose no-space errors caused by inode exhaustion, locate high-file-count directories and clean safely without confusing bytes with filesystem metadata.",
+    keywords: "linux inode exhaustion no space left debugging df inodes",
+    command: "df -h; df -i",
+    workflow: [["Compare bytes and inodes", "Use both filesystem views to identify the actual exhausted resource."], ["Find the mount", "Confirm which filesystem backs the failing path, including container overlays and bind mounts."], ["Locate file-count hotspots", "Measure directories progressively without traversing unrelated network filesystems."], ["Fix the producer", "Address runaway temporary files, queues, sessions or log rotation before cleanup."]],
+    checks: ["Preserve recent samples for root-cause evidence.", "Check deleted-open files separately.", "Use application-supported cleanup where possible.", "Monitor inode percentage on small-file workloads."],
+    mistakes: ["Deleting wildcard paths as root.", "Expanding disk bytes when inode density is the issue.", "Scanning the entire server without mount boundaries."],
+    related: ["linux-disk-space-debugging-guide.html", "docker-volume-debugging-guide.html", "structured-logging-guide.html"]
+  },
+  {
+    file: "linux-high-load-debugging-guide.html", category: "Linux Operations", mode: "linux", icon: "LOAD",
+    h1: "Linux High Load Debugging Guide",
+    summary: "Interpret Linux load average with runnable tasks, uninterruptible I/O, CPU saturation and cgroup pressure instead of treating load as CPU percentage.",
+    keywords: "linux high load average debugging cpu io pressure",
+    command: "uptime; vmstat 1; ps -eo state,pid,ppid,comm,wchan:32 --sort=state",
+    workflow: [["Normalize the signal", "Compare load with CPU count, traffic and the incident time window."], ["Separate runnable and blocked work", "Use process states and wait channels to distinguish CPU demand from I/O stalls."], ["Inspect pressure", "Review CPU, memory and I/O pressure stall information plus cgroup throttling."], ["Trace the owner", "Connect hot or blocked tasks to services, deployments and dependent storage."]],
+    checks: ["Capture short time-series samples.", "Check steal time on virtual machines.", "Compare host and container limits.", "Record queue depth before restarting workloads."],
+    mistakes: ["Assuming load 10 is always severe.", "Sorting only by CPU usage.", "Restarting before identifying blocked kernel waits."],
+    related: ["linux-admin-command-guide.html", "linux-disk-space-debugging-guide.html", "application-health-check-guide.html"]
+  },
+  {
+    file: "linux-permission-denied-debugging-guide.html", category: "Linux Operations", mode: "linux", icon: "PERM",
+    h1: "Linux Permission Denied Debugging Guide",
+    summary: "Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls.",
+    keywords: "linux permission denied debugging acl selinux apparmor",
+    command: "namei -l /path/to/file; getfacl /path/to/file",
+    workflow: [["Identify the process identity", "Record effective user, groups, capabilities and container namespace."], ["Walk the full path", "Every parent directory needs suitable traversal permission, not only the final file."], ["Check layered controls", "Review ACLs, read-only or noexec mounts, SELinux and AppArmor evidence."], ["Apply least privilege", "Change ownership, group access or policy narrowly and retest under the real identity."]],
+    checks: ["Preserve audit log timestamps.", "Avoid world-writable fixes.", "Check service sandbox directives.", "Document required read, write, execute and traverse access separately."],
+    mistakes: ["Using chmod 777.", "Testing only with sudo.", "Disabling SELinux or AppArmor globally."],
+    related: ["ssh-permission-denied-debugging-guide.html", "systemd-service-failed-debugging-guide.html", "secrets-redaction-checklist.html"]
+  },
+  {
+    file: "linux-dns-resolution-debugging-guide.html", category: "Linux Operations", mode: "linux", icon: "DNS",
+    h1: "Linux DNS Resolution Debugging Guide",
+    summary: "Debug Linux name-resolution failures across application resolvers, NSS, systemd-resolved, search domains, containers and authoritative DNS evidence.",
+    keywords: "linux dns resolution debugging resolv conf systemd resolved",
+    command: "getent hosts example.com; resolvectl query example.com",
+    workflow: [["Reproduce through the application path", "Use getent or the runtime resolver before comparing direct DNS tools."], ["Inspect resolver configuration", "Review NSS order, resolv.conf ownership, search domains and per-link DNS state."], ["Test specific servers", "Query configured recursive servers to separate local stub and upstream behavior."], ["Check container boundaries", "Compare host, container and orchestration DNS configuration and suffix expansion."]],
+    checks: ["Record A and AAAA behavior.", "Check negative caching after fixes.", "Use fully qualified names during diagnosis.", "Preserve split-DNS and VPN context."],
+    mistakes: ["Replacing resolv.conf without knowing its manager.", "Using ping as the only DNS test.", "Assuming dig matches application NSS behavior."],
+    related: ["dns-debugging-guide.html", "docker-compose-debugging-guide.html", "kubernetes-pod-debugging-guide.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -1119,7 +1188,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1302,13 +1371,21 @@ function updateToolsPage() {
     windowsOperationsContent,
     "      <!-- Formalint safe deployment sections start -->"
   );
+  const linuxOperationsContent = sectionMarkup("linux-operations-title", "Linux Operations", "systemd, memory pressure, filesystems, load, permissions and DNS", linuxOperationsPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint Linux operations sections start -->",
+    "      <!-- Formalint Linux operations sections end -->",
+    linuxOperationsContent,
+    "      <!-- Formalint Windows operations sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1484,11 +1561,21 @@ ${windowsOperationsLinks.map((link) => `        { label: "${link.label.replace(/
       ]
     },
 `;
+  const linuxOperationsLinks = linuxOperationsPages.map((page) => ({ label: page.h1, href: page.file, icon: page.icon, description: page.summary, keywords: page.keywords }));
+  const linuxOperationsGroup = `    {
+      title: "Linux Operations",
+      mode: "linux",
+      description: "Investigate services, OOM kills, inode exhaustion, high load, permissions and resolver failures without weakening the host.",
+      links: [
+${linuxOperationsLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup + linuxOperationsGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1566,6 +1653,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 24, 2026 - 277 Page Safe Deployments Update</h2>", entry + "      <h2>September 24, 2026 - 277 Page Safe Deployments Update</h2>");
   }
+  if (!html.includes("289 Page Linux Operations Update")) {
+    const entry = `      <h2>September 28, 2026 - 289 Page Linux Operations Update</h2>
+      <p>Expanded Formalint to 289 public pages with six operational Linux guides covering failed systemd services, OOM kills, inode exhaustion, high load, layered permission failures and DNS resolution. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 25, 2026 - 283 Page Windows Operations Update</h2>", entry + "      <h2>September 25, 2026 - 283 Page Windows Operations Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1619,7 +1712,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1647,6 +1740,7 @@ runtimeDiagnosticsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.
 databaseOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 safeDeploymentPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 windowsOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+linuxOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

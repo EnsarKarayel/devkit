@@ -467,6 +467,19 @@
         { label: "Windows Scheduled Task Debugging Guide", href: "windows-scheduled-task-debugging-guide.html", icon: "TASK", description: "Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences.", keywords: "windows scheduled task debugging last run result task scheduler" }
       ]
     },
+    {
+      title: "Linux Operations",
+      mode: "linux",
+      description: "Investigate services, OOM kills, inode exhaustion, high load, permissions and resolver failures without weakening the host.",
+      links: [
+        { label: "systemd Service Failed Debugging Guide", href: "systemd-service-failed-debugging-guide.html", icon: "SYS", description: "Debug failed systemd units using status, journal evidence, unit dependencies, runtime identities and restart behavior before changing service files.", keywords: "systemd service failed debugging journalctl unit dependency" },
+        { label: "Linux OOM Killer Debugging Guide", href: "linux-oom-killer-debugging-guide.html", icon: "OOM", description: "Investigate Linux out-of-memory kills with kernel evidence, cgroup limits, working-set growth, swap behavior and application allocation signals.", keywords: "linux oom killer debugging cgroup memory limit" },
+        { label: "Linux Inode Exhaustion Debugging Guide", href: "linux-inode-exhaustion-guide.html", icon: "INO", description: "Diagnose no-space errors caused by inode exhaustion, locate high-file-count directories and clean safely without confusing bytes with filesystem metadata.", keywords: "linux inode exhaustion no space left debugging df inodes" },
+        { label: "Linux High Load Debugging Guide", href: "linux-high-load-debugging-guide.html", icon: "LOAD", description: "Interpret Linux load average with runnable tasks, uninterruptible I/O, CPU saturation and cgroup pressure instead of treating load as CPU percentage.", keywords: "linux high load average debugging cpu io pressure" },
+        { label: "Linux Permission Denied Debugging Guide", href: "linux-permission-denied-debugging-guide.html", icon: "PERM", description: "Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls.", keywords: "linux permission denied debugging acl selinux apparmor" },
+        { label: "Linux DNS Resolution Debugging Guide", href: "linux-dns-resolution-debugging-guide.html", icon: "DNS", description: "Debug Linux name-resolution failures across application resolvers, NSS, systemd-resolved, search domains, containers and authoritative DNS evidence.", keywords: "linux dns resolution debugging resolv conf systemd resolved" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start
