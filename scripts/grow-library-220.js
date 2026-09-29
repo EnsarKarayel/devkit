@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260928-linux-operations";
-const LIBRARY_COUNT = 289;
-const TODAY = "2026-09-28";
-const HUMAN_DATE = "September 28, 2026";
+const CACHE_VERSION = "20260929-regex-debugging";
+const LIBRARY_COUNT = 295;
+const TODAY = "2026-09-29";
+const HUMAN_DATE = "September 29, 2026";
 
 const guidePages = [
   {
@@ -968,6 +968,75 @@ const linuxOperationsPages = [
   }
 ];
 
+const regexDebuggingPages = [
+  {
+    file: "regex-greedy-vs-lazy-guide.html", category: "Regex Debugging", mode: "regex", icon: ".*?",
+    h1: "Regex Greedy vs Lazy Quantifiers Guide",
+    summary: "Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text.",
+    keywords: "regex greedy vs lazy quantifier examples debugging",
+    command: "greedy: .*   lazy: .*?   bounded: [^\"]*",
+    workflow: [["State the intended boundary", "Write down the delimiter or character class that should end the match."], ["Compare minimal examples", "Test one, two and missing delimiters to expose overmatching and failure behavior."], ["Inspect backtracking", "A lazy quantifier can still expand repeatedly when the suffix fails."], ["Prefer explicit bounds", "Use negated classes or parsers when the grammar provides a clear boundary."]],
+    checks: ["Include multiline input in tests.", "Test absent closing delimiters.", "Keep the repeated token specific.", "Benchmark patterns on long near-misses."],
+    mistakes: ["Assuming lazy always means fast.", "Using dot-star for nested syntax.", "Testing only one successful example."],
+    related: ["regex-performance-guide.html", "regex-lookahead-lookbehind-guide.html", "regex-tester.html"]
+  },
+  {
+    file: "regex-escaping-guide.html", category: "Regex Debugging", mode: "regex", icon: "ESC",
+    h1: "Regex Escaping Guide",
+    summary: "Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.",
+    keywords: "regex escaping guide javascript json backslash debugging",
+    command: "regex source -> language string -> JSON or shell transport -> regex engine",
+    workflow: [["Count representation layers", "Separate regex syntax from the host language, JSON and command-shell encoding."], ["Inspect the final pattern", "Print or log the compiled source safely instead of guessing what reached the engine."], ["Use raw forms when available", "Prefer regex literals or raw strings when they reduce one encoding layer."], ["Test literal metacharacters", "Verify dots, brackets, slashes and backslashes with focused cases."]],
+    checks: ["Document the target regex engine.", "Distinguish delimiter escaping from regex escaping.", "Keep examples copyable in one language.", "Test serialized configuration separately."],
+    mistakes: ["Adding backslashes until compilation succeeds.", "Copying a JavaScript literal into JSON unchanged.", "Confusing shell quoting with regex anchors."],
+    related: ["json-escape-unescape-guide.html", "javascript-regex-cheatsheet.html", "regex-matcher.html"]
+  },
+  {
+    file: "regex-flags-guide.html", category: "Regex Debugging", mode: "regex", icon: "gim",
+    h1: "Regex Flags Guide",
+    summary: "Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics.",
+    keywords: "regex flags g i m s u y guide javascript",
+    command: "/pattern/gimsuy",
+    workflow: [["Start without flags", "Prove the core pattern before changing matching semantics."], ["Add one behavior", "Enable case, multiline, dot-all or Unicode handling independently."], ["Test stateful APIs", "Global and sticky JavaScript regex objects update lastIndex across calls."], ["Verify engine support", "Flag names and behavior differ across JavaScript, Python, Java, PHP and command tools."]],
+    checks: ["Test anchors with multiple lines.", "Include non-ASCII case examples.", "Reset lastIndex in reused JavaScript patterns.", "Record flags beside stored patterns."],
+    mistakes: ["Using multiline to make dot match newlines.", "Reusing a global regex in repeated validation calls.", "Assuming case-insensitive Unicode behavior is identical everywhere."],
+    related: ["regex-multiline-anchors-guide.html", "javascript-regex-match-vs-test.html", "regex-examples.html"]
+  },
+  {
+    file: "regex-named-capture-groups-guide.html", category: "Regex Debugging", mode: "regex", icon: "?<>",
+    h1: "Regex Named Capture Groups Guide",
+    summary: "Use named regex capture groups for maintainable extraction while handling optional fields, duplicate names, replacements and engine compatibility.",
+    keywords: "regex named capture groups guide replacement extraction",
+    command: "(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})",
+    workflow: [["Name semantic fields", "Use stable domain names rather than positional labels such as group1."], ["Keep structure non-capturing", "Use non-capturing groups for precedence that should not enter output."], ["Handle optional groups", "Define how absent captures appear in the host language and replacement API."], ["Verify compatibility", "Check named-group and backreference syntax for the target engine."]],
+    checks: ["Test extraction and replacement separately.", "Avoid duplicate names unless the engine documents support.", "Keep group names stable for downstream code.", "Validate values after extraction."],
+    mistakes: ["Using captures for validation business rules.", "Renumbering positional groups during maintenance.", "Assuming replacement syntax matches pattern syntax."],
+    related: ["regex-capture-groups-guide.html", "regex-replace-guide.html", "regex-log-parser.html"]
+  },
+  {
+    file: "regex-catastrophic-backtracking-guide.html", category: "Regex Debugging", mode: "regex", icon: "REDOS",
+    h1: "Regex Catastrophic Backtracking Guide",
+    summary: "Recognize and remove catastrophic regex backtracking caused by ambiguous nested repetition, overlapping alternatives and long near-miss inputs.",
+    keywords: "regex catastrophic backtracking redos prevention debugging",
+    command: "risk: (a+)+$   safer: ^a+$",
+    workflow: [["Find repeated ambiguity", "Look for nested quantifiers and alternatives that can consume the same text in many ways."], ["Test near-misses", "Use long input that almost matches and measure growth with strict time limits."], ["Rewrite deterministically", "Remove overlap, anchor boundaries and use atomic or possessive constructs only when supported."], ["Add operational guards", "Limit input length and execution time where untrusted patterns or text are accepted."]],
+    checks: ["Benchmark increasing input lengths.", "Review user-controlled regex features.", "Prefer parsers for nested grammar.", "Keep denial-of-service tests out of production systems."],
+    mistakes: ["Testing only matching input.", "Treating a lazy quantifier as a security fix.", "Running stress patterns in a shared browser tab or server thread."],
+    related: ["regex-performance-guide.html", "regex-greedy-vs-lazy-guide.html", "safe-online-dev-tools.html"]
+  },
+  {
+    file: "regex-unicode-guide.html", category: "Regex Debugging", mode: "regex", icon: "U+",
+    h1: "Regex Unicode Matching Guide",
+    summary: "Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes.",
+    keywords: "regex unicode matching property escapes grapheme normalization",
+    command: "JavaScript example: /\\p{L}+/gu",
+    workflow: [["Define the text unit", "Decide whether the task concerns bytes, code points, combining sequences or user-visible graphemes."], ["Normalize deliberately", "Choose a normalization form only when product requirements permit equivalent representations."], ["Use Unicode properties", "Prefer supported letter, number and script properties over hand-written ranges."], ["Test real language data", "Include accents, combining marks, emoji, non-Latin scripts and mixed-direction text."]],
+    checks: ["Enable the engine's Unicode mode.", "Do not use regex alone for international email validity.", "Test upper and lower case folding.", "Preserve original user text when normalizing for comparison."],
+    mistakes: ["Treating \\w as all human letters.", "Splitting emoji by code unit.", "Using broad script restrictions as a security control."],
+    related: ["regex-word-boundary-guide.html", "email-regex-test-cases.html", "regex-email-validator.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -1188,7 +1257,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1379,13 +1448,21 @@ function updateToolsPage() {
     linuxOperationsContent,
     "      <!-- Formalint Windows operations sections start -->"
   );
+  const regexDebuggingContent = sectionMarkup("regex-debugging-title", "Regex Debugging", "Quantifiers, escaping, flags, captures, performance and Unicode", regexDebuggingPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint regex debugging sections start -->",
+    "      <!-- Formalint regex debugging sections end -->",
+    regexDebuggingContent,
+    "      <!-- Formalint Linux operations sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1571,11 +1648,21 @@ ${linuxOperationsLinks.map((link) => `        { label: "${link.label.replace(/"/
       ]
     },
 `;
+  const regexDebuggingLinks = regexDebuggingPages.map((page) => ({ label: page.h1, href: page.file, icon: page.icon, description: page.summary, keywords: page.keywords }));
+  const regexDebuggingGroup = `    {
+      title: "Regex Debugging",
+      mode: "regex",
+      description: "Understand quantifiers, escaping layers, flags, named captures, backtracking risk and Unicode behavior.",
+      links: [
+${regexDebuggingLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup + linuxOperationsGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup + linuxOperationsGroup + regexDebuggingGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1659,6 +1746,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 25, 2026 - 283 Page Windows Operations Update</h2>", entry + "      <h2>September 25, 2026 - 283 Page Windows Operations Update</h2>");
   }
+  if (!html.includes("295 Page Regex Debugging Update")) {
+    const entry = `      <h2>September 29, 2026 - 295 Page Regex Debugging Update</h2>
+      <p>Expanded Formalint to 295 public pages with six focused regex references covering greedy and lazy quantifiers, escaping layers, flags, named capture groups, catastrophic backtracking and Unicode-aware matching. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 28, 2026 - 289 Page Linux Operations Update</h2>", entry + "      <h2>September 28, 2026 - 289 Page Linux Operations Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1712,7 +1805,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file), regexDebuggingPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1741,6 +1834,7 @@ databaseOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.
 safeDeploymentPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 windowsOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 linuxOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+regexDebuggingPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

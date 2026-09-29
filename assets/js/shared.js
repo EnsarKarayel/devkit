@@ -480,6 +480,19 @@
         { label: "Linux DNS Resolution Debugging Guide", href: "linux-dns-resolution-debugging-guide.html", icon: "DNS", description: "Debug Linux name-resolution failures across application resolvers, NSS, systemd-resolved, search domains, containers and authoritative DNS evidence.", keywords: "linux dns resolution debugging resolv conf systemd resolved" }
       ]
     },
+    {
+      title: "Regex Debugging",
+      mode: "regex",
+      description: "Understand quantifiers, escaping layers, flags, named captures, backtracking risk and Unicode behavior.",
+      links: [
+        { label: "Regex Greedy vs Lazy Quantifiers Guide", href: "regex-greedy-vs-lazy-guide.html", icon: ".*?", description: "Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text.", keywords: "regex greedy vs lazy quantifier examples debugging" },
+        { label: "Regex Escaping Guide", href: "regex-escaping-guide.html", icon: "ESC", description: "Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.", keywords: "regex escaping guide javascript json backslash debugging" },
+        { label: "Regex Flags Guide", href: "regex-flags-guide.html", icon: "gim", description: "Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics.", keywords: "regex flags g i m s u y guide javascript" },
+        { label: "Regex Named Capture Groups Guide", href: "regex-named-capture-groups-guide.html", icon: "?<>", description: "Use named regex capture groups for maintainable extraction while handling optional fields, duplicate names, replacements and engine compatibility.", keywords: "regex named capture groups guide replacement extraction" },
+        { label: "Regex Catastrophic Backtracking Guide", href: "regex-catastrophic-backtracking-guide.html", icon: "REDOS", description: "Recognize and remove catastrophic regex backtracking caused by ambiguous nested repetition, overlapping alternatives and long near-miss inputs.", keywords: "regex catastrophic backtracking redos prevention debugging" },
+        { label: "Regex Unicode Matching Guide", href: "regex-unicode-guide.html", icon: "U+", description: "Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes.", keywords: "regex unicode matching property escapes grapheme normalization" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

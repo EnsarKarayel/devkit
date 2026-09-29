@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260928-linux-operations">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/windows-scheduled-task-debugging-guide.html#article","headline":"Windows Scheduled Task Debugging Guide","description":"Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences.","datePublished":"2026-09-28","dateModified":"2026-09-28","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/windows-scheduled-task-debugging-guide.html","keywords":"windows scheduled task debugging last run result task scheduler"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/windows-scheduled-task-debugging-guide.html#article","headline":"Windows Scheduled Task Debugging Guide","description":"Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences.","datePublished":"2026-09-29","dateModified":"2026-09-29","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/windows-scheduled-task-debugging-guide.html","keywords":"windows scheduled task debugging last run result task scheduler"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Windows Operations</p>
       <h1>Windows Scheduled Task Debugging Guide</h1>
-      <p class="guide-meta">Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences. Last updated September 28, 2026.</p>
+      <p class="guide-meta">Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences. Last updated September 29, 2026.</p>
       <p>Debug Windows Scheduled Task failures using history, last result codes, trigger state, working directories and non-interactive identity differences. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Read task state</td><td>Capture last run time, result code, next run and missed-trigger behavior.</td></tr><tr><td>Inspect the action</td><td>Verify executable, arguments and Start in directory without relying on interactive PATH values.</td></tr><tr><td>Check the identity</td><td>Compare logon type, privileges, profile availability and network access for the task account.</td></tr><tr><td>Enable focused history</td><td>Use TaskScheduler operational events to trace launch and completion.</td></tr></tbody></table>
