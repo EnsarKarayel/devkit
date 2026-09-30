@@ -493,6 +493,19 @@
         { label: "Regex Unicode Matching Guide", href: "regex-unicode-guide.html", icon: "U+", description: "Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes.", keywords: "regex unicode matching property escapes grapheme normalization" }
       ]
     },
+    {
+      title: "JSON Debugging",
+      mode: "json",
+      description: "Resolve parser failures and design safe JSON handling for large, ambiguous or precision-sensitive payloads.",
+      links: [
+        { label: "JSON Trailing Comma Debugging Guide", href: "json-trailing-comma-debugging-guide.html", icon: "JSON", description: "Find and remove JSON trailing commas while distinguishing strict JSON from JavaScript objects, JSON5 and editor-specific configuration formats.", keywords: "json trailing comma error debugging unexpected token" },
+        { label: "JSON Unexpected Token Debugging Guide", href: "json-unexpected-token-debugging-guide.html", icon: "ERR", description: "Debug JSON unexpected-token errors by inspecting response metadata, parser offsets, encoding, escaping and truncated payload evidence.", keywords: "json unexpected token debugging parse error position" },
+        { label: "Large JSON File Processing Guide", href: "large-json-file-processing-guide.html", icon: "BIG", description: "Process large JSON safely with streaming, JSON Lines, bounded memory, incremental validation and explicit failure recovery.", keywords: "large json file processing streaming memory json lines" },
+        { label: "JSON Duplicate Keys Guide", href: "json-duplicate-keys-guide.html", icon: "DUP", description: "Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads.", keywords: "json duplicate keys detection parser behavior security" },
+        { label: "JSON Number Precision Guide", href: "json-number-precision-guide.html", icon: "NUM", description: "Prevent JSON integer and decimal precision loss across JavaScript, APIs and databases by choosing explicit string or decimal representations.", keywords: "json number precision javascript big integer decimal api" },
+        { label: "JSON Depth Limit Security Guide", href: "json-depth-limit-security-guide.html", icon: "DEPTH", description: "Set JSON nesting, size and collection limits to protect parsers and application logic from stack, memory and CPU exhaustion.", keywords: "json depth limit security nested payload denial service" }
+      ]
+    },
     // Formalint community groups end
 
     // Formalint living index groups start

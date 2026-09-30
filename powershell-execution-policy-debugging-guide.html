@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260930-json-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/powershell-execution-policy-debugging-guide.html#article","headline":"PowerShell Execution Policy Debugging Guide","description":"Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally.","datePublished":"2026-09-29","dateModified":"2026-09-29","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/powershell-execution-policy-debugging-guide.html","keywords":"powershell execution policy script blocked debugging unblock file"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/powershell-execution-policy-debugging-guide.html#article","headline":"PowerShell Execution Policy Debugging Guide","description":"Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/powershell-execution-policy-debugging-guide.html","keywords":"powershell execution policy script blocked debugging unblock file"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Windows Operations</p>
       <h1>PowerShell Execution Policy Debugging Guide</h1>
-      <p class="guide-meta">Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally. Last updated September 29, 2026.</p>
+      <p class="guide-meta">Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally. Last updated September 30, 2026.</p>
       <p>Diagnose PowerShell script-blocking errors by identifying policy scope, file origin, signing state and organizational controls without disabling protection globally. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Read every scope</td><td>Compare MachinePolicy, UserPolicy, process, user and machine values before changing anything.</td></tr><tr><td>Inspect file origin</td><td>Downloaded files may carry a Zone.Identifier even when local scripts run.</td></tr><tr><td>Verify signing</td><td>Check signature status, certificate trust and script integrity for signed environments.</td></tr><tr><td>Choose the narrow fix</td><td>Use a trusted signature, Unblock-File or a process-scoped policy only when policy permits.</td></tr></tbody></table>

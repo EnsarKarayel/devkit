@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260930-json-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-escaping-guide.html#article","headline":"Regex Escaping Guide","description":"Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.","datePublished":"2026-09-29","dateModified":"2026-09-29","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-escaping-guide.html","keywords":"regex escaping guide javascript json backslash debugging"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-escaping-guide.html#article","headline":"Regex Escaping Guide","description":"Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-escaping-guide.html","keywords":"regex escaping guide javascript json backslash debugging"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Regex Debugging</p>
       <h1>Regex Escaping Guide</h1>
-      <p class="guide-meta">Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes. Last updated September 29, 2026.</p>
+      <p class="guide-meta">Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes. Last updated September 30, 2026.</p>
       <p>Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Count representation layers</td><td>Separate regex syntax from the host language, JSON and command-shell encoding.</td></tr><tr><td>Inspect the final pattern</td><td>Print or log the compiled source safely instead of guessing what reached the engine.</td></tr><tr><td>Use raw forms when available</td><td>Prefer regex literals or raw strings when they reduce one encoding layer.</td></tr><tr><td>Test literal metacharacters</td><td>Verify dots, brackets, slashes and backslashes with focused cases.</td></tr></tbody></table>

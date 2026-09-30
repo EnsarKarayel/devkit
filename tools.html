@@ -26,7 +26,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260930-json-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
@@ -49,7 +49,7 @@
       <section class="directory-hero">
         <p class="eyebrow">All tools</p>
         <h1>Developer tools directory</h1>
-        <p class="hero-copy">Search 295 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
+        <p class="hero-copy">Search 301 Formalint tools and guides for formatting payloads, cleaning code, decoding tokens, debugging APIs, checking databases and reviewing runtime evidence.</p>
       </section>
 
       <section class="directory-control-panel" aria-label="Search Formalint tools" data-directory-controls>
@@ -93,7 +93,7 @@
           <button type="button" data-tools-query="minimal reproduction" data-tools-topic-jump="community">minimal reproduction</button>
         </div>
         <div class="directory-filter-footer">
-          <span id="toolsDirectoryCount">Showing 295 resources</span>
+          <span id="toolsDirectoryCount">Showing 301 resources</span>
           <button type="button" data-clear-tools>Clear</button>
         </div>
       </section>
@@ -259,6 +259,24 @@
         </div>
       </section>
 
+
+      <!-- Formalint JSON debugging sections start -->
+      <section class="directory-section" aria-labelledby="json-debugging-title" data-tools-section>
+        <div class="section-heading">
+          <p class="eyebrow">JSON Debugging</p>
+          <h2 id="json-debugging-title">Parser errors, large files, duplicate keys, precision and safe limits</h2>
+        </div>
+        <div class="directory-grid">
+          <a class="tool-card" href="json-trailing-comma-debugging-guide.html"><span>JSON Trailing Comma Debugging</span><small>Find and remove JSON trailing commas while distinguishing strict JSON from JavaScript objects, JSON5 and editor-specific configuration formats.</small></a>
+          <a class="tool-card" href="json-unexpected-token-debugging-guide.html"><span>JSON Unexpected Token Debugging</span><small>Debug JSON unexpected-token errors by inspecting response metadata, parser offsets, encoding, escaping and truncated payload evidence.</small></a>
+          <a class="tool-card" href="large-json-file-processing-guide.html"><span>Large JSON File Processing</span><small>Process large JSON safely with streaming, JSON Lines, bounded memory, incremental validation and explicit failure recovery.</small></a>
+          <a class="tool-card" href="json-duplicate-keys-guide.html"><span>JSON Duplicate Keys</span><small>Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads.</small></a>
+          <a class="tool-card" href="json-number-precision-guide.html"><span>JSON Number Precision</span><small>Prevent JSON integer and decimal precision loss across JavaScript, APIs and databases by choosing explicit string or decimal representations.</small></a>
+          <a class="tool-card" href="json-depth-limit-security-guide.html"><span>JSON Depth Limit Security</span><small>Set JSON nesting, size and collection limits to protect parsers and application logic from stack, memory and CPU exhaustion.</small></a>
+        </div>
+      </section>
+
+      <!-- Formalint JSON debugging sections end -->
 
       <!-- Formalint regex debugging sections start -->
       <section class="directory-section" aria-labelledby="regex-debugging-title" data-tools-section>

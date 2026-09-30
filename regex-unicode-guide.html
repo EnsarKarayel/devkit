@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260930-json-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-unicode-guide.html#article","headline":"Regex Unicode Matching Guide","description":"Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes.","datePublished":"2026-09-29","dateModified":"2026-09-29","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-unicode-guide.html","keywords":"regex unicode matching property escapes grapheme normalization"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-unicode-guide.html#article","headline":"Regex Unicode Matching Guide","description":"Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-unicode-guide.html","keywords":"regex unicode matching property escapes grapheme normalization"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Regex Debugging</p>
       <h1>Regex Unicode Matching Guide</h1>
-      <p class="guide-meta">Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes. Last updated September 29, 2026.</p>
+      <p class="guide-meta">Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes. Last updated September 30, 2026.</p>
       <p>Design Unicode-aware regex patterns for letters, grapheme clusters, normalization and word boundaries without assuming ASCII character classes. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Define the text unit</td><td>Decide whether the task concerns bytes, code points, combining sequences or user-visible graphemes.</td></tr><tr><td>Normalize deliberately</td><td>Choose a normalization form only when product requirements permit equivalent representations.</td></tr><tr><td>Use Unicode properties</td><td>Prefer supported letter, number and script properties over hand-written ranges.</td></tr><tr><td>Test real language data</td><td>Include accents, combining marks, emoji, non-Latin scripts and mixed-direction text.</td></tr></tbody></table>

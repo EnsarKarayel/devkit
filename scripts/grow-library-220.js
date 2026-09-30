@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const CACHE_VERSION = "20260929-regex-debugging";
-const LIBRARY_COUNT = 295;
-const TODAY = "2026-09-29";
-const HUMAN_DATE = "September 29, 2026";
+const CACHE_VERSION = "20260930-json-debugging";
+const LIBRARY_COUNT = 301;
+const TODAY = "2026-09-30";
+const HUMAN_DATE = "September 30, 2026";
 
 const guidePages = [
   {
@@ -1037,6 +1037,75 @@ const regexDebuggingPages = [
   }
 ];
 
+const jsonDebuggingPages = [
+  {
+    file: "json-trailing-comma-debugging-guide.html", category: "JSON Debugging", mode: "json", icon: "JSON",
+    h1: "JSON Trailing Comma Debugging Guide",
+    summary: "Find and remove JSON trailing commas while distinguishing strict JSON from JavaScript objects, JSON5 and editor-specific configuration formats.",
+    keywords: "json trailing comma error debugging unexpected token",
+    command: "invalid: {\"enabled\": true,}   valid: {\"enabled\": true}",
+    workflow: [["Confirm the format", "Verify the consumer expects strict JSON rather than JavaScript, JSON5 or another configuration grammar."], ["Use parser location", "Inspect the token immediately before a closing brace or bracket at the reported offset."], ["Check nested collections", "Trailing commas can occur in objects and arrays several levels below the visible failure."], ["Fix the producer", "Configure serializers and templates to emit separators between items, never after the final item."]],
+    checks: ["Validate with the same parser used in production.", "Test empty and single-item collections.", "Keep comments out of strict JSON.", "Add generated payloads to automated tests."],
+    mistakes: ["Removing every comma near the error.", "Renaming a .json file to hide invalid syntax.", "Assuming browser JavaScript parsing proves JSON validity."],
+    related: ["json-lint-error-guide.html", "json-formatting-guide.html", "config-file-validation-guide.html"]
+  },
+  {
+    file: "json-unexpected-token-debugging-guide.html", category: "JSON Debugging", mode: "json", icon: "ERR",
+    h1: "JSON Unexpected Token Debugging Guide",
+    summary: "Debug JSON unexpected-token errors by inspecting response metadata, parser offsets, encoding, escaping and truncated payload evidence.",
+    keywords: "json unexpected token debugging parse error position",
+    command: "content-type -> raw bytes -> status code -> parser line and column -> surrounding token",
+    workflow: [["Inspect the raw response", "Confirm the payload is JSON rather than an HTML error page, login redirect or proxy message."], ["Check metadata", "Record HTTP status, Content-Type, Content-Encoding and byte length before parsing."], ["Locate the token", "Use line, column or character offset and inspect a small redacted window around it."], ["Trace the producer", "Fix invalid escaping, truncation or mixed output where it originates."]],
+    checks: ["Handle empty success responses explicitly.", "Decode compression before text parsing.", "Redact tokens before sharing payload samples.", "Test non-ASCII input and byte-order marks."],
+    mistakes: ["Logging the full production payload.", "Assuming token less-than always means a frontend bug.", "Catching the parse error and continuing with partial data."],
+    related: ["json-lint-error-guide.html", "api-error-response-design-guide.html", "network-tab-debugging-guide.html"]
+  },
+  {
+    file: "large-json-file-processing-guide.html", category: "JSON Debugging", mode: "json", icon: "BIG",
+    h1: "Large JSON File Processing Guide",
+    summary: "Process large JSON safely with streaming, JSON Lines, bounded memory, incremental validation and explicit failure recovery.",
+    keywords: "large json file processing streaming memory json lines",
+    command: "stream bytes -> tokenize -> validate record -> transform -> bounded output",
+    workflow: [["Measure the input", "Record compressed and uncompressed size, shape and maximum record size."], ["Choose a streamable format", "Prefer JSON Lines or arrays handled by an incremental parser for record-oriented data."], ["Bound memory", "Avoid reading, formatting and duplicating the entire document in memory."], ["Design recovery", "Track record position, reject malformed items safely and make output resumable."]],
+    checks: ["Set input and nesting limits.", "Use backpressure between stages.", "Validate representative large fixtures.", "Keep sensitive records local when using browser tools."],
+    mistakes: ["Calling JSON.parse on an unbounded upload.", "Pretty-printing before processing.", "Splitting ordinary JSON on newline characters."],
+    related: ["json-lines-ndjson-guide.html", "safe-online-dev-tools.html", "csv-to-json.html"]
+  },
+  {
+    file: "json-duplicate-keys-guide.html", category: "JSON Debugging", mode: "json", icon: "DUP",
+    h1: "JSON Duplicate Keys Guide",
+    summary: "Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads.",
+    keywords: "json duplicate keys detection parser behavior security",
+    command: "{\"role\":\"user\",\"role\":\"admin\"}  // ambiguous and unsafe",
+    workflow: [["Preserve source text", "Duplicate keys disappear after many parsers convert input to an object."], ["Use duplicate-aware parsing", "Reject repeated member names during tokenization or linting."], ["Compare consumers", "Gateways, signature code and applications may choose first, last or error behavior."], ["Fix generation", "Build objects structurally and validate configuration merges before serialization."]],
+    checks: ["Reject duplicates at trust boundaries.", "Test nested objects too.", "Canonicalize only after validation.", "Document merge semantics outside JSON syntax."],
+    mistakes: ["Checking duplicates after JSON.parse.", "Assuming every parser keeps the last value.", "Signing one interpretation and authorizing another."],
+    related: ["json-lint-error-guide.html", "api-hmac-request-signing-guide.html", "config-file-validation-guide.html"]
+  },
+  {
+    file: "json-number-precision-guide.html", category: "JSON Debugging", mode: "json", icon: "NUM",
+    h1: "JSON Number Precision Guide",
+    summary: "Prevent JSON integer and decimal precision loss across JavaScript, APIs and databases by choosing explicit string or decimal representations.",
+    keywords: "json number precision javascript big integer decimal api",
+    command: "unsafe JS integer: 9007199254740993   safer transport: \"9007199254740993\"",
+    workflow: [["Classify the value", "Separate identifiers, counters, money and scientific measurements before selecting a representation."], ["Check every consumer", "Compare numeric ranges and decimal behavior in JavaScript, backend languages and databases."], ["Choose a contract", "Transport oversized integers or exact decimals as documented strings when necessary."], ["Round-trip test", "Serialize, parse, persist and return boundary values without relying on visual similarity."]],
+    checks: ["Never model identifiers as numbers for arithmetic convenience.", "Define currency scale explicitly.", "Include maximum and minimum fixtures.", "Document rounding policy."],
+    mistakes: ["Trusting a formatter to preserve runtime precision.", "Using binary floating point for exact money.", "Converting to string only after precision was already lost."],
+    related: ["developer-data-validation-guide.html", "json-schema-guide.html", "api-schema-drift-debugging-guide.html"]
+  },
+  {
+    file: "json-depth-limit-security-guide.html", category: "JSON Debugging", mode: "json", icon: "DEPTH",
+    h1: "JSON Depth Limit Security Guide",
+    summary: "Set JSON nesting, size and collection limits to protect parsers and application logic from stack, memory and CPU exhaustion.",
+    keywords: "json depth limit security nested payload denial service",
+    command: "limits = bytes + nesting depth + object members + array items + string length",
+    workflow: [["Map the parser boundary", "Identify every gateway, framework and service that parses untrusted JSON."], ["Define multiple limits", "Depth alone does not bound huge arrays, keys, strings or total bytes."], ["Reject early", "Apply transport and streaming limits before building a complete in-memory object."], ["Return a stable error", "Use a documented client error without echoing the hostile payload."]],
+    checks: ["Test deeply nested near-limits.", "Align proxy and application body limits.", "Measure parser failure behavior.", "Log only safe size and depth metadata."],
+    mistakes: ["Using request body size as the only guard.", "Recursively walking untrusted objects without depth control.", "Returning parser stack traces to clients."],
+    related: ["api-request-body-validation-guide.html", "json-schema-guide.html", "secrets-redaction-checklist.html"]
+  }
+];
+
 const forumPage = {
   file: "forum.html",
   h1: "Formalint Developer Forum",
@@ -1257,7 +1326,7 @@ function forumHtml() {
 }
 
 function titleFromFile(file) {
-  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages).find((item) => item.file === file);
+  const page = guidePages.concat(emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages, jsonDebuggingPages).find((item) => item.file === file);
   if (page) {
     return page.h1.replace(" Guide", "").replace(" Template", "");
   }
@@ -1456,13 +1525,21 @@ function updateToolsPage() {
     regexDebuggingContent,
     "      <!-- Formalint Linux operations sections start -->"
   );
+  const jsonDebuggingContent = sectionMarkup("json-debugging-title", "JSON Debugging", "Parser errors, large files, duplicate keys, precision and safe limits", jsonDebuggingPages);
+  html = replaceOrInsertManagedBlock(
+    html,
+    "      <!-- Formalint JSON debugging sections start -->",
+    "      <!-- Formalint JSON debugging sections end -->",
+    jsonDebuggingContent,
+    "      <!-- Formalint regex debugging sections start -->"
+  );
   fs.writeFileSync(file, html, "utf8");
 }
 
 function insertCardsBefore(fileName, marker) {
   const file = path.join(ROOT, fileName);
   let html = fs.readFileSync(file, "utf8");
-  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages);
+  const additions = [{ file: "workspace.html", h1: "All-in-One Developer Workspace", summary: "Format JSON, inspect trees and use instant regex, epoch, URL and SHA-256 utilities in one local-first browser workspace." }, { file: forumPage.file, h1: forumPage.h1, summary: forumPage.summary }].concat(guidePages, emailValidationPages, lintCleanupPages, apiReliabilityPages, observabilityPages, productionSecurityPages, runtimeDiagnosticsPages, databaseOperationsPages, safeDeploymentPages, windowsOperationsPages, linuxOperationsPages, regexDebuggingPages, jsonDebuggingPages);
   const missing = additions.filter((page) => !html.includes(`href="${page.file}"`));
   if (!missing.length) {
     return;
@@ -1658,11 +1735,21 @@ ${regexDebuggingLinks.map((link) => `        { label: "${link.label.replace(/"/g
       ]
     },
 `;
+  const jsonDebuggingLinks = jsonDebuggingPages.map((page) => ({ label: page.h1, href: page.file, icon: page.icon, description: page.summary, keywords: page.keywords }));
+  const jsonDebuggingGroup = `    {
+      title: "JSON Debugging",
+      mode: "json",
+      description: "Resolve parser failures and design safe JSON handling for large, ambiguous or precision-sensitive payloads.",
+      links: [
+${jsonDebuggingLinks.map((link) => `        { label: "${link.label.replace(/"/g, '\\"')}", href: "${link.href}", icon: "${link.icon}", description: "${link.description.replace(/"/g, '\\"')}", keywords: "${link.keywords}" }`).join(",\n")}
+      ]
+    },
+`;
   js = replaceOrInsertManagedBlock(
     js,
     "    // Formalint community groups start",
     "    // Formalint community groups end",
-    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup + linuxOperationsGroup + regexDebuggingGroup,
+    group + emailGroup + lintGroup + apiReliabilityGroup + observabilityGroup + productionSecurityGroup + runtimeDiagnosticsGroup + databaseOperationsGroup + safeDeploymentGroup + windowsOperationsGroup + linuxOperationsGroup + regexDebuggingGroup + jsonDebuggingGroup,
     "    // Formalint living index groups start"
   );
   if (!js.includes('label: "Forum",\n      description: "Open the Softest developer forum workspace."')) {
@@ -1752,6 +1839,12 @@ function updateChangelog() {
 `;
     html = html.replace("      <h2>September 28, 2026 - 289 Page Linux Operations Update</h2>", entry + "      <h2>September 28, 2026 - 289 Page Linux Operations Update</h2>");
   }
+  if (!html.includes("301 Page JSON Debugging Update")) {
+    const entry = `      <h2>September 30, 2026 - 301 Page JSON Debugging Update</h2>
+      <p>Expanded Formalint to 301 public pages with six practical JSON references covering trailing commas, unexpected tokens, large-file processing, duplicate keys, numeric precision and parser depth limits. Updated internal links, tools discovery, sidebar navigation, cache version, sitemap and structured metadata while preserving the local-first forum and emoji composer.</p>
+`;
+    html = html.replace("      <h2>September 29, 2026 - 295 Page Regex Debugging Update</h2>", entry + "      <h2>September 29, 2026 - 295 Page Regex Debugging Update</h2>");
+  }
   if (!html.includes("Unified Product Navigation Update")) {
     const entry = `      <h2>September 16, 2026 - Unified Product Navigation Update</h2>
       <p>Unified the navigation across Formalint's public library with the all-in-one workspace product bar: shared brand and local-first status, a working command palette trigger, sandbox readiness, direct Workspace, Guides, Docs and GitHub routes, consistent settings access and responsive mobile behavior. The generator now preserves this shared navigation for every future page.</p>
@@ -1805,7 +1898,7 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
-  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file), regexDebuggingPages.map((page) => page.file)));
+  const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file), regexDebuggingPages.map((page) => page.file), jsonDebuggingPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
@@ -1835,6 +1928,7 @@ safeDeploymentPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file
 windowsOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 linuxOperationsPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 regexDebuggingPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+jsonDebuggingPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 fs.writeFileSync(path.join(ROOT, forumPage.file), forumHtml(), "utf8");
 replaceCacheAndNav();
 updateCounters();

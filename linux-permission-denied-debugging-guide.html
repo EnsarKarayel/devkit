@@ -13,12 +13,12 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260929-regex-debugging">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260930-json-debugging">
     <script src="assets/js/analytics-consent.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/linux-permission-denied-debugging-guide.html#article","headline":"Linux Permission Denied Debugging Guide","description":"Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls.","datePublished":"2026-09-29","dateModified":"2026-09-29","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/linux-permission-denied-debugging-guide.html","keywords":"linux permission denied debugging acl selinux apparmor"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/linux-permission-denied-debugging-guide.html#article","headline":"Linux Permission Denied Debugging Guide","description":"Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/linux-permission-denied-debugging-guide.html","keywords":"linux permission denied debugging acl selinux apparmor"}
     </script>
   </head>
   <body>
@@ -26,7 +26,7 @@
     <main class="document-page">
       <p class="eyebrow">Linux Operations</p>
       <h1>Linux Permission Denied Debugging Guide</h1>
-      <p class="guide-meta">Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls. Last updated September 29, 2026.</p>
+      <p class="guide-meta">Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls. Last updated September 30, 2026.</p>
       <p>Trace Linux permission-denied failures through process identity, path traversal, mode bits, ACLs, mount flags and mandatory access controls. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Identify the process identity</td><td>Record effective user, groups, capabilities and container namespace.</td></tr><tr><td>Walk the full path</td><td>Every parent directory needs suitable traversal permission, not only the final file.</td></tr><tr><td>Check layered controls</td><td>Review ACLs, read-only or noexec mounts, SELinux and AppArmor evidence.</td></tr><tr><td>Apply least privilege</td><td>Change ownership, group access or policy narrowly and retest under the real identity.</td></tr></tbody></table>
