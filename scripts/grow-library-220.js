@@ -1898,18 +1898,25 @@ function updateChangelog() {
 
 function updateSitemap() {
   const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
+  const sitemapFile = path.join(ROOT, "sitemap.xml");
+  const existingSitemap = fs.existsSync(sitemapFile) ? fs.readFileSync(sitemapFile, "utf8") : "";
+  const previousDates = new Map();
+  for (const match of existingSitemap.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) {
+    previousDates.set(match[1], match[2]);
+  }
   const newPageFiles = new Set(["workspace.html", forumPage.file].concat(guidePages.map((page) => page.file), emailValidationPages.map((page) => page.file), lintCleanupPages.map((page) => page.file), apiReliabilityPages.map((page) => page.file), observabilityPages.map((page) => page.file), productionSecurityPages.map((page) => page.file), runtimeDiagnosticsPages.map((page) => page.file), databaseOperationsPages.map((page) => page.file), safeDeploymentPages.map((page) => page.file), windowsOperationsPages.map((page) => page.file), linuxOperationsPages.map((page) => page.file), regexDebuggingPages.map((page) => page.file), jsonDebuggingPages.map((page) => page.file)));
   const body = htmlFiles.map((name) => {
     const loc = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
     const priority = name === "index.html" ? "1.0" : newPageFiles.has(name) ? "0.75" : "0.7";
+    const lastmod = previousDates.get(loc) || TODAY;
     return `  <url>
     <loc>${loc}</loc>
-    <lastmod>${TODAY}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${priority}</priority>
   </url>`;
   }).join("\n");
-  fs.writeFileSync(path.join(ROOT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
+  fs.writeFileSync(sitemapFile, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${body}
 </urlset>

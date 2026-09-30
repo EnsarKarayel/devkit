@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>XML Linter and xmllint-style Validator | Formalint</title>
-    <meta name="description" content="Lint XML online with an xmllint-style validator. Check well-formed XML, find parse errors, format XML and convert clean XML to JSON in your browser.">
+    <title>XML Linter Online - Validate and Format XML | Formalint</title>
+    <meta name="description" content="Validate well-formed XML, diagnose common parse errors and format XML locally in your browser. Includes xmllint commands, examples and an XML review checklist.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/xml-linter.html">
@@ -18,14 +18,14 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/xml-linter.html#article", "headline": "XML Linter and xmllint-style Validator", "description": "A practical XML linting guide for well-formed XML checks in Formalint.", "datePublished": "2026-07-28", "dateModified": "2026-07-28", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/xml-linter.html" }
+      { "@context": "https://schema.org", "@type": "Article", "@id": "https://formalint.com/xml-linter.html#article", "headline": "XML Linter Online - Validate and Format XML", "description": "A practical XML linting workflow for well-formedness errors, xmllint commands and browser-based formatting.", "datePublished": "2026-07-28", "dateModified": "2026-09-30", "author": { "@type": "Person", "name": "Ensar Karayel" }, "publisher": { "@type": "Organization", "name": "Formalint", "url": "https://formalint.com/" }, "mainEntityOfPage": "https://formalint.com/xml-linter.html" }
     </script>
   </head>
   <body>
     <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
     <main class="document-page">
-      <h1>XML Linter and xmllint-style Validator</h1>
-      <p class="guide-meta">XML lint, XML linter and xmllint-style validation notes. Last updated July 28, 2026.</p>
+      <h1>XML Linter Online</h1>
+      <p class="guide-meta">Well-formedness checks, xmllint commands and parser-error diagnosis. Reviewed September 30, 2026.</p>
       <p>An XML linter checks whether a document is well-formed: one root element, matching opening and closing tags, valid nesting and escaped special characters. Formalint's XML formatter gives browser-based linting for everyday integration payloads, SOAP responses, feeds and configuration files.</p>
       <p><a href="xml-formatter.html">Open the XML Formatter and Validator</a> to lint and format XML in the browser.</p>
       <h2>Common XML Lint Errors</h2>
@@ -39,13 +39,33 @@
       <p>For API work, use a linter before comparing two XML responses or converting XML to JSON. Clean indentation makes repeated nodes, attributes and text nodes easier to inspect, especially in SOAP envelopes, RSS feeds, sitemap files, vendor exports and older ERP integrations.</p>
       <h2>xmllint-style Checks vs XSD Validation</h2>
       <p>Formalint focuses on fast well-formed XML checks and readable formatting. It does not replace schema validation against a custom XSD or DTD. Use it first to make sure the document parses, then run schema validation when a vendor or API contract requires it.</p>
+      <h2>Reproduce the Check with xmllint</h2>
+      <pre class="guide-example"><code># Check well-formedness without printing the document
+xmllint --noout payload.xml
+
+# Format a valid document to standard output
+xmllint --format payload.xml
+
+# Validate against an XSD after parsing succeeds
+xmllint --noout --schema contract.xsd payload.xml</code></pre>
+      <p>Read the first parser error before the cascade that follows it. A single missing quote or closing tag often causes several later messages. Keep the browser result and command-line result separate: identical failures suggest malformed input, while different failures may point to encoding, external entities or schema configuration.</p>
+      <h2>Parse Error Triage</h2>
+      <table class="comparison-table">
+        <thead><tr><th>Message or symptom</th><th>Inspect first</th><th>Typical repair</th></tr></thead>
+        <tbody>
+          <tr><td>Opening and ending tag mismatch</td><td>The nearest parent element</td><td>Correct the name or nesting order.</td></tr>
+          <tr><td>EntityRef: expecting ';'</td><td>Raw ampersands in text and URLs</td><td>Use <code>&amp;amp;</code> for a literal ampersand.</td></tr>
+          <tr><td>Extra content at end of document</td><td>Top-level sibling nodes</td><td>Wrap content in one root element.</td></tr>
+          <tr><td>Invalid byte or encoding error</td><td>XML declaration and actual file encoding</td><td>Save consistently as UTF-8 or fix the declaration.</td></tr>
+        </tbody>
+      </table>
       <h2>XML Review Checklist</h2>
       <p>Before sending an XML payload to another system, confirm that there is exactly one root element, every opening tag has a matching closing tag, attributes are quoted, special characters are escaped and repeated child nodes are intentionally repeated. If a partner gives you an XSD, validate against that schema after the well-formed check passes.</p>
       <h2>Frequently Asked XML Lint Questions</h2>
       <p><strong>Does XML linting guarantee an API will accept my payload?</strong> No. Linting confirms the XML is well-formed. The receiving API may still reject a valid XML document if required nodes, attribute values or schema rules are missing.</p>
       <p><strong>Is xmllint the same as formatting?</strong> No. Formatting changes readability. Linting checks whether the XML can be parsed without structural errors.</p>
       <h2>Related Formalint Pages</h2>
-      <p>Use <a href="xml-formatter.html">XML Formatter</a> for the live tool, <a href="index.html">JSON Formatter</a> after converting XML to JSON, and <a href="api-debugging-checklist.html">API Debugging Checklist</a> when an XML integration fails in production.</p>
+      <p>Use <a href="xml-formatter.html">XML Formatter and Validator</a> for the live tool, <a href="xml-well-formed-vs-valid-guide.html">Well-formed vs Valid XML</a> before adding XSD checks, <a href="index.html">JSON Formatter</a> after conversion, and the <a href="api-debugging-checklist.html">API Debugging Checklist</a> when an integration fails in production.</p>
     </main>
     <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
     <script src="assets/js/shared.js"></script>
