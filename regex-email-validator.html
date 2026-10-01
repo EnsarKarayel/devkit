@@ -113,6 +113,17 @@ name example@example.com</code></pre>
         <li>Store verification state separately from the address value.</li>
       </ol>
       <p>The matcher on this page runs locally in the browser. Formalint does not upload the addresses entered into the test area. Use synthetic addresses whenever production data is not required.</p>
+      <h2>JavaScript Implementation</h2>
+      <pre class="guide-example"><code>const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateEmail(rawValue) {
+  const value = rawValue.trim();
+  return {
+    value,
+    valid: value.length &lt;= 254 &amp;&amp; emailPattern.test(value)
+  };
+}</code></pre>
+      <p>Use the result for immediate form feedback, then repeat validation on the server and send a verification message. Do not send the full address to analytics, error tracking or URL query parameters. If the product intentionally rejects aliases, internationalized domains or disposable providers, document that as product policy rather than hiding it inside an unreadable expression.</p>
       <h2>Common Email Regex Mistakes</h2>
       <p>A very strict email regex can block real customers. A very loose regex can accept values that obviously cannot receive mail. The practical middle ground is to catch the common mistakes early and let the verification email prove ownership.</p>
       <h2>Frequently Asked Email Regex Questions</h2>

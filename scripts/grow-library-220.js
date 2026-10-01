@@ -6,6 +6,11 @@ const CACHE_VERSION = "20260930-json-debugging";
 const LIBRARY_COUNT = 301;
 const TODAY = "2026-09-30";
 const HUMAN_DATE = "September 30, 2026";
+const CONSOLIDATED_PAGES = new Set([
+  "email-regex-cheatsheet.html",
+  "email-regex-test-cases.html",
+  "email-validation-javascript-guide.html"
+]);
 
 const guidePages = [
   {
@@ -1897,7 +1902,14 @@ function updateChangelog() {
 }
 
 function updateSitemap() {
-  const htmlFiles = fs.readdirSync(ROOT).filter((name) => name.endsWith(".html")).sort((a, b) => a.localeCompare(b));
+  const htmlFiles = fs.readdirSync(ROOT).filter((name) => {
+    if (!name.endsWith(".html")) return false;
+    const html = fs.readFileSync(path.join(ROOT, name), "utf8");
+    if (/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html)) return false;
+    const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+    const expected = name === "index.html" ? "https://formalint.com/" : `https://formalint.com/${name}`;
+    return !canonical || canonical === expected;
+  }).sort((a, b) => a.localeCompare(b));
   const sitemapFile = path.join(ROOT, "sitemap.xml");
   const existingSitemap = fs.existsSync(sitemapFile) ? fs.readFileSync(sitemapFile, "utf8") : "";
   const previousDates = new Map();
@@ -1924,7 +1936,7 @@ ${body}
 }
 
 guidePages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), guidePage(page), "utf8"));
-emailValidationPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
+emailValidationPages.filter((page) => !CONSOLIDATED_PAGES.has(page.file)).forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 lintCleanupPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 apiReliabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));
 observabilityPages.forEach((page) => fs.writeFileSync(path.join(ROOT, page.file), referencePage(page), "utf8"));

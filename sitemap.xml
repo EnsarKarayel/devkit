@@ -433,12 +433,6 @@
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://formalint.com/email-regex-cheatsheet.html</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
     <loc>https://formalint.com/email-regex-javascript-guide.html</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -461,18 +455,6 @@
     <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://formalint.com/email-regex-test-cases.html</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://formalint.com/email-validation-javascript-guide.html</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
   </url>
   <url>
     <loc>https://formalint.com/email-validation-python-guide.html</loc>
@@ -1280,7 +1262,7 @@
   </url>
   <url>
     <loc>https://formalint.com/regex-email-validator.html</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
