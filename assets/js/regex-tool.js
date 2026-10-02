@@ -39,6 +39,7 @@
     var pattern = patternInput.value;
     var text = textInput.value;
     var flags = getFlags();
+    metrics.textContent = "";
 
     if (!pattern) {
       window.DevKit.setStatus(statusMessage, "error", "Pattern is empty.");
@@ -55,18 +56,21 @@
     try {
       var regex = new RegExp(pattern, flags);
       var matches = [];
-      var matcher = regex.global ? regex : new RegExp(pattern, flags.indexOf("g") === -1 ? flags + "g" : flags);
+      var matcher = regex;
       var match;
 
-      while ((match = matcher.exec(text)) !== null && matches.length < 200) {
+      while (matches.length < 200 && (match = matcher.exec(text)) !== null) {
         matches.push({
           index: match.index,
           text: match[0],
           groups: match.slice(1)
         });
 
+        if (!matcher.global) break;
+        // Advance by a code point in Unicode mode, avoiding a surrogate-pair loop.
         if (match[0] === "") {
-          matcher.lastIndex += 1;
+          var point = text.codePointAt(matcher.lastIndex);
+          matcher.lastIndex += matcher.unicode && point > 0xFFFF ? 2 : 1;
         }
       }
 
@@ -106,7 +110,7 @@
             return "#" + (index + 1) + " index " + item.index + ": " + item.text;
           })
           .join("\n");
-        window.DevKit.setStatus(statusMessage, "ok", matches.length + " match" + (matches.length === 1 ? "" : "es"));
+        window.DevKit.setStatus(statusMessage, "ok", matches.length === 200 ? "Showing first 200 matches (display limit)" : matches.length + " match" + (matches.length === 1 ? "" : "es"));
       }
 
       window.DevKit.renderMetrics(metrics, [

@@ -186,6 +186,14 @@
           </article>
         </div>
       </section>
+      <section class="content-band" aria-labelledby="flag-examples-title">
+        <div><h2 id="flag-examples-title">Diagnose a flag mismatch</h2></div>
+        <div>
+          <p>Use <code>cat cat</code> with pattern <code>cat</code>: no flags returns the first match at index 0; <code>g</code> returns indexes 0 and 4. For <code>^cat$</code> against two separate lines containing cat, enable <code>gm</code> to match both lines. Without <code>m</code>, anchors apply to the whole input.</p>
+          <p>Unicode mode changes how empty matches advance. Pattern <code>(?:)</code> with <code>gu</code> against one emoji has matches before and after the full character; displayed indexes still count UTF-16 code units. Output is limited to 200 matches. This limit caps displayed results, not regex execution time: avoid nested ambiguous quantifiers on untrusted input.</p>
+          <p>For a reproducible form example, open the <a href="regex-email-validator.html">Email Regex Validator</a>. Review <a href="regex-catastrophic-backtracking-guide.html">backtracking risks</a> before testing large inputs.</p>
+        </div>
+      </section>
       <section class="content-band faq-band" aria-labelledby="regex-faq-title">
         <div>
           <p class="eyebrow">Frequently asked</p>
@@ -226,6 +234,6 @@
     </footer>
 
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/regex-tool.js"></script>
+    <script src="assets/js/regex-tool.js?v=20261002-flags"></script>
   </body>
 </html>

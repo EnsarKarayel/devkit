@@ -48,7 +48,7 @@ name example@example.com">
             <div class="option-grid" aria-label="Regex flags">
               <label><input type="checkbox" value="g" checked> global</label>
               <label><input type="checkbox" value="i"> ignore case</label>
-              <label><input type="checkbox" value="m"> multiline</label>
+              <label><input type="checkbox" value="m" checked> multiline</label>
               <label><input type="checkbox" value="s"> dot all</label>
               <label><input type="checkbox" value="u"> unicode</label>
             </div>
@@ -77,6 +77,7 @@ name example@example.com">
         </div>
       </section>
       <h2>Practical Email Regex</h2>
+      <p>The sample contains one address per line. With <code>g</code> and <code>m</code> enabled, the two valid sample lines match independently. For a single form field, disable both flags: <code>m</code> allows line boundaries, and a reused <code>g</code> expression makes <code>test()</code> stateful. A successful match checks shape, not mailbox existence.</p>
       <pre class="guide-example"><code>^[^\s@]+@[^\s@]+\.[^\s@]+$</code></pre>
       <p>This pattern checks for text before an at sign, text after the at sign, a dot in the domain section and no whitespace. It is readable, fast and useful for client-side form feedback.</p>
       <h2>Good Test Cases</h2>
@@ -134,6 +135,6 @@ function validateEmail(rawValue) {
     </main>
     <footer class="site-footer"><div class="footer-signature" aria-label="Contact"><strong>&copy; 2026 Formalint</strong><span aria-hidden="true">-</span><span>Ensar Karayel</span><span aria-hidden="true">-</span><a href="mailto:karayelensar@gmail.com">karayelensar@gmail.com</a></div><nav aria-label="Footer navigation"><button class="footer-link" type="button" data-consent-open>Privacy Preferences</button><a href="about.html">About</a><a href="how-formalint-works.html">How It Works</a><a href="editorial-policy.html">Editorial Policy</a><a href="changelog.html">Changelog</a><a href="forum.html">Forum</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></footer>
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/regex-tool.js"></script>
+    <script src="assets/js/regex-tool.js?v=20261002-flags"></script>
   </body>
 </html>
