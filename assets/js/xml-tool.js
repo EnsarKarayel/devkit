@@ -69,13 +69,13 @@
   }
 
   function xmlToObject(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      return node.nodeValue.trim();
+    if (node.nodeType === Node.TEXT_NODE || node.nodeType === Node.CDATA_SECTION_NODE) {
+      return node.nodeValue;
     }
 
-    var result = {};
+    var result = Object.create(null);
     if (node.attributes && node.attributes.length) {
-      result["@attributes"] = {};
+      result["@attributes"] = Object.create(null);
       Array.prototype.forEach.call(node.attributes, function (attribute) {
         result["@attributes"][attribute.name] = attribute.value;
       });
@@ -87,8 +87,8 @@
       if (child.nodeType === Node.ELEMENT_NODE) {
         elementChildren.push(child);
       }
-      if (child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()) {
-        textParts.push(child.nodeValue.trim());
+      if (child.nodeType === Node.TEXT_NODE || child.nodeType === Node.CDATA_SECTION_NODE) {
+        textParts.push(child.nodeValue);
       }
     });
 
@@ -104,11 +104,12 @@
       }
     });
 
-    if (textParts.length) {
+    var text = textParts.join("");
+    if (textParts.length && (text.trim() || !elementChildren.length)) {
       if (Object.keys(result).length) {
-        result["#text"] = textParts.join(" ");
+        result["#text"] = text;
       } else {
-        return textParts.join(" ");
+        return text;
       }
     }
 
@@ -193,7 +194,7 @@
   function runToJson() {
     try {
       var doc = parseXml();
-      var root = {};
+      var root = Object.create(null);
       root[doc.documentElement.nodeName] = xmlToObject(doc.documentElement);
       var text = JSON.stringify(root, null, 2);
       setOutput(text, "json", doc);
