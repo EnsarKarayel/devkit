@@ -185,15 +185,19 @@
     window.DevKit.setStatus(statusMessage, "ok", message);
   }
 
+  function showError(error) {
+    lastOutput = input.value;
+    output.textContent = input.value || error.message;
+    renderMetrics(input.value);
+    window.DevKit.setStatus(statusMessage, "error", error.message);
+  }
+
   function runFormat() {
     try {
       checkSql(input.value);
       setResult(formatSql(input.value), "SQL formatted");
     } catch (error) {
-      lastOutput = input.value;
-      output.textContent = input.value || error.message;
-      renderMetrics(input.value);
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
@@ -202,7 +206,7 @@
       checkSql(input.value);
       setResult(compactSql(input.value), "SQL compacted");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
@@ -211,7 +215,7 @@
       checkSql(input.value);
       setResult(formatSql(input.value), "Basic SQL checks passed");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 

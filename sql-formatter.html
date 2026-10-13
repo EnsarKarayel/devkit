@@ -183,6 +183,18 @@
           </details>
         </div>
       </section>
+      <section class="content-band" aria-labelledby="sql-error-review">
+        <div><h2 id="sql-error-review">Review a failed cleanup</h2></div>
+        <div>
+          <p>When Format, Compact or Check reports an error, the output displays the current input unchanged. Copy and Download refer to that input, not a previous successful result. An error does not mean the displayed query has been repaired.</p>
+          <ul>
+            <li><code>SELECT (id FROM orders;</code>: close the unmatched parenthesis before trying again.</li>
+            <li><code>SELECT 'pending FROM orders;</code>: correct the unclosed quote in the original query.</li>
+            <li><code>DELETE FROM orders;</code>: review the write operation and intended row set in your database workflow; formatting does not authorize execution.</li>
+          </ul>
+          <p>These are basic text checks, not database validation. The formatter uses whitespace and keyword rules: quoted text and comments require careful comparison against the original. Keep a source copy, review every change, and use a dialect-aware formatter for production queries. Follow the <a href="sql-cleanup.html">SQL cleanup review checklist</a> before using the output.</p>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -199,6 +211,6 @@
     </footer>
 
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/sql-tool.js"></script>
+    <script src="assets/js/sql-tool.js?v=20261013-errors"></script>
   </body>
 </html>

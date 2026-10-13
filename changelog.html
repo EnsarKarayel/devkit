@@ -26,6 +26,8 @@
     <main class="document-page">
       <h1>Changelog</h1>
       <p class="guide-meta">Notable Formalint updates and site quality changes.</p>
+      <h2>October 13, 2026 - SQL Error Output Consistency</h2>
+      <p>Failed Compact and Check actions now replace stale results with the current SQL input, matching Format. Copy, download and metrics remain consistent with the failed input. Added regression coverage and documented error examples and formatter limitations.</p>
       <h2>October 4, 2026 - XML Conversion Data Preservation</h2>
       <p>Fixed XML to JSON conversion dropping CDATA and special element or attribute names such as __proto__. Adjacent text is concatenated without invented spaces, and text-only values retain surrounding whitespace. Added mapping examples, mixed-content limitations and conversion regression tests.</p>
       <h2>October 2, 2026 - Regex Flag and Unicode Corrections</h2>
