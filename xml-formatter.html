@@ -255,6 +255,18 @@
           <p>Follow the <a href="xml-linter.html">XML linting workflow</a> to resolve parser errors first, then inspect the JSON in the <a href="workspace.html">developer workspace</a>.</p>
         </div>
       </section>
+      <section class="content-band" aria-labelledby="xml-result-check">
+        <div><h2 id="xml-result-check">Check that the result belongs to your current XML</h2></div>
+        <div>
+          <p>Editing the input clears the previous result immediately. A failed Format, Minify, Validate or To JSON action also clears it. Copy and Download become available after a successful action on the current input; a failed XML parse cannot export an older JSON result.</p>
+          <ul>
+            <li>Convert <code>&lt;root/&gt;</code> to JSON: Download produces <code>formatted.json</code>.</li>
+            <li>Replace it with <code>&lt;root&gt;</code> and validate: parsing fails and the previous result is unavailable.</li>
+            <li>Restore <code>&lt;root/&gt;</code> and format: Download produces <code>formatted.xml</code>.</li>
+          </ul>
+          <p>For malformed data, follow the <a href="xml-linter.html">XML parser error checklist</a>. A successful parse establishes well-formedness, not compliance with a vendor's XSD.</p>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -271,6 +283,6 @@
     </footer>
 
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/xml-tool.js?v=20261004-conversion"></script>
+    <script src="assets/js/xml-tool.js?v=20261014-results"></script>
   </body>
 </html>

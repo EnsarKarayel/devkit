@@ -26,6 +26,8 @@
     <main class="document-page">
       <h1>Changelog</h1>
       <p class="guide-meta">Notable Formalint updates and site quality changes.</p>
+      <h2>October 14, 2026 - XML Result Freshness</h2>
+      <p>XML results and metrics now clear after input changes or failed actions. Copy and download require a successful result for the current input, preventing an old JSON conversion from being exported after an XML error. Added regression tests and a reproducible error-and-recovery workflow.</p>
       <h2>October 13, 2026 - SQL Error Output Consistency</h2>
       <p>Failed Compact and Check actions now replace stale results with the current SQL input, matching Format. Copy, download and metrics remain consistent with the failed input. Added regression coverage and documented error examples and formatter limitations.</p>
       <h2>October 4, 2026 - XML Conversion Data Preservation</h2>

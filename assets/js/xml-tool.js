@@ -14,6 +14,7 @@
   var metrics = $("#metrics");
   var lastOutput = "";
   var lastMode = "xml";
+  var resultInput = null;
 
   var sampleXml =
     '<project name="Formalint" version="0.1.0"><tools><tool type="formatter">JSON</tool><tool type="formatter">XML</tool></tools><privacy runsInBrowser="true">local-first</privacy></project>';
@@ -117,6 +118,7 @@
   }
 
   function setOutput(text, mode, doc) {
+    resultInput = doc ? input.value : null;
     lastOutput = text;
     lastMode = mode || "xml";
     output.innerHTML = mode === "json" ? highlightJson(text) : highlightXml(text);
@@ -158,6 +160,19 @@
     ]);
   }
 
+  function invalidateResult() {
+    resultInput = null;
+    lastOutput = "";
+    lastMode = "xml";
+    output.textContent = "";
+    window.DevKit.renderMetrics(metrics, []);
+  }
+
+  function showError(error) {
+    invalidateResult();
+    window.DevKit.setStatus(statusMessage, "error", error.message);
+  }
+
   function runFormat() {
     try {
       var doc = parseXml();
@@ -165,7 +180,7 @@
       setOutput(text, "xml", doc);
       window.DevKit.setStatus(statusMessage, "ok", "Valid XML");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
@@ -176,7 +191,7 @@
       setOutput(text, "xml", doc);
       window.DevKit.setStatus(statusMessage, "ok", "Valid XML");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
@@ -187,7 +202,7 @@
       setOutput(text, "xml", doc);
       window.DevKit.setStatus(statusMessage, "ok", "Valid XML");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
@@ -200,11 +215,16 @@
       setOutput(text, "json", doc);
       window.DevKit.setStatus(statusMessage, "ok", "Converted to JSON");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
   function handleAction(action) {
+    if ((action === "copy" || action === "download") && (resultInput === null || resultInput !== input.value)) {
+      invalidateResult();
+      window.DevKit.setStatus(statusMessage, "error", "Run a successful XML action before copying or downloading.");
+      return;
+    }
     if (action === "format") {
       runFormat();
     }
@@ -236,7 +256,7 @@
     if (action === "download") {
       var extension = lastMode === "json" ? "json" : "xml";
       var mimeType = lastMode === "json" ? "application/json;charset=utf-8" : "application/xml;charset=utf-8";
-      window.DevKit.downloadText("formatted." + extension, lastOutput || input.value, mimeType);
+      window.DevKit.downloadText("formatted." + extension, lastOutput, mimeType);
     }
   }
 
@@ -247,7 +267,11 @@
     }
   });
 
-  input.addEventListener("input", window.DevKit.debounce(updateInputMeta, 120));
+  input.addEventListener("input", function () {
+    invalidateResult();
+    updateInputMeta();
+    window.DevKit.setStatus(statusMessage, "", "Input changed. Run an XML action to refresh the result.");
+  });
   input.value = sampleXml;
   updateInputMeta();
   runFormat();
