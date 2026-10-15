@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Regex Flags Guide | Formalint</title>
-    <meta name="description" content="Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics.">
+    <title>JavaScript Regex Flags: Fix Stateful test() | Formalint</title>
+    <meta name="description" content="Debug alternating regex test() results with lastIndex examples. Compare global, sticky, multiline and dotAll flags using runnable JavaScript cases.">
     <meta name="author" content="Ensar Karayel">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/regex-flags-guide.html">
@@ -18,25 +18,57 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-flags-guide.html#article","headline":"Regex Flags Guide","description":"Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-flags-guide.html","keywords":"regex flags g i m s u y guide javascript"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-flags-guide.html#article","headline":"JavaScript Regex Flags and Stateful test()","description":"Reproduce alternating test() results and compare global, sticky, multiline and dotAll behavior.","datePublished":"2026-09-30","dateModified":"2026-10-15","author":{"@type":"Person","name":"Ensar Karayel"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-flags-guide.html"}
     </script>
   </head>
   <body>
     <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
     <main class="document-page">
       <p class="eyebrow">Regex Debugging</p>
-      <h1>Regex Flags Guide</h1>
-      <p class="guide-meta">Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics. Last updated September 30, 2026.</p>
-      <p>Choose regex flags deliberately and debug global state, multiline anchors, dot-all behavior, case folding and Unicode semantics. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h1>JavaScript Regex Flags and Stateful test()</h1>
+      <p class="guide-meta">Runnable examples checked October 15, 2026.</p>
+      <p>If the same input passes validation once and fails on the next call, inspect the flags before changing the pattern. This guide separates repeated validation from text scanning and shows the expected result of each example. Use synthetic inputs so debugging does not expose customer addresses or production logs.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Start without flags</td><td>Prove the core pattern before changing matching semantics.</td></tr><tr><td>Add one behavior</td><td>Enable case, multiline, dot-all or Unicode handling independently.</td></tr><tr><td>Test stateful APIs</td><td>Global and sticky JavaScript regex objects update lastIndex across calls.</td></tr><tr><td>Verify engine support</td><td>Flag names and behavior differ across JavaScript, Python, Java, PHP and command tools.</td></tr></tbody></table>
-      <h2>Starter snippet</h2>
-      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>/pattern/gimsuy</code></pre></div>
+      <h2>Reproduce alternating validation results</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>const identifier = /^dev$/g;
+console.log(identifier.test("dev"), identifier.lastIndex); // true 3
+console.log(identifier.test("dev"), identifier.lastIndex); // false 0
+console.log(identifier.test("dev"), identifier.lastIndex); // true 3</code></pre></div>
+      <p>Global and sticky expressions retain a cursor in <code>lastIndex</code>. A successful call moves that cursor; a failed call resets it. In this anchored example, the second call starts after the first match and fails. This behavior is documented in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex">MDN's lastIndex reference</a>.</p>
+      <h2>Choose validation or scanning deliberately</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>// Independent yes/no validation: no global or sticky state.
+const identifier = /^dev$/;
+console.log(["dev", "dev", "other"].map(value =&gt; identifier.test(value)));
+// [true, true, false]
+
+// If an existing scanner must be reused, reset before each independent input.
+const scanner = /dev/g;
+for (const value of ["dev", "dev"]) {
+  scanner.lastIndex = 0;
+  console.log(scanner.test(value)); // true, then true
+}</code></pre></div>
+      <p>Do not reset the cursor inside an iteration intended to collect successive matches; that would keep returning to the same position. For a form field, the stateless pattern is simpler. For extraction, use a scanner and keep its lifecycle tied to one input. The <a href="regex-email-validator.html">email validator</a> explains why its multiline sample uses different flags from a single-field form check.</p>
+      <h2>Flag comparison matrix</h2>
+      <table class="workflow-table"><thead><tr><th>Expression</th><th>Input</th><th>Result</th><th>Interpretation</th></tr></thead><tbody>
+        <tr><td><code>/^dev$/</code></td><td><code>dev\nops</code></td><td>false</td><td>The whole input is not dev.</td></tr>
+        <tr><td><code>/^dev$/m</code></td><td><code>dev\nops</code></td><td>true</td><td>A line matches.</td></tr>
+        <tr><td><code>/dev.ops/</code></td><td><code>dev\nops</code></td><td>false</td><td>Dot excludes the newline.</td></tr>
+        <tr><td><code>/dev.ops/s</code></td><td><code>dev\nops</code></td><td>true</td><td>Dot includes the newline.</td></tr>
+      </tbody></table>
+      <p>Here <code>\n</code> denotes an actual newline in the input. A practical failure case is a form validator using <code>m</code>: a valid first line can hide unwanted extra lines. Test the entire field and decide explicitly whether newlines are acceptable. Changing <code>m</code> does not change what dot matches.</p>
+      <h2>Sticky matching is not a search ahead</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>const token = /dev/y;
+token.lastIndex = 0;
+console.log(token.test(" dev")); // false
+token.lastIndex = 1;
+console.log(token.test(" dev")); // true</code></pre></div>
+      <p>Sticky matching requires the token at the cursor position. It is useful when a tokenizer must reject a gap instead of skipping ahead. Reproduce these JavaScript examples in your runtime; the <a href="regex-tester.html">Formalint Regex Matcher</a> exposes g, i, m, s and u, but does not currently offer a sticky cursor control.</p>
       <h2>Review checks</h2>
       <ul><li>Test anchors with multiple lines.</li><li>Include non-ASCII case examples.</li><li>Reset lastIndex in reused JavaScript patterns.</li><li>Record flags beside stored patterns.</li></ul>
       <h2>Common mistakes</h2>
       <ul><li>Using multiline to make dot match newlines.</li><li>Reusing a global regex in repeated validation calls.</li><li>Assuming case-insensitive Unicode behavior is identical everywhere.</li></ul>
-      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <p class="guide-callout">Record the input, expression, flags, previous calls and lastIndex when reporting a regex bug. A pattern alone may not reproduce a stateful failure.</p>
       <h2>Related Formalint references</h2>
       <p>Continue with <a href="regex-multiline-anchors-guide.html">Regex Multiline Anchors Guide</a>, <a href="javascript-regex-match-vs-test.html">Javascript Regex Match Vs Test</a>, <a href="regex-examples.html">Regex Examples</a>.</p>
     </main>
