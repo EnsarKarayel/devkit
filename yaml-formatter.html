@@ -7,7 +7,7 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
     <title>YAML Formatter and Indentation Checker | Formalint</title>
-    <meta name="description" content="Fix YAML indentation, format config files, validate common structure issues and copy clean YAML output in your browser.">
+    <meta name="description" content="Check YAML indentation and common duplicate-key mistakes locally. Inspect tab errors in the original input and review the limits of this lightweight checker.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/yaml-formatter.html">
@@ -181,6 +181,19 @@
           </details>
         </div>
       </section>
+      <section class="content-band" aria-labelledby="yaml-review-cases">
+        <div><h2 id="yaml-review-cases">Check the original input before cleanup</h2></div>
+        <div>
+          <p>Validate checks your original text without rewriting whitespace. Format checks it first, then applies cleanup. A failed check displays the original input unchanged, including tabs; copy and download retain that input rather than an earlier successful result.</p>
+          <ul>
+            <li>A tab before <code>port: 8080</code> is reported as an indentation error. Replace indentation deliberately and run the check again.</li>
+            <li><code>constructor: build</code> and <code>__proto__: config</code> are ordinary key names. One occurrence does not mean a duplicate.</li>
+            <li>Two <code>port:</code> keys in the same simple mapping are reported as duplicates. Resolve which value was intended before deploying.</li>
+          </ul>
+          <p>This is a lightweight, line-based check, not a complete YAML parser or application-schema validator. Its two-space indentation convention can reject otherwise valid YAML. Multiline flow collections, block scalars, anchors, quoted keys and complex mappings need validation in your application's YAML parser. Cleanup can change whitespace-sensitive values, so keep the original and review a diff before using formatted output.</p>
+          <p>Use the <a href="config-file-validation-guide.html">configuration validation checklist</a> to separate syntax, schema and deployment checks, or open the <a href="workspace.html">developer workspace</a> for related data inspection.</p>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -197,6 +210,6 @@
     </footer>
 
     <script src="assets/js/shared.js"></script>
-    <script src="assets/js/yaml-tool.js"></script>
+    <script src="assets/js/yaml-tool.js?v=20261019-validation"></script>
   </body>
 </html>

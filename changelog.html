@@ -26,6 +26,8 @@
     <main class="document-page">
       <h1>Changelog</h1>
       <p class="guide-meta">Notable Formalint updates and site quality changes.</p>
+      <h2>October 19, 2026 - YAML Original-input Checks</h2>
+      <p>YAML checks now inspect original input before cleanup so tab indentation is not silently repaired. Validate preserves input whitespace, special key names no longer trigger false duplicate errors, and failed actions replace stale results with original input. Added regression tests and documented checker limitations.</p>
       <h2>October 15, 2026 - Stateful Regex Debugging Reference</h2>
       <p>Reworked the existing regex flags guide with reproducible alternating test() results, cursor-reset examples, a multiline versus dotAll matrix and sticky matching boundaries. Linked it from the Regex Matcher and verified the published snippets against the JavaScript runtime.</p>
       <h2>October 14, 2026 - XML Result Freshness</h2>

@@ -104,7 +104,7 @@
 
   function validateYaml(text) {
     var lines = text.replace(/\r\n|\r/g, "\n").split("\n");
-    var blockKeys = {};
+    var blockKeys = Object.create(null);
     var contexts = [{ indent: -1, id: "root" }];
     var contextId = 0;
     var previousIndent = 0;
@@ -155,7 +155,7 @@
       if (keyMatch) {
         var blockId = contexts[contexts.length - 1].id;
         var key = keyMatch[1];
-        blockKeys[blockId] = blockKeys[blockId] || {};
+        blockKeys[blockId] = blockKeys[blockId] || Object.create(null);
         if (blockKeys[blockId][key]) {
           throw new Error("Line " + lineNumber + ": duplicate key \"" + key + "\" in the same indentation block.");
         }
@@ -195,26 +195,30 @@
     window.DevKit.setStatus(statusMessage, "ok", message);
   }
 
+  function showError(error) {
+    lastOutput = input.value;
+    output.textContent = lastOutput || error.message;
+    renderMetrics(lastOutput);
+    window.DevKit.setStatus(statusMessage, "error", error.message);
+  }
+
   function runFormat() {
     try {
+      validateYaml(input.value);
       var text = normalizeYaml(input.value);
-      validateYaml(text);
       setResult(text, "YAML cleaned");
     } catch (error) {
-      lastOutput = normalizeYaml(input.value);
-      output.textContent = lastOutput || error.message;
-      renderMetrics(lastOutput);
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
   function runValidate() {
     try {
-      var text = normalizeYaml(input.value);
+      var text = input.value;
       validateYaml(text);
       setResult(text, "Common YAML checks passed");
     } catch (error) {
-      window.DevKit.setStatus(statusMessage, "error", error.message);
+      showError(error);
     }
   }
 
