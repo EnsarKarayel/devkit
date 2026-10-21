@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>JSON Duplicate Keys Guide | Formalint</title>
-    <meta name="description" content="Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads.">
+    <title>Duplicate JSON Keys: Detect Silent Value Loss | Formalint</title>
+    <meta name="description" content="See why JSON.parse loses duplicate keys, reject repeated names with Python, and test nested objects and escaped keys before formatting API payloads.">
     <meta name="author" content="Ensar Karayel">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/json-duplicate-keys-guide.html">
@@ -18,25 +18,68 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/json-duplicate-keys-guide.html#article","headline":"JSON Duplicate Keys Guide","description":"Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/json-duplicate-keys-guide.html","keywords":"json duplicate keys detection parser behavior security"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/json-duplicate-keys-guide.html#article","headline":"Duplicate JSON keys: detect silent value loss","description":"See why JSON.parse loses duplicate keys, reject repeated names with Python, and test nested objects and escaped keys before formatting API payloads.","datePublished":"2026-09-30","dateModified":"2026-10-21","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/json-duplicate-keys-guide.html"}
     </script>
   </head>
   <body>
     <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
     <main class="document-page">
       <p class="eyebrow">JSON Debugging</p>
-      <h1>JSON Duplicate Keys Guide</h1>
-      <p class="guide-meta">Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads. Last updated September 30, 2026.</p>
-      <p>Detect duplicate JSON object keys and prevent silent last-value wins across parsers, configuration files and signed payloads. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h1>Duplicate JSON keys: detect silent value loss</h1>
+      <p class="guide-meta">JavaScript behavior and a Python rejection workflow. Examples reviewed October 21, 2026.</p>
+      <p>A configuration can parse successfully and still contain conflicting values. If an API receives two <code>role</code> members in the same object, formatting the parsed result can erase the evidence. Preserve the original text before trying to repair it.</p>
+      <p><a href="https://www.rfc-editor.org/rfc/rfc8259#section-4">RFC 8259, section 4</a> recommends unique object member names and describes inconsistent behavior when names repeat. Duplicate rejection is an interoperability policy, not proof that every JSON parser must report a syntax error.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Preserve source text</td><td>Duplicate keys disappear after many parsers convert input to an object.</td></tr><tr><td>Use duplicate-aware parsing</td><td>Reject repeated member names during tokenization or linting.</td></tr><tr><td>Compare consumers</td><td>Gateways, signature code and applications may choose first, last or error behavior.</td></tr><tr><td>Fix generation</td><td>Build objects structurally and validate configuration merges before serialization.</td></tr></tbody></table>
-      <h2>Starter snippet</h2>
-      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>{&quot;role&quot;:&quot;user&quot;,&quot;role&quot;:&quot;admin&quot;}  // ambiguous and unsafe</code></pre></div>
+      <h2>Reproduce the loss in JavaScript</h2>
+      <p>Run this example in Node.js or a browser console. The output is <code>admin</code>, then <code>1</code>: the original two members have become one property.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const raw = '{"role":"user","role":"admin"}';
+const value = JSON.parse(raw);
+console.log(value.role);
+console.log(Object.keys(value).length);</code></pre></div>
+      <p>Counting keys after parsing cannot detect the lost member. A <code>JSON.parse</code> reviver also sees the resulting properties, not a history of overwritten members. Do not use a regular expression to count key-like strings: quoted content, escapes and nested scopes make that unreliable.</p>
+      <h2>Reject duplicates before constructing a Python dictionary</h2>
+      <p>Python's <a href="https://docs.python.org/3/library/json.html#json.loads">object_pairs_hook</a> receives each object's member pairs. This standard-library example raises an error at the first repeated decoded name, including in nested objects. Run it with Python 3; no package installation or network access is needed.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="python">import json
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"Duplicate JSON key: {key!r}")
+        result[key] = value
+    return result
+
+def reject_constant(value):
+    raise ValueError(f"Non-JSON number: {value}")
+
+def load_unique(text):
+    return json.loads(text, object_pairs_hook=unique_object,
+                      parse_constant=reject_constant)
+
+try:
+    load_unique('{"role":"user","role":"admin"}')
+except ValueError as error:
+    print(error)</code></pre></div>
+      <p>Expected output: <code>Duplicate JSON key: 'role'</code>. The constant callback also rejects Python's optional NaN and Infinity extensions. This is not a schema validator or an exact-decimal parser. It does not provide a source location for duplicates; impose payload size and nesting limits separately before accepting untrusted requests.</p>
+      <h2>Regression test matrix</h2>
+      <p>These outcomes describe <code>load_unique</code> above, not all JSON parsers. Names are compared within each object after decoding escapes; the comparison is case-sensitive.</p>
+      <table class="workflow-table"><thead><tr><th>Input</th><th>Expected</th><th>Reason</th></tr></thead><tbody>
+        <tr><td><code>{"role":"user","role":"admin"}</code></td><td>Reject</td><td>Repeated member in one object.</td></tr>
+        <tr><td><code>{"user":{"id":1,"id":2}}</code></td><td>Reject</td><td>Nested objects are checked too.</td></tr>
+        <tr><td><code>{"a":1,"\u0061":2}</code></td><td>Reject</td><td>Both names decode to a.</td></tr>
+        <tr><td><code>[{"id":1},{"id":2}]</code></td><td>Accept</td><td>Separate object scopes.</td></tr>
+        <tr><td><code>{"ID":1,"id":2}</code></td><td>Accept</td><td>Different case means different names.</td></tr>
+        <tr><td><code>{"id":1,}</code></td><td>Reject</td><td>Trailing comma is a syntax error.</td></tr>
+        <tr><td><code>{"value":NaN}</code></td><td>Reject</td><td>Non-JSON numeric constant.</td></tr>
+      </tbody></table>
+      <h2>Debug an API or configuration incident</h2>
+      <ol><li>Keep a restricted copy of the original bytes, with secrets redacted before sharing. Do not overwrite the source with formatter output.</li><li>Run duplicate-aware parsing at the first trusted boundary. Record the rejection reason without logging credentials or the full payload.</li><li>Check whether gateways and downstream services interpret the same input differently. A successful HTTP response does not establish consistent interpretation.</li><li>Fix the producer or its merge policy. Represent multiple values as an array rather than repeating a member name.</li><li>Add the conflicting example and the separate-scope example to regression tests. Only then format and inspect the accepted result in the <a href="workspace.html">JSON workspace</a>.</li></ol>
       <h2>Review checks</h2>
       <ul><li>Reject duplicates at trust boundaries.</li><li>Test nested objects too.</li><li>Canonicalize only after validation.</li><li>Document merge semantics outside JSON syntax.</li></ul>
       <h2>Common mistakes</h2>
       <ul><li>Checking duplicates after JSON.parse.</li><li>Assuming every parser keeps the last value.</li><li>Signing one interpretation and authorizing another.</li></ul>
-      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <p class="guide-callout">A formatter's successful parse is not a duplicate-key audit. For signed requests, follow the protocol's exact byte or canonicalization rules; do not silently rewrite the signed payload to remove conflicting members.</p>
       <h2>Related Formalint references</h2>
       <p>Continue with <a href="json-lint-error-guide.html">JSON Lint Error</a>, <a href="api-hmac-request-signing-guide.html">API HMAC Request Signing</a>, <a href="config-file-validation-guide.html">Config File Validation</a>.</p>
     </main>
