@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Regex Escaping Guide | Formalint</title>
-    <meta name="description" content="Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.">
+    <title>Regex Escaping in JavaScript and JSON: Tested Examples | Formalint</title>
+    <meta name="description" content="Fix lost backslashes in JavaScript regex and JSON config. Compare literals, RegExp strings and serialized patterns with runnable examples and failure tests.">
     <meta name="author" content="Ensar Karayel">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/regex-escaping-guide.html">
@@ -18,25 +18,69 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-escaping-guide.html#article","headline":"Regex Escaping Guide","description":"Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-escaping-guide.html","keywords":"regex escaping guide javascript json backslash debugging"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-escaping-guide.html#article","headline":"Regex escaping in JavaScript and JSON","description":"Fix lost backslashes in JavaScript regex and JSON config. Compare literals, RegExp strings and serialized patterns with runnable examples and failure tests.","datePublished":"2026-09-30","dateModified":"2026-10-22","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-escaping-guide.html"}
     </script>
   </head>
   <body>
     <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
     <main class="document-page">
       <p class="eyebrow">Regex Debugging</p>
-      <h1>Regex Escaping Guide</h1>
-      <p class="guide-meta">Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes. Last updated September 30, 2026.</p>
-      <p>Debug regex escaping across literal patterns, JavaScript strings, JSON, shell commands and language-specific constructors without adding random backslashes. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h1>Regex escaping in JavaScript and JSON</h1>
+      <p class="guide-meta">Runnable examples and transport checks. Reviewed October 22, 2026.</p>
+      <p>A pattern that works in an editor can fail after it moves into a JavaScript string or JSON configuration. Diagnose which parser consumes each backslash before changing the regex itself. The examples below target JavaScript; they do not assume that PCRE, Java or a shell uses the same syntax.</p>
+      <p>Keep three representations separate: the pattern text sent to the regex engine, the JavaScript expression that constructs it, and any serialized configuration carrying that text. In a plain pattern field, enter <code>\d+</code>, not a quoted JavaScript string or a JSON-encoded value.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>Count representation layers</td><td>Separate regex syntax from the host language, JSON and command-shell encoding.</td></tr><tr><td>Inspect the final pattern</td><td>Print or log the compiled source safely instead of guessing what reached the engine.</td></tr><tr><td>Use raw forms when available</td><td>Prefer regex literals or raw strings when they reduce one encoding layer.</td></tr><tr><td>Test literal metacharacters</td><td>Verify dots, brackets, slashes and backslashes with focused cases.</td></tr></tbody></table>
-      <h2>Starter snippet</h2>
-      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>regex source -&gt; language string -&gt; JSON or shell transport -&gt; regex engine</code></pre></div>
+      <h2>One pattern, three JavaScript representations</h2>
+      <p>Run each block independently in Node.js or a browser console. All three expressions below match the complete filename <code>report.2026.csv</code>. The double backslashes belong to JavaScript string syntax; the regex engine receives only one before each literal dot or digit class.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const literal = /^report\.\d{4}\.csv$/;
+const stringForm = new RegExp("^report\\.\\d{4}\\.csv$");
+const rawForm = new RegExp(String.raw`^report\.\d{4}\.csv$`);
+console.log(literal.source === stringForm.source);
+console.log(stringForm.source === rawForm.source);
+console.log(literal.test("report.2026.csv"));
+console.log(literal.test("reportX2026Ycsv"));</code></pre></div>
+      <p>Expected: <code>true, true, true, false</code>, one value per line. The last input is a negative control: forgetting to escape the dots would admit it.</p>
+      <h2>Inspect a compiling but incorrect pattern</h2>
+      <p>A missing backslash need not produce a syntax error. Compare the compiled sources and test a deliberately wrong input instead of checking only that the constructor succeeds.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const wrong = new RegExp("\d+");
+const right = new RegExp("\\d+");
+console.log(wrong.source);
+console.log(wrong.test("ddd"));
+console.log(right.test("123"));
+console.log(right.test("ddd"));</code></pre></div>
+      <p>Expected: <code>d+, true, true, false</code>. JavaScript consumed the backslash in the first string before the regex constructor ran. Logging <code>JSON.stringify(patternText)</code> can clarify the string representation, but do not log credentials or sensitive user input.</p>
+      <h2>Round-trip a JSON configuration without manual escaping</h2>
+      <p>Store pattern source and flags separately. Let the JSON serializer encode backslashes and quotes; let the JSON parser decode them once. A JSON document cannot contain a regex literal or a bare <code>\d</code> escape inside a string.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const original = {pattern: "^report\\.\\d{4}\\.csv$", flags: "i"};
+const transport = JSON.stringify(original);
+const restored = JSON.parse(transport);
+const matcher = new RegExp(restored.pattern, restored.flags);
+console.log(restored.pattern === original.pattern);
+console.log(matcher.test("REPORT.2026.CSV"));
+console.log(matcher.test("reportX2026Ycsv"));</code></pre></div>
+      <p>Expected: <code>true, true, false</code>. If the round-trip equality fails in your application, inspect the transport layer before adjusting the pattern. When invoking a CLI, shell quoting is another independent layer; these JavaScript examples are not shell commands.</p>
+      <h2>Small regression matrix</h2>
+      <p>Each expression below is a JavaScript regex literal. The text column contains the actual input, not a JavaScript string expression.</p>
+      <table class="workflow-table"><thead><tr><th>Regex literal</th><th>Text</th><th>Matches</th><th>What it checks</th></tr></thead><tbody>
+        <tr><td><code>/^a\.b$/</code></td><td><code>a.b</code></td><td>true</td><td>A literal dot.</td></tr>
+        <tr><td><code>/^a\.b$/</code></td><td><code>aXb</code></td><td>false</td><td>Dot is not a wildcard.</td></tr>
+        <tr><td><code>/^\[ok\]$/</code></td><td><code>[ok]</code></td><td>true</td><td>Literal brackets, not a character class.</td></tr>
+        <tr><td><code>/^C:\\Temp$/</code></td><td><code>C:\Temp</code></td><td>true</td><td>One actual backslash.</td></tr>
+        <tr><td><code>/^\/api\/v1$/</code></td><td><code>/api/v1</code></td><td>true</td><td>Slash delimiters in literal notation.</td></tr>
+        <tr><td><code>/^\d+$/</code></td><td><code>12a</code></td><td>false</td><td>The entire input must be digits.</td></tr>
+      </tbody></table>
+      <h2>Literal user text is not a pattern</h2>
+      <p>If the user searches for <code>a.b</code> as ordinary text, prefer <code>text.includes(query)</code> when regex features are unnecessary. If you must embed literal text in a dynamic regex, use <code>RegExp.escape(query)</code> in a runtime that supports it, or a tested standards-compatible polyfill. Do not escape an entire intentional regex: doing so changes operators into literal characters.</p>
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape">RegExp.escape documentation</a> describes compatibility and edge cases that simple backslash replacement misses. Escaping input does not bound the execution time of an otherwise expensive surrounding pattern.</p>
+      <h2>Reproduce and resolve a production mismatch</h2>
+      <ol><li>Reduce the problem to one expected match and one near miss, using synthetic data.</li><li>Write down the engine, flags and exact entry point: plain pattern field, JavaScript source or JSON document.</li><li>Check the compiled <code>source</code> and transport round-trip equality. Separate encoding bugs from <a href="regex-flags-guide.html">flag and state behavior</a>.</li><li>Reproduce the decoded pattern in the <a href="regex-matcher.html">regex matcher</a>. Keep the original transport example in your automated tests.</li><li>If compilation still fails, inspect delimiters, unmatched groups and invalid escapes rather than adding backslashes globally.</li></ol>
       <h2>Review checks</h2>
       <ul><li>Document the target regex engine.</li><li>Distinguish delimiter escaping from regex escaping.</li><li>Keep examples copyable in one language.</li><li>Test serialized configuration separately.</li></ul>
       <h2>Common mistakes</h2>
       <ul><li>Adding backslashes until compilation succeeds.</li><li>Copying a JavaScript literal into JSON unchanged.</li><li>Confusing shell quoting with regex anchors.</li></ul>
-      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <p class="guide-callout">Passing this matrix checks the examples, not every possible pattern. Character classes, Unicode modes and replacement strings have their own rules. Replacement tokens such as <code>$1</code> are a separate concern from escaping pattern input.</p>
+      <p>Reference: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">JavaScript RegExp constructor and literal notation</a>.</p>
       <h2>Related Formalint references</h2>
       <p>Continue with <a href="json-escape-unescape-guide.html">Json Escape Unescape Guide</a>, <a href="javascript-regex-cheatsheet.html">Javascript Regex Cheatsheet</a>, <a href="regex-matcher.html">Regex Matcher</a>.</p>
     </main>
