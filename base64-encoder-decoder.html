@@ -6,21 +6,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
-    <title>Base64 Encoder and Decoder | Formalint</title>
-    <meta name="description" content="Free Base64 encoder and decoder for UTF-8 text. Encode, decode, copy and inspect Base64 strings directly in your browser.">
+    <title>Base64 Encoder and UTF-8 Decoder Online | Formalint</title>
+    <meta name="description" content="Encode Unicode text and decode Base64 locally. Detect invalid UTF-8 bytes, preserve text and diagnose malformed payloads with tested examples.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/base64-encoder-decoder.html">
     <meta name="theme-color" content="#0d1117">
     <meta property="og:title" content="Formalint Base64 Encoder and Decoder">
-    <meta property="og:description" content="Encode and decode Base64 strings locally in the browser.">
+    <meta property="og:description" content="Encode Unicode text and decode Base64 locally, with explicit errors for invalid UTF-8 bytes.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://formalint.com/base64-encoder-decoder.html">
     <meta property="og:image" content="https://formalint.com/assets/img/og-image.svg">
     <meta property="og:site_name" content="Formalint">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Formalint Base64 Encoder and Decoder">
-    <meta name="twitter:description" content="Encode and decode Base64 strings locally in the browser.">
+    <meta name="twitter:description" content="Encode Unicode text and decode Base64 locally, with explicit errors for invalid UTF-8 bytes.">
     <meta name="twitter:image" content="https://formalint.com/assets/img/og-image.svg">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -36,7 +36,7 @@
         "@id": "https://formalint.com/base64-encoder-decoder.html#base64-tool",
         "name": "Formalint Base64 Encoder and Decoder",
         "url": "https://formalint.com/base64-encoder-decoder.html",
-        "description": "A browser-based Base64 encoder and decoder for UTF-8 text.",
+        "description": "A browser-based Base64 text encoder and decoder that rejects malformed UTF-8 bytes.",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "isAccessibleForFree": true,
@@ -59,10 +59,10 @@
           },
           {
                       "@type": "Question",
-                      "name": "Why does my decoded output look garbled?",
+                      "name": "Why are decoded bytes rejected as invalid UTF-8?",
                       "acceptedAnswer": {
                                   "@type": "Answer",
-                                  "text": "This usually happens when the input contains characters outside the standard Base64 alphabet, or when the string was encoded with a different charset than UTF-8. Check for missing padding characters at the end of the string as well."
+                                  "text": "Base64 can represent arbitrary bytes, including binary files and text encoded with other character sets. This text decoder rejects bytes that are not valid UTF-8 instead of replacing them. Confirm the producer's encoding; do not assume a valid Base64 string must contain readable text."
                       }
           },
           {
@@ -92,7 +92,7 @@
       <section class="tool-hero">
         <div>
           <p class="eyebrow">Browser-based developer tools</p>
-          <h1>Base64 Encoder</h1>
+          <h1>Base64 Encoder and Decoder</h1>
           <p class="hero-copy">Encode and decode UTF-8 text as Base64 without sending input to a backend.</p>
         </div>
         <div class="hero-actions" aria-label="Tool shortcuts">
@@ -122,7 +122,7 @@
           <div class="panel-bar">
             <div>
               <h2>Result</h2>
-              <p id="statusMessage" class="meta">Ready</p>
+              <p id="statusMessage" class="meta" role="status" aria-live="polite">Ready</p>
             </div>
           </div>
           <div class="result-view active">
@@ -152,6 +152,25 @@
           <article><h3>Not encryption</h3><p>Base64 is reversible encoding. Do not treat encoded values as secret or protected data.</p></article>
         </div>
       </section>
+      <section class="content-band" aria-labelledby="base64-tests-title">
+        <div><h2 id="base64-tests-title">Diagnose Base64 payloads without losing text</h2></div>
+        <div>
+          <p>Base64 validity and UTF-8 validity are different checks. Decode first converts the Base64 alphabet to bytes, then checks whether those bytes form UTF-8 text. A binary attachment can pass the first step and fail the second. This is a text codec, not a binary file viewer or charset detector.</p>
+          <p>The decoder uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/TextDecoder">TextDecoder's fatal mode</a> to reject malformed sequences. A leading UTF-8 byte order mark is preserved as U+FEFF rather than silently stripped. Error messages are kept outside the result, and editing input clears old output and metrics before another operation.</p>
+          <h3>Copy these inputs and choose Decode</h3>
+          <table class="workflow-table"><thead><tr><th>Base64 input</th><th>Expected result</th><th>Diagnostic purpose</th></tr></thead><tbody>
+            <tr><td><code>aGVsbG8=</code></td><td>hello</td><td>Basic text round trip.</td></tr>
+            <tr><td><code>w6k=</code></td><td>&#233;</td><td>Multi-byte UTF-8 character.</td></tr>
+            <tr><td><code>8J+YgA==</code></td><td>U+1F600 emoji</td><td>Four-byte UTF-8 sequence.</td></tr>
+            <tr><td><code>/w==</code></td><td>Invalid UTF-8 error</td><td>Valid Base64 containing byte FF.</td></tr>
+            <tr><td><code>ww==</code></td><td>Invalid UTF-8 error</td><td>Truncated multi-byte sequence.</td></tr>
+            <tr><td><code>%%%</code></td><td>Invalid Base64 error</td><td>Characters outside the standard alphabet.</td></tr>
+          </tbody></table>
+          <h3>API debugging workflow</h3>
+          <ol><li>Check the producer's contract: ordinary Base64, Base64url, or a complete data URL are different inputs. Use the <a href="jwt-decoder.html">JWT decoder</a> for token segments; this tool does not translate the Base64url alphabet.</li><li>Use a synthetic sample first. Do not share real authentication headers or secret payloads in bug reports.</li><li>Remove a data URL prefix only when you know the remaining content is UTF-8 text. Images, compressed bytes and other binary content need a binary-aware viewer.</li><li>Whitespace around or within Base64 is ignored. Missing final padding is accepted when the browser's Base64 decoder can infer it; arbitrary truncation is not repaired.</li><li>If decoding succeeds, inspect the content in the <a href="workspace.html">JSON workspace</a> when appropriate. Base64 decoding alone does not validate JSON or establish trust.</li></ol>
+          <p>For URL transport, check whether a plus sign was converted into a space by form encoding. Do not blindly replace spaces with plus signs; compare the original request using the <a href="url-encoder-decoder.html">URL codec</a>. Empty text is a valid empty result. Very large payloads can still block the tab; use a local streaming utility for files.</p>
+        </div>
+      </section>
       <section class="content-band faq-band" aria-labelledby="base64-faq-title">
         <div>
           <p class="eyebrow">Frequently asked</p>
@@ -163,8 +182,8 @@
             <p>No. Base64 is a reversible text encoding, not encryption. Anyone can decode a Base64 string back to its original value with no key or password required. Do not use it to protect sensitive data.</p>
           </details>
           <details>
-            <summary>Why does my decoded output look garbled?</summary>
-            <p>This usually happens when the input contains characters outside the standard Base64 alphabet, or when the string was encoded with a different charset than UTF-8. Check for missing padding characters at the end of the string as well.</p>
+            <summary>Why are decoded bytes rejected as invalid UTF-8?</summary>
+            <p>Base64 can represent arbitrary bytes, including binary files and text encoded with other character sets. This text decoder rejects bytes that are not valid UTF-8 instead of replacing them. Confirm the producer's encoding; do not assume a valid Base64 string must contain readable text.</p>
           </details>
           <details>
             <summary>Where is Base64 commonly used?</summary>

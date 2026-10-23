@@ -26,6 +26,8 @@
     <main class="document-page">
       <h1>Changelog</h1>
       <p class="guide-meta">Notable Formalint updates and site quality changes.</p>
+      <h2>October 23, 2026 - Base64 Text Integrity</h2>
+      <p>The <a href="base64-encoder-decoder.html">Base64 text codec</a> now rejects malformed UTF-8 instead of silently substituting characters, preserves a leading byte order mark, and prevents copying stale results after input changes or errors. Added regression tests and a payload diagnosis matrix.</p>
       <h2>October 22, 2026 - Regex Escaping Examples</h2>
       <p>Expanded the <a href="regex-escaping-guide.html">regex escaping guide</a> with three executable JavaScript examples, six regression cases, JSON transport checks and a workflow for diagnosing lost backslashes. Clarified the difference between literal text and intentional patterns.</p>
       <h2>October 21, 2026 - Duplicate JSON Key Diagnostics</h2>

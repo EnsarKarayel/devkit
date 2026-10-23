@@ -12,6 +12,14 @@
   var inputMeta = $("#inputMeta");
   var metrics = $("#metrics");
   var lastOutput = "";
+  var resultInput = null;
+
+  function invalidateResult() {
+    lastOutput = "";
+    resultInput = null;
+    output.textContent = "";
+    window.DevKit.renderMetrics(metrics, []);
+  }
 
   function updateInputMeta() {
     inputMeta.textContent = window.DevKit.formatBytes(input.value) + " / " + window.DevKit.lineCount(input.value) + " lines";
@@ -28,16 +36,26 @@
 
   function decodeBase64(text) {
     var compact = text.replace(/\s+/g, "");
-    var binary = atob(compact);
+    var binary;
+    try {
+      binary = atob(compact);
+    } catch (error) {
+      throw new Error("Invalid Base64 input. Use the standard Base64 alphabet without a data URL prefix.");
+    }
     var bytes = new Uint8Array(binary.length);
     for (var index = 0; index < binary.length; index += 1) {
       bytes[index] = binary.charCodeAt(index);
     }
-    return new TextDecoder().decode(bytes);
+    try {
+      return new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+    } catch (error) {
+      throw new Error("Decoded bytes are not valid UTF-8 text. Binary files and other character encodings are not supported.");
+    }
   }
 
   function setResult(text, mode) {
     lastOutput = text;
+    resultInput = input.value;
     output.textContent = text;
     window.DevKit.setStatus(statusMessage, "ok", mode + " complete");
     window.DevKit.renderMetrics(metrics, [
@@ -52,8 +70,7 @@
     try {
       setResult(encodeBase64(input.value), "Encode");
     } catch (error) {
-      lastOutput = error.message;
-      output.textContent = error.message;
+      invalidateResult();
       window.DevKit.setStatus(statusMessage, "error", error.message);
     }
   }
@@ -62,9 +79,8 @@
     try {
       setResult(decodeBase64(input.value), "Decode");
     } catch (error) {
-      lastOutput = error.message;
-      output.textContent = error.message;
-      window.DevKit.setStatus(statusMessage, "error", "Invalid Base64 input.");
+      invalidateResult();
+      window.DevKit.setStatus(statusMessage, "error", error.message);
     }
   }
 
@@ -82,14 +98,20 @@
     }
     if (action === "clear") {
       input.value = "";
-      output.textContent = "";
-      lastOutput = "";
+      invalidateResult();
       updateInputMeta();
       window.DevKit.setStatus(statusMessage, "", "Ready");
     }
     if (action === "copy") {
+      if (resultInput === null || resultInput !== input.value) {
+        invalidateResult();
+        window.DevKit.setStatus(statusMessage, "error", "Encode or decode the current input before copying.");
+        return;
+      }
       window.DevKit.copyText(lastOutput).then(function () {
         window.DevKit.setStatus(statusMessage, "ok", "Copied");
+      }).catch(function () {
+        window.DevKit.setStatus(statusMessage, "error", "Clipboard access failed. Select and copy the result manually.");
       });
     }
   }
@@ -101,7 +123,11 @@
     }
   });
 
-  input.addEventListener("input", window.DevKit.debounce(updateInputMeta, 120));
+  input.addEventListener("input", function () {
+    invalidateResult();
+    updateInputMeta();
+    window.DevKit.setStatus(statusMessage, "", "Input changed. Encode or decode to refresh the result.");
+  });
   input.value = "Formalint developer tools";
   updateInputMeta();
   runEncode();
