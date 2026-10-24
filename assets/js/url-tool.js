@@ -12,6 +12,14 @@
   var inputMeta = $("#inputMeta");
   var metrics = $("#metrics");
   var lastOutput = "";
+  var resultInput = null;
+
+  function invalidateResult() {
+    lastOutput = "";
+    resultInput = null;
+    output.textContent = "";
+    window.DevKit.renderMetrics(metrics, []);
+  }
 
   function updateInputMeta() {
     inputMeta.textContent = window.DevKit.formatBytes(input.value) + " / " + window.DevKit.lineCount(input.value) + " lines";
@@ -19,6 +27,7 @@
 
   function setResult(text, mode) {
     lastOutput = text;
+    resultInput = input.value;
     output.textContent = text;
     window.DevKit.setStatus(statusMessage, "ok", mode + " complete");
     window.DevKit.renderMetrics(metrics, [
@@ -33,18 +42,17 @@
     try {
       setResult(encodeURIComponent(input.value), "Encode");
     } catch (error) {
-      lastOutput = error.message;
-      output.textContent = error.message;
+      invalidateResult();
       window.DevKit.setStatus(statusMessage, "error", error.message);
     }
   }
 
-  function runDecode() {
+  function runDecode(formValue) {
     try {
-      setResult(decodeURIComponent(input.value.replace(/\+/g, " ")), "Decode");
+      var value = formValue ? input.value.replace(/\+/g, " ") : input.value;
+      setResult(decodeURIComponent(value), formValue ? "Decode form value" : "Decode component");
     } catch (error) {
-      lastOutput = error.message;
-      output.textContent = error.message;
+      invalidateResult();
       window.DevKit.setStatus(statusMessage, "error", "Invalid percent-encoded input.");
     }
   }
@@ -54,7 +62,10 @@
       runEncode();
     }
     if (action === "decode") {
-      runDecode();
+      runDecode(false);
+    }
+    if (action === "decode-form") {
+      runDecode(true);
     }
     if (action === "sample") {
       input.value = "https://formalint.com/search?q=json formatter&lang=en";
@@ -63,14 +74,20 @@
     }
     if (action === "clear") {
       input.value = "";
-      output.textContent = "";
-      lastOutput = "";
+      invalidateResult();
       updateInputMeta();
       window.DevKit.setStatus(statusMessage, "", "Ready");
     }
     if (action === "copy") {
+      if (resultInput === null || resultInput !== input.value) {
+        invalidateResult();
+        window.DevKit.setStatus(statusMessage, "error", "Encode or decode the current input before copying.");
+        return;
+      }
       window.DevKit.copyText(lastOutput).then(function () {
         window.DevKit.setStatus(statusMessage, "ok", "Copied");
+      }).catch(function () {
+        window.DevKit.setStatus(statusMessage, "error", "Clipboard access failed. Select and copy the result manually.");
       });
     }
   }
@@ -82,7 +99,11 @@
     }
   });
 
-  input.addEventListener("input", window.DevKit.debounce(updateInputMeta, 120));
+  input.addEventListener("input", function () {
+    invalidateResult();
+    updateInputMeta();
+    window.DevKit.setStatus(statusMessage, "", "Input changed. Encode or decode to refresh the result.");
+  });
   input.value = "https://formalint.com/search?q=json formatter&lang=en";
   updateInputMeta();
   runEncode();

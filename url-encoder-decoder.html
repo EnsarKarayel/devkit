@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="format-detection" content="telephone=no">
-    <title>URL Encoder and Decoder | Formalint</title>
-    <meta name="description" content="Free URL encoder and decoder for query strings, path segments and percent-encoded text. Encode and decode locally in your browser.">
+    <title>URL Decoder: Percent Encoding and Form Values | Formalint</title>
+    <meta name="description" content="Encode URL components and decode percent-encoded text locally. Preserve literal plus signs or decode form values, with examples for malformed UTF-8 and double encoding.">
     <meta name="author" content="Formalint">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/url-encoder-decoder.html">
@@ -36,7 +36,7 @@
         "@id": "https://formalint.com/url-encoder-decoder.html#url-tool",
         "name": "Formalint URL Encoder and Decoder",
         "url": "https://formalint.com/url-encoder-decoder.html",
-        "description": "A browser-based URL encoder and decoder for query strings and path values.",
+        "description": "A local URL component codec with separate percent-decoding and form-value decoding actions.",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "isAccessibleForFree": true,
@@ -105,7 +105,8 @@
           <textarea id="urlInput" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
           <div class="button-row" aria-label="URL actions">
             <button type="button" data-action="encode"><span aria-hidden="true">%</span> Encode</button>
-            <button type="button" data-action="decode"><span aria-hidden="true">/</span> Decode</button>
+            <button type="button" data-action="decode"><span aria-hidden="true">/</span> Decode component</button>
+            <button class="secondary" type="button" data-action="decode-form">Decode form value</button>
             <button class="secondary" type="button" data-action="clear">Clear</button>
           </div>
         </div>
@@ -114,7 +115,7 @@
           <div class="panel-bar">
             <div>
               <h2>Result</h2>
-              <p id="statusMessage" class="meta">Ready</p>
+              <p id="statusMessage" class="meta" role="status" aria-live="polite">Ready</p>
             </div>
           </div>
           <div class="result-view active">
@@ -142,6 +143,26 @@
           <article><h3>Query values</h3><p>Encoding prevents spaces, ampersands and symbols from breaking query strings or request URLs.</p></article>
           <article><h3>Percent encoding</h3><p>Decoded output helps inspect copied links, redirect URLs and API callback parameters.</p></article>
           <article><h3>Component based</h3><p>Formalint uses component encoding, which is appropriate for query values and path fragments.</p></article>
+        </div>
+      </section>
+      <section class="content-band" aria-labelledby="url-tests-title">
+        <div><h2 id="url-tests-title">Choose the decoding context before changing the value</h2></div>
+        <div>
+          <p>Decode component preserves a literal plus sign. Decode form value treats plus as a space before percent-decoding, for individual values from application/x-www-form-urlencoded data. Both actions decode exactly one layer and reject malformed percent escapes or invalid UTF-8 byte sequences.</p>
+          <table class="workflow-table"><thead><tr><th>Input</th><th>Decode component</th><th>Decode form value</th></tr></thead><tbody>
+            <tr><td><code>C++</code></td><td><code>C++</code></td><td>C followed by two spaces</td></tr>
+            <tr><td><code>C%2B%2B</code></td><td><code>C++</code></td><td><code>C++</code></td></tr>
+            <tr><td><code>a+b%20c</code></td><td><code>a+b c</code></td><td><code>a b c</code></td></tr>
+            <tr><td><code>%252F</code></td><td><code>%2F</code></td><td><code>%2F</code></td></tr>
+            <tr><td><code>%C3%A9</code></td><td>&#233;</td><td>&#233;</td></tr>
+            <tr><td><code>%E9</code></td><td>Error: invalid UTF-8</td><td>Error: invalid UTF-8</td></tr>
+            <tr><td><code>%2</code></td><td>Error: incomplete escape</td><td>Error: incomplete escape</td></tr>
+          </tbody></table>
+          <h3>Debug a callback parameter</h3>
+          <ol><li>Keep the original request available locally. Replace tokens and personal data with synthetic values before sharing examples.</li><li>Separate the URL structure from the parameter you need. For a complete query string, use a query parser rather than decoding everything before splitting on ampersands: an encoded ampersand may belong inside a value.</li><li>Choose the action from the producer's encoding contract. A path segment containing a plus sign should not be interpreted as a form field.</li><li>Inspect one decoded layer. A remaining percent sequence may be intentional nested data, not a reason to decode repeatedly.</li><li>Encode only the component being inserted. Encoding a whole URL is useful when that URL is itself a parameter value, not when constructing the outer navigable address.</li></ol>
+          <p>For example, the raw value <code>a+b</code> becomes <code>a%2Bb</code> with Encode and returns unchanged with Decode component. A space becomes <code>%20</code>. Empty input is valid. Error states and input edits clear the previous result; Copy requires a successful operation on the current input.</p>
+          <p>Decoding does not validate a redirect destination or make text safe for HTML. The tool displays results as text and does not navigate to them. For related payload issues, use the <a href="base64-encoder-decoder.html">Base64 text codec</a> or inspect decoded JSON in the <a href="workspace.html">workspace</a>.</p>
+          <p>Implementation reference: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent">decodeURIComponent and form-value preparation</a>. This tool uses strict decoding; a tolerant query parser can handle malformed bytes differently.</p>
         </div>
       </section>
       <section class="content-band faq-band" aria-labelledby="urlenc-faq-title">
