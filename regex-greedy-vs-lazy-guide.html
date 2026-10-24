@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google-analytics.com https://region1.google-analytics.com; font-src 'self'; form-action 'none'; frame-src https://*.googlesyndication.com https://*.doubleclick.net; img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://www.google-analytics.com; object-src 'none'; script-src 'self' 'nonce-formalint-schema' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Regex Greedy vs Lazy Quantifiers Guide | Formalint</title>
-    <meta name="description" content="Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text.">
+    <title>Greedy vs Lazy Regex: Fix Overmatching in JavaScript | Formalint</title>
+    <meta name="description" content="Compare greedy, lazy and delimiter-bounded regex with runnable JavaScript examples. Test missing quotes, newlines and empty matches before shipping a pattern.">
     <meta name="author" content="Ensar Karayel">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://formalint.com/regex-greedy-vs-lazy-guide.html">
@@ -18,25 +18,61 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6534346834787678" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGR2EZG0BM"></script>
     <script type="application/ld+json" nonce="formalint-schema">
-      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-greedy-vs-lazy-guide.html#article","headline":"Regex Greedy vs Lazy Quantifiers Guide","description":"Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text.","datePublished":"2026-09-30","dateModified":"2026-09-30","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-greedy-vs-lazy-guide.html","keywords":"regex greedy vs lazy quantifier examples debugging"}
+      {"@context":"https://schema.org","@type":"TechArticle","@id":"https://formalint.com/regex-greedy-vs-lazy-guide.html#article","headline":"Greedy vs lazy regex: fix overmatching","description":"Compare greedy, lazy and delimiter-bounded regex with runnable JavaScript examples. Test missing quotes, newlines and empty matches before shipping a pattern.","datePublished":"2026-09-30","dateModified":"2026-10-24","author":{"@type":"Person","name":"Ensar Karayel","email":"karayelensar@gmail.com"},"publisher":{"@type":"Organization","name":"Formalint","url":"https://formalint.com/"},"mainEntityOfPage":"https://formalint.com/regex-greedy-vs-lazy-guide.html"}
     </script>
   </head>
   <body>
     <header class="site-header global-topbar"><a class="global-brand" href="index.html" aria-label="Formalint home"><span class="global-logo" aria-hidden="true">{ }</span><strong>Formalint</strong><span class="global-local-badge"><i></i>Local-first (Zero-Server)</span></a><button class="global-command-trigger" type="button" data-open-command-palette><span>Command Palette, Transformers, Encoders...</span><kbd>Ctrl K</kbd></button><nav class="global-top-actions" aria-label="Primary navigation"><span class="global-sandbox-pill"><i></i>Local Sandbox: Ready</span><a href="guides.html">Guides</a><a href="forum.html">Forum</a><a href="tools.html">Docs</a><a href="https://github.com/EnsarKarayel/devkit" rel="noopener noreferrer">GitHub</a><a class="global-settings-link" href="about.html" aria-label="About and settings" title="About and settings">&#9881;</a></nav></header>
     <main class="document-page">
       <p class="eyebrow">Regex Debugging</p>
-      <h1>Regex Greedy vs Lazy Quantifiers Guide</h1>
-      <p class="guide-meta">Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text. Last updated September 30, 2026.</p>
-      <p>Understand greedy and lazy regex quantifiers with bounded examples, backtracking behavior and safer alternatives for structured text. This reference is written for developers who need practical validation behavior, reviewable rules and safe examples rather than copied snippets with no explanation.</p>
+      <h1>Greedy vs lazy regex: fix overmatching</h1>
+      <p class="guide-meta">JavaScript examples and regression cases reviewed October 24, 2026.</p>
+      <p>When a log extractor returns two quoted fields as one result, the problem may be the boundary of a repeated token. Changing <code>.*</code> to <code>.*?</code> can alter the match, but it does not define a file format or make an expensive pattern safe.</p>
+      <p>A greedy quantifier tries more repetitions first; a lazy quantifier tries fewer first. Both can reconsider that choice to satisfy the remaining pattern. See the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Quantifier">JavaScript quantifier reference</a>. The examples here use synthetic text with no escaped quotes unless explicitly stated.</p>
       <h2>Recommended workflow</h2>
       <table class="workflow-table"><thead><tr><th>Step</th><th>Why it matters</th></tr></thead><tbody><tr><td>State the intended boundary</td><td>Write down the delimiter or character class that should end the match.</td></tr><tr><td>Compare minimal examples</td><td>Test one, two and missing delimiters to expose overmatching and failure behavior.</td></tr><tr><td>Inspect backtracking</td><td>A lazy quantifier can still expand repeatedly when the suffix fails.</td></tr><tr><td>Prefer explicit bounds</td><td>Use negated classes or parsers when the grammar provides a clear boundary.</td></tr></tbody></table>
-      <h2>Starter snippet</h2>
-      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code>greedy: .*   lazy: .*?   bounded: [^&quot;]*</code></pre></div>
+      <h2>Reproduce an overmatched log field</h2>
+      <p>Run this block in Node.js or a browser console. The greedy expression consumes both quoted values and the text between them. The other two return separate values for this limited input grammar.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const log = 'user="alex" action="read"';
+console.log(log.match(/".*"/g));
+console.log(log.match(/".*?"/g));
+console.log(log.match(/"[^"\r\n]*"/g));</code></pre></div>
+      <p>Expected arrays: <code>['"alex" action="read"']</code>, then <code>['"alex"', '"read"']</code> twice. The negated class explicitly excludes a quote and CR/LF instead of relying on dot's default newline behavior.</p>
+      <h2>Lazy does not mean the shortest complete result</h2>
+      <p>The rest of the expression still has to match. Here, the first closing quote is not followed by a space and <code>END</code>, so the lazy repetition expands through it.</p>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const record = '"first" "second" END';
+console.log(record.match(/^".*?" END$/)[0]);
+console.log(/^"[^"\r\n]*" END$/.test(record));</code></pre></div>
+      <p>Expected: <code>"first" "second" END</code>, then <code>false</code>. If the contract permits exactly one unescaped quoted field, the delimiter-bounded expression is the appropriate check. A lazy dot can still cross an earlier delimiter.</p>
+      <h2>Newlines and empty matches are separate decisions</h2>
+      <div class="command-block"><button class="copy-code-button" type="button" data-copy-code>Copy</button><pre><code data-example="javascript">const multiline = '"line1\nline2"';
+console.log(/".*?"/.test(multiline));
+console.log(/".*?"/s.test(multiline));
+console.log(/"[^"\r\n]*"/.test(multiline));
+console.log(/.*?/.exec("abc")[0].length);
+console.log(/^.*?$/.exec("abc")[0]);</code></pre></div>
+      <p>Expected: <code>false, true, false, 0, abc</code>. The <code>s</code> flag changes what dot can consume. A bare lazy star can succeed without consuming anything; anchors can force it to expand. These examples intentionally avoid the <code>m</code> flag, which changes anchor behavior.</p>
+      <h2>Regression matrix for a single quoted line</h2>
+      <p>Use <code>/^"[^"\r\n]*"$/</code> without flags for the cases below. Each input cell is a JSON string: decode it first so <code>\n</code> becomes a real newline. This policy accepts empty fields but does not parse escaped quote syntax.</p>
+      <table class="workflow-table"><thead><tr><th>Input as JSON string</th><th>Expected</th><th>Reason</th></tr></thead><tbody>
+        <tr><td><code>"\"alex\""</code></td><td>true</td><td>One complete field.</td></tr>
+        <tr><td><code>"\"\""</code></td><td>true</td><td>Star allows empty content.</td></tr>
+        <tr><td><code>"\"alex"</code></td><td>false</td><td>Missing closing quote.</td></tr>
+        <tr><td><code>"\"a\" \"b\""</code></td><td>false</td><td>Two fields are not one field.</td></tr>
+        <tr><td><code>"\"a\nb\""</code></td><td>false</td><td>LF is excluded.</td></tr>
+        <tr><td><code>"\"a\rb\""</code></td><td>false</td><td>CR is excluded too.</td></tr>
+        <tr><td><code>"\"a\\\"b\""</code></td><td>false</td><td>An escaped quote requires a different grammar.</td></tr>
+      </tbody></table>
+      <h2>Choose extraction, validation or parsing</h2>
+      <p>Global extraction finds matching spans; it does not prove that all surrounding text is valid. An unmatched quote elsewhere in a log can cause later quotes to pair unexpectedly. Validate the record shape separately before trusting extracted fields.</p>
+      <p>For JSON strings, use a JSON parser rather than extending this quoted-field pattern with more alternatives. For nested XML or HTML, use a format-aware parser. A negated character class is useful only when the format really forbids that delimiter inside the field.</p>
+      <h2>Debugging checklist</h2>
+      <ol><li>Reduce the input to two adjacent fields and a missing closing delimiter. Keep secrets out of examples.</li><li>Record the engine and <a href="regex-flags-guide.html">flags</a>. Verify whether the field can contain newlines or escaped delimiters.</li><li>Compare exact matched text in the <a href="regex-matcher.html">regex matcher</a>, not just a true/false result.</li><li>Test the serialized pattern separately if it is stored in JSON; the <a href="regex-escaping-guide.html">escaping guide</a> covers that additional layer.</li><li>Measure long near-misses in a controlled environment with a timeout or worker isolation. Do not assume switching to lazy eliminates backtracking.</li></ol>
       <h2>Review checks</h2>
       <ul><li>Include multiline input in tests.</li><li>Test absent closing delimiters.</li><li>Keep the repeated token specific.</li><li>Benchmark patterns on long near-misses.</li></ul>
       <h2>Common mistakes</h2>
       <ul><li>Assuming lazy always means fast.</li><li>Using dot-star for nested syntax.</li><li>Testing only one successful example.</li></ul>
-      <p class="guide-callout">Validation should help users correct input while protecting systems from bad data. Keep syntax checks, product policy, security review and deliverability checks separate.</p>
+      <p class="guide-callout">These bounded examples are correctness tests, not performance guarantees. Avoid running unknown patterns against production-sized input in the main UI thread. See the <a href="regex-performance-guide.html">performance guide</a> before benchmarking untrusted expressions.</p>
       <h2>Related Formalint references</h2>
       <p>Continue with <a href="regex-performance-guide.html">Regex Performance Guide</a>, <a href="regex-lookahead-lookbehind-guide.html">Regex Lookahead Lookbehind Guide</a>, <a href="regex-tester.html">Regex Tester</a>.</p>
     </main>
