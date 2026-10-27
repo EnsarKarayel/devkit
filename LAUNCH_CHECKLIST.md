@@ -1,5 +1,10 @@
 # Formalint Launch Checklist
 
+This is the historical launch checklist, not a record of completed checks.
+Use [QUALITY_TRACKER.md](QUALITY_TRACKER.md) for current evidence, open risks and
+daily priorities. AdSense has already been applied for; do not repeat submission
+steps below without a specific need and current account evidence.
+
 ## Before Domain Launch
 
 - Enable GitHub Pages from the `main` branch.
