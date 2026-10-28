@@ -83,6 +83,23 @@ viewport override was reset. No CSS fix has been shipped without visual validati
 
 ## Verification Log
 
+### 2026-10-28 follow-up: Q02 command filtering fixed locally
+
+- Added scoped `[data-command][hidden] { display: none; }` so the existing
+  search listener's hidden state takes precedence over the flex button layout.
+- Local browser testing at desktop default (1265 x 712) and 390 x 844: `minify`
+  leaves one visible command; nonmatching commands have computed display:none.
+  Mobile unmatched query hides all commands; clearing restores six. Escape and
+  Close both dismiss the dialog; reopening restores six commands.
+- Desktop and mobile screenshots succeeded on this follow-up and were inspected.
+  Earlier capture blocker did not recur. Temporary viewport override reset.
+- Added a source-level CSS guard, explicitly not a replacement for browser tests.
+- Q02 filtering defect is resolved locally; broader navigation/keyboard coverage
+  and Q01 header sizing remain open. No claim that every mobile flow is tested.
+- No new pages, consolidation, consent or forum changes. Search Console action: none.
+- All 12 regression test files passed; changelog lastmod updated only for its real
+  content change. Workspace markup and other sitemap dates remain untouched.
+
 ### 2026-10-28: confirmed command-filter defect; visual verification blocked
 
 - Fetched origin; working tree was clean on main before the documentation update.

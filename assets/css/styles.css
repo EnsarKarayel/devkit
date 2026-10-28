@@ -305,6 +305,7 @@ details[open] > summary .tree-chevron::before { transform: rotate(90deg); }
 .workspace-command-palette header button { border: 1px solid #354158; border-radius: 5px; color: #8493a7; background: #171f2c; }
 .workspace-command-palette [data-command-list] { display: grid; gap: 4px; padding: 8px; }
 .workspace-command-palette [data-command] { display: flex; justify-content: space-between; align-items: center; min-height: 44px; border: 1px solid transparent; border-radius: 5px; padding: 8px 11px; color: #bdc9d8; background: transparent; text-align: left; cursor: pointer; }
+.workspace-command-palette [data-command][hidden] { display: none; }
 .workspace-command-palette [data-command]:hover { border-color: #334058; color: white; background: #182130; }
 
 @media (max-width: 1180px) {
