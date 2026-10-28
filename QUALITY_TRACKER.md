@@ -60,7 +60,40 @@ Next priority: Q01 and Q02 together. Do not mark a UI fix complete without both
 desktop and mobile evidence. If browser testing remains unavailable, retain the
 blocker instead of silently passing the visual gate.
 
+### Q02 confirmed defect: command search visibility (2026-10-28)
+
+At live `workspace.html`, open the header command palette and type `minify`.
+All six commands remain exposed in the accessibility tree. Read-only DOM inspection
+confirms five nonmatching buttons have `hidden: true` but computed `display: flex`.
+`assets/css/styles.css` sets display:flex on `.workspace-command-palette [data-command]`
+without a matching hidden-state rule; the input listener in `assets/js/workspace.js`
+does set the hidden property correctly. This is a confirmed filtering defect, not
+a repeat of the previously resolved dialog-close issue.
+
+Next fix: narrowly restore display:none for hidden command buttons, then test
+matching, no matches, clearing the query, closing/reopening and keyboard access.
+Do not mark Q02 complete based on this diagnosis alone.
+
+Browser viewport control is available at the browser capability level (not the
+tab level). On this run it successfully set 390 x 844, verified via DOM dimensions.
+However, both screenshot APIs failed, including after resetting the viewport;
+the final capture reported a Page.captureScreenshot timeout. Mobile functional
+inspection is now possible, but the visual gate remains BLOCKED. The temporary
+viewport override was reset. No CSS fix has been shipped without visual validation.
+
 ## Verification Log
+
+### 2026-10-28: confirmed command-filter defect; visual verification blocked
+
+- Fetched origin; working tree was clean on main before the documentation update.
+- Inspected current CSS and workspace search listener, reproduced the live search
+  defect at 390 x 844 and confirmed the hidden/computed-style conflict.
+- No public URLs improved or changed in this run. Inventory remains the prior
+  verified 301 HTML / 298 source-indexable baseline; no page or sitemap edits.
+- No runtime changes, so regression suites were not rerun. No claim of visual
+  completion, current Search Console performance, AdSense status or deployment.
+- Search Console action: none. Resume Q02 filtering fix when screenshot capture
+  works, then address Q01 header sizing with desktop and mobile checks.
 
 ### 2026-10-27: baseline established, no public-page changes
 
