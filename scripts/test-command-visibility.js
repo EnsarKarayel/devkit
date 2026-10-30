@@ -9,3 +9,8 @@ const css = fs.readFileSync(path.join(root, 'assets/css/styles.css'), 'utf8');
 assert.match(css, /\.workspace-command-palette\s+\[data-command\]\[hidden\]\s*\{\s*display:\s*none\s*;?\s*\}/);
 assert.match(css, /\.workspace-command-palette:not\(\[open\]\)\s*\{\s*display:\s*none/);
 console.log('Command palette CSS guards passed: hidden results and closed dialog.');
+assert.equal((css.match(/grid-template-columns: max-content minmax\(0, 1fr\) max-content;/g) || []).length, 2);
+assert.match(css, /\.global-command-trigger span\s*\{[^}]*text-overflow:\s*ellipsis/);
+const workspace = fs.readFileSync(path.join(root, 'workspace.html'), 'utf8');
+assert.match(workspace, /class="command-trigger"[^>]*aria-label="Open command palette"/);
+console.log('Header source guards passed; responsive layout requires browser verification.');

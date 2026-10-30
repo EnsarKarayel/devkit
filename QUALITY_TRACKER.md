@@ -48,7 +48,7 @@ in the in-app browser at its available desktop viewport (screenshot 1265 x 712).
 
 | ID | Priority | Scope | Evidence / next action | Completion gate |
 | --- | --- | --- | --- | --- |
-| Q01 | P1 | workspace.html header and shared navigation | Reproduce crowded command/status area; inspect CSS sizing and focus outline. | Desktop 1265px and 1440px plus mobile 390px screenshots; readable controls, no overlap; keyboard navigation verified. |
+| Q01 | Done (2026-10-30) | workspace.html header and shared navigation | Repaired grid track sizing and compact workspace trigger. | Desktop/mobile screenshots and command keyboard/focus checks recorded below; broader navigation stays in Q02. |
 | Q02 | P1 | Homepage/workspace mobile and dialogs | Mobile not exercised; preserve known desktop close behavior. | Test menu open/close, command search, Escape, close button, focus return and editor access at mobile size. |
 | Q03 | P1 | Core tool accuracy | Existing regressions pass; browser exercise of JSON/XML/YAML and large/invalid payloads remains incomplete. | Record expected/actual output, error recovery and copy/export state; add regression only for a demonstrated gap. |
 | Q04 | P2 | index.html, tools.html, sidebar | Long portal and duplicate group label observed. Review discoverability and repeated links. | Useful tool entry points remain accessible; no broken links; desktop/mobile inspection of revised navigation. |
@@ -56,7 +56,7 @@ in the in-app browser at its available desktop viewport (screenshot 1265 x 712).
 | Q06 | P2 | Privacy, consent, forum | Audit actual network behavior before/after consent and match privacy/local-processing claims; preserve emoji. | Browser evidence, consent withdrawal check and forum emoji round trip, with no private payloads sent. |
 | Q07 | P2 | Search intent / metadata | Current Search Console export unavailable. Metadata inventory alone cannot establish CTR opportunities. | Use fresh query/page/position data when available; request a 28-day export only when selecting search-driven edits. |
 
-Next priority: Q01 and Q02 together. Do not mark a UI fix complete without both
+Next priority: remaining Q02 mobile navigation and Q03 tool accuracy. Do not mark a UI fix complete without both
 desktop and mobile evidence. If browser testing remains unavailable, retain the
 blocker instead of silently passing the visual gate.
 
@@ -82,6 +82,32 @@ inspection is now possible, but the visual gate remains BLOCKED. The temporary
 viewport override was reset. No CSS fix has been shipped without visual validation.
 
 ## Verification Log
+
+### 2026-10-30: Q01 header collision repaired
+
+- Started from clean main after fetching origin. At live workspace, the status pill
+  started at x=811.58 while the command button ended at x=839 (1280px viewport):
+  actual overlap, not merely an oversized focus outline.
+- Changed both header grids to reserve content-sized brand/action tracks and a
+  shrinking middle track. Command labels ellipsize and keyboard badges do not shrink.
+- Local workspace status/button gap is 18px at 1280px and 1440px. Homepage shared
+  header gap is 18px at 1265px. Desktop screenshots inspected, including focus ring.
+- Inspected workspace and homepage screenshots at 390 x 844. Workspace compact
+  button now shows K without clipped Ctrl text, with an explicit accessible name.
+  Open command palette and Escape/focus return verified on desktop and mobile.
+- Q01's observed collision is resolved. Q02 remains partial: full navigation flows
+  and shared mobile button naming outside workspace still need review. No blanket
+  claim of site-wide accessibility compliance.
+- Source guards added to the existing command-visibility test, not used as a
+  substitute for the visual checks. Temporary viewport override reset.
+- No new pages or consolidation; forum and consent logic unchanged. Only workspace
+  and changelog sitemap dates change for actual edits. No Search Console action.
+- Current Search Console metrics and AdSense panel remain unavailable; no status assumed.
+- All 12 regression test files passed. Audit remains 301 HTML / 298 source-indexable;
+  91 heuristic review warnings are not Google violations. Sitemap: 298 existing,
+  non-noindex targets. Root HTML scan: no missing local href file targets; 322
+  JSON-LD blocks parsed. Fragment/external link checks and JSON-LD semantics are
+  not covered by those syntax/file checks.
 
 ### 2026-10-28 follow-up: Q02 command filtering fixed locally
 
