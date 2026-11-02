@@ -27,6 +27,23 @@ equivalent intent/content; noindex is not an approval shortcut.
 
 ## Live Browser Evidence
 
+### 2026-11-02 verification status
+
+- Fetched origin/main; clean checkout remains at `ccc65fd`. No public-page edits.
+- Live HTTP 200 responses confirm the workspace command trigger's accessible name,
+  both content-sized header grid rules in styles.css, and the command hidden-state
+  CSS fix. This confirms published source markers, not a new visual regression pass.
+- Browser testing is blocked in this session: creating an in-app tab reports
+  `Browser is not available: iab`, and browser inventory is empty. Q02/Q03 remain
+  open; resume desktop/mobile navigation checks when a browser is available.
+- Re-ran the content audit: 301 HTML, 298 source-indexable, 3 consolidated/noindex,
+  91 heuristic review warnings. These are not Google indexing or policy decisions.
+- Current Search Console data and AdSense panel evidence remain unavailable.
+  No sitemap, dates, metadata, forum or tool behavior changed. No Search Console
+  submission is needed. No runtime regression rerun for this evidence-only entry.
+
+### Historical desktop baseline (2026-10-27)
+
 Observed `https://formalint.com/` and `https://formalint.com/workspace.html`
 in the in-app browser at its available desktop viewport (screenshot 1265 x 712).
 
