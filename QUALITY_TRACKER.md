@@ -63,6 +63,32 @@ in the in-app browser at its available desktop viewport (screenshot 1265 x 712).
 
 ## Prioritized Open Work
 
+### Q05 pairwise PHP review (2026-11-04)
+
+- Read `email-regex-php-guide.html` and `email-regex-php-validation-guide.html`
+  in full on clean, fetched main. Both target PHP email validation with
+  `FILTER_VALIDATE_EMAIL`; neither demonstrates a regex implementation despite
+  regex wording in the titles/descriptions. The first has a literal-address
+  example surrounded by generic incident/checklist text. The second adds POST
+  input, logging, import and product-policy advice, but not tested edge cases.
+- The second example passes `$_POST['email'] ?? ''` directly to `trim`.
+  Null coalescing does not reject an array from an `email[]` form field.
+  PHP documents a string parameter for trim:
+  https://www.php.net/manual/en/function.trim.php . This is a source-level
+  input-type gap; no PHP runtime reproduction was performed here.
+- Next content fix: guard with `is_string` before trimming, reject non-string
+  input explicitly, and test missing, empty, array, whitespace-padded valid,
+  plus-tagged and malformed addresses. Preserve the distinction between syntax,
+  product policy and mailbox ownership; do not claim regex proves delivery.
+- Candidate consolidation target is `email-regex-php-validation-guide.html`,
+  after it becomes a tested standalone reference retaining useful material from
+  both pages. No canonical/noindex/redirect decision has been applied: neither
+  page is yet a sufficiently improved replacement. No homepage canonical.
+- Verification gates remain open: browser inventory is empty; PHP is not found
+  through Get-Command. Do not mark the snippet or rendered content as tested.
+- No public pages, sitemap dates, forum or consent behavior changed. No fresh
+  Search Console or AdSense evidence; no Search Console action required.
+
 | ID | Priority | Scope | Evidence / next action | Completion gate |
 | --- | --- | --- | --- | --- |
 | Q01 | Done (2026-10-30) | workspace.html header and shared navigation | Repaired grid track sizing and compact workspace trigger. | Desktop/mobile screenshots and command keyboard/focus checks recorded below; broader navigation stays in Q02. |
