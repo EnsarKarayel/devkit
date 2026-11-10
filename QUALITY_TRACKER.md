@@ -126,6 +126,33 @@ viewport override was reset. No CSS fix has been shipped without visual validati
 
 ## Verification Log
 
+### 2026-11-10: Q02 shared palette activation and keyboard repair
+
+- Latest origin/main was fetched before work; no user changes were present.
+- Live homepage reproduced: header command button did not open the shared palette.
+  Rail opener worked, but Enter on Close navigated to workspace.html instead of
+  dismissing the dialog. The document keydown handler intercepted native activation.
+- Shared openers now use document click delegation and explicit accessible names.
+  Search has an explicit label. Enter/arrow result handling is scoped to search;
+  buttons and links retain native activation. Tab/Shift+Tab wrap within the palette.
+- Local browser checks: desktop 1280 x 720 and mobile 390 x 844 screenshots inspected.
+  Header opening, Close via Enter without navigation, Escape and opener focus return
+  passed. Desktop Tab boundary wrapping passed. Mobile search for XML linter and
+  Enter navigation reached xml-linter.html; that page's header and Escape also passed.
+  No document-width overflow on the mobile XML page. Viewport override reset.
+- All 13 regression test files passed (Python subprocess required sandbox escalation).
+  Inventory: 301 HTML / 298 source-indexable / 3 consolidated-noindex. The audit's
+  91 heuristic warnings are review prompts, not confirmed policy violations.
+- Sitemap: 298 existing non-noindex targets. Local href file targets checked;
+  322 JSON-LD blocks parsed. Fragment/external links and structured-data semantic
+  correctness are not established by these checks. Only changelog lastmod changed.
+- No pages added, no consolidation/noindex decisions, no forum or payload-processing
+  changes. Current Search Console access is unavailable; old metrics were not reused.
+- Q02 remains partial: screen-reader result announcements, pointer/keyboard mixing,
+  and broader navigation coverage need review. Q05 PHP content/input-type issue and
+  Q06 privacy/network review remain open. No AdSense approval prediction or submission.
+- Search Console action: none. Push and production deployment must be checked separately.
+
 ### 2026-10-30: Q01 header collision repaired
 
 - Started from clean main after fetching origin. At live workspace, the status pill

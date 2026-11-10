@@ -1074,7 +1074,7 @@
       '<div><span class="command-kicker">Formalint console</span><h2 id="formalintCommandTitle">Command palette</h2></div>' +
       '<button class="command-close" type="button" data-close-command-palette aria-label="Close command palette">Esc</button>' +
       "</div>" +
-      '<label class="command-input-wrap" for="formalintCommandInput"><span aria-hidden="true">/</span><input id="formalintCommandInput" type="search" autocomplete="off" placeholder="Search a tool, guide, regex, JWT, YAML, SQL..."></label>' +
+      '<label class="command-input-wrap" for="formalintCommandInput"><span aria-hidden="true">/</span><input id="formalintCommandInput" type="search" aria-label="Search tools and guides" autocomplete="off" placeholder="Search a tool, guide, regex, JWT, YAML, SQL..."></label>' +
       '<div class="command-results" role="listbox" aria-label="Formalint command results"></div>' +
       '<div class="command-workflows" aria-label="Suggested developer workflows"></div>' +
       "</section>";
@@ -1259,6 +1259,22 @@
       if (event.key === "Escape") {
         event.preventDefault();
         closePalette();
+      } else if (event.key === "Tab") {
+        var controls = $$("button, input, a[href]", palette).filter(function (element) {
+          return !element.disabled && element.getClientRects().length;
+        });
+        var first = controls[0];
+        var last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      } else if (event.target !== input) {
+        // Preserve native Enter activation on the close button and resource links.
+        return;
       } else if (event.key === "ArrowDown") {
         event.preventDefault();
         activeIndex = Math.min(activeIndex + 1, Math.max(currentResults.length - 1, 0));
@@ -1273,7 +1289,12 @@
       }
     });
 
-    sidebar.addEventListener("click", function (event) {
+    $$("[data-open-command-palette]").forEach(function (button) {
+      button.setAttribute("aria-label", "Open command palette");
+      button.setAttribute("title", "Open command palette (Ctrl/Cmd K)");
+    });
+
+    document.addEventListener("click", function (event) {
       var opener = event.target && event.target.closest ? event.target.closest("[data-open-command-palette]") : null;
       if (opener) {
         openPalette();
