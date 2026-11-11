@@ -27,6 +27,18 @@ equivalent intent/content; noindex is not an approval shortcut.
 
 ## Live Browser Evidence
 
+### 2026-11-11 deployment verification and test blocker
+
+- Fast-forward pull confirmed clean main at `6f6e030`, already current with origin.
+- Live shared.js contains the native Enter activation fix and explicit search label
+  shipped on November 10. Publication of those source changes is confirmed; this
+  is not a fresh production interaction or screenshot test.
+- Browser inventory is empty today and creating an in-app tab reports unavailable.
+  Yesterday's desktop/mobile evidence remains valid for that tested revision, but
+  today's broader Q02/Q03 browser checks are blocked and are not marked complete.
+- No public pages or runtime code changed. No new sitemap dates, consolidation,
+  forum changes or AdSense submission. Search Console action: none.
+
 ### 2026-11-02 verification status
 
 - Fetched origin/main; clean checkout remains at `ccc65fd`. No public-page edits.
@@ -92,7 +104,7 @@ in the in-app browser at its available desktop viewport (screenshot 1265 x 712).
 | ID | Priority | Scope | Evidence / next action | Completion gate |
 | --- | --- | --- | --- | --- |
 | Q01 | Done (2026-10-30) | workspace.html header and shared navigation | Repaired grid track sizing and compact workspace trigger. | Desktop/mobile screenshots and command keyboard/focus checks recorded below; broader navigation stays in Q02. |
-| Q02 | P1 | Homepage/workspace mobile and dialogs | Mobile not exercised; preserve known desktop close behavior. | Test menu open/close, command search, Escape, close button, focus return and editor access at mobile size. |
+| Q02 | P1, partial | Homepage/workspace mobile and dialogs | October 28/30 and November 10 desktop/mobile checks and fixes are recorded below. Broader navigation, screen-reader result announcements and mixed pointer/keyboard use remain open. | Preserve tested search, close and focus behavior; complete remaining flows on desktop/mobile when browser access returns. |
 | Q03 | P1 | Core tool accuracy | Existing regressions pass; browser exercise of JSON/XML/YAML and large/invalid payloads remains incomplete. | Record expected/actual output, error recovery and copy/export state; add regression only for a demonstrated gap. |
 | Q04 | P2 | index.html, tools.html, sidebar | Long portal and duplicate group label observed. Review discoverability and repeated links. | Useful tool entry points remain accessible; no broken links; desktop/mobile inspection of revised navigation. |
 | Q05 | P2 | Similar content families | Compare email PHP guides, API error-response guides and XML lint guides by actual content and user task. No consolidation decided today. | Document pairwise overlap and unique value before any canonical/redirect/noindex decision. Preserve distinct useful material. |
